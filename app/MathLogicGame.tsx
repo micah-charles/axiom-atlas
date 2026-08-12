@@ -11,16 +11,11 @@ import {
   CAMPAIGN_LEVEL_COUNT, GeneratedLevelBase, LEARNING_LAYERS, LearningLayerId,
   generateEndlessLevel,
 } from "./lib/campaign";
+import { FAMILY_LEVELS, FamilyLevel, FamilyWorldId, generateFamilyEndless } from "./games/family-generator";
+import { FAMILY_WORLD_IDS, WORLD_IDS, WORLD_META } from "./games/world-registry";
 
 type Screen = "map" | WorldId;
 type Toast = { kind: "success" | "warn" | "info"; text: string } | null;
-
-const WORLD_META = {
-  lab: { eyebrow: "GM–0", name: "Core Interaction Lab", icon: "✦", subtitle: "Master the language of touch", color: "cyan" },
-  bubble: { eyebrow: "GM–1", name: "Bubble Village", icon: "◌", subtitle: "Guide the greater light upward", color: "gold" },
-  tree: { eyebrow: "GM–2", name: "Tree Garden", icon: "♧", subtitle: "Every comparison grows a branch", color: "green" },
-  parabola: { eyebrow: "GM–3", name: "Parabola Valley", icon: "⌒", subtitle: "Shape equations with your hands", color: "violet" },
-} as const;
 
 function loadProgress(): Progress {
   if (typeof window === "undefined") return DEFAULT_PROGRESS;
@@ -55,7 +50,8 @@ function Stars({ count, small = false }: { count: number; small?: boolean }) {
   return <span className={`stars ${small ? "small" : ""}`} aria-label={`${count} of 3 stars`}>{[0, 1, 2].map(i => <span key={i} className={i < count ? "lit" : ""}>★</span>)}</span>;
 }
 
-function CampaignDock<T extends GeneratedLevelBase>({ levels, active, progress, onSelect, onEndless }: {
+type CampaignLevel = Pick<GeneratedLevelBase, "id" | "layer" | "sequence" | "name" | "subtitle">;
+function CampaignDock<T extends CampaignLevel>({ levels, active, progress, onSelect, onEndless }: {
   levels: readonly T[]; active: T; progress: Progress; onSelect: (index: number) => void; onEndless: () => void;
 }) {
   const [open, setOpen] = useState(false);
@@ -99,11 +95,11 @@ function CompletionOverlay({ title, copy, stars, onNext, onMap, onReplay, nextLa
 }
 
 function WorldMap({ progress, onEnter }: { progress: Progress; onEnter: (world: WorldId) => void }) {
-  const worlds = Object.entries(WORLD_META) as [WorldId, typeof WORLD_META[WorldId]][];
-  const levelIds: Record<WorldId, string[]> = { lab: ["lab-01"], bubble: BUBBLE_LEVELS.map(x => x.id), tree: TREE_LEVELS.map(x => x.id), parabola: QUADRATIC_LEVELS.map(x => x.id) };
+  const worlds = WORLD_IDS.map(id => [id, WORLD_META[id]] as const);
+  const levelIds = Object.fromEntries(WORLD_IDS.map(id => [id, id === "bubble" ? BUBBLE_LEVELS.map(x => x.id) : id === "tree" ? TREE_LEVELS.map(x => x.id) : id === "parabola" ? QUADRATIC_LEVELS.map(x => x.id) : FAMILY_LEVELS[id as FamilyWorldId].map(x => x.id)])) as Record<WorldId, string[]>;
   return <main className="map-screen">
     <section className="map-hero">
-      <div><span className="overline">The Axiom Atlas</span><h1>Think with your hands.</h1><p>Four realms. {CAMPAIGN_LEVEL_COUNT} campaign trials. Infinite generated expeditions.</p></div>
+      <div><span className="overline">The Axiom Atlas</span><h1>Think with your hands.</h1><p>Fifteen worlds. {CAMPAIGN_LEVEL_COUNT} campaign missions. Infinite generated expeditions.</p></div>
       <div className="atlas-mark" aria-hidden="true"><span>AX</span><i /></div>
     </section>
     <section className="realm-grid" aria-label="Game worlds">
@@ -113,7 +109,7 @@ function WorldMap({ progress, onEnter }: { progress: Progress; onEnter: (world: 
         return <button key={id} className={`realm-card ${meta.color}`} onClick={() => onEnter(id)} style={{ "--delay": `${index * 90}ms` } as React.CSSProperties}>
           <div className="realm-card-top"><span className="realm-number">{meta.eyebrow}</span><span className="realm-icon">{meta.icon}</span></div>
           <div className="realm-art" aria-hidden="true"><i /><i /><i /><i /><span>{meta.icon}</span></div>
-          <div className="realm-copy"><h2>{meta.name}</h2><p>{meta.subtitle}</p></div>
+          <div className="realm-copy"><small>{meta.concept}</small><h2>{meta.name}</h2><p>{meta.subtitle}</p></div>
           <div className="realm-progress"><span><b>{completed}</b> / {levelIds[id].length} trials</span><span className="mini-star">★ {stars}</span></div>
           <div className="progress-track"><i style={{ width: `${Math.max(4, (completed / levelIds[id].length) * 100)}%` }} /></div>
         </button>;
@@ -137,55 +133,6 @@ function WorldHeader({ world, levelName, progressLabel, onBack, history, onUndo,
       {onRedo && <IconButton label="Redo (Shift+Z)" onClick={onRedo} disabled={!history?.future.length}>↷</IconButton>}
     </div>
   </header>;
-}
-
-function CoreLab({ onBack, progress, completeLevel }: GameProps) {
-  type LabState = { x: number; y: number; docked: boolean; moves: number };
-  const initial: LabState = { x: 18, y: 54, docked: false, moves: 0 };
-  const [history, setHistory] = useState(() => createHistory(initial));
-  const [drag, setDrag] = useState<{ pointerId: number; startX: number; startY: number; originX: number; originY: number } | null>(null);
-  const [preview, setPreview] = useState(false);
-  const [complete, setComplete] = useState(false);
-  const boardRef = useRef<HTMLDivElement>(null);
-  const play = useAudio(progress.sound, progress.haptics);
-  const state = history.present;
-
-  const down = (event: ReactPointerEvent<HTMLButtonElement>) => {
-    event.currentTarget.setPointerCapture(event.pointerId); setDrag({ pointerId: event.pointerId, startX: event.clientX, startY: event.clientY, originX: state.x, originY: state.y }); play("tap");
-  };
-  const move = (event: ReactPointerEvent<HTMLButtonElement>) => {
-    if (!drag || !boardRef.current) return;
-    const rect = boardRef.current.getBoundingClientRect();
-    const x = Math.max(7, Math.min(91, drag.originX + ((event.clientX - drag.startX) / rect.width) * 100));
-    const y = Math.max(15, Math.min(84, drag.originY + ((event.clientY - drag.startY) / rect.height) * 100));
-    const near = Math.hypot(x - 79, y - 48) < 18; setPreview(near);
-    setHistory(h => ({ ...h, present: { ...h.present, x: near ? 79 : x, y: near ? 48 : y } }));
-  };
-  const up = () => {
-    if (!drag) return;
-    const after = preview ? { x: 79, y: 48, docked: true, moves: state.moves + 1 } : { ...state, moves: state.moves + 1 };
-    const before = { x: drag.originX, y: drag.originY, docked: false, moves: state.moves };
-    setHistory(h => commit({ ...h, present: before }, "DROP", after, preview ? "Magnetic dock" : "Free drop"));
-    setDrag(null); setPreview(false);
-    if (preview) { play("win"); setComplete(true); completeLevel("lab-01", 3, state.moves + 1); } else play("bad");
-  };
-  useKeyboardHistory(() => setHistory(h => undo(h)), () => setHistory(h => redo(h)), () => setHistory(createHistory(initial)));
-  return <div className="world-screen lab-world">
-    <WorldHeader world="lab" levelName="Resonance Dock" progressLabel="Trial 1 of 1" onBack={onBack} history={history as HistoryState<unknown>} onUndo={() => setHistory(h => undo(h))} onRedo={() => setHistory(h => redo(h))} />
-    <div className="game-layout">
-      <aside className="mission-panel"><span className="mission-index">01</span><span className="overline">Interaction protocol</span><h1>Dock the<br />Axiom Core</h1><p>Grab the luminous core and guide it into the resonant gate. Feel the magnetic snap before release.</p>
-        <div className="rule-card"><span>✦</span><div><b>One action, any input</b><small>Mouse, touch and pen emit the same semantic DROP command.</small></div></div>
-        <div className="diagnostics"><span><i className={drag ? "on" : ""} />{drag ? "DRAGGING" : state.docked ? "COMMITTED" : "IDLE"}</span><span>Moves <b>{state.moves}</b></span></div>
-      </aside>
-      <section className="play-stage lab-stage" ref={boardRef} aria-label="Core interaction laboratory">
-        <div className="lab-grid" /><div className="energy-line" />
-        <div className={`resonance-gate ${preview || state.docked ? "ready" : ""}`}><span /><i /><em>{state.docked ? "SYNCHRONISED" : "DROP ZONE"}</em></div>
-        <button className={`axiom-core ${drag ? "dragging" : ""} ${state.docked ? "docked" : ""}`} style={{ left: `${state.x}%`, top: `${state.y}%` }} onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up} aria-label="Draggable Axiom Core"><i /><span>✦</span></button>
-        <div className="stage-caption"><span className="pulse-dot" />{preview ? "Release to commit" : state.docked ? "Semantic command recorded" : "Drag the core toward the gate"}</div>
-      </section>
-    </div>
-    {complete && <CompletionOverlay title="Protocol mastered" copy="The same deterministic interaction now powers every world in the Atlas." stars={3} onMap={onBack} onNext={() => onBack()} nextLabel="Enter the Atlas" />}
-  </div>;
 }
 
 type GameProps = { onBack: () => void; progress: Progress; completeLevel: (id: string, stars: number, moves: number) => void; sound: (tone: "tap" | "good" | "bad" | "win") => void };
@@ -445,6 +392,62 @@ function ParabolaValley({ onBack, progress, completeLevel }: GameProps) {
   </div>;
 }
 
+function FamilyWorld({ world, onBack, progress, completeLevel }: GameProps & { world: FamilyWorldId }) {
+  const levels = FAMILY_LEVELS[world];
+  const [levelIndex, setLevelIndex] = useState(() => Math.max(0, levels.findIndex(level => !progress.completed[level.id])));
+  const [endlessLevel, setEndlessLevel] = useState<FamilyLevel | null>(null);
+  const [selected, setSelected] = useState<string[]>([]);
+  const [mistakes, setMistakes] = useState(0);
+  const [message, setMessage] = useState("Build the mechanism, then test your reasoning.");
+  const [hintTier, setHintTier] = useState(0);
+  const [showComplete, setShowComplete] = useState(false);
+  const endlessRun = useRef(0);
+  const level = endlessLevel ?? levels[levelIndex];
+  const layer = LEARNING_LAYERS[level.layerIndex];
+  const meta = WORLD_META[world];
+  const play = useAudio(progress.sound, progress.haptics);
+  const resetRun = useCallback(() => { setSelected([]); setMistakes(0); setMessage("Build the mechanism, then test your reasoning."); setHintTier(0); setShowComplete(false); }, []);
+  const changeLevel = (index: number) => { setEndlessLevel(null); setLevelIndex(index); resetRun(); };
+  const startEndless = () => { setEndlessLevel(generateFamilyEndless(world, endlessRun.current++)); resetRun(); };
+  const appendToken = (token: string) => { if (selected.length >= level.solution.length) return; setSelected(items => [...items, token]); setMessage(`${token} placed. ${Math.max(0, level.solution.length - selected.length - 1)} step${level.solution.length - selected.length - 1 === 1 ? "" : "s"} remain.`); play("tap"); };
+  const testSolution = () => {
+    const correct = selected.length === level.solution.length && selected.every((token, index) => token === level.solution[index]);
+    if (!correct) {
+      play("bad");
+      if (level.mistakeLimit === 0) { setSelected([]); setMistakes(0); setMessage("Master rule broken — the mechanism reset."); }
+      else if (level.mistakeLimit !== undefined && mistakes + 1 > level.mistakeLimit) { setSelected([]); setMistakes(0); setMessage("Challenge error limit reached — the mechanism reset."); }
+      else { setMistakes(value => value + 1); setMessage("That arrangement cannot complete the mechanism. Rebuild and test again."); setSelected([]); }
+      return;
+    }
+    const moves = selected.length + mistakes; const stars = starsFor(mistakes, moves, level.targetMoves);
+    completeLevel(level.id, stars, moves); setMessage("The mechanism resonates. Your reasoning is sound."); play("win"); setShowComplete(true);
+  };
+  const hint = hintTier ? level.hint : null;
+  useKeyboardHistory(() => setSelected(items => items.slice(0, -1)), () => {}, resetRun);
+  return <div className={`world-screen family-world ${meta.color}-world`}>
+    <WorldHeader world={world} levelName={level.name} progressLabel={endlessLevel ? `Endless · seed ${level.seed}` : `${layer.name} · ${level.sequence + 1} of 8`} onBack={onBack} onUndo={() => setSelected(items => items.slice(0, -1))} history={{ present: selected, past: selected.map((_, index) => ({ id: String(index), type: "PLACE", before: [], after: [], legal: true, cost: 1, timestamp: 0 })), future: [] }} onHint={level.hintLimit ? () => setHintTier(tier => Math.min(level.hintLimit, tier + 1)) : undefined} />
+    <div className="game-layout family-layout">
+      <aside className="mission-panel"><span className="mission-index">{String(level.sequence + 1).padStart(2, "0")}</span><span className="overline">{layer.glyph} {layer.name} · {meta.concept}</span><h1>{level.prompt}</h1><p>{level.instruction}</p>
+        <div className="family-readout"><small>START</small><b>{level.startLabel}</b><i>→</i><small>GOAL</small><b>{level.targetLabel}</b></div>
+        {(level.layer === "challenge" || level.layer === "master") && <div className="constraint-strip"><span>Target ≤ {level.targetMoves} placements</span><span>{level.mistakeLimit === 0 ? "One error resets" : `≤ ${level.mistakeLimit} errors`}</span></div>}
+        <div className="metric-grid"><div><span>{selected.length}</span><small>Placed</small></div><div><span>{level.solution.length}</span><small>Required</small></div><div><span>{mistakes}</span><small>Errors</small></div></div>
+        {level.facts && <div className="family-facts">{level.facts.map(fact => <span key={fact}>{fact}</span>)}</div>}
+      </aside>
+      <section className={`play-stage family-stage visual-${level.visual}`} aria-label={`${meta.name} puzzle mechanism`}>
+        <div className="family-atmosphere"><i /><i /><i /></div>
+        <div className="mechanic-emblem" aria-hidden="true"><span>{meta.icon}</span><i /><i /></div>
+        <div className="mechanic-path"><div className="mechanic-origin"><small>ORIGIN</small><b>{level.startLabel}</b></div><span className="path-line" />{level.solution.map((_, index) => <button key={index} className={selected[index] ? "filled" : ""} onClick={() => setSelected(items => items.slice(0, index))} aria-label={`Mechanism slot ${index + 1}`}>{selected[index] ?? index + 1}</button>)}<span className="path-line" /><div className="mechanic-target"><small>TARGET</small><b>{level.targetLabel}</b></div></div>
+        <div className="token-bank" role="group" aria-label="Available mechanism pieces">{level.tokens.map(token => <button key={token} onClick={() => appendToken(token)} disabled={selected.length >= level.solution.length}><span>{token}</span><i>PLACE</i></button>)}</div>
+        <div className={`family-feedback ${message.includes("cannot") || message.includes("broken") ? "warn" : ""}`}><span>{showComplete ? "✓" : meta.icon}</span><p>{message}</p></div>
+        {hint && <div className="hint-bubble family-hint"><b>{meta.name} signal</b>{hint}</div>}
+        <div className="family-actions"><button className="button secondary" onClick={() => setSelected([])} disabled={!selected.length}>Clear</button><button className={`button primary ${selected.length === level.solution.length ? "ready" : ""}`} onClick={testSolution} disabled={selected.length !== level.solution.length}>Test mechanism <span>✦</span></button></div>
+      </section>
+    </div>
+    <CampaignDock levels={levels} active={level} progress={progress} onSelect={changeLevel} onEndless={startEndless} />
+    {showComplete && <CompletionOverlay title={`${meta.name} restored`} copy={`${selected.length} placements · ${mistakes} incorrect decisions · seed ${level.seed}`} stars={starsFor(mistakes, selected.length + mistakes, level.targetMoves)} onMap={onBack} onNext={() => endlessLevel ? startEndless() : levelIndex < levels.length - 1 ? changeLevel(levelIndex + 1) : onBack()} nextLabel={endlessLevel ? "New expedition" : levelIndex < levels.length - 1 ? "Next mission" : "World map"} />}
+  </div>;
+}
+
 function Settings({ progress, update, close }: { progress: Progress; update: (patch: Partial<Progress>) => void; close: () => void }) {
   return <div className="settings-backdrop"><section className="settings-card" role="dialog" aria-modal="true" aria-label="Settings"><div><span className="overline">Atlas controls</span><h2>Settings</h2><button onClick={close} aria-label="Close settings">×</button></div>
     <div className="setting-row"><span><b>Sound design</b><small>Responsive harmonic cues</small></span><input aria-label="Sound design" type="checkbox" checked={progress.sound} onChange={e => update({ sound: e.target.checked })} /></div>
@@ -464,7 +467,8 @@ export default function MathLogicGame() {
   const sound = useAudio(progress.sound, progress.haptics); const props = { onBack: () => setScreen("map"), progress, completeLevel, sound };
   return <div className={`axiom-app ${progress.reducedMotion ? "reduced-motion" : ""}`}>
     {screen === "map" && <WorldMap progress={progress} onEnter={world => { sound("tap"); setScreen(world); }} />}
-    {screen === "lab" && <CoreLab {...props} />}{screen === "bubble" && <BubbleVillage {...props} />}{screen === "tree" && <TreeGarden {...props} />}{screen === "parabola" && <ParabolaValley {...props} />}
+    {screen === "bubble" && <BubbleVillage {...props} />}{screen === "tree" && <TreeGarden {...props} />}{screen === "parabola" && <ParabolaValley {...props} />}
+    {screen !== "map" && FAMILY_WORLD_IDS.includes(screen as FamilyWorldId) && <FamilyWorld {...props} world={screen as FamilyWorldId} />}
     <button className="settings-button" onClick={() => setSettings(true)} aria-label="Open settings">⚙</button>
     {settings && <Settings progress={progress} update={patch => setProgress(p => ({ ...p, ...patch }))} close={() => setSettings(false)} />}
     {toast && <div className={`toast ${toast.kind}`}>{toast.text}</div>}

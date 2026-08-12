@@ -1,7 +1,7 @@
 {
   "name": "The Axiom Atlas",
   "short_name": "Axiom Atlas",
-  "description": "A mathematical adventure governed by direct manipulation.",
+  "description": "Fifteen mathematical worlds, 600 campaign missions, and infinite generated expeditions.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#070813",

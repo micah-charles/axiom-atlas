@@ -8,14 +8,25 @@ Learning mathematics should feel like a meaningful adventure rather than complet
 
 ## Current experience
 
-The first release contains four playable realms:
+The Atlas contains 15 playable worlds:
 
 - **Core Interaction Lab** — learn the direct-manipulation language used throughout the Atlas.
 - **Bubble Village** — practise neighbour comparisons, swaps, stable ordering, and bubble-sort reasoning.
 - **Tree Garden** — grow a binary search tree through left/right choices, then perform in-order traversal.
 - **Parabola Valley** — move vertices, stretch curves, and connect graph shape to quadratic equations.
+- **Arithmetic Forge** — construct operation chains that transform ingots into exact targets.
+- **Fraction Harbor** — load ships using equivalent fractions and exact proportions.
+- **Equation Citadel** — apply inverse operations while keeping both sides balanced.
+- **Geometry Kingdom** — rotate and place beams to satisfy geometric constraints.
+- **Probability Port** — compare chance, reward, and expected value across risky routes.
+- **Logic Forest** — test guardian statements and deduce the only consistent path.
+- **Graph Metro** — assemble shortest station-to-station routes through a network.
+- **Algorithm City** — program robots with ordered movement and automation commands.
+- **Sequence Desert** — restore missing pattern stones by discovering the generating rule.
+- **Cipher Isles** — reverse shifts and decode intercepted mathematical messages.
+- **Infinity Observatory** — arrange lemmas into valid proofs and mixed-domain arguments.
 
-Each major realm uses five learning layers:
+Every world uses five learning layers:
 
 1. **Discover** — experiment before the rule is explained.
 2. **Guided** — receive short prompts that connect actions to concepts.
@@ -23,7 +34,7 @@ Each major realm uses five learning layers:
 4. **Challenge** — solve under move and mistake constraints.
 5. **Master** — no hints and precise decisions; an error restarts the run.
 
-The campaign currently provides 120 deterministic generated levels—40 per major realm—plus endless expeditions. Levels are generated from world rules, learning-layer configuration, and seeds rather than maintained as a large hardcoded puzzle list. The same seed always produces the same level, making puzzles reproducible and testable.
+The campaign provides 600 deterministic generated missions—40 per world—plus endless expeditions. Levels are generated from puzzle-family rules, learning-layer configuration, and seeds rather than maintained as a large hardcoded puzzle list. The same seed always produces the same mission, making every puzzle reproducible and testable.
 
 ## Design principles
 
@@ -44,9 +55,7 @@ The long-term Atlas can grow across:
 - rotation, symmetry, navigation, perspective, construction, and tessellation;
 - observation, hypothesis, experiment, evidence, analysis, and prediction.
 
-## Planned worlds and modes
-
-The current release establishes the campaign foundation for future worlds such as Arithmetic Valley, Geometry Kingdom, Algebra Academy, Probability Port, Logic Forest, Computer Science City, and Infinity Observatory.
+## Planned modes
 
 Planned platform features include:
 
@@ -95,6 +104,8 @@ app/
   globals.css              # visual system and responsive layouts
   lib/game-core.ts         # pure puzzle state machines
   lib/campaign.ts          # learning layers and seeded level generation
+  games/world-registry.ts  # 15-world metadata and identifiers
+  games/family-generator.ts # 12 seeded puzzle-family generators
 tests/
   game-core.test.mjs       # mechanics and generator coverage
   rendered-html.test.mjs   # production render checks

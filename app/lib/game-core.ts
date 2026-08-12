@@ -1,4 +1,4 @@
-export type WorldId = "lab" | "bubble" | "tree" | "parabola";
+export type { WorldId } from "../games/world-registry.ts";
 
 export { BUBBLE_LEVELS, TREE_LEVELS, QUADRATIC_LEVELS } from "./campaign.ts";
 

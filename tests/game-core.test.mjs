@@ -7,6 +7,8 @@ import {
   treeChoose, treeTraverse, undo,
 } from "../app/lib/game-core.ts";
 import { LEARNING_LAYERS, generateBubbleLevel, generateEndlessLevel } from "../app/lib/campaign.ts";
+import { FAMILY_CAMPAIGN_COUNT, FAMILY_LEVELS, generateFamilyEndless, generateFamilyLevel } from "../app/games/family-generator.ts";
+import { FAMILY_WORLD_IDS, WORLD_IDS, WORLD_META } from "../app/games/world-registry.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
   assert.equal(LEARNING_LAYERS.length, 5);
@@ -16,6 +18,29 @@ test("campaign is generated deterministically across five learning layers", () =
   assert.deepEqual(generateBubbleLevel(LEARNING_LAYERS[3], 4), generateBubbleLevel(LEARNING_LAYERS[3], 4));
   assert.notDeepEqual(generateEndlessLevel("bubble", 1).values, generateEndlessLevel("bubble", 2).values);
 });
+
+test("Atlas contains 15 registered playable worlds and 600 structured missions", () => {
+  assert.equal(WORLD_IDS.length, 15);
+  assert.equal(new Set(WORLD_IDS).size, 15);
+  assert.equal(Object.keys(WORLD_META).length, 15);
+  assert.equal(FAMILY_WORLD_IDS.length, 12);
+  assert.equal(FAMILY_CAMPAIGN_COUNT + BUBBLE_LEVELS.length + TREE_LEVELS.length + QUADRATIC_LEVELS.length, 600);
+});
+
+for (const world of FAMILY_WORLD_IDS) {
+  test(`${WORLD_META[world].name} has 40 deterministic, buildable missions`, () => {
+    const levels = FAMILY_LEVELS[world];
+    assert.equal(levels.length, 40);
+    assert.deepEqual(new Set(levels.map(level => level.layer)), new Set(LEARNING_LAYERS.map(layer => layer.id)));
+    assert.equal(new Set(levels.map(level => level.id)).size, 40);
+    for (const level of levels) {
+      assert.ok(level.solution.length > 0, `${level.id} needs a solution`);
+      assert.ok(level.solution.every(token => level.tokens.includes(token)), `${level.id} must expose every solution token`);
+      assert.deepEqual(level, generateFamilyLevel(world, LEARNING_LAYERS[level.layerIndex], level.sequence));
+    }
+    assert.notEqual(generateFamilyEndless(world, 1).seed, generateFamilyEndless(world, 2).seed);
+  });
+}
 
 test("command history is deterministic and reversible", () => {
   const start = createHistory({ value: 1 });

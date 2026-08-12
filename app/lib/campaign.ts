@@ -183,7 +183,7 @@ export const BUBBLE_LEVELS: readonly BubbleCampaignLevel[] = LEARNING_LAYERS.fla
 export const TREE_LEVELS: readonly TreeCampaignLevel[] = LEARNING_LAYERS.flatMap(layer => Array.from({ length: LEVELS_PER_LAYER }, (_, sequence) => generateTreeLevel(layer, sequence)));
 export const QUADRATIC_LEVELS: readonly ParabolaCampaignLevel[] = LEARNING_LAYERS.flatMap(layer => Array.from({ length: LEVELS_PER_LAYER }, (_, sequence) => generateParabolaLevel(layer, sequence)));
 
-export const CAMPAIGN_LEVEL_COUNT = BUBBLE_LEVELS.length + TREE_LEVELS.length + QUADRATIC_LEVELS.length + 1;
+export const CAMPAIGN_LEVEL_COUNT = 600;
 
 export function generateEndlessLevel(world: "bubble", run: number): BubbleCampaignLevel;
 export function generateEndlessLevel(world: "tree", run: number): TreeCampaignLevel;

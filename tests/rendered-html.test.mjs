@@ -22,7 +22,9 @@ test("server-renders the complete Axiom Atlas shell", async () => {
   assert.match(html, /Bubble Village/);
   assert.match(html, /Tree Garden/);
   assert.match(html, /Parabola Valley/);
-  assert.match(html, /121[\s\S]*campaign trials/);
+  assert.match(html, /Fifteen worlds/);
+  assert.match(html, /600[\s\S]*campaign missions/);
+  for (const world of ["Arithmetic Forge", "Fraction Harbor", "Equation Citadel", "Geometry Kingdom", "Probability Port", "Logic Forest", "Graph Metro", "Algorithm City", "Sequence Desert", "Cipher Isles", "Infinity Observatory"]) assert.match(html, new RegExp(world));
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
 });
 

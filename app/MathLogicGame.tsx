@@ -13,9 +13,10 @@ import {
 } from "./lib/campaign";
 import { FAMILY_LEVELS, FamilyLevel, FamilyWorldId, generateFamilyEndless } from "./games/family-generator";
 import { validateModeSelection } from "./games/mode-frameworks";
+import { ADVANCED_LEVEL_CATALOG, AdvancedLevelDefinition, complexMultiply, curl, determinant, divergence, gaussianHeight, lineIntegral, lotkaVolterraStep, springStep, tangentSlope, trapezoidIntegral } from "./games/advanced-engines";
 import { FAMILY_WORLD_IDS, WORLD_IDS, WORLD_META } from "./games/world-registry";
 
-type Screen = "map" | WorldId;
+type Screen = "map" | WorldId | "advanced";
 type Toast = { kind: "success" | "warn" | "info"; text: string } | null;
 
 function loadProgress(): Progress {
@@ -95,7 +96,7 @@ function CompletionOverlay({ title, copy, stars, onNext, onMap, onReplay, nextLa
   </div>;
 }
 
-function WorldMap({ progress, onEnter }: { progress: Progress; onEnter: (world: WorldId) => void }) {
+function WorldMap({ progress, onEnter }: { progress: Progress; onEnter: (world: Screen) => void }) {
   const worlds = WORLD_IDS.map(id => [id, WORLD_META[id]] as const);
   const levelIds = Object.fromEntries(WORLD_IDS.map(id => [id, id === "bubble" ? BUBBLE_LEVELS.map(x => x.id) : id === "tree" ? TREE_LEVELS.map(x => x.id) : id === "parabola" ? QUADRATIC_LEVELS.map(x => x.id) : FAMILY_LEVELS[id as FamilyWorldId].map(x => x.id)])) as Record<WorldId, string[]>;
   return <main className="map-screen">
@@ -116,6 +117,7 @@ function WorldMap({ progress, onEnter }: { progress: Progress; onEnter: (world: 
         </button>;
       })}
     </section>
+    <button className="advanced-launch" onClick={() => onEnter("advanced")}><span>∞</span><div><b>Advanced Worlds</b><small>Calculus, fields, dynamics, signals, matrices, and complex planes</small></div><i>Enter simulation lab →</i></button>
     <div className="map-footer"><span>Direct manipulation</span><i /> <span>Deterministic worlds</span><i /> <span>Your reasoning, replayed</span></div>
   </main>;
 }
@@ -466,6 +468,31 @@ function FamilyWorld({ world, onBack, progress, completeLevel }: GameProps & { w
   </div>;
 }
 
+function AdvancedWorld({ onBack, completeLevel, sound }: GameProps) {
+  const [levelIndex, setLevelIndex] = useState(0); const [observations, setObservations] = useState(0); const [showNotation, setShowNotation] = useState(false);
+  const level: AdvancedLevelDefinition = ADVANCED_LEVEL_CATALOG[levelIndex];
+  const reset = () => { setObservations(0); setShowNotation(false); };
+  const select = (index: number) => { setLevelIndex(index); setObservations(0); setShowNotation(false); };
+  const act = () => { const next = observations + 1; setObservations(next); sound(next >= 3 ? "win" : "good"); if (next >= 3) { setShowNotation(true); completeLevel(level.id, next === 3 ? 3 : 2, next); } };
+  const readout = (() => {
+    if (level.concept === "integration") return `${Math.round(trapezoidIntegral(t => 40 + 20 * Math.sin(t), 0, 8, Math.max(1, observations * 2)))} units accumulated`;
+    if (level.concept === "derivative") return `Instantaneous slope ${tangentSlope(x => x * x, 2).toFixed(2)}`;
+    if (level.concept === "gradient") return `Altimeter ${gaussianHeight({ x: observations, y: observations }) * 1000 | 0} m · slope probe ready`;
+    if (level.concept === "divergence") return `Sensor divergence ${divergence(point => ({ x: point.x, y: point.y }), { x: 1, y: 1 }).toFixed(2)}`;
+    if (level.concept === "curl") return `Wheel rotation ${curl(point => ({ x: -point.y, y: point.x }), { x: 1, y: 1 }).toFixed(2)} rad/s`;
+    if (level.concept === "line integral") return `Energy harvested ${lineIntegral(() => ({ x: 2, y: 0 }), [{ x: 0, y: 0 }, { x: observations + 1, y: 0 }]).toFixed(0)}`;
+    if (level.concept === "differential equations") return `Rabbits ${lotkaVolterraStep({ rabbits: 300, foxes: 20 }, observations * .1).rabbits.toFixed(0)}`;
+    if (level.concept === "second-order differential equations") return `Bridge position ${springStep({ position: 1, velocity: 0 }, observations * .1, 1, 3, .4).position.toFixed(2)}`;
+    if (level.concept === "matrix transformations" || level.concept === "determinant") return `Area scale ${determinant([2, 0, 0, 1]).toFixed(1)}×`;
+    if (level.concept === "complex numbers" || level.concept === "Euler formula") return `Portal output ${JSON.stringify(complexMultiply({ x: 1, y: 0 }, { x: 0, y: 1 }))}`;
+    return `${level.concept} instrument calibrated`;
+  })();
+  return <div className="world-screen advanced-world">
+    <header className="world-header advanced"><button className="brand-button" onClick={onBack} aria-label="Return to world map"><span className="brand-glyph">∞</span><span className="brand-copy"><b>Advanced Worlds</b><small>Simulation Lab</small></span></button><div className="level-progress"><span>{levelIndex + 1} / {ADVANCED_LEVEL_CATALOG.length}</span><div><i style={{ width: `${((levelIndex + 1) / ADVANCED_LEVEL_CATALOG.length) * 100}%` }} /></div></div><div className="header-tools"><IconButton label="Reset simulation" onClick={reset}>↻</IconButton></div></header>
+    <div className="advanced-layout"><aside className="mission-panel"><span className="overline">{level.engine} engine · Act {level.act}</span><h1>{level.world}</h1><h2>{level.concept}</h2><p>{level.objective}</p><div className="advanced-tools"><small>INSTRUMENTS</small>{level.tools.map(tool => <span key={tool}>{tool}</span>)}</div><div className="advanced-readout"><small>LIVE MEASUREMENT</small><b>{readout}</b></div>{showNotation && <div className="notation-reveal"><small>FORMAL NAME</small><b>{level.concept} discovered</b><span>Notation unlocked after observation.</span></div>}</aside><section className="advanced-stage"><div className={`advanced-simulation engine-${level.engine}`}><div className="simulation-grid" /><div className="simulation-core"><span>{level.engine === "curve" ? "∫" : level.engine === "field" ? "∇" : level.engine === "transformation" ? "▦" : level.engine === "plane" ? "i" : "✦"}</span><i /><i /></div><div className="simulation-track">{Array.from({ length: Math.max(3, observations + 2) }, (_, index) => <span key={index} className={index < observations ? "active" : ""}>{index + 1}</span>)}</div><p>Observe the system, then interact with its instrument. Every reading changes the world.</p></div><div className="advanced-actions"><button className="button primary" onClick={act}>{observations === 0 ? "Begin observation" : observations < 3 ? "Measure again" : "Replay discovery"} <span>✦</span></button><span>{observations} / 3 observations</span></div></section></div><nav className="advanced-levels" aria-label="Advanced world levels">{ADVANCED_LEVEL_CATALOG.map((item, index) => <button key={item.id} className={index === levelIndex ? "active" : ""} onClick={() => select(index)}><small>{item.engine}</small><b>{item.world}</b><span>{item.concept}</span></button>)}</nav>
+  </div>;
+}
+
 function Settings({ progress, update, close }: { progress: Progress; update: (patch: Partial<Progress>) => void; close: () => void }) {
   return <div className="settings-backdrop"><section className="settings-card" role="dialog" aria-modal="true" aria-label="Settings"><div><span className="overline">Atlas controls</span><h2>Settings</h2><button onClick={close} aria-label="Close settings">×</button></div>
     <div className="setting-row"><span><b>Sound design</b><small>Responsive harmonic cues</small></span><input aria-label="Sound design" type="checkbox" checked={progress.sound} onChange={e => update({ sound: e.target.checked })} /></div>
@@ -487,6 +514,7 @@ export default function MathLogicGame() {
     {screen === "map" && <WorldMap progress={progress} onEnter={world => { sound("tap"); setScreen(world); }} />}
     {screen === "bubble" && <BubbleVillage {...props} />}{screen === "tree" && <TreeGarden {...props} />}{screen === "parabola" && <ParabolaValley {...props} />}
     {screen !== "map" && FAMILY_WORLD_IDS.includes(screen as FamilyWorldId) && <FamilyWorld {...props} world={screen as FamilyWorldId} />}
+    {screen === "advanced" && <AdvancedWorld {...props} />}
     <button className="settings-button" onClick={() => setSettings(true)} aria-label="Open settings">⚙</button>
     {settings && <Settings progress={progress} update={patch => setProgress(p => ({ ...p, ...patch }))} close={() => setSettings(false)} />}
     {toast && <div className={`toast ${toast.kind}`}>{toast.text}</div>}

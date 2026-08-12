@@ -24,6 +24,7 @@ test("server-renders the complete Axiom Atlas shell", async () => {
   assert.match(html, /Parabola Valley/);
   assert.match(html, /Fifteen worlds/);
   assert.match(html, /600[\s\S]*campaign missions/);
+  assert.match(html, /Advanced Worlds/);
   for (const world of ["Arithmetic Forge", "Fraction Harbor", "Equation Citadel", "Geometry Kingdom", "Probability Port", "Logic Forest", "Pattern Observatory", "Coordinate Expedition", "Graph Laboratory", "Function Factory", "Optimisation Valley"]) assert.match(html, new RegExp(world));
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
 });

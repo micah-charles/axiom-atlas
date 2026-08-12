@@ -10,6 +10,7 @@ import { LEARNING_LAYERS, generateBubbleLevel, generateEndlessLevel } from "../a
 import { FAMILY_CAMPAIGN_COUNT, FAMILY_LEVELS, generateFamilyEndless, generateFamilyLevel } from "../app/games/family-generator.ts";
 import { FAMILY_WORLD_IDS, WORLD_IDS, WORLD_META } from "../app/games/world-registry.ts";
 import { GAME_FRAMEWORKS, validateModeSelection } from "../app/games/mode-frameworks.ts";
+import { ADVANCED_LEVEL_CATALOG, applyMatrix, complexMultiply, curl, determinant, divergence, discreteSpectrum, gaussianHeight, lineIntegral, lotkaVolterraStep, multiplyMatrix, secantSlope, springStep, tangentSlope, trapezoidIntegral } from "../app/games/advanced-engines.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
   assert.equal(LEARNING_LAYERS.length, 5);
@@ -43,6 +44,31 @@ test("mode validators enforce each framework's interaction contract", () => {
   assert.equal(validateModeSelection(GAME_FRAMEWORKS.probability, ["NORTH", "EAST"], ["NORTH"]), false);
   assert.equal(validateModeSelection(GAME_FRAMEWORKS.optimisation, ["CONSTRAINT", "TRADE-OFF", "BEST PLAN"], ["CONSTRAINT", "TRADE-OFF", "BEST PLAN"]), true);
   assert.equal(validateModeSelection(GAME_FRAMEWORKS.optimisation, ["TRADE-OFF", "CONSTRAINT", "BEST PLAN"], ["CONSTRAINT", "TRADE-OFF", "BEST PLAN"]), false);
+});
+
+test("advanced mathematics catalog is data-driven across reusable engines", () => {
+  assert.ok(ADVANCED_LEVEL_CATALOG.length >= 17);
+  assert.ok(new Set(ADVANCED_LEVEL_CATALOG.map(level => level.engine)).size >= 7);
+  assert.ok(ADVANCED_LEVEL_CATALOG.every(level => level.tools.length > 0 && level.revealNotationAfterCompletion));
+});
+
+test("advanced pure engines model accumulation, limits, fields, dynamics, transforms, and signals", () => {
+  assert.equal(Math.round(trapezoidIntegral(x => x, 0, 2, 100)), 2);
+  assert.equal(secantSlope(x => x * x, 1, 3), 4);
+  assert.ok(Math.abs(tangentSlope(x => x * x, 2) - 4) < .01);
+  assert.equal(gaussianHeight({ x: 0, y: 0 }), 1);
+  const radial = (point) => ({ x: point.x, y: point.y });
+  assert.ok(divergence(radial, { x: 1, y: 1 }) > 1.9);
+  assert.ok(Math.abs(curl(point => ({ x: -point.y, y: point.x }), { x: 1, y: 1 }) - 2) < .01);
+  assert.equal(lineIntegral(() => ({ x: 1, y: 0 }), [{ x: 0, y: 0 }, { x: 3, y: 0 }]), 3);
+  assert.ok(lotkaVolterraStep({ rabbits: 300, foxes: 20 }, .1).rabbits > 0);
+  assert.ok(Math.abs(springStep({ position: 1, velocity: 0 }, .01, 1, 1, .1).position - 1) < .01);
+  const rotation = [0, -1, 1, 0]; const stretch = [2, 0, 0, 1];
+  assert.deepEqual(multiplyMatrix(rotation, stretch), [0, -1, 2, 0]);
+  assert.equal(determinant(stretch), 2);
+  assert.deepEqual(applyMatrix(rotation, { x: 1, y: 0 }), { x: 0, y: 1 });
+  assert.deepEqual(complexMultiply({ x: 1, y: 0 }, { x: 0, y: 1 }), { x: 0, y: 1 });
+  assert.ok(discreteSpectrum([1, 1, 1, 1])[0] > .9);
 });
 
 for (const world of FAMILY_WORLD_IDS) {

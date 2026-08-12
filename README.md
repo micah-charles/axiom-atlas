@@ -57,6 +57,10 @@ The long-term Atlas can grow across:
 - rotation, symmetry, navigation, perspective, construction, and tessellation;
 - observation, hypothesis, experiment, evidence, analysis, and prediction.
 
+## Advanced simulation foundation
+
+The repository also contains a pure, data-driven foundation for the advanced-games proposal in `docs/new-games.md`. `app/games/advanced-engines.ts` provides reusable curve, vector-field, flow, dynamic-system, matrix, complex-plane, and signal operations, plus a catalog of integration, derivative, gradient, divergence, curl, line/surface integral, differential-equation, Fourier, matrix, Jacobian, and complex-number level definitions. These definitions are designed to feed future interactive worlds through five acts: experience, control, measure, generalise, and name.
+
 ## Planned modes
 
 Planned platform features include:
@@ -108,6 +112,7 @@ app/
   lib/campaign.ts          # learning layers and seeded level generation
   games/world-registry.ts  # 15-world metadata and identifiers
   games/mode-frameworks.ts # distinct GM05–GM15 interaction contracts
+  games/advanced-engines.ts # reusable advanced-mathematics simulations and level data
   games/family-generator.ts # 11 seeded puzzle-family generators
 tests/
   game-core.test.mjs       # mechanics and generator coverage

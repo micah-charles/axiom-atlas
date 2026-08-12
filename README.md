@@ -57,9 +57,19 @@ The long-term Atlas can grow across:
 - rotation, symmetry, navigation, perspective, construction, and tessellation;
 - observation, hypothesis, experiment, evidence, analysis, and prediction.
 
-## Advanced simulation foundation
+## Advanced simulation worlds
 
-The repository also contains a pure, data-driven foundation for the advanced-games proposal in `docs/new-games.md`. `app/games/advanced-engines.ts` provides reusable curve, vector-field, flow, dynamic-system, matrix, complex-plane, and signal operations, plus a catalog of integration, derivative, gradient, divergence, curl, line/surface integral, differential-equation, Fourier, matrix, Jacobian, and complex-number level definitions. These definitions are designed to feed future interactive worlds through five acts: experience, control, measure, generalise, and name.
+The Atlas now contains a live, pure, data-driven implementation of the advanced-games proposal in `docs/new-games.md`. `app/games/advanced-engines.ts` provides ten reusable engines—curve, field, flow, dynamic systems, transformation, plane, signal, graph, probability, and geometry—rather than one bespoke component per concept.
+
+The catalog currently covers 20 mathematical concepts, including Water Valley integration, Mountain Racer derivatives, gradient expeditions, vector fields, line and surface integrals, Stokes’ theorem, ecosystems, springs, Fourier filtering, matrix transformations, eigenvectors, determinants, Jacobians, complex portals, Euler’s formula, graph paths, probability simulation, and geometry construction. Each definition expands into five data-driven acts:
+
+1. **Experience** — observe the phenomenon before terminology.
+2. **Control** — change an input and see the system respond.
+3. **Measure** — use instruments and compare quantities.
+4. **Generalise** — apply the same idea in a new situation.
+5. **Name** — reveal the formal notation after discovery.
+
+That produces 100 advanced campaign records. Acts are generated from the catalog, passed into the selected world, persisted as mastery records, and unlocked sequentially per concept. The existing GM01–GM15 campaign remains separate, with its own 600 deterministic missions and five learning layers.
 
 ## Planned modes
 
@@ -112,7 +122,7 @@ app/
   lib/campaign.ts          # learning layers and seeded level generation
   games/world-registry.ts  # 15-world metadata and identifiers
   games/mode-frameworks.ts # distinct GM05–GM15 interaction contracts
-  games/advanced-engines.ts # reusable advanced-mathematics simulations and level data
+  games/advanced-engines.ts # ten reusable engines, 20 concepts, and generated five-act data
   games/family-generator.ts # 11 seeded puzzle-family generators
 tests/
   game-core.test.mjs       # mechanics and generator coverage

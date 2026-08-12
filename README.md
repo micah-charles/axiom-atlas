@@ -1,100 +1,120 @@
-# vinext-starter
+# Axiom Atlas
 
-A clean full-stack starter running on
-[vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
-Drizzle support.
+**Explore. Discover. Think. Master.**
 
-## Prerequisites
+Axiom Atlas is a mathematics and logic adventure game. It turns mathematical rules into tactile puzzles, so players learn by experimenting, making decisions, noticing patterns, and building intuition.
 
-- Node.js `>=22.13.0`
+Learning mathematics should feel like a meaningful adventure rather than completing homework. Every puzzle is designed to strengthen reasoning, perseverance, curiosity, and creativity.
 
-## Quick Start
+## Current experience
+
+The first release contains four playable realms:
+
+- **Core Interaction Lab** — learn the direct-manipulation language used throughout the Atlas.
+- **Bubble Village** — practise neighbour comparisons, swaps, stable ordering, and bubble-sort reasoning.
+- **Tree Garden** — grow a binary search tree through left/right choices, then perform in-order traversal.
+- **Parabola Valley** — move vertices, stretch curves, and connect graph shape to quadratic equations.
+
+Each major realm uses five learning layers:
+
+1. **Discover** — experiment before the rule is explained.
+2. **Guided** — receive short prompts that connect actions to concepts.
+3. **Practice** — build fluency with varied configurations.
+4. **Challenge** — solve under move and mistake constraints.
+5. **Master** — no hints and precise decisions; an error restarts the run.
+
+The campaign currently provides 120 deterministic generated levels—40 per major realm—plus endless expeditions. Levels are generated from world rules, learning-layer configuration, and seeds rather than maintained as a large hardcoded puzzle list. The same seed always produces the same level, making puzzles reproducible and testable.
+
+## Design principles
+
+- Mathematical rules become game mechanics.
+- Exploration and observation come before formal explanation.
+- Mistakes are visible, meaningful, and useful for learning.
+- Hints guide reasoning instead of revealing answers.
+- Progression rewards knowledge, precision, and discovery.
+- Mouse, keyboard, touch, pen, and responsive layouts are first-class inputs.
+
+## Learning scope
+
+The long-term Atlas can grow across:
+
+- number sense, arithmetic, fractions, decimals, percentages, ratios, algebra, geometry, graphs, probability, statistics, trigonometry, calculus, number theory, and proof;
+- deduction, induction, pattern recognition, Boolean logic, graph theory, constraints, optimisation, and critical thinking;
+- algorithms, binary numbers, recursion, data structures, graph search, and computational thinking;
+- rotation, symmetry, navigation, perspective, construction, and tessellation;
+- observation, hypothesis, experiment, evidence, analysis, and prediction.
+
+## Planned worlds and modes
+
+The current release establishes the campaign foundation for future worlds such as Arithmetic Valley, Geometry Kingdom, Algebra Academy, Probability Port, Logic Forest, Computer Science City, and Infinity Observatory.
+
+Planned platform features include:
+
+- story campaigns and larger handcrafted puzzle packs;
+- daily challenges, tournaments, and community events;
+- sandbox puzzle creation, sharing, remixing, and rating;
+- classroom assignments, teacher review, and progress reports;
+- parent dashboards and personalised practice;
+- an adaptive tutor that asks guiding questions instead of revealing answers;
+- accessibility options including colour-blind modes, dyslexia-friendly presentation, narration, controller, keyboard, mouse, touch, tablet, and mobile support.
+
+## Technology
+
+- React 19 and TypeScript
+- Vinext/Vite build pipeline
+- Deterministic, pure game engines in `app/lib/game-core.ts`
+- Seeded campaign generators in `app/lib/campaign.ts`
+- Responsive CSS with reduced-motion support
+- Cloudflare-compatible Sites deployment
+- Optional Drizzle/D1 project structure for future persistence
+
+## Run locally
+
+Requirements: Node.js `>=22.13.0`.
 
 ```bash
 npm install
 npm run dev
+```
+
+Useful checks:
+
+```bash
+npm run lint
+npm test
 npm run build
 ```
 
-This starter does not use `wrangler.jsonc`.
+Open the local address printed by the development server. Progress and settings are currently stored privately in the browser.
 
-## Included Shape
+## Project structure
 
-- edit site code under `app/`
-- `.openai/hosting.json` declares optional Sites D1 and R2 bindings
-- `vite.config.ts` simulates declared bindings for local development
-- `db/schema.ts` starts intentionally empty
-- `examples/d1/` contains an optional D1 example surface
-- `drizzle.config.ts` supports local migration generation when needed
-
-## Workspace Auth Headers
-
-Signed-in visitors receive both `oai-authenticated-user-id` and `oai-authenticated-user-email`. Private Sites require every visitor to sign in; public Sites may also have anonymous visitors, for whom neither header is present.
-
-The user ID is stable for the same user on the same Site and different across Sites. Email and name are intended for display or contact purposes.
-
-SIWC-authenticated workspace sites may also receive
-`oai-authenticated-user-full-name` when the user's SIWC profile has a non-empty
-`name` claim. The full-name value is percent-encoded UTF-8 and is accompanied by
-`oai-authenticated-user-full-name-encoding: percent-encoded-utf-8`.
-
-Treat the full name as optional and fall back to email when it is absent:
-
-```tsx
-import { headers } from "next/headers";
-
-export default async function Home() {
-  const requestHeaders = await headers();
-  const userId = requestHeaders.get("oai-authenticated-user-id");
-  const email = requestHeaders.get("oai-authenticated-user-email");
-  const encodedFullName = requestHeaders.get("oai-authenticated-user-full-name");
-  const fullName =
-    encodedFullName &&
-    requestHeaders.get("oai-authenticated-user-full-name-encoding") ===
-      "percent-encoded-utf-8"
-      ? decodeURIComponent(encodedFullName)
-      : null;
-
-  const displayName = fullName ?? email;
-  // ...
-}
+```text
+app/
+  MathLogicGame.tsx       # world map, campaign UI, and play surfaces
+  globals.css              # visual system and responsive layouts
+  lib/game-core.ts         # pure puzzle state machines
+  lib/campaign.ts          # learning layers and seeded level generation
+tests/
+  game-core.test.mjs       # mechanics and generator coverage
+  rendered-html.test.mjs   # production render checks
+public/
+  manifest.webmanifest     # installable web-app metadata
 ```
 
-## Optional Dispatch-Owned ChatGPT Sign-In
+## Why it matters
 
-Import the ready-to-use helpers from `app/chatgpt-auth.ts` when the site needs
-optional or required ChatGPT sign-in:
+Many learners lose confidence when mathematics is presented as disconnected exercises. Axiom Atlas makes mathematical reasoning something players can explore, manipulate, and remember. The goal is not only higher scores, but a generation of curious thinkers who see mathematics as a powerful language for understanding and shaping the world.
 
-- Use `getChatGPTUser()` for optional signed-in UI.
-- Use `requireChatGPTUser(returnTo)` for server-rendered pages that should send
-  anonymous visitors through Sign in with ChatGPT.
-- Use `chatGPTSignInPath(returnTo)` and `chatGPTSignOutPath(returnTo)` for
-  browser links or actions.
-- Pass a same-origin relative `returnTo` path for the destination after sign-in
-  or sign-out. The helper validates and safely encodes it.
-- Mark protected pages with `export const dynamic = "force-dynamic"` because
-  they depend on per-request identity headers.
+## Roadmap
 
-Dispatch owns `/signin-with-chatgpt`, `/signout-with-chatgpt`, `/callback`, the
-OAuth cookies, and identity header injection. Do not implement app routes for
-those reserved paths. Routes that do not import and call the helper remain
-anonymous-compatible.
+1. Expand the current worlds with richer events, characters, and challenge modifiers.
+2. Add more generated families and larger handcrafted story arcs.
+3. Introduce daily challenges, teacher tools, and learner analytics.
+4. Add community-created puzzles, multiplayer modes, and adaptive worlds.
 
-SIWC establishes identity only; it does not prove workspace membership. Use the
-Sites hosting platform's access policy controls for workspace-wide restrictions,
-or enforce explicit server-side membership or allowlist checks.
+## License
 
-Use SIWC for account pages, user-specific dashboards, saved records, and write
-actions tied to the current ChatGPT user. Leave public content anonymous.
+MIT License.
 
-## Useful Commands
-
-- `npm run dev`: start local development
-- `npm run build`: verify the vinext build output
-- `npm test`: build the starter and verify its rendered loading skeleton
-- `npm run db:generate`: generate Drizzle migrations after schema changes
-
-## Learn More
-
-- [vinext Documentation](https://github.com/cloudflare/vinext)
-- [Drizzle D1 Guide](https://orm.drizzle.team/docs/get-started/d1-new)
+> Every puzzle solved reveals a new way to think.

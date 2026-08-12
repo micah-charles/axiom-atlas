@@ -10,7 +10,7 @@ import { LEARNING_LAYERS, generateBubbleLevel, generateEndlessLevel } from "../a
 import { FAMILY_CAMPAIGN_COUNT, FAMILY_LEVELS, generateFamilyEndless, generateFamilyLevel } from "../app/games/family-generator.ts";
 import { FAMILY_WORLD_IDS, WORLD_IDS, WORLD_META } from "../app/games/world-registry.ts";
 import { GAME_FRAMEWORKS, validateModeSelection } from "../app/games/mode-frameworks.ts";
-import { ADVANCED_LEVEL_CATALOG, applyMatrix, closedPath, complexMultiply, curl, determinant, divergence, discreteSpectrum, gaussianHeight, lineIntegral, lotkaVolterraStep, monteCarloEstimate, multiplyMatrix, polylineLength, secantSlope, shortestPath, springStep, surfaceFlux, tangentSlope, triangleArea, trapezoidIntegral } from "../app/games/advanced-engines.ts";
+import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, ADVANCED_LEVEL_CATALOG, applyMatrix, closedPath, complexMultiply, curl, determinant, divergence, discreteSpectrum, gaussianHeight, lineIntegral, lotkaVolterraStep, monteCarloEstimate, multiplyMatrix, polylineLength, secantSlope, shortestPath, springStep, surfaceFlux, tangentSlope, triangleArea, trapezoidIntegral } from "../app/games/advanced-engines.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
   assert.equal(LEARNING_LAYERS.length, 5);
@@ -48,6 +48,10 @@ test("mode validators enforce each framework's interaction contract", () => {
 
 test("advanced mathematics catalog is data-driven across reusable engines", () => {
   assert.ok(ADVANCED_LEVEL_CATALOG.length >= 17);
+  assert.equal(ADVANCED_ACTS.length, 5);
+  assert.equal(ADVANCED_CAMPAIGN.length, ADVANCED_LEVEL_CATALOG.length * 5);
+  assert.equal(new Set(ADVANCED_CAMPAIGN.map(level => level.id)).size, ADVANCED_CAMPAIGN.length);
+  assert.ok(ADVANCED_CAMPAIGN.every(level => level.objective.includes("Act ")));
   assert.ok(new Set(ADVANCED_LEVEL_CATALOG.map(level => level.engine)).size >= 7);
   assert.ok(ADVANCED_LEVEL_CATALOG.every(level => level.tools.length > 0 && level.revealNotationAfterCompletion));
 });

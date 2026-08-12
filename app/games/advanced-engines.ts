@@ -39,6 +39,21 @@ export const ADVANCED_LEVEL_CATALOG: AdvancedLevelDefinition[] = [
   { id: "geometry-workshop-01", world: "Geometry Workshop", concept: "geometry construction", engine: "geometry", act: "experience", objective: "Build a stable triangular bridge with the required area.", tools: ["vertexHandles", "angleGauge", "areaMeter"], goal: { type: "matchArea", target: 6 }, revealNotationAfterCompletion: true },
 ];
 
+export const ADVANCED_ACTS: { id: AdvancedAct; label: string; instruction: string }[] = [
+  { id: "experience", label: "Act 1 · Experience", instruction: "Observe the phenomenon before naming it." },
+  { id: "control", label: "Act 2 · Control", instruction: "Change one system input and watch the world respond." },
+  { id: "measure", label: "Act 3 · Measure", instruction: "Use an instrument to compare numerical readings." },
+  { id: "generalise", label: "Act 4 · Generalise", instruction: "Apply the same rule in a new situation." },
+  { id: "name", label: "Act 5 · Name", instruction: "Reveal the formal notation after the discovery." },
+];
+
+export const ADVANCED_CAMPAIGN: AdvancedLevelDefinition[] = ADVANCED_LEVEL_CATALOG.flatMap(level => ADVANCED_ACTS.map(act => ({
+  ...level,
+  id: `${level.id}-${act.id}`,
+  act: act.id,
+  objective: `${act.label}: ${level.objective}`,
+})));
+
 export function trapezoidIntegral(rate: (t: number) => number, start: number, end: number, slices: number): number {
   const n = Math.max(1, Math.floor(slices)); const width = (end - start) / n; let total = 0;
   for (let i = 0; i < n; i++) total += (rate(start + i * width) + rate(start + (i + 1) * width)) * width / 2;

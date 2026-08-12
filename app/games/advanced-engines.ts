@@ -42,13 +42,15 @@ export const ADVANCED_LEVEL_CATALOG: AdvancedLevelDefinition[] = [
   { id: "geometry-workshop-01", world: "Geometry Workshop", concept: "geometry construction", engine: "geometry", act: "experience", objective: "Build a stable triangular bridge with the required area.", tools: ["vertexHandles", "angleGauge", "areaMeter"], goal: { type: "matchArea", target: 6 }, revealNotationAfterCompletion: true },
 ];
 
-export const ADVANCED_ACTS: { id: AdvancedAct; label: string; instruction: string }[] = [
-  { id: "experience", label: "Act 1 · Experience", instruction: "Observe the phenomenon before naming it." },
-  { id: "control", label: "Act 2 · Control", instruction: "Change one system input and watch the world respond." },
-  { id: "measure", label: "Act 3 · Measure", instruction: "Use an instrument to compare numerical readings." },
-  { id: "generalise", label: "Act 4 · Generalise", instruction: "Apply the same rule in a new situation." },
-  { id: "name", label: "Act 5 · Name", instruction: "Reveal the formal notation after the discovery." },
+export const ADVANCED_ACTS: { id: AdvancedAct; label: string; instruction: string; verb: string; minimumObservations: number; revealNotation: boolean }[] = [
+  { id: "experience", label: "Act 1 · Experience", instruction: "Observe the phenomenon before naming it.", verb: "Observe", minimumObservations: 1, revealNotation: false },
+  { id: "control", label: "Act 2 · Control", instruction: "Change one system input and watch the world respond.", verb: "Adjust", minimumObservations: 2, revealNotation: false },
+  { id: "measure", label: "Act 3 · Measure", instruction: "Use an instrument to compare numerical readings.", verb: "Measure", minimumObservations: 3, revealNotation: false },
+  { id: "generalise", label: "Act 4 · Generalise", instruction: "Apply the same rule in a new situation.", verb: "Transfer", minimumObservations: 3, revealNotation: false },
+  { id: "name", label: "Act 5 · Name", instruction: "Reveal the formal notation after the discovery.", verb: "Name", minimumObservations: 3, revealNotation: true },
 ];
+
+export function advancedActRule(act: AdvancedAct): { verb: string; minimumObservations: number; revealNotation: boolean } { const rule = ADVANCED_ACTS.find(candidate => candidate.id === act); return rule ? { verb: rule.verb, minimumObservations: rule.minimumObservations, revealNotation: rule.revealNotation } : { verb: "Observe", minimumObservations: 1, revealNotation: false }; }
 
 export const ADVANCED_CAMPAIGN: AdvancedLevelDefinition[] = ADVANCED_LEVEL_CATALOG.flatMap(level => ADVANCED_ACTS.map(act => ({
   ...level,

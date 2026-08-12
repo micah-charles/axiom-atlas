@@ -9,6 +9,7 @@ import {
 import { LEARNING_LAYERS, generateBubbleLevel, generateEndlessLevel } from "../app/lib/campaign.ts";
 import { FAMILY_CAMPAIGN_COUNT, FAMILY_LEVELS, generateFamilyEndless, generateFamilyLevel } from "../app/games/family-generator.ts";
 import { FAMILY_WORLD_IDS, WORLD_IDS, WORLD_META } from "../app/games/world-registry.ts";
+import { GAME_FRAMEWORKS } from "../app/games/mode-frameworks.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
   assert.equal(LEARNING_LAYERS.length, 5);
@@ -25,6 +26,16 @@ test("Atlas contains 15 registered playable worlds and 600 structured missions",
   assert.equal(Object.keys(WORLD_META).length, 15);
   assert.equal(FAMILY_WORLD_IDS.length, 12);
   assert.equal(FAMILY_CAMPAIGN_COUNT + BUBBLE_LEVELS.length + TREE_LEVELS.length + QUADRATIC_LEVELS.length, 600);
+});
+
+test("GM family worlds each use a distinct interaction framework", () => {
+  const frameworks = FAMILY_WORLD_IDS.filter(world => world !== "lab").map(world => GAME_FRAMEWORKS[world]);
+  assert.equal(new Set(frameworks.map(framework => framework.board)).size, frameworks.length);
+  for (const framework of frameworks) {
+    assert.ok(framework.mechanic.length > 0);
+    assert.ok(framework.feedback.length > 0);
+    assert.ok(framework.success.length > 0);
+  }
 });
 
 for (const world of FAMILY_WORLD_IDS) {

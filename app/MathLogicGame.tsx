@@ -392,6 +392,22 @@ function ParabolaValley({ onBack, progress, completeLevel }: GameProps) {
   </div>;
 }
 
+function ModeBoard({ level, selected, onRemove }: { level: FamilyLevel; selected: string[]; onRemove: (index: number) => void }) {
+  const { framework } = level;
+  const slots = level.solution.map((_, index) => <button key={index} className={selected[index] ? "filled" : ""} onClick={() => onRemove(index)} aria-label={`Mechanism slot ${index + 1}`}>{selected[index] ?? index + 1}</button>);
+  if (framework.board === "balance") return <div className="mode-board mode-balance"><div className="balance-pan"><small>LEFT TOWER</small><b>{selected.slice(0, Math.ceil(level.solution.length / 2)).join(" ") || "?"}</b></div><div className="balance-beam"><i /><span>⚖</span><i /></div><div className="balance-pan"><small>RIGHT TOWER</small><b>{level.targetLabel}</b></div><div className="mode-slots">{slots}</div></div>;
+  if (framework.board === "bridge") return <div className="mode-board mode-bridge"><div className="bridge-deck"><span>◢</span>{slots}<span>◣</span></div><div className="bridge-water"><i /><i /><i /></div></div>;
+  if (framework.board === "forest") return <div className="mode-board mode-forest"><div className="forest-gates"><div>TRUTH</div>{slots}<div>SAFE PATH</div></div><div className="forest-roots"><i /><i /><i /></div></div>;
+  if (framework.board === "harbor") return <div className="mode-board mode-harbor"><div className="harbor-water"><span>⚓</span>{slots}<span>⚓</span></div><div className="harbor-meter"><i style={{ width: `${Math.min(100, selected.length / Math.max(1, level.solution.length) * 100)}%` }} /></div></div>;
+  if (framework.board === "routes") return <div className="mode-board mode-routes"><div className="route-map"><span className="route-node">PORT</span>{slots}<span className="route-node">GOAL</span></div><div className="route-weather">◌ ◌ ◌</div></div>;
+  if (framework.board === "constellation") return <div className="mode-board mode-constellation"><div className="star-field">{slots}<span>✦</span><span>✧</span><span>·</span></div></div>;
+  if (framework.board === "grid") return <div className="mode-board mode-grid"><div className="coordinate-grid">{slots}<span>⌖</span></div><small>VECTOR POSITION · {selected.length},{level.solution.length}</small></div>;
+  if (framework.board === "network") return <div className="mode-board mode-network"><div className="network-map"><span>A</span>{slots}<span>F</span></div><div className="network-edges">A──B B──E E──F</div></div>;
+  if (framework.board === "machines") return <div className="mode-board mode-machines"><div className="machine-chain"><span>INPUT</span>{slots}<span>OUTPUT</span></div><div className="machine-trace">f(x) → {selected.length ? selected.join(" → ") : "waiting"}</div></div>;
+  if (framework.board === "valley") return <div className="mode-board mode-valley"><div className="valley-ridge"><span>WORKERS</span>{slots}<span>HARVEST</span></div><div className="resource-bars"><i /><i /><i /></div></div>;
+  return <div className="mode-board mode-conveyor"><div className="conveyor-belt"><span>ORIGIN</span>{slots}<span>TARGET</span></div><div className="conveyor-lights"><i /><i /><i /></div></div>;
+}
+
 function FamilyWorld({ world, onBack, progress, completeLevel }: GameProps & { world: FamilyWorldId }) {
   const levels = FAMILY_LEVELS[world];
   const [levelIndex, setLevelIndex] = useState(() => Math.max(0, levels.findIndex(level => !progress.completed[level.id])));
@@ -433,10 +449,11 @@ function FamilyWorld({ world, onBack, progress, completeLevel }: GameProps & { w
         <div className="metric-grid"><div><span>{selected.length}</span><small>Placed</small></div><div><span>{level.solution.length}</span><small>Required</small></div><div><span>{mistakes}</span><small>Errors</small></div></div>
         {level.facts && <div className="family-facts">{level.facts.map(fact => <span key={fact}>{fact}</span>)}</div>}
       </aside>
-      <section className={`play-stage family-stage visual-${level.visual}`} aria-label={`${meta.name} puzzle mechanism`}>
+      <section className={`play-stage family-stage visual-${level.visual} framework-${level.framework.board}`} aria-label={`${meta.name} puzzle mechanism`}>
         <div className="family-atmosphere"><i /><i /><i /></div>
         <div className="mechanic-emblem" aria-hidden="true"><span>{meta.icon}</span><i /><i /></div>
-        <div className="mechanic-path"><div className="mechanic-origin"><small>ORIGIN</small><b>{level.startLabel}</b></div><span className="path-line" />{level.solution.map((_, index) => <button key={index} className={selected[index] ? "filled" : ""} onClick={() => setSelected(items => items.slice(0, index))} aria-label={`Mechanism slot ${index + 1}`}>{selected[index] ?? index + 1}</button>)}<span className="path-line" /><div className="mechanic-target"><small>TARGET</small><b>{level.targetLabel}</b></div></div>
+        <div className="framework-caption"><span>{level.framework.mechanic}</span><b>{level.framework.feedback}</b></div>
+        <ModeBoard level={level} selected={selected} onRemove={index => setSelected(items => items.slice(0, index))} />
         <div className="token-bank" role="group" aria-label="Available mechanism pieces">{level.tokens.map(token => <button key={token} onClick={() => appendToken(token)} disabled={selected.length >= level.solution.length}><span>{token}</span><i>PLACE</i></button>)}</div>
         <div className={`family-feedback ${message.includes("cannot") || message.includes("broken") ? "warn" : ""}`}><span>{showComplete ? "✓" : meta.icon}</span><p>{message}</p></div>
         {hint && <div className="hint-bubble family-hint"><b>{meta.name} signal</b>{hint}</div>}

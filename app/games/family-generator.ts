@@ -2,6 +2,8 @@ import { LEARNING_LAYERS } from "../lib/campaign.ts";
 import type { LearningLayer, LearningLayerId } from "../lib/campaign.ts";
 import { FAMILY_WORLD_IDS } from "./world-registry.ts";
 import type { WorldId } from "./world-registry.ts";
+import { frameworkFor } from "./mode-frameworks.ts";
+import type { GameFramework } from "./mode-frameworks.ts";
 
 export type FamilyWorldId = Exclude<WorldId, "bubble" | "tree" | "parabola">;
 
@@ -18,6 +20,7 @@ export type FamilyLevel = {
   hintLimit: number;
   mistakeLimit?: number;
   generated: true;
+  framework: GameFramework;
   prompt: string;
   instruction: string;
   startLabel: string;
@@ -132,7 +135,7 @@ function puzzle(world: FamilyWorldId, layer: LearningLayer, sequence: number, ra
 
 export function generateFamilyLevel(world: FamilyWorldId, layer: LearningLayer, sequence: number, run = 0): FamilyLevel {
   const seed = seedFor(world, layer.id, sequence, run); const random = rng(seed); const shape = puzzle(world, layer, sequence, random);
-  return { id: `${world}-${layer.id}-${String(sequence + 1).padStart(2, "0")}${run ? `-${run}` : ""}`, world, layer: layer.id, layerIndex: layer.order - 1, sequence, seed, name: NAMES[world][sequence % 8], subtitle: layer.promise, targetMoves: shape.solution.length, hintLimit: layer.hintLimit, mistakeLimit: layer.mistakeLimit, generated: true, ...shape };
+  return { id: `${world}-${layer.id}-${String(sequence + 1).padStart(2, "0")}${run ? `-${run}` : ""}`, world, layer: layer.id, layerIndex: layer.order - 1, sequence, seed, name: NAMES[world][sequence % 8], subtitle: layer.promise, targetMoves: shape.solution.length, hintLimit: layer.hintLimit, mistakeLimit: layer.mistakeLimit, generated: true, framework: frameworkFor(world), ...shape };
 }
 
 export const FAMILY_LEVELS = Object.fromEntries(FAMILY_WORLD_IDS.map(world => [world, LEARNING_LAYERS.flatMap(layer => Array.from({ length: 8 }, (_, sequence) => generateFamilyLevel(world, layer, sequence)))])) as Record<FamilyWorldId, FamilyLevel[]>;

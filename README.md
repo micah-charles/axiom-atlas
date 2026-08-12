@@ -36,6 +36,8 @@ Every world uses five learning layers:
 
 The campaign provides 600 deterministic generated missions—40 per world—plus endless expeditions. Levels are generated from puzzle-family rules, learning-layer configuration, and seeds rather than maintained as a large hardcoded puzzle list. The same seed always produces the same mission, making every puzzle reproducible and testable.
 
+The GM05–GM15 worlds are not reskins of one question panel. Each has a distinct interaction framework: arithmetic conveyor, equation balance, geometry bridge, logic forest, fraction harbor, probability routes, pattern constellation, coordinate grid, graph network, function machines, or optimisation valley. Shared campaign services handle progression and persistence, while each framework owns its board language, feedback model, and success condition.
+
 ## Design principles
 
 - Mathematical rules become game mechanics.
@@ -105,6 +107,7 @@ app/
   lib/game-core.ts         # pure puzzle state machines
   lib/campaign.ts          # learning layers and seeded level generation
   games/world-registry.ts  # 15-world metadata and identifiers
+  games/mode-frameworks.ts # distinct GM05–GM15 interaction contracts
   games/family-generator.ts # 11 seeded puzzle-family generators
 tests/
   game-core.test.mjs       # mechanics and generator coverage

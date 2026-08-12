@@ -1,0 +1,10 @@
+{
+  "name": "The Axiom Atlas",
+  "short_name": "Axiom Atlas",
+  "description": "A mathematical adventure governed by direct manipulation.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#070813",
+  "theme_color": "#070813",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

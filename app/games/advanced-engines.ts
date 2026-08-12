@@ -34,6 +34,9 @@ export const ADVANCED_LEVEL_CATALOG: AdvancedLevelDefinition[] = [
   { id: "teleport-gate-01", world: "Teleport Gate", concept: "Jacobian", engine: "transformation", act: "generalise", objective: "Calibrate the gate so a local reference grid aligns.", tools: ["zoomLens", "localGrid", "alignmentKnobs"], goal: { type: "localLinearise" }, revealNotationAfterCompletion: true },
   { id: "complex-plane-01", world: "Complex Plane", concept: "complex numbers", engine: "plane", act: "experience", objective: "Reach the crystal gate using multiplication portals.", tools: ["scalePortal", "rotationPortal", "complexCompass"], goal: { type: "reachGate" }, revealNotationAfterCompletion: true },
   { id: "complex-boss-01", world: "Complex Plane", concept: "Euler formula", engine: "plane", act: "name", objective: "Match circular motion to its sine and cosine projections.", tools: ["angleDial", "projectionMeter"], goal: { type: "matchWave" }, revealNotationAfterCompletion: true },
+  { id: "network-garden-01", world: "Network Garden", concept: "graph paths", engine: "graph", act: "control", objective: "Connect the village gates using the shortest safe route.", tools: ["vertexPicker", "edgeToggler", "pathMeter"], goal: { type: "shortestPath", target: 7 }, revealNotationAfterCompletion: true },
+  { id: "chance-casino-01", world: "Chance Casino", concept: "probability simulation", engine: "probability", act: "measure", objective: "Estimate the hidden bias from repeated draws.", tools: ["trialCounter", "outcomeSampler", "confidenceGauge"], goal: { type: "estimateProbability", target: .6 }, revealNotationAfterCompletion: true },
+  { id: "geometry-workshop-01", world: "Geometry Workshop", concept: "geometry construction", engine: "geometry", act: "experience", objective: "Build a stable triangular bridge with the required area.", tools: ["vertexHandles", "angleGauge", "areaMeter"], goal: { type: "matchArea", target: 6 }, revealNotationAfterCompletion: true },
 ];
 
 export function trapezoidIntegral(rate: (t: number) => number, start: number, end: number, slices: number): number {
@@ -65,3 +68,7 @@ export function determinant(matrix: Matrix2): number { return matrix[0] * matrix
 export function complexMultiply(a: Vec2, b: Vec2): Vec2 { return { x: a.x * b.x - a.y * b.y, y: a.x * b.y + a.y * b.x }; }
 
 export function discreteSpectrum(samples: number[]): number[] { const n = samples.length; return Array.from({ length: n }, (_, k) => { let real = 0; let imaginary = 0; for (let t = 0; t < n; t++) { const angle = 2 * Math.PI * k * t / n; real += samples[t] * Math.cos(angle); imaginary -= samples[t] * Math.sin(angle); } return Math.hypot(real, imaginary) / n; }); }
+export type GraphEdge = { from: number; to: number; weight: number };
+export function shortestPath(nodeCount: number, edges: GraphEdge[], start: number, end: number): number { const distances = Array.from({ length: nodeCount }, () => Infinity); distances[start] = 0; for (let pass = 0; pass < nodeCount - 1; pass++) for (const edge of edges) distances[edge.to] = Math.min(distances[edge.to], distances[edge.from] + edge.weight); return distances[end]; }
+export function monteCarloEstimate(trials: number, sample: () => boolean): number { let successes = 0; for (let index = 0; index < Math.max(1, trials); index++) if (sample()) successes++; return successes / Math.max(1, trials); }
+export function triangleArea(a: Vec2, b: Vec2, c: Vec2): number { return Math.abs((a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y)) / 2); }

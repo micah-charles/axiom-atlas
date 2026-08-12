@@ -10,7 +10,7 @@ import { LEARNING_LAYERS, generateBubbleLevel, generateEndlessLevel } from "../a
 import { FAMILY_CAMPAIGN_COUNT, FAMILY_LEVELS, generateFamilyEndless, generateFamilyLevel } from "../app/games/family-generator.ts";
 import { FAMILY_WORLD_IDS, WORLD_IDS, WORLD_META } from "../app/games/world-registry.ts";
 import { GAME_FRAMEWORKS, validateModeSelection } from "../app/games/mode-frameworks.ts";
-import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, ADVANCED_LEVEL_CATALOG, advancedActUnlocked, applyMatrix, closedPath, complexMultiply, curl, determinant, divergence, discreteSpectrum, gaussianHeight, lineIntegral, logisticMapStep, logisticTrajectory, lotkaVolterraStep, monteCarloEstimate, multiplyMatrix, polylineLength, secantSlope, shortestPath, springStep, surfaceFlux, tangentSlope, triangleArea, trapezoidIntegral } from "../app/games/advanced-engines.ts";
+import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, ADVANCED_LEVEL_CATALOG, advancedActUnlocked, applyMatrix, closedPath, complexMultiply, curl, determinant, divergence, discreteSpectrum, gaussianHeight, lineIntegral, logisticMapStep, logisticTrajectory, lotkaVolterraStep, monteCarloEstimate, multiplyMatrix, polylineLength, secantSlope, shortestPath, springStep, surfaceFlux, surfaceFlux3D, tangentSlope, triangleArea, trapezoidIntegral } from "../app/games/advanced-engines.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
   assert.equal(LEARNING_LAYERS.length, 5);
@@ -71,6 +71,8 @@ test("advanced pure engines model accumulation, limits, fields, dynamics, transf
   assert.equal(lineIntegral(() => ({ x: 1, y: 0 }), [{ x: 0, y: 0 }, { x: 3, y: 0 }]), 3);
   assert.equal(polylineLength([{ x: 0, y: 0 }, { x: 3, y: 4 }, { x: 3, y: 8 }]), 9);
   assert.equal(surfaceFlux(() => ({ x: 0, y: 8 }), { x: 0, y: 1 }, 1), 8);
+  assert.equal(surfaceFlux3D(() => ({ x: 2, y: 3, z: 8 }), { x: 0, y: 0, z: 1 }, 1), 8);
+  assert.equal(surfaceFlux3D(() => ({ x: 2, y: 3, z: 8 }), { x: 1, y: 0, z: 0 }, 2), 4);
   assert.equal(closedPath([{ x: 0, y: 0 }, { x: 1, y: 0 }]).length, 3);
   assert.ok(lotkaVolterraStep({ rabbits: 300, foxes: 20 }, .1).rabbits > 0);
   assert.ok(Math.abs(springStep({ position: 1, velocity: 0 }, .01, 1, 1, .1).position - 1) < .01);

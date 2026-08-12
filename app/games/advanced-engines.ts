@@ -54,6 +54,13 @@ export const ADVANCED_CAMPAIGN: AdvancedLevelDefinition[] = ADVANCED_LEVEL_CATAL
   objective: `${act.label}: ${level.objective}`,
 })));
 
+export function advancedActUnlocked(campaign: AdvancedLevelDefinition[], completed: Record<string, unknown>, level: AdvancedLevelDefinition): boolean {
+  const actIndex = ADVANCED_ACTS.findIndex(act => act.id === level.act);
+  if (actIndex <= 0) return true;
+  const prior = campaign.find(candidate => candidate.concept === level.concept && candidate.act === ADVANCED_ACTS[actIndex - 1].id);
+  return !prior || Boolean(completed[prior.id]);
+}
+
 export function trapezoidIntegral(rate: (t: number) => number, start: number, end: number, slices: number): number {
   const n = Math.max(1, Math.floor(slices)); const width = (end - start) / n; let total = 0;
   for (let i = 0; i < n; i++) total += (rate(start + i * width) + rate(start + (i + 1) * width)) * width / 2;

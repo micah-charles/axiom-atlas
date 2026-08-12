@@ -10,7 +10,7 @@ import { LEARNING_LAYERS, generateBubbleLevel, generateEndlessLevel } from "../a
 import { FAMILY_CAMPAIGN_COUNT, FAMILY_LEVELS, generateFamilyEndless, generateFamilyLevel } from "../app/games/family-generator.ts";
 import { FAMILY_WORLD_IDS, WORLD_IDS, WORLD_META } from "../app/games/world-registry.ts";
 import { GAME_FRAMEWORKS, validateModeSelection } from "../app/games/mode-frameworks.ts";
-import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, ADVANCED_LEVEL_CATALOG, applyMatrix, closedPath, complexMultiply, curl, determinant, divergence, discreteSpectrum, gaussianHeight, lineIntegral, lotkaVolterraStep, monteCarloEstimate, multiplyMatrix, polylineLength, secantSlope, shortestPath, springStep, surfaceFlux, tangentSlope, triangleArea, trapezoidIntegral } from "../app/games/advanced-engines.ts";
+import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, ADVANCED_LEVEL_CATALOG, advancedActUnlocked, applyMatrix, closedPath, complexMultiply, curl, determinant, divergence, discreteSpectrum, gaussianHeight, lineIntegral, lotkaVolterraStep, monteCarloEstimate, multiplyMatrix, polylineLength, secantSlope, shortestPath, springStep, surfaceFlux, tangentSlope, triangleArea, trapezoidIntegral } from "../app/games/advanced-engines.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
   assert.equal(LEARNING_LAYERS.length, 5);
@@ -52,6 +52,10 @@ test("advanced mathematics catalog is data-driven across reusable engines", () =
   assert.equal(ADVANCED_CAMPAIGN.length, ADVANCED_LEVEL_CATALOG.length * 5);
   assert.equal(new Set(ADVANCED_CAMPAIGN.map(level => level.id)).size, ADVANCED_CAMPAIGN.length);
   assert.ok(ADVANCED_CAMPAIGN.every(level => level.objective.includes("Act ")));
+  const integrationActs = ADVANCED_CAMPAIGN.filter(level => level.concept === "integration");
+  assert.equal(advancedActUnlocked(ADVANCED_CAMPAIGN, {}, integrationActs[0]), true);
+  assert.equal(advancedActUnlocked(ADVANCED_CAMPAIGN, {}, integrationActs[1]), false);
+  assert.equal(advancedActUnlocked(ADVANCED_CAMPAIGN, { [integrationActs[0].id]: { stars: 3 } }, integrationActs[1]), true);
   assert.ok(new Set(ADVANCED_LEVEL_CATALOG.map(level => level.engine)).size >= 7);
   assert.ok(ADVANCED_LEVEL_CATALOG.every(level => level.tools.length > 0 && level.revealNotationAfterCompletion));
 });

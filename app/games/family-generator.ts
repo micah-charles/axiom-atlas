@@ -31,8 +31,8 @@ export type FamilyLevel = {
 
 const SALTS: Record<FamilyWorldId, number> = {
   lab: 0x1ab, arithmetic: 0xa71, fractions: 0xf12, equations: 0xe91,
-  geometry: 0x6e0, probability: 0xb4b, logic: 0x1061, graphs: 0x6a4,
-  algorithms: 0xa160, sequences: 0x5e9, ciphers: 0xc1f, infinity: 0x1f1,
+  geometry: 0x6e0, probability: 0xb4b, logic: 0x1061, patterns: 0x5e9,
+  coordinates: 0xa160, graphs: 0x6a4, functions: 0xc1f, optimisation: 0x1f1,
 };
 
 const NAMES: Record<FamilyWorldId, string[]> = {
@@ -43,11 +43,11 @@ const NAMES: Record<FamilyWorldId, string[]> = {
   geometry: ["Bridge Beam", "Angle Keep", "Mirror Hall", "Area Court", "Rotation Tower", "Circle Foundry", "Vector Road", "Royal Span"],
   probability: ["First Voyage", "Risky Cargo", "Fair Dice", "Weather Route", "Expected Fortune", "Sampling Bay", "Variance Storm", "Captain's Wager"],
   logic: ["Whispering Path", "Two Guardians", "Truth Grove", "XOR Clearing", "Implication Trail", "Constraint Hollow", "Deduction Maze", "Oracle Tree"],
-  graphs: ["First Line", "Transfer Point", "Weighted Route", "Broken Track", "Breadth Line", "Depth Tunnel", "Spanning Network", "Metro Crown"],
-  algorithms: ["First Robot", "Parcel Turn", "Loop District", "Conditional Crossroad", "Function Block", "Search Grid", "Recursive Tower", "Automation Core"],
-  sequences: ["First Stones", "Sunstep Pattern", "Geometric Dunes", "Fibonacci Shrine", "Pascal Ruin", "Difference Temple", "Recurrence Vault", "Desert Law"],
-  ciphers: ["First Shift", "Caesar Current", "Binary Beacon", "Modulo Reef", "XOR Tide", "Prime Key", "Frequency Storm", "Private Isle"],
-  infinity: ["First Lemma", "Prime Signal", "Limit Lens", "Fractal Mirror", "Combinatoric Sky", "Paradox Field", "Proof Chamber", "Infinite Synthesis"],
+  patterns: ["First Constellation", "Symmetry Signal", "Recursive Orbit", "Fractal Mirror", "Tile Galaxy", "Difference Star", "Rule Nebula", "Observatory Crown"],
+  coordinates: ["First Expedition", "Vector Trail", "Portal Crossing", "Grid Camp", "Compass Ridge", "Component Canyon", "Route Repeater", "Cartographer's Crown"],
+  graphs: ["First Line", "Transfer Point", "Weighted Route", "Broken Track", "Breadth Line", "Depth Tunnel", "Spanning Network", "Graph Crown"],
+  functions: ["First Machine", "Compose Works", "Inverse Gate", "Stretch Press", "Shift Conveyor", "Piecewise Plant", "Function Chain", "Factory Crown"],
+  optimisation: ["First Harvest", "Worker Balance", "Budget Bridge", "Supply Route", "Capacity Storm", "Trade-off Ridge", "Global Summit", "Valley Crown"],
 };
 
 function hashText(value: string): number {
@@ -108,11 +108,11 @@ function puzzle(world: FamilyWorldId, layer: LearningLayer, sequence: number, ra
     ];
     return { prompt: "Route A → F", instruction: "Build the minimum-time journey one station at a time.", startLabel: "A", targetLabel: "F", tokens: shuffle(["B", "C", "D", "E", "F"], random), solution, hint: `The fastest first transfer is ${solution[0]}.`, visual: "metro", facts: maps[variant] };
   }
-  if (world === "algorithms") {
-    const patterns = [["MOVE", "MOVE", "PICK"], ["MOVE", "TURN", "MOVE", "DROP"], ["REPEAT 3", "TURN", "PICK"]]; const solution = patterns[sequence % patterns.length].slice(0, Math.min(patterns[sequence % patterns.length].length, depth + 1));
-    return { prompt: "Deliver the parcel", instruction: "Program the robot with the shortest valid command stream.", startLabel: "ROBOT", targetLabel: "PARCEL BAY", tokens: shuffle(unique([...solution, "MOVE", "TURN", "PICK", "DROP", "REPEAT 3"]), random), solution, hint: `The first command is ${solution[0]}.`, visual: "robot" };
+  if (world === "coordinates") {
+    const patterns = [["EAST", "EAST", "NORTH"], ["NORTH", "EAST", "EAST", "SOUTH"], ["VECTOR (2,1)", "VECTOR (1,−1)"]]; const solution = patterns[sequence % patterns.length].slice(0, Math.min(patterns[sequence % patterns.length].length, depth + 1));
+    return { prompt: "Reach the expedition beacon", instruction: "Navigate the grid with the shortest valid vector sequence.", startLabel: "ORIGIN (0,0)", targetLabel: "BEACON", tokens: shuffle(unique([...solution, "NORTH", "SOUTH", "EAST", "WEST", "PORTAL"]), random), solution, hint: `Start with ${solution[0]}.`, visual: "robot" };
   }
-  if (world === "sequences") {
+  if (world === "patterns") {
     const kind = sequence % 4;
     let series: number[]; let rule: string;
     if (kind === 0) { const step = integer(random, 2, 7); const first = integer(random, 1, 8); series = Array.from({ length: 5 }, (_, i) => first + step * i); rule = `Add ${step}`; }
@@ -120,27 +120,14 @@ function puzzle(world: FamilyWorldId, layer: LearningLayer, sequence: number, ra
     else if (kind === 2) { const a = integer(random, 1, 4); const b = integer(random, 2, 5); series = [a, b]; while (series.length < 5) series.push(series.at(-1)! + series.at(-2)!); rule = "Add the previous two stones"; }
     else { const offset = integer(random, 0, 3); series = Array.from({ length: 5 }, (_, i) => (i + 1) ** 2 + offset); rule = `Square numbers${offset ? `, then add ${offset}` : ""}`; }
     const answer = String(series[4]); const solution = [answer];
-    return { prompt: `${series.slice(0, 4).join("  ·  ")}  ·  ?`, instruction: "Place the missing stone into the ruin mechanism.", startLabel: kind === 0 ? "ARITHMETIC" : kind === 1 ? "GEOMETRIC" : kind === 2 ? "RECURRENCE" : "VISUAL SQUARES", targetLabel: "RESTORE PATTERN", tokens: shuffle(unique([answer, String(series[3] + 1), String(Math.max(0, series[4] - 2)), String(series[3] * 2)]), random), solution, hint: rule + ".", visual: "ruins" };
+    return { prompt: `${series.slice(0, 4).join("  ·  ")}  ·  ?`, instruction: "Place the missing star into the observatory constellation.", startLabel: kind === 0 ? "ARITHMETIC" : kind === 1 ? "GEOMETRIC" : kind === 2 ? "RECURRENCE" : "VISUAL SQUARES", targetLabel: "RESTORE PATTERN", tokens: shuffle(unique([answer, String(series[3] + 1), String(Math.max(0, series[4] - 2)), String(series[3] * 2)]), random), solution, hint: rule + ".", visual: "ruins" };
   }
-  if (world === "ciphers") {
-    if (sequence === 4) {
-      const solution = ["BINARY", "HI"];
-      return { prompt: "01101000 01101001", instruction: "Choose the number system, then transmit the decoded message.", startLabel: "8-BIT SIGNAL", targetLabel: "PLAINTEXT", tokens: shuffle(["BINARY", "DECIMAL", "HI", "AX"], random), solution, hint: "Read each group as an 8-bit character.", visual: "cipher" };
-    }
-    if (sequence === 5) {
-      const solution = ["MOD 26", "KEY 7"];
-      return { prompt: "Rotate 33 positions", instruction: "Reduce the rotation, then set the equivalent alphabet key.", startLabel: "33", targetLabel: "KEY 7", tokens: shuffle(["MOD 26", "MOD 10", "KEY 7", "KEY 6"], random), solution, hint: "33 leaves remainder 7 after complete turns of 26.", visual: "cipher" };
-    }
-    if (sequence === 6) {
-      const solution = ["XOR", "1010"];
-      return { prompt: "1111 ⊕ 0101", instruction: "Select the bitwise gate, then transmit its result.", startLabel: "1111 / 0101", targetLabel: "BIT STREAM", tokens: shuffle(["XOR", "AND", "1010", "0101"], random), solution, hint: "XOR lights a bit when the inputs differ.", visual: "cipher" };
-    }
-    const shift = 1 + (sequence + layer.order) % 8; const plain = ["AXIOM", "LOGIC", "PRIME", "GRAPH"][sequence % 4]; const encoded = [...plain].map(char => String.fromCharCode(65 + (char.charCodeAt(0) - 65 + shift) % 26)).join(""); const solution = [`SHIFT −${shift}`, plain];
-    return { prompt: `Intercepted: ${encoded}`, instruction: "Set the inverse shift, then transmit the decoded word.", startLabel: encoded, targetLabel: "PLAINTEXT", tokens: shuffle(unique([`SHIFT −${shift}`, `SHIFT +${shift}`, plain, "MATHS", "ATLAS"]), random), solution, hint: `The sender shifted every letter forward by ${shift}.`, visual: "cipher" };
+  if (world === "functions") {
+    const shift = 1 + (sequence + layer.order) % 5; const solution = [`INPUT ${sequence + 2}`, `×${shift + 1}`, `+${layer.order}`];
+    return { prompt: `Build f(x) = ${shift + 1}x + ${layer.order}`, instruction: "Compose the transformation machines in the correct order.", startLabel: `INPUT ${sequence + 2}`, targetLabel: "OUTPUT", tokens: shuffle(unique([...solution, `+${shift + 1}`, `×${layer.order}`, "REFLECT", "INVERT"]), random), solution, hint: "Apply the input machine first, then scale and shift.", visual: "cipher" };
   }
-  const conclusions = ["Even + even is even", "There are infinitely many primes", "A tree with n nodes has n−1 edges", "The angles of a triangle total 180°"];
-  const conclusion = conclusions[sequence % conclusions.length]; const solution = ["GIVEN", "OBSERVATION", "LEMMA", "CONCLUSION"];
-  return { prompt: `Prove: ${conclusion}`, instruction: "Arrange the proof lenses so every claim follows from the last.", startLabel: "QUESTION", targetLabel: conclusion, tokens: shuffle([...solution], random), solution, hint: "A proof begins with what is given and ends with the conclusion.", visual: "proof" };
+  const resources = ["workers", "budget", "fuel", "time"]; const resource = resources[sequence % resources.length]; const solution = ["CONSTRAINT", "TRADE-OFF", "BEST PLAN"];
+  return { prompt: `Optimise the ${resource} network`, instruction: "Arrange the plan to maximise output while respecting every constraint.", startLabel: "VALLEY MAP", targetLabel: "OPTIMAL PLAN", tokens: shuffle([...solution, "RANDOM PLAN", "OVERLOAD"], random), solution, hint: "Lock the constraint before comparing trade-offs.", visual: "proof", facts: [`Resource under pressure: ${resource}`, "Every choice has an opportunity cost."] };
 }
 
 export function generateFamilyLevel(world: FamilyWorldId, layer: LearningLayer, sequence: number, run = 0): FamilyLevel {

@@ -20,11 +20,11 @@ The Atlas contains 15 playable worlds:
 - **Geometry Kingdom** — rotate and place beams to satisfy geometric constraints.
 - **Probability Port** — compare chance, reward, and expected value across risky routes.
 - **Logic Forest** — test guardian statements and deduce the only consistent path.
-- **Graph Metro** — assemble shortest station-to-station routes through a network.
-- **Algorithm City** — program robots with ordered movement and automation commands.
-- **Sequence Desert** — restore missing pattern stones by discovering the generating rule.
-- **Cipher Isles** — reverse shifts and decode intercepted mathematical messages.
-- **Infinity Observatory** — arrange lemmas into valid proofs and mixed-domain arguments.
+- **Pattern Observatory** — construct patterns, symmetry, and recurrences among the stars.
+- **Coordinate Expedition** — navigate a living grid with vectors, portals, and movement.
+- **Graph Laboratory** — make data visible by plotting, connecting, and interpolating.
+- **Function Factory** — compose and invert transformation machines.
+- **Optimisation Valley** — balance workers, budgets, logistics, and competing constraints.
 
 Every world uses five learning layers:
 
@@ -105,7 +105,7 @@ app/
   lib/game-core.ts         # pure puzzle state machines
   lib/campaign.ts          # learning layers and seeded level generation
   games/world-registry.ts  # 15-world metadata and identifiers
-  games/family-generator.ts # 12 seeded puzzle-family generators
+  games/family-generator.ts # 11 seeded puzzle-family generators
 tests/
   game-core.test.mjs       # mechanics and generator coverage
   rendered-html.test.mjs   # production render checks

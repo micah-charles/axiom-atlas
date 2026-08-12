@@ -1,7 +1,7 @@
 export const WORLD_IDS = [
   "lab", "bubble", "tree", "parabola", "arithmetic", "fractions", "equations",
-  "geometry", "probability", "logic", "graphs", "algorithms", "sequences",
-  "ciphers", "infinity",
+  "geometry", "probability", "logic", "patterns", "coordinates", "graphs",
+  "functions", "optimisation",
 ] as const;
 
 export type WorldId = typeof WORLD_IDS[number];
@@ -26,11 +26,11 @@ export const WORLD_META: Record<WorldId, WorldMeta> = {
   geometry: { eyebrow: "GM–08", name: "Geometry Kingdom", icon: "△", subtitle: "Construct with shape and measure", color: "rose", concept: "Angles & transformations" },
   probability: { eyebrow: "GM–09", name: "Probability Port", icon: "⚄", subtitle: "Navigate risk and reward", color: "teal", concept: "Probability & expectation" },
   logic: { eyebrow: "GM–10", name: "Logic Forest", icon: "◇", subtitle: "Deduce the only safe path", color: "moss", concept: "Deduction & Boolean logic" },
-  graphs: { eyebrow: "GM–11", name: "Graph Metro", icon: "⌘", subtitle: "Run the shortest network", color: "metro", concept: "Graph theory & paths" },
-  algorithms: { eyebrow: "GM–12", name: "Algorithm City", icon: "▦", subtitle: "Program robots through motion", color: "electric", concept: "Algorithms & complexity" },
-  sequences: { eyebrow: "GM–13", name: "Sequence Desert", icon: "⋯", subtitle: "Restore the lost pattern", color: "sand", concept: "Patterns & sequences" },
-  ciphers: { eyebrow: "GM–14", name: "Cipher Isles", icon: "⌁", subtitle: "Turn number into secret language", color: "indigo", concept: "Number theory & cryptography" },
-  infinity: { eyebrow: "GM–15", name: "Infinity Observatory", icon: "∞", subtitle: "Where every discipline meets", color: "cosmic", concept: "Proof & advanced synthesis" },
+  patterns: { eyebrow: "GM–11", name: "Pattern Observatory", icon: "✧", subtitle: "Construct patterns among the stars", color: "sand", concept: "Patterns, symmetry & recursion" },
+  coordinates: { eyebrow: "GM–12", name: "Coordinate Expedition", icon: "⊕", subtitle: "Navigate a living coordinate grid", color: "electric", concept: "Coordinates, vectors & navigation" },
+  graphs: { eyebrow: "GM–13", name: "Graph Laboratory", icon: "⌘", subtitle: "Make data visible and connected", color: "metro", concept: "Graph theory & visualisation" },
+  functions: { eyebrow: "GM–14", name: "Function Factory", icon: "⚙", subtitle: "Build transformation machines", color: "indigo", concept: "Functions & transformations" },
+  optimisation: { eyebrow: "GM–15", name: "Optimisation Valley", icon: "∞", subtitle: "Balance resources across a living valley", color: "cosmic", concept: "Optimisation & strategy" },
 };
 
 export const FAMILY_WORLD_IDS = WORLD_IDS.filter(id => !["bubble", "tree", "parabola"].includes(id)) as Exclude<WorldId, "bubble" | "tree" | "parabola">[];

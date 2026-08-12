@@ -249,8 +249,8 @@ function BubbleVillage({ onBack, progress, completeLevel }: GameProps) {
     <div className="game-layout">
       <aside className="mission-panel"><span className="mission-index">{String(level.sequence + 1).padStart(2, "0")}</span><span className="overline">{layerMeta.glyph} {layerMeta.name} · Pass {state.pass}</span><h1>{level.stable ? "Guard the\nstable order" : "Raise the\ngreater light"}</h1><p>{level.layer === "discover" ? "Experiment with the two actions. Watch how the procession responds." : "The spirit may inspect neighbours only. Decide whether the pair should cross, then move one step right."}</p>
         <div className="objective-chip"><i /> Ascending order</div>
-        {(level.layer === "challenge" || level.layer === "master") && <div className="constraint-strip"><span>Target ≤ {level.targetMoves} comparisons</span><span>{level.mistakeLimit === 0 ? "One mistake restarts" : `≤ ${level.mistakeLimit} corrections`}</span></div>}
-        <div className="metric-grid"><div><span>{state.comparisons}</span><small>Comparisons</small></div><div><span>{state.swaps}</span><small>Swaps</small></div><div><span>{state.mistakes}</span><small>Corrections</small></div></div>
+        {(level.layer === "challenge" || level.layer === "master") && <div className="constraint-strip"><span>Target ≤ {level.targetMoves} comparisons</span><span>{level.mistakeLimit === 0 ? "One mistake restarts" : `≤ ${level.mistakeLimit} incorrect decisions`}</span></div>}
+        <div className="metric-grid"><div><span>{state.comparisons}</span><small>Comparisons</small></div><div><span>{state.swaps}</span><small>Swaps</small></div><div><span>{state.mistakes}</span><small>Incorrect decisions</small></div></div>
         {level.stable && <div className="rule-card"><span>A≺B</span><div><b>Stable festival</b><small>Equal orbs carry arrival marks. Never reverse them.</small></div></div>}
       </aside>
       <section className="play-stage bubble-stage">
@@ -276,7 +276,7 @@ function BubbleVillage({ onBack, progress, completeLevel }: GameProps) {
       </section>
     </div>
     <CampaignDock levels={BUBBLE_LEVELS} active={level} progress={progress} onSelect={changeLevel} onEndless={startEndless} />
-    {showComplete && <CompletionOverlay title={level.layer === "master" ? "Village mastered" : "Pass wisdom earned"} copy={`${state.comparisons} comparisons · ${state.swaps} swaps · ${state.mistakes} corrections`} stars={starsFor(state.mistakes, state.comparisons, level.targetMoves)} onMap={onBack} onReplay={() => { setShowComplete(false); replayCommands(history, setHistory, () => setShowComplete(true)); }} onNext={() => endlessLevel ? startEndless() : levelIndex < BUBBLE_LEVELS.length - 1 ? changeLevel(levelIndex + 1) : onBack()} nextLabel={endlessLevel ? "New expedition" : levelIndex < BUBBLE_LEVELS.length - 1 ? "Next trial" : "World map"} />}
+    {showComplete && <CompletionOverlay title={level.layer === "master" ? "Village mastered" : "Pass wisdom earned"} copy={`${state.comparisons} comparisons · ${state.swaps} swaps · ${state.mistakes} incorrect decisions`} stars={starsFor(state.mistakes, state.comparisons, level.targetMoves)} onMap={onBack} onReplay={() => { setShowComplete(false); replayCommands(history, setHistory, () => setShowComplete(true)); }} onNext={() => endlessLevel ? startEndless() : levelIndex < BUBBLE_LEVELS.length - 1 ? changeLevel(levelIndex + 1) : onBack()} nextLabel={endlessLevel ? "New expedition" : levelIndex < BUBBLE_LEVELS.length - 1 ? "Next trial" : "World map"} />}
   </div>;
 }
 
@@ -338,7 +338,7 @@ function TreeGarden({ onBack, progress, completeLevel }: GameProps) {
       <aside className="mission-panel"><span className="mission-index">{String(level.sequence + 1).padStart(2, "0")}</span><span className="overline">{layerMeta.glyph} {layerMeta.name} · {state.phase === "insert" ? "Growth" : "Harvest"}</span><h1>{state.phase === "insert" ? "Grow by\ncomparison" : "Read the\nliving order"}</h1><p>{level.layer === "discover" ? "Choose a branch and watch how the living structure answers." : state.phase === "insert" ? "Every seed must choose its own legal branch. Smaller grows left; equal or greater grows right." : "Visit every blossom using left → root → right. The harvest becomes a sorted sequence."}</p>
         {(level.layer === "challenge" || level.layer === "master") && <div className="constraint-strip"><span>Target ≤ {level.targetMoves} moves</span><span>{level.mistakeLimit === 0 ? "One mistake restarts" : `≤ ${level.mistakeLimit} corrections`}</span></div>}
         <div className="seed-queue"><span>Seed queue</span><div>{state.queue.map((value, i) => <i key={`${value}-${i}`} className={i === 0 ? "active" : ""}>{value}</i>)}</div></div>
-        <div className="metric-grid"><div><span>{state.comparisons}</span><small>Comparisons</small></div><div><span>{Object.keys(state.nodes).length}</span><small>Nodes</small></div><div><span>{state.mistakes}</span><small>Corrections</small></div></div>
+        <div className="metric-grid"><div><span>{state.comparisons}</span><small>Comparisons</small></div><div><span>{Object.keys(state.nodes).length}</span><small>Nodes</small></div><div><span>{state.mistakes}</span><small>Incorrect decisions</small></div></div>
       </aside>
       <section className="play-stage tree-stage">
         <div className="forest-depth" />

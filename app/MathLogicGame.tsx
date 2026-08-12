@@ -13,7 +13,7 @@ import {
 } from "./lib/campaign";
 import { FAMILY_LEVELS, FamilyLevel, FamilyWorldId, generateFamilyEndless } from "./games/family-generator";
 import { validateModeSelection } from "./games/mode-frameworks";
-import { ADVANCED_LEVEL_CATALOG, AdvancedLevelDefinition, complexMultiply, curl, determinant, divergence, discreteSpectrum, gaussianHeight, lineIntegral, lotkaVolterraStep, springStep, tangentSlope, trapezoidIntegral } from "./games/advanced-engines";
+import { ADVANCED_LEVEL_CATALOG, AdvancedLevelDefinition, complexMultiply, curl, determinant, divergence, discreteSpectrum, gaussianHeight, lineIntegral, lotkaVolterraStep, polylineLength, springStep, tangentSlope, trapezoidIntegral } from "./games/advanced-engines";
 import { FAMILY_WORLD_IDS, WORLD_IDS, WORLD_META } from "./games/world-registry";
 
 type Screen = "map" | WorldId | "advanced";
@@ -493,8 +493,8 @@ function AdvancedWorld({ onBack, completeLevel, sound }: GameProps) {
     if (level.concept === "gradient") return `Altimeter ${gaussianHeight({ x: observations, y: observations }) * 1000 | 0} m · slope probe ready`;
     if (level.concept === "divergence") return `Sensor divergence ${(divergence(point => ({ x: point.x, y: point.y }), { x: 1, y: 1 }) / sensorRadius).toFixed(2)} · radius ${sensorRadius.toFixed(1)}`;
     if (level.concept === "curl") return `Wheel rotation ${curl(point => ({ x: -point.y, y: point.x }), { x: 1, y: 1 }).toFixed(2)} rad/s`;
-    if (level.concept === "line integral") return `Energy harvested ${lineIntegral(() => ({ x: 2, y: 0 }), route).toFixed(0)} · ${pathPoints.length > 1 ? `${pathPoints.length} waypoints` : "draw a route"}`;
-    if (level.concept === "Stokes theorem") return `Boundary circulation ${lineIntegral(point => ({ x: -point.y, y: point.x }), route).toFixed(1)} · ${pathPoints.length > 1 ? `${pathPoints.length} waypoints` : "draw a boundary"}`;
+    if (level.concept === "line integral") return `Energy harvested ${lineIntegral(() => ({ x: 2, y: 0 }), route).toFixed(0)} · route ${polylineLength(route).toFixed(1)} units`;
+    if (level.concept === "Stokes theorem") return `Boundary circulation ${lineIntegral(point => ({ x: -point.y, y: point.x }), route).toFixed(1)} · boundary ${polylineLength(route).toFixed(1)} units`;
     if (level.concept === "differential equations") return `Rabbits ${lotkaVolterraStep({ rabbits: 300, foxes: 20 }, observations * .1).rabbits.toFixed(0)}`;
     if (level.concept === "second-order differential equations") return `Bridge position ${springStep({ position: 1, velocity: 0 }, observations * .1, 1, 3, damping).position.toFixed(2)} · damping ${damping.toFixed(1)}`;
     if (level.concept === "matrix transformations" || level.concept === "determinant") return `Area scale ${determinant([matrixScale, 0, 0, 1]).toFixed(1)}× · order ${matrixOrder}`;

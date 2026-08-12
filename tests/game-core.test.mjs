@@ -10,7 +10,7 @@ import { LEARNING_LAYERS, generateBubbleLevel, generateEndlessLevel } from "../a
 import { FAMILY_CAMPAIGN_COUNT, FAMILY_LEVELS, generateFamilyEndless, generateFamilyLevel } from "../app/games/family-generator.ts";
 import { FAMILY_WORLD_IDS, WORLD_IDS, WORLD_META } from "../app/games/world-registry.ts";
 import { GAME_FRAMEWORKS, validateModeSelection } from "../app/games/mode-frameworks.ts";
-import { ADVANCED_LEVEL_CATALOG, applyMatrix, complexMultiply, curl, determinant, divergence, discreteSpectrum, gaussianHeight, lineIntegral, lotkaVolterraStep, multiplyMatrix, secantSlope, springStep, tangentSlope, trapezoidIntegral } from "../app/games/advanced-engines.ts";
+import { ADVANCED_LEVEL_CATALOG, applyMatrix, complexMultiply, curl, determinant, divergence, discreteSpectrum, gaussianHeight, lineIntegral, lotkaVolterraStep, multiplyMatrix, polylineLength, secantSlope, springStep, tangentSlope, trapezoidIntegral } from "../app/games/advanced-engines.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
   assert.equal(LEARNING_LAYERS.length, 5);
@@ -61,6 +61,7 @@ test("advanced pure engines model accumulation, limits, fields, dynamics, transf
   assert.ok(divergence(radial, { x: 1, y: 1 }) > 1.9);
   assert.ok(Math.abs(curl(point => ({ x: -point.y, y: point.x }), { x: 1, y: 1 }) - 2) < .01);
   assert.equal(lineIntegral(() => ({ x: 1, y: 0 }), [{ x: 0, y: 0 }, { x: 3, y: 0 }]), 3);
+  assert.equal(polylineLength([{ x: 0, y: 0 }, { x: 3, y: 4 }, { x: 3, y: 8 }]), 9);
   assert.ok(lotkaVolterraStep({ rabbits: 300, foxes: 20 }, .1).rabbits > 0);
   assert.ok(Math.abs(springStep({ position: 1, velocity: 0 }, .01, 1, 1, .1).position - 1) < .01);
   const rotation = [0, -1, 1, 0]; const stretch = [2, 0, 0, 1];

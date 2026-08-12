@@ -61,7 +61,7 @@ The long-term Atlas can grow across:
 
 The Atlas now contains a live, pure, data-driven implementation of the advanced-games proposal in `docs/new-games.md`. `app/games/advanced-engines.ts` provides ten reusable engines—curve, field, flow, dynamic systems, transformation, plane, signal, graph, probability, and geometry—rather than one bespoke component per concept.
 
-The catalog currently covers 20 mathematical concepts, including Water Valley integration, Mountain Racer derivatives, gradient expeditions, vector fields, line and surface integrals, Stokes’ theorem, ecosystems, springs, Fourier filtering, matrix transformations, eigenvectors, determinants, Jacobians, complex portals, Euler’s formula, graph paths, probability simulation, and geometry construction. Each definition expands into five data-driven acts:
+The catalog currently covers 22 mathematical concepts, including Water Valley integration, Mountain Racer derivatives, gradient expeditions, partial derivatives, vector fields, line and surface integrals, Stokes’ theorem, ecosystems, springs, chaotic dynamics, Fourier filtering, matrix transformations, eigenvectors, determinants, Jacobians, complex portals, Euler’s formula, graph paths, probability simulation, and geometry construction. Each definition expands into five data-driven acts:
 
 1. **Experience** — observe the phenomenon before terminology.
 2. **Control** — change an input and see the system respond.

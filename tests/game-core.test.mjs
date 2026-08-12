@@ -9,7 +9,7 @@ import {
 import { LEARNING_LAYERS, generateBubbleLevel, generateEndlessLevel } from "../app/lib/campaign.ts";
 import { FAMILY_CAMPAIGN_COUNT, FAMILY_LEVELS, generateFamilyEndless, generateFamilyLevel } from "../app/games/family-generator.ts";
 import { FAMILY_WORLD_IDS, WORLD_IDS, WORLD_META } from "../app/games/world-registry.ts";
-import { GAME_FRAMEWORKS } from "../app/games/mode-frameworks.ts";
+import { GAME_FRAMEWORKS, validateModeSelection } from "../app/games/mode-frameworks.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
   assert.equal(LEARNING_LAYERS.length, 5);
@@ -36,6 +36,13 @@ test("GM family worlds each use a distinct interaction framework", () => {
     assert.ok(framework.feedback.length > 0);
     assert.ok(framework.success.length > 0);
   }
+});
+
+test("mode validators enforce each framework's interaction contract", () => {
+  assert.equal(validateModeSelection(GAME_FRAMEWORKS.probability, ["NORTH"], ["NORTH"]), true);
+  assert.equal(validateModeSelection(GAME_FRAMEWORKS.probability, ["NORTH", "EAST"], ["NORTH"]), false);
+  assert.equal(validateModeSelection(GAME_FRAMEWORKS.optimisation, ["CONSTRAINT", "TRADE-OFF", "BEST PLAN"], ["CONSTRAINT", "TRADE-OFF", "BEST PLAN"]), true);
+  assert.equal(validateModeSelection(GAME_FRAMEWORKS.optimisation, ["TRADE-OFF", "CONSTRAINT", "BEST PLAN"], ["CONSTRAINT", "TRADE-OFF", "BEST PLAN"]), false);
 });
 
 for (const world of FAMILY_WORLD_IDS) {

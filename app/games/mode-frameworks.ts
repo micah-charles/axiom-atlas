@@ -30,3 +30,15 @@ export const GAME_FRAMEWORKS: Record<FamilyWorldId, GameFramework> = {
 export function frameworkFor(world: FamilyWorldId): GameFramework {
   return GAME_FRAMEWORKS[world];
 }
+
+export function validateModeSelection(framework: GameFramework, selected: string[], solution: string[]): boolean {
+  if (selected.length !== solution.length) return false;
+  switch (framework.interaction) {
+    case "choose": return selected.length === 1 && selected[0] === solution[0];
+    case "scale": return selected[0] === solution[0];
+    case "connect": return selected.every((token, index) => token === solution[index]);
+    case "allocate": return selected.every((token, index) => token === solution[index]);
+    case "balance": return selected.join("|") === solution.join("|");
+    default: return selected.every((token, index) => token === solution[index]);
+  }
+}

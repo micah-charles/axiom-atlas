@@ -12,6 +12,7 @@ import {
   generateEndlessLevel,
 } from "./lib/campaign";
 import { FAMILY_LEVELS, FamilyLevel, FamilyWorldId, generateFamilyEndless } from "./games/family-generator";
+import { validateModeSelection } from "./games/mode-frameworks";
 import { FAMILY_WORLD_IDS, WORLD_IDS, WORLD_META } from "./games/world-registry";
 
 type Screen = "map" | WorldId;
@@ -427,7 +428,7 @@ function FamilyWorld({ world, onBack, progress, completeLevel }: GameProps & { w
   const startEndless = () => { setEndlessLevel(generateFamilyEndless(world, endlessRun.current++)); resetRun(); };
   const appendToken = (token: string) => { if (selected.length >= level.solution.length) return; setSelected(items => [...items, token]); setMessage(`${token} placed. ${Math.max(0, level.solution.length - selected.length - 1)} step${level.solution.length - selected.length - 1 === 1 ? "" : "s"} remain.`); play("tap"); };
   const testSolution = () => {
-    const correct = selected.length === level.solution.length && selected.every((token, index) => token === level.solution[index]);
+    const correct = validateModeSelection(level.framework, selected, level.solution);
     if (!correct) {
       play("bad");
       if (level.mistakeLimit === 0) { setSelected([]); setMistakes(0); setMessage("Master rule broken — the mechanism reset."); }
@@ -436,7 +437,7 @@ function FamilyWorld({ world, onBack, progress, completeLevel }: GameProps & { w
       return;
     }
     const moves = selected.length + mistakes; const stars = starsFor(mistakes, moves, level.targetMoves);
-    completeLevel(level.id, stars, moves); setMessage("The mechanism resonates. Your reasoning is sound."); play("win"); setShowComplete(true);
+    completeLevel(level.id, stars, moves); setMessage(`${level.framework.success}. Your reasoning is sound.`); play("win"); setShowComplete(true);
   };
   const hint = hintTier ? level.hint : null;
   useKeyboardHistory(() => setSelected(items => items.slice(0, -1)), () => {}, resetRun);

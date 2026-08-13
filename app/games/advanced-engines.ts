@@ -80,6 +80,12 @@ export function dailyAdvancedExpedition(date = new Date()): AdvancedLevelDefinit
   return generateAdvancedExpedition(daySeed, undefined, "measure");
 }
 
+export type AdvancedSeedProfile = { seed: number; variant: number; amplitude: number; probability: number; fieldStrength: number; rotation: number; scale: number; edgeBias: number };
+export function advancedSeedProfile(seed: number): AdvancedSeedProfile {
+  const value = Math.abs(Math.floor(seed));
+  return { seed: value, variant: value % 7 + 1, amplitude: 14 + value % 18, probability: Math.min(.85, .45 + (value % 9) * .04), fieldStrength: 1 + (value % 7) * .25, rotation: value % 90, scale: 1 + (value % 5) * .25, edgeBias: value % 5 };
+}
+
 export function advancedActUnlocked(campaign: AdvancedLevelDefinition[], completed: Record<string, unknown>, level: AdvancedLevelDefinition): boolean {
   const actIndex = ADVANCED_ACTS.findIndex(act => act.id === level.act);
   if (actIndex <= 0) return true;

@@ -21,6 +21,11 @@ test("campaign is generated deterministically across five learning layers", () =
   assert.notDeepEqual(generateEndlessLevel("bubble", 1).values, generateEndlessLevel("bubble", 2).values);
 });
 
+test("default progress includes a separate daily challenge record", async () => {
+  const { DEFAULT_PROGRESS } = await import("../app/lib/game-core.ts");
+  assert.equal(DEFAULT_PROGRESS.dailyChallenge, null);
+});
+
 test("Atlas contains 15 registered playable worlds and 600 structured missions", () => {
   assert.equal(WORLD_IDS.length, 15);
   assert.equal(new Set(WORLD_IDS).size, 15);

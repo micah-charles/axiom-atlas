@@ -117,7 +117,7 @@ function WorldMap({ progress, onEnter }: { progress: Progress; onEnter: (world: 
         </button>;
       })}
     </section>
-    <button className="advanced-launch" onClick={() => onEnter("advanced")}><span>∞</span><div><b>Advanced Worlds</b><small>Calculus, fields, dynamics, signals, matrices, and complex planes</small></div><i>Enter simulation lab →</i></button>
+    <button className="advanced-launch" onClick={() => onEnter("advanced")}><span>∞</span><div><b>Advanced Worlds</b><small>Calculus, fields, dynamics, signals, matrices, and complex planes</small></div><i>{progress.dailyChallenge?.key === new Date().toISOString().slice(0, 10) ? "Daily challenge complete · Enter lab →" : "Enter simulation lab →"}</i></button>
     <div className="map-footer"><span>Direct manipulation</span><i /> <span>Deterministic worlds</span><i /> <span>Your reasoning, replayed</span></div>
   </main>;
 }
@@ -750,7 +750,7 @@ export default function MathLogicGame() {
   useEffect(() => setProgress(loadProgress()), []);
   useEffect(() => { window.scrollTo({ top: 0, left: 0 }); }, [screen]);
   useEffect(() => { if (typeof window !== "undefined") localStorage.setItem("axiom-progress-v1", JSON.stringify(progress)); document.documentElement.dataset.reducedMotion = String(progress.reducedMotion); }, [progress]);
-  const completeLevel = useCallback((id: string, stars: number, moves: number) => { setProgress(old => { const prior = old.completed[id]; return { ...old, completed: { ...old.completed, [id]: { stars: Math.max(stars, prior?.stars ?? 0), bestMoves: Math.min(moves, prior?.bestMoves ?? Infinity), completedAt: Date.now() } } }; }); setToast({ kind: "success", text: `Mastery saved · ${stars} stars` }); window.setTimeout(() => setToast(null), 2600); }, []);
+  const completeLevel = useCallback((id: string, stars: number, moves: number) => { setProgress(old => { const prior = old.completed[id]; const next = { ...old, completed: { ...old.completed, [id]: { stars: Math.max(stars, prior?.stars ?? 0), bestMoves: Math.min(moves, prior?.bestMoves ?? Infinity), completedAt: Date.now() } } }; const daily = dailyAdvancedExpedition(); if (id === daily.id && daily.dailyKey) next.dailyChallenge = { key: daily.dailyKey, stars: Math.max(stars, old.dailyChallenge?.key === daily.dailyKey ? old.dailyChallenge.stars : 0), completedAt: Date.now() }; return next; }); setToast({ kind: "success", text: `Mastery saved · ${stars} stars` }); window.setTimeout(() => setToast(null), 2600); }, []);
   const sound = useAudio(progress.sound, progress.haptics); const props = { onBack: () => setScreen("map"), progress, completeLevel, sound };
   return <div className={`axiom-app ${progress.reducedMotion ? "reduced-motion" : ""}`}>
     {screen === "map" && <WorldMap progress={progress} onEnter={world => { sound("tap"); setScreen(world); }} />}

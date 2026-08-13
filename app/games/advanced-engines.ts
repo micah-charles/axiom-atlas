@@ -70,7 +70,7 @@ export function generateAdvancedExpedition(seed: number, concept?: string, act: 
   const chosen = concept ? ADVANCED_LEVEL_CATALOG.find(level => level.concept === concept) : ADVANCED_LEVEL_CATALOG[Math.abs(Math.floor(seed)) % ADVANCED_LEVEL_CATALOG.length];
   const base = chosen ?? ADVANCED_LEVEL_CATALOG[0];
   const actDefinition = ADVANCED_ACTS.find(candidate => candidate.id === act) ?? ADVANCED_ACTS[0];
-  const variant = Math.abs(Math.floor(seed)) % 7 + 1;
+  const profile = advancedSeedProfile(seed); const variant = profile.variant;
   const target = typeof base.goal.target === "number" ? Number((base.goal.target * (0.85 + variant * 0.05)).toFixed(3)) : base.goal.target;
   return { ...base, id: `${base.id}-${actDefinition.id}-endless-${Math.abs(Math.floor(seed))}`, act: actDefinition.id, seed: Math.floor(seed), objective: `${actDefinition.label}: ${base.objective} Variant ${variant}.`, goal: { ...base.goal, ...(target === undefined ? {} : { target }) } };
 }

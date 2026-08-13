@@ -10,6 +10,7 @@ import { LEARNING_LAYERS, generateBubbleLevel, generateEndlessLevel } from "../a
 import { FAMILY_CAMPAIGN_COUNT, FAMILY_LEVELS, WORLD_NOTATION, generateFamilyEndless, generateFamilyLevel } from "../app/games/family-generator.ts";
 import { FAMILY_WORLD_IDS, WORLD_IDS, WORLD_META } from "../app/games/world-registry.ts";
 import { GAME_FRAMEWORKS, modeSelectionMessage, modeSelectionState, validateModeSelection } from "../app/games/mode-frameworks.ts";
+import { angleFromToken, arithmeticChain, expectedValueFromFact, functionTrace, vectorWalk } from "../app/games/mode-engines.ts";
 import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, ADVANCED_LEVEL_CATALOG, advancedActRule, advancedActUnlocked, advancedNotation, advancedSeedProfile, applyMatrix, closedPath, complexMultiply, curl, dailyAdvancedExpedition, determinant, divergence, discreteSpectrum, generateAdvancedExpedition, gaussianHeight, jacobian, lineIntegral, logisticMapStep, logisticTrajectory, lotkaVolterraStep, monteCarloEstimate, multiplyMatrix, polygonArea, polylineLength, secantSlope, selectedPathWeight, shortestPath, springStep, surfaceFlux, surfaceFlux3D, tangentSlope, triangleArea, trapezoidIntegral } from "../app/games/advanced-engines.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
@@ -61,6 +62,14 @@ test("mode selections provide progressive, world-specific feedback", () => {
   assert.equal(modeSelectionState(["B"], ["A", "B"]), "wrong");
   assert.match(modeSelectionMessage(GAME_FRAMEWORKS.arithmetic, "wrong"), /operator/i);
   assert.match(modeSelectionMessage(GAME_FRAMEWORKS.coordinates, "wrong"), /vector/i);
+});
+
+test("GM world calculations live in pure reusable mode engines", () => {
+  assert.equal(arithmeticChain(3, ["×2", "+4"]), 10);
+  assert.deepEqual(vectorWalk(["EAST", "NORTH", "VECTOR (2,-1)"]), { x: 3, y: 0 });
+  assert.equal(angleFromToken("ROTATE 90°"), 90);
+  assert.equal(expectedValueFromFact("EAST: 50% × 70"), 35);
+  assert.equal(functionTrace(["×2", "+3"]), "×2 → +3");
 });
 
 test("advanced mathematics catalog is data-driven across reusable engines", () => {

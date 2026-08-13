@@ -122,6 +122,7 @@ app/
   lib/campaign.ts          # learning layers and seeded level generation
   games/world-registry.ts  # 15-world metadata and identifiers
   games/mode-frameworks.ts # distinct GM05–GM15 interaction contracts
+  games/mode-engines.ts    # pure arithmetic, vector, route, angle, and function calculations
   games/advanced-engines.ts # ten reusable engines, 22 concepts, seed profiles, and generated five-act data
   games/family-generator.ts # 11 seeded puzzle-family generators
 tests/

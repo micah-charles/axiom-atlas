@@ -176,4 +176,5 @@ export function seededProbabilityProfile(seed: number, trials: number, offset = 
   const value = Math.abs(Math.floor(seed)); const target = Math.min(.85, .45 + (value % 9) * .04); const outcomes = Array.from({ length: Math.max(1, Math.floor(trials)) }, (_, index) => ((index + offset + value) % 10) < Math.round(target * 10)); const estimate = outcomes.filter(Boolean).length / outcomes.length; return { target, estimate, outcomes, accurate: Math.abs(estimate - target) < .08 };
 }
 export function triangleArea(a: Vec2, b: Vec2, c: Vec2): number { return Math.abs((a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y)) / 2); }
+export function seededGeometryTarget(seed: number, fallback = 6): number { return fallback + (Math.abs(Math.floor(seed)) % 3) * .5; }
 export function polygonArea(path: Vec2[]): number { if (path.length < 3) return 0; let twiceArea = 0; for (let index = 0; index < path.length; index++) { const current = path[index]; const next = path[(index + 1) % path.length]; twiceArea += current.x * next.y - next.x * current.y; } return Math.abs(twiceArea) / 2; }

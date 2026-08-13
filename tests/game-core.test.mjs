@@ -24,6 +24,7 @@ test("campaign is generated deterministically across five learning layers", () =
 test("default progress includes a separate daily challenge record", async () => {
   const { DEFAULT_PROGRESS } = await import("../app/lib/game-core.ts");
   assert.equal(DEFAULT_PROGRESS.dailyChallenge, null);
+  assert.equal(DEFAULT_PROGRESS.dailyStreak, 0);
 });
 
 test("Atlas contains 15 registered playable worlds and 600 structured missions", () => {

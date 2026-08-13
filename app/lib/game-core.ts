@@ -268,12 +268,13 @@ export function clampSnap(value: number, min: number, max: number, step: number)
 export type Progress = {
   completed: Record<string, { stars: number; bestMoves: number; completedAt: number }>;
   dailyChallenge: { key: string; stars: number; completedAt: number } | null;
+  dailyStreak: number;
   sound: boolean;
   haptics: boolean;
   reducedMotion: boolean;
 };
 
-export const DEFAULT_PROGRESS: Progress = { completed: {}, dailyChallenge: null, sound: true, haptics: true, reducedMotion: false };
+export const DEFAULT_PROGRESS: Progress = { completed: {}, dailyChallenge: null, dailyStreak: 0, sound: true, haptics: true, reducedMotion: false };
 
 export function starsFor(mistakes: number, moves: number, targetMoves: number): number {
   if (mistakes === 0 && moves <= targetMoves) return 3;

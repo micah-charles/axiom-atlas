@@ -36,6 +36,13 @@ export type AdvancedLevelDefinition = {
 
 /** Campaign content is data-first: the JSON pack can grow without changing engine code. */
 export const ADVANCED_LEVEL_CATALOG: AdvancedLevelDefinition[] = levelData as AdvancedLevelDefinition[];
+export type AdvancedInstrumentDefinition = { id: string; engine: AdvancedEngine; label: string; unit: string };
+const instrumentLabel = (id: string): string => id.replace(/([A-Z])/g, " $1").replace(/^./, character => character.toUpperCase());
+/** Tools in level JSON are resolved through one instrument registry instead of bespoke UI strings. */
+export const ADVANCED_INSTRUMENTS: Record<string, AdvancedInstrumentDefinition> = Object.fromEntries(
+  ADVANCED_LEVEL_CATALOG.flatMap(level => level.tools.map(id => [id, { id, engine: level.engine, label: instrumentLabel(id), unit: "reading" }] as const)),
+);
+export function measurementInstrument(id: string): AdvancedInstrumentDefinition | undefined { return ADVANCED_INSTRUMENTS[id]; }
 
 export const ADVANCED_ACTS: { id: AdvancedAct; label: string; instruction: string; verb: string; minimumObservations: number; revealNotation: boolean }[] = [
   { id: "experience", label: "Act 1 · Experience", instruction: "Observe the phenomenon before naming it.", verb: "Observe", minimumObservations: 1, revealNotation: false },
@@ -54,7 +61,7 @@ export function advancedNotation(concept: string): string { return ADVANCED_NOTA
 export function validateAdvancedLevelDefinition(level: AdvancedLevelDefinition): boolean {
   const acts: AdvancedAct[] = ["experience", "control", "measure", "generalise", "name"];
   const validGoal = Boolean(level.goal && typeof level.goal.type === "string" && (!("target" in level.goal) || typeof level.goal.target === "number") && (!("moveLimit" in level.goal) || typeof level.goal.moveLimit === "number"));
-  return Boolean(level.id && level.world && level.concept && ADVANCED_ENGINE_MANIFEST.some(engine => engine.id === level.engine && engine.concepts.includes(level.concept)) && acts.includes(level.act) && level.objective && Array.isArray(level.tools) && level.tools.length && level.tools.every(tool => typeof tool === "string" && tool.length > 0) && validGoal && level.revealNotationAfterCompletion === true);
+  return Boolean(level.id && level.world && level.concept && ADVANCED_ENGINE_MANIFEST.some(engine => engine.id === level.engine && engine.concepts.includes(level.concept)) && acts.includes(level.act) && level.objective && Array.isArray(level.tools) && level.tools.length && level.tools.every(tool => typeof tool === "string" && tool.length > 0 && measurementInstrument(tool)?.engine === level.engine) && validGoal && level.revealNotationAfterCompletion === true);
 }
 
 export function advancedGoalSatisfied(goal: AdvancedLevelDefinition["goal"], value: number, tolerance = .08): boolean {

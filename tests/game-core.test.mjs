@@ -38,10 +38,12 @@ test("Atlas contains 15 registered playable worlds and 600 structured missions",
 test("GM family worlds each use a distinct interaction framework", () => {
   const frameworks = FAMILY_WORLD_IDS.filter(world => world !== "lab").map(world => GAME_FRAMEWORKS[world]);
   assert.equal(new Set(frameworks.map(framework => framework.board)).size, frameworks.length);
+  assert.equal(new Set(frameworks.map(framework => framework.control)).size, frameworks.length);
   for (const framework of frameworks) {
     assert.ok(framework.mechanic.length > 0);
     assert.ok(framework.feedback.length > 0);
     assert.ok(framework.success.length > 0);
+    assert.ok(framework.controlPrompt.length > 0);
   }
 });
 

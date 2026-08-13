@@ -424,6 +424,20 @@ function ModeBoard({ level, selected, onRemove }: { level: FamilyLevel; selected
   return <div className="mode-board mode-conveyor"><div className="conveyor-belt"><span>ORIGIN</span>{slots}<span>TARGET</span></div><div className="conveyor-lights"><i /><i /><i /></div></div>;
 }
 
+function ModeControls({ level, selected, onSelect }: { level: FamilyLevel; selected: string[]; onSelect: (token: string) => void }) {
+  const { framework } = level;
+  const remaining = level.tokens.filter(token => !selected.includes(token) || level.solution.filter(item => item === token).length > selected.filter(item => item === token).length);
+  const labels: Record<string, string> = {
+    "operator-pad": "Operator pad", "balance-rail": "Inverse rail", "angle-dial": "Angle dial", "clue-gates": "Consistency gates",
+    "cargo-cards": "Cargo holds", "route-cards": "Route cards", "star-tiles": "Star tiles", "direction-pad": "Vector controls",
+    "node-links": "Station links", "machine-slots": "Machine rack", "resource-plans": "Plan cards",
+  };
+  return <div className={`mode-controls control-${framework.control}`} aria-label={labels[framework.control]}>
+    <div className="mode-control-heading"><span>{labels[framework.control]}</span><small>{framework.controlPrompt}</small></div>
+    <div className="mode-control-options">{remaining.map((token, index) => <button key={`${token}-${index}`} onClick={() => onSelect(token)} disabled={selected.length >= level.solution.length} className={framework.control === "direction-pad" ? `direction-${token.toLowerCase().replaceAll(" ", "-")}` : ""}><b>{token}</b><small>{framework.control === "angle-dial" ? "SET ANGLE" : framework.control === "direction-pad" ? "MOVE" : framework.control === "node-links" ? "CONNECT" : framework.control === "route-cards" ? "LAUNCH" : "SELECT"}</small></button>)}</div>
+  </div>;
+}
+
 function FamilyWorld({ world, onBack, progress, completeLevel }: GameProps & { world: FamilyWorldId }) {
   const levels = FAMILY_LEVELS[world];
   const [levelIndex, setLevelIndex] = useState(() => Math.max(0, levels.findIndex(level => !progress.completed[level.id])));
@@ -470,7 +484,7 @@ function FamilyWorld({ world, onBack, progress, completeLevel }: GameProps & { w
         <div className="mechanic-emblem" aria-hidden="true"><span>{meta.icon}</span><i /><i /></div>
         <div className="framework-caption"><span>{level.framework.mechanic}</span><b>{level.framework.feedback}</b></div>
         <ModeBoard level={level} selected={selected} onRemove={index => setSelected(items => items.slice(0, index))} />
-        <div className="token-bank" role="group" aria-label="Available mechanism pieces">{level.tokens.map(token => <button key={token} onClick={() => appendToken(token)} disabled={selected.length >= level.solution.length}><span>{token}</span><i>PLACE</i></button>)}</div>
+        <ModeControls level={level} selected={selected} onSelect={appendToken} />
         <div className={`family-feedback ${message.includes("cannot") || message.includes("broken") ? "warn" : ""}`}><span>{showComplete ? "✓" : meta.icon}</span><p>{message}</p></div>
         {hint && <div className="hint-bubble family-hint"><b>{meta.name} signal</b>{hint}</div>}
         <div className="family-actions"><button className="button secondary" onClick={() => setSelected([])} disabled={!selected.length}>Clear</button><button className={`button primary ${selected.length === level.solution.length ? "ready" : ""}`} onClick={testSolution} disabled={selected.length !== level.solution.length}>Test mechanism <span>✦</span></button></div>

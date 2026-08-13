@@ -14,6 +14,7 @@ import { GAME_FRAMEWORKS, modeSelectionMessage, modeSelectionState, validateMode
 import { angleFromToken, arithmeticChain, expectedValueFromFact, functionTrace, vectorWalk } from "../app/games/mode-engines.ts";
 import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, ADVANCED_ENGINE_MANIFEST, ADVANCED_GOAL_TYPES, ADVANCED_INSTRUMENTS, ADVANCED_LEVEL_CATALOG, accumulateFlow, advancedActRule, advancedActUnlocked, advancedGoalSatisfied, advancedNotation, advancedSeedProfile, applyMatrix, closedPath, complexMultiply, constraintProgress, curl, dailyAdvancedExpedition, determinant, divergence, discreteSpectrum, evaluateConstraint, generateAdvancedExpedition, gaussianHeight, jacobian, lineIntegral, logisticMapStep, logisticTrajectory, lotkaVolterraStep, measurementInstrument, monteCarloEstimate, multiplyMatrix, polygonArea, polylineLength, seededChaosProfile, seededChaosTrajectory, seededCurveProfile, seededDynamicProfile, seededFieldProfile, seededFlowProfile, seededFlowReading, seededGraphEdges, seededGeometryTarget, seededGradientProfile, seededPopulationStep, seededProbabilityProfile, seededSignalDefaults, seededSignalProfile, seededSpringStep, seededTransformOutput, seededTransformProfile, seededVectorField, secantSlope, selectedPathWeight, shortestPath, springStep, surfaceFlux, surfaceFlux3D, tangentSlope, triangleArea, trapezoidIntegral, validateAdvancedLevelDefinition } from "../app/games/advanced-engines.ts";
 import { addResource, advectParticles, createReservoir, entityById, moveEntity, reservoirFilled, stepScene } from "../app/games/simulation-systems.ts";
+import { buildValleyRectangles, estimateValleyVolume, resolveValleyOutcome, valleyActualVolume, valleyFlowRate, valleyRiverModel } from "../app/games/water-valley-engine.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
   assert.equal(LEARNING_LAYERS.length, 5);
@@ -221,6 +222,25 @@ test("shared scene and resource systems are deterministic and reusable", () => {
   const reservoir = addResource(createReservoir(10, 2), 12);
   assert.deepEqual(reservoir, { capacity: 10, current: 10 });
   assert.equal(reservoirFilled(reservoir), true);
+});
+
+test("Water Valley turns hidden river functions into visible accumulation blocks", () => {
+  const models = Array.from({ length: 5 }, (_, index) => valleyRiverModel(index, 42, 420));
+  assert.deepEqual(models.map(model => model.id), ["linear", "quadratic", "wave", "flood", "mixed"]);
+  assert.ok(models.every(model => model.formula.startsWith("Flow(t) = ")));
+  assert.equal(valleyFlowRate(20, 42, 420, 2), valleyFlowRate(20, 42, 420, 2));
+  const readings = Array.from({ length: 31 }, (_, index) => index * 2).map(time => ({ time, rate: valleyFlowRate(time, 42, 420, 2) }));
+  const coarse = buildValleyRectangles(readings, 56, 10);
+  const fine = buildValleyRectangles(readings, 56, 2);
+  assert.equal(coarse.length, 6);
+  assert.equal(fine.length, 28);
+  assert.equal(coarse[0].volume, coarse[0].height * coarse[0].width);
+  assert.equal(estimateValleyVolume(readings, 56, 10), coarse.reduce((sum, block) => sum + block.volume, 0));
+  const actual = valleyActualVolume(56, 42, 420, .1, 2);
+  assert.ok(Math.abs(estimateValleyVolume(readings, 56, 2) - actual) < Math.abs(estimateValleyVolume(readings, 56, 10) - actual));
+  assert.equal(resolveValleyOutcome(420, 420), "success");
+  assert.equal(resolveValleyOutcome(390, 420), "shortage");
+  assert.equal(resolveValleyOutcome(450, 420), "flood");
 });
 
 for (const world of FAMILY_WORLD_IDS) {

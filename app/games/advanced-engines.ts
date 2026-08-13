@@ -162,9 +162,11 @@ export function seededTransformOutput(mode: SeededTransformMode, angle: number, 
 }
 
 export function discreteSpectrum(samples: number[]): number[] { const n = samples.length; return Array.from({ length: n }, (_, k) => { let real = 0; let imaginary = 0; for (let t = 0; t < n; t++) { const angle = 2 * Math.PI * k * t / n; real += samples[t] * Math.cos(angle); imaginary -= samples[t] * Math.sin(angle); } return Math.hypot(real, imaginary) / n; }); }
+export type SeededSignalDefaults = { birdTarget: number; machine: number };
+export function seededSignalDefaults(seed: number): SeededSignalDefaults { const value = Math.abs(Math.floor(seed)); return { birdTarget: 50 + (value % 10) * 8, machine: 20 + (value % 7) * 9 }; }
 export type SeededSignalProfile = { birdTarget: number; machine: number; residualNoise: number; purity: number; samples: number[]; spectrum: number[] };
 export function seededSignalProfile(seed: number, bird: number, filterStrength: number): SeededSignalProfile {
-  const value = Math.abs(Math.floor(seed)); const birdTarget = 50 + (value % 10) * 8; const machine = 20 + (value % 7) * 9; const residualNoise = machine * (1 - filterStrength / 100); const samples = Array.from({ length: 16 }, (_, index) => Math.sin(index * bird / 35) + residualNoise / 100 * Math.sin(index * (5 + value % 4) / 3)); const spectrum = discreteSpectrum(samples); const purity = Math.max(0, Math.min(100, 100 - residualNoise * .75 - Math.abs(bird - birdTarget) * .08)); return { birdTarget, machine, residualNoise, purity, samples, spectrum };
+  const value = Math.abs(Math.floor(seed)); const { birdTarget, machine } = seededSignalDefaults(seed); const residualNoise = machine * (1 - filterStrength / 100); const samples = Array.from({ length: 16 }, (_, index) => Math.sin(index * bird / 35) + residualNoise / 100 * Math.sin(index * (5 + value % 4) / 3)); const spectrum = discreteSpectrum(samples); const purity = Math.max(0, Math.min(100, 100 - residualNoise * .75 - Math.abs(bird - birdTarget) * .08)); return { birdTarget, machine, residualNoise, purity, samples, spectrum };
 }
 export type GraphEdge = { from: number; to: number; weight: number };
 export function shortestPath(nodeCount: number, edges: GraphEdge[], start: number, end: number): number { const distances = Array.from({ length: nodeCount }, () => Infinity); distances[start] = 0; for (let pass = 0; pass < nodeCount - 1; pass++) for (const edge of edges) distances[edge.to] = Math.min(distances[edge.to], distances[edge.from] + edge.weight); return distances[end]; }

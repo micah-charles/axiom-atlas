@@ -7,7 +7,7 @@ import {
   treeChoose, treeTraverse, undo,
 } from "../app/lib/game-core.ts";
 import { LEARNING_LAYERS, generateBubbleLevel, generateEndlessLevel } from "../app/lib/campaign.ts";
-import { FAMILY_CAMPAIGN_COUNT, FAMILY_LEVELS, generateFamilyEndless, generateFamilyLevel } from "../app/games/family-generator.ts";
+import { FAMILY_CAMPAIGN_COUNT, FAMILY_LEVELS, WORLD_NOTATION, generateFamilyEndless, generateFamilyLevel } from "../app/games/family-generator.ts";
 import { FAMILY_WORLD_IDS, WORLD_IDS, WORLD_META } from "../app/games/world-registry.ts";
 import { GAME_FRAMEWORKS, modeSelectionMessage, modeSelectionState, validateModeSelection } from "../app/games/mode-frameworks.ts";
 import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, ADVANCED_LEVEL_CATALOG, advancedActRule, advancedActUnlocked, advancedNotation, advancedSeedProfile, applyMatrix, closedPath, complexMultiply, curl, dailyAdvancedExpedition, determinant, divergence, discreteSpectrum, generateAdvancedExpedition, gaussianHeight, jacobian, lineIntegral, logisticMapStep, logisticTrajectory, lotkaVolterraStep, monteCarloEstimate, multiplyMatrix, polygonArea, polylineLength, secantSlope, selectedPathWeight, shortestPath, springStep, surfaceFlux, surfaceFlux3D, tangentSlope, triangleArea, trapezoidIntegral } from "../app/games/advanced-engines.ts";
@@ -134,6 +134,8 @@ for (const world of FAMILY_WORLD_IDS) {
     assert.equal(new Set(levels.map(level => level.id)).size, 40);
     for (const level of levels) {
       assert.ok(level.solution.length > 0, `${level.id} needs a solution`);
+      assert.equal(level.notation, WORLD_NOTATION[world]);
+      assert.ok(level.notation.length > 0, `${level.id} needs a rule reveal`);
       assert.ok(level.solution.every(token => level.tokens.includes(token)), `${level.id} must expose every solution token`);
       assert.deepEqual(level, generateFamilyLevel(world, LEARNING_LAYERS[level.layerIndex], level.sequence));
     }

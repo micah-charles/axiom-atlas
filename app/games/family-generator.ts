@@ -25,6 +25,7 @@ export type FamilyLevel = {
   instruction: string;
   startLabel: string;
   targetLabel: string;
+  notation: string;
   tokens: string[];
   solution: string[];
   hint: string;
@@ -53,6 +54,21 @@ const NAMES: Record<FamilyWorldId, string[]> = {
   optimisation: ["First Harvest", "Worker Balance", "Budget Bridge", "Supply Route", "Capacity Storm", "Trade-off Ridge", "Global Summit", "Valley Crown"],
 };
 
+export const WORLD_NOTATION: Record<FamilyWorldId, string> = {
+  lab: "Observe → hypothesise → test",
+  arithmetic: "a ⊕ b = target",
+  fractions: "a/b = (ka)/(kb)",
+  equations: "same operation on both sides",
+  geometry: "θ = angle of rotation",
+  probability: "E[X] = Σ pᵢxᵢ",
+  logic: "premises ⊨ conclusion",
+  patterns: "aₙ₊₁ = rule(aₙ)",
+  coordinates: "p′ = p + v",
+  graphs: "d(v) = minₚ w(p)",
+  functions: "(g ∘ f)(x) = g(f(x))",
+  optimisation: "maximise objective subject to constraints",
+};
+
 function hashText(value: string): number {
   let hash = 2166136261;
   for (let i = 0; i < value.length; i++) { hash ^= value.charCodeAt(i); hash = Math.imul(hash, 16777619); }
@@ -69,7 +85,7 @@ function unique(values: string[]) { return [...new Set(values)]; }
 function seedFor(world: FamilyWorldId, layer: LearningLayerId, sequence: number, run = 0) { return (SALTS[world] ^ hashText(layer) ^ Math.imul(sequence + 1, 2654435761) ^ Math.imul(run + 1, 2246822519)) >>> 0; }
 function shuffle<T>(items: T[], random: () => number) { for (let i = items.length - 1; i > 0; i--) { const j = Math.floor(random() * (i + 1)); [items[i], items[j]] = [items[j], items[i]]; } return items; }
 
-type PuzzleShape = Omit<FamilyLevel, "id" | "world" | "layer" | "layerIndex" | "sequence" | "seed" | "name" | "subtitle" | "targetMoves" | "hintLimit" | "mistakeLimit" | "generated">;
+type PuzzleShape = Omit<FamilyLevel, "id" | "world" | "layer" | "layerIndex" | "sequence" | "seed" | "name" | "subtitle" | "targetMoves" | "hintLimit" | "mistakeLimit" | "generated" | "notation">;
 
 function puzzle(world: FamilyWorldId, layer: LearningLayer, sequence: number, random: () => number): PuzzleShape {
   const depth = Math.min(3, 1 + Math.floor((layer.order + sequence) / 4));
@@ -135,7 +151,7 @@ function puzzle(world: FamilyWorldId, layer: LearningLayer, sequence: number, ra
 
 export function generateFamilyLevel(world: FamilyWorldId, layer: LearningLayer, sequence: number, run = 0): FamilyLevel {
   const seed = seedFor(world, layer.id, sequence, run); const random = rng(seed); const shape = puzzle(world, layer, sequence, random);
-  return { id: `${world}-${layer.id}-${String(sequence + 1).padStart(2, "0")}${run ? `-${run}` : ""}`, world, layer: layer.id, layerIndex: layer.order - 1, sequence, seed, name: NAMES[world][sequence % 8], subtitle: layer.promise, targetMoves: shape.solution.length, hintLimit: layer.hintLimit, mistakeLimit: layer.mistakeLimit, generated: true, framework: frameworkFor(world), ...shape };
+  return { id: `${world}-${layer.id}-${String(sequence + 1).padStart(2, "0")}${run ? `-${run}` : ""}`, world, layer: layer.id, layerIndex: layer.order - 1, sequence, seed, name: NAMES[world][sequence % 8], subtitle: layer.promise, targetMoves: shape.solution.length, hintLimit: layer.hintLimit, mistakeLimit: layer.mistakeLimit, generated: true, framework: frameworkFor(world), notation: WORLD_NOTATION[world], ...shape };
 }
 
 export const FAMILY_LEVELS = Object.fromEntries(FAMILY_WORLD_IDS.map(world => [world, LEARNING_LAYERS.flatMap(layer => Array.from({ length: 8 }, (_, sequence) => generateFamilyLevel(world, layer, sequence)))])) as Record<FamilyWorldId, FamilyLevel[]>;

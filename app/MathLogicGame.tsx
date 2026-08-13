@@ -525,7 +525,7 @@ function FamilyWorld({ world, onBack, progress, completeLevel }: GameProps & { w
       </section>
     </div>
     <CampaignDock levels={levels} active={level} progress={progress} onSelect={changeLevel} onEndless={startEndless} />
-    {showComplete && <CompletionOverlay title={`${meta.name} restored`} copy={`${selected.length} placements · ${mistakes} incorrect decisions · seed ${level.seed}`} stars={starsFor(mistakes, selected.length + mistakes, level.targetMoves)} onMap={onBack} onNext={() => endlessLevel ? startEndless() : levelIndex < levels.length - 1 ? changeLevel(levelIndex + 1) : onBack()} nextLabel={endlessLevel ? "New expedition" : levelIndex < levels.length - 1 ? "Next mission" : "World map"} />}
+    {showComplete && <CompletionOverlay title={`${meta.name} restored`} copy={`${selected.length} placements · ${mistakes} incorrect decisions · rule revealed: ${level.notation} · seed ${level.seed}`} stars={starsFor(mistakes, selected.length + mistakes, level.targetMoves)} onMap={onBack} onNext={() => endlessLevel ? startEndless() : levelIndex < levels.length - 1 ? changeLevel(levelIndex + 1) : onBack()} nextLabel={endlessLevel ? "New expedition" : levelIndex < levels.length - 1 ? "Next mission" : "World map"} />}
   </div>;
 }
 

@@ -128,6 +128,9 @@ export type SpringState = { position: number; velocity: number };
 export function springStep(state: SpringState, dt: number, mass: number, stiffness: number, damping: number): SpringState { const acceleration = (-stiffness * state.position - damping * state.velocity) / mass; return { position: state.position + state.velocity * dt, velocity: state.velocity + acceleration * dt }; }
 export function logisticMapStep(value: number, growth: number): number { return growth * value * (1 - value); }
 export function logisticTrajectory(seed: number, growth: number, steps: number): number[] { const values: number[] = []; let value = Math.max(0, Math.min(1, seed)); for (let index = 0; index < Math.max(0, steps); index++) { values.push(value); value = logisticMapStep(value, growth); } return values; }
+export function seededPopulationStep(state: PopulationState, control: number, seed: number, dt = .1): PopulationState { return lotkaVolterraStep(state, dt, { birth: control, predation: .006 + (Math.abs(seed) % 5) * .002, growth: .005, death: .7 + (Math.abs(seed) % 4) * .08 }); }
+export function seededSpringStep(state: SpringState, damping: number, seed: number, dt = .1): SpringState { return springStep(state, dt, 1 + (Math.abs(seed) % 3) * .4, 2 + (Math.abs(seed) % 5) * .6, damping); }
+export function seededChaosTrajectory(seed: number, growth: number, steps = 30): number[] { return logisticTrajectory(.12 + (Math.abs(seed) % 20) / 100, growth, steps); }
 
 export function multiplyMatrix(a: Matrix2, b: Matrix2): Matrix2 { return [a[0] * b[0] + a[1] * b[2], a[0] * b[1] + a[1] * b[3], a[2] * b[0] + a[3] * b[2], a[2] * b[1] + a[3] * b[3]]; }
 export function applyMatrix(matrix: Matrix2, point: Vec2): Vec2 { return { x: matrix[0] * point.x + matrix[1] * point.y, y: matrix[2] * point.x + matrix[3] * point.y }; }

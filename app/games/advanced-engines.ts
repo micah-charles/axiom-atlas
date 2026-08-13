@@ -65,6 +65,15 @@ export const ADVANCED_CAMPAIGN: AdvancedLevelDefinition[] = ADVANCED_LEVEL_CATAL
   objective: `${act.label}: ${level.objective}`,
 })));
 
+export function generateAdvancedExpedition(seed: number, concept?: string, act: AdvancedAct = "experience"): AdvancedLevelDefinition {
+  const chosen = concept ? ADVANCED_LEVEL_CATALOG.find(level => level.concept === concept) : ADVANCED_LEVEL_CATALOG[Math.abs(Math.floor(seed)) % ADVANCED_LEVEL_CATALOG.length];
+  const base = chosen ?? ADVANCED_LEVEL_CATALOG[0];
+  const actDefinition = ADVANCED_ACTS.find(candidate => candidate.id === act) ?? ADVANCED_ACTS[0];
+  const variant = Math.abs(Math.floor(seed)) % 7 + 1;
+  const target = typeof base.goal.target === "number" ? Number((base.goal.target * (0.85 + variant * 0.05)).toFixed(3)) : base.goal.target;
+  return { ...base, id: `${base.id}-${actDefinition.id}-endless-${Math.abs(Math.floor(seed))}`, act: actDefinition.id, objective: `${actDefinition.label}: ${base.objective} Variant ${variant}.`, goal: { ...base.goal, ...(target === undefined ? {} : { target }) } };
+}
+
 export function advancedActUnlocked(campaign: AdvancedLevelDefinition[], completed: Record<string, unknown>, level: AdvancedLevelDefinition): boolean {
   const actIndex = ADVANCED_ACTS.findIndex(act => act.id === level.act);
   if (actIndex <= 0) return true;

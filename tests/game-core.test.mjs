@@ -10,7 +10,7 @@ import { LEARNING_LAYERS, generateBubbleLevel, generateEndlessLevel } from "../a
 import { FAMILY_CAMPAIGN_COUNT, FAMILY_LEVELS, generateFamilyEndless, generateFamilyLevel } from "../app/games/family-generator.ts";
 import { FAMILY_WORLD_IDS, WORLD_IDS, WORLD_META } from "../app/games/world-registry.ts";
 import { GAME_FRAMEWORKS, validateModeSelection } from "../app/games/mode-frameworks.ts";
-import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, ADVANCED_LEVEL_CATALOG, advancedActRule, advancedActUnlocked, advancedNotation, applyMatrix, closedPath, complexMultiply, curl, determinant, divergence, discreteSpectrum, gaussianHeight, jacobian, lineIntegral, logisticMapStep, logisticTrajectory, lotkaVolterraStep, monteCarloEstimate, multiplyMatrix, polygonArea, polylineLength, secantSlope, selectedPathWeight, shortestPath, springStep, surfaceFlux, surfaceFlux3D, tangentSlope, triangleArea, trapezoidIntegral } from "../app/games/advanced-engines.ts";
+import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, ADVANCED_LEVEL_CATALOG, advancedActRule, advancedActUnlocked, advancedNotation, applyMatrix, closedPath, complexMultiply, curl, determinant, divergence, discreteSpectrum, generateAdvancedExpedition, gaussianHeight, jacobian, lineIntegral, logisticMapStep, logisticTrajectory, lotkaVolterraStep, monteCarloEstimate, multiplyMatrix, polygonArea, polylineLength, secantSlope, selectedPathWeight, shortestPath, springStep, surfaceFlux, surfaceFlux3D, tangentSlope, triangleArea, trapezoidIntegral } from "../app/games/advanced-engines.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
   assert.equal(LEARNING_LAYERS.length, 5);
@@ -62,6 +62,9 @@ test("advanced mathematics catalog is data-driven across reusable engines", () =
   assert.deepEqual(advancedActRule("name"), { verb: "Name", minimumObservations: 3, revealNotation: true });
   assert.equal(advancedNotation("integration"), "∫ₐᵇ f(t) dt");
   assert.equal(advancedNotation("complex numbers"), "z = a + bi");
+  assert.deepEqual(generateAdvancedExpedition(12, "integration", "measure"), generateAdvancedExpedition(12, "integration", "measure"));
+  assert.notEqual(generateAdvancedExpedition(12, "integration", "measure").id, generateAdvancedExpedition(13, "integration", "measure").id);
+  assert.equal(generateAdvancedExpedition(12, "integration", "measure").act, "measure");
   assert.ok(ADVANCED_CAMPAIGN.every(level => ADVANCED_ACTS.some(act => act.id === level.act)));
 });
 

@@ -12,7 +12,7 @@
     "act": { "enum": ["experience", "control", "measure", "generalise", "name"] },
     "objective": { "type": "string", "minLength": 1 },
     "tools": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
-    "goal": { "type": "object", "required": ["type"], "properties": { "type": { "type": "string", "minLength": 1 }, "target": { "type": "number" }, "moveLimit": { "type": "number" } }, "additionalProperties": false },
+    "goal": { "type": "object", "required": ["type"], "properties": { "type": { "enum": ["accumulate", "maxSlope", "reachMaximum", "comparePartialRates", "locateMaxDivergence", "locateMaxCurl", "pathEnergy", "flux", "stokesInference", "stabilisePopulation", "settleOscillation", "compareTrajectories", "filterSignal", "matchShape", "findInvariantDirection", "measureAreaScale", "localLinearise", "reachGate", "matchWave", "shortestPath", "estimateProbability", "matchArea"] }, "target": { "type": "number" }, "moveLimit": { "type": "number" } }, "additionalProperties": false },
     "revealNotationAfterCompletion": { "const": true },
     "seed": { "type": "integer" },
     "dailyKey": { "type": "string" }

@@ -6,6 +6,8 @@ export type Matrix2 = [number, number, number, number];
 
 export type AdvancedEngine = "curve" | "field" | "flow" | "dynamic" | "transformation" | "plane" | "signal" | "graph" | "probability" | "geometry";
 export type AdvancedAct = "experience" | "control" | "measure" | "generalise" | "name";
+export const ADVANCED_GOAL_TYPES = ["accumulate", "maxSlope", "reachMaximum", "comparePartialRates", "locateMaxDivergence", "locateMaxCurl", "pathEnergy", "flux", "stokesInference", "stabilisePopulation", "settleOscillation", "compareTrajectories", "filterSignal", "matchShape", "findInvariantDirection", "measureAreaScale", "localLinearise", "reachGate", "matchWave", "shortestPath", "estimateProbability", "matchArea"] as const;
+export type AdvancedGoalType = typeof ADVANCED_GOAL_TYPES[number];
 export type AdvancedEngineManifestEntry = { id: AdvancedEngine; systems: string[]; concepts: string[] };
 export const ADVANCED_ENGINE_MANIFEST: AdvancedEngineManifestEntry[] = [
   { id: "curve", systems: ["RateCurve", "Accumulator", "SecantProbe"], concepts: ["integration", "derivative"] },
@@ -28,7 +30,7 @@ export type AdvancedLevelDefinition = {
   act: AdvancedAct;
   objective: string;
   tools: string[];
-  goal: { type: string; target?: number; moveLimit?: number };
+  goal: { type: AdvancedGoalType; target?: number; moveLimit?: number };
   revealNotationAfterCompletion: boolean;
   seed?: number;
   dailyKey?: string;
@@ -60,7 +62,7 @@ export function advancedNotation(concept: string): string { return ADVANCED_NOTA
 
 export function validateAdvancedLevelDefinition(level: AdvancedLevelDefinition): boolean {
   const acts: AdvancedAct[] = ["experience", "control", "measure", "generalise", "name"];
-  const validGoal = Boolean(level.goal && typeof level.goal.type === "string" && (!("target" in level.goal) || typeof level.goal.target === "number") && (!("moveLimit" in level.goal) || typeof level.goal.moveLimit === "number"));
+  const validGoal = Boolean(level.goal && ADVANCED_GOAL_TYPES.includes(level.goal.type) && (!("target" in level.goal) || typeof level.goal.target === "number") && (!("moveLimit" in level.goal) || typeof level.goal.moveLimit === "number"));
   return Boolean(level.id && level.world && level.concept && ADVANCED_ENGINE_MANIFEST.some(engine => engine.id === level.engine && engine.concepts.includes(level.concept)) && acts.includes(level.act) && level.objective && Array.isArray(level.tools) && level.tools.length && level.tools.every(tool => typeof tool === "string" && tool.length > 0 && measurementInstrument(tool)?.engine === level.engine) && validGoal && level.revealNotationAfterCompletion === true);
 }
 

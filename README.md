@@ -69,14 +69,14 @@ The catalog currently covers 22 mathematical concepts, including Water Valley in
 4. **Generalise** — apply the same idea in a new situation.
 5. **Name** — reveal the formal notation after discovery.
 
-That produces 100 advanced campaign records. Acts are generated from the catalog, passed into the selected world, persisted as mastery records, and unlocked sequentially per concept. The existing GM01–GM15 campaign remains separate, with its own 600 deterministic missions and five learning layers.
+That produces 110 advanced campaign records. Acts are generated from the catalog, passed into the selected world, persisted as mastery records, and unlocked sequentially per concept. **New expedition** generates a deterministic seeded variant and routes it through the correct dedicated simulation. **Daily challenge** derives a shared UTC-day seed, so the same day produces the same mission for every player. The existing GM01–GM15 campaign remains separate, with its own 600 deterministic missions and five learning layers.
 
 ## Planned modes
 
 Planned platform features include:
 
 - story campaigns and larger handcrafted puzzle packs;
-- daily challenges, tournaments, and community events;
+- tournaments and community events (daily challenges are live in Advanced Worlds);
 - sandbox puzzle creation, sharing, remixing, and rating;
 - classroom assignments, teacher review, and progress reports;
 - parent dashboards and personalised practice;
@@ -122,7 +122,7 @@ app/
   lib/campaign.ts          # learning layers and seeded level generation
   games/world-registry.ts  # 15-world metadata and identifiers
   games/mode-frameworks.ts # distinct GM05–GM15 interaction contracts
-  games/advanced-engines.ts # ten reusable engines, 20 concepts, and generated five-act data
+  games/advanced-engines.ts # ten reusable engines, 22 concepts, seed profiles, and generated five-act data
   games/family-generator.ts # 11 seeded puzzle-family generators
 tests/
   game-core.test.mjs       # mechanics and generator coverage

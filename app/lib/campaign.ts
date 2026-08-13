@@ -122,7 +122,7 @@ const NAMES = {
   parabola: ["Vertex Awakening", "Crystal Shift", "Arc of Dawn", "Valley Echo", "Mirror Chasm", "Gravity Well", "Royal Convergence", "Apex Crown"],
 } as const;
 
-function base(world: GeneratedLevelBase["world"], layer: LearningLayer, sequence: number, seed: number, targetMoves: number): GeneratedLevelBase {
+function base<W extends GeneratedLevelBase["world"]>(world: W, layer: LearningLayer, sequence: number, seed: number, targetMoves: number): GeneratedLevelBase & { world: W } {
   return {
     id: `${world}-${layer.id}-${String(sequence + 1).padStart(2, "0")}`,
     world, layer: layer.id, layerIndex: layer.order - 1, sequence, seed,

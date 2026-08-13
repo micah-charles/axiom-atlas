@@ -85,7 +85,7 @@ function unique(values: string[]) { return [...new Set(values)]; }
 function seedFor(world: FamilyWorldId, layer: LearningLayerId, sequence: number, run = 0) { return (SALTS[world] ^ hashText(layer) ^ Math.imul(sequence + 1, 2654435761) ^ Math.imul(run + 1, 2246822519)) >>> 0; }
 function shuffle<T>(items: T[], random: () => number) { for (let i = items.length - 1; i > 0; i--) { const j = Math.floor(random() * (i + 1)); [items[i], items[j]] = [items[j], items[i]]; } return items; }
 
-type PuzzleShape = Omit<FamilyLevel, "id" | "world" | "layer" | "layerIndex" | "sequence" | "seed" | "name" | "subtitle" | "targetMoves" | "hintLimit" | "mistakeLimit" | "generated" | "notation">;
+type PuzzleShape = Omit<FamilyLevel, "id" | "world" | "layer" | "layerIndex" | "sequence" | "seed" | "name" | "subtitle" | "targetMoves" | "hintLimit" | "mistakeLimit" | "generated" | "notation" | "framework">;
 
 function puzzle(world: FamilyWorldId, layer: LearningLayer, sequence: number, random: () => number): PuzzleShape {
   const depth = Math.min(3, 1 + Math.floor((layer.order + sequence) / 4));

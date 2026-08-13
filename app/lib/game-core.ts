@@ -243,7 +243,7 @@ export function treeTraverse(state: TreeState, nodeId: string): TreeState {
 }
 
 export type QuadraticState = { a: number; h: number; k: number };
-export type QuadraticLevel = { id: string; name: string; start: QuadraticState; target: QuadraticState; enabled: (keyof QuadraticState)[]; targetMoves?: number; layer?: string; hideTargetEquation?: boolean; hintLimit?: number; mistakeLimit?: number };
+export type QuadraticLevel = { id: string; name: string; start: QuadraticState; target: QuadraticState; enabled: (keyof QuadraticState)[]; targetMoves?: number; layer?: string; layerIndex?: number; sequence?: number; seed?: number; hideTargetEquation?: boolean; hintLimit?: number; mistakeLimit?: number };
 
 export function formatQuadratic({ a, h, k }: QuadraticState): string {
   const numericA = (Number.isInteger(a) ? String(a) : String(Number(a.toFixed(2)))).replace("-", "−");

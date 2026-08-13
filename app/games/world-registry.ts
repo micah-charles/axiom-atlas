@@ -5,6 +5,7 @@ export const WORLD_IDS = [
 ] as const;
 
 export type WorldId = typeof WORLD_IDS[number];
+export type FamilyWorldId = Exclude<WorldId, "bubble" | "tree" | "parabola">;
 
 export type WorldMeta = {
   eyebrow: string;

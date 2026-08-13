@@ -58,6 +58,10 @@ export const ADVANCED_NOTATION: Record<string, string> = {
 
 export function advancedNotation(concept: string): string { return ADVANCED_NOTATION[concept] ?? "Formal rule recorded"; }
 
+export function validateAdvancedLevelDefinition(level: AdvancedLevelDefinition): boolean {
+  return Boolean(level.id && level.world && level.concept && level.engine && level.act && level.objective && level.tools.length && level.goal.type && level.revealNotationAfterCompletion);
+}
+
 export function advancedGoalSatisfied(goal: AdvancedLevelDefinition["goal"], value: number, tolerance = .08): boolean {
   if (!Number.isFinite(value) || typeof goal.target !== "number") return false;
   if (goal.type === "accumulate" || goal.type === "pathEnergy") return value >= goal.target;

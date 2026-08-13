@@ -105,6 +105,8 @@ export function tangentSlope(value: (x: number) => number, x: number, epsilon = 
 export function gaussianHeight(point: Vec2, peak: Vec2 = { x: 0, y: 0 }, spread = 4): number { const dx = point.x - peak.x; const dy = point.y - peak.y; return Math.exp(-(dx * dx + dy * dy) / spread); }
 export type SeededGradientProfile = { peak: Vec2; spread: number };
 export function seededGradientProfile(seed: number): SeededGradientProfile { const value = Math.abs(Math.floor(seed)); return { peak: { x: (value % 5) - 2, y: (Math.floor(value / 5) % 5) - 2 }, spread: 3 + value % 4 }; }
+export type SeededCurveProfile = { amplitude: number; ratePhase: number; slopePhase: number };
+export function seededCurveProfile(seed: number): SeededCurveProfile { const value = Math.abs(Math.floor(seed)); return { amplitude: 14 + value % 18, ratePhase: value % 6, slopePhase: value % 4 }; }
 
 export type VectorField = (point: Vec2) => Vec2;
 export type SeededFieldProfile = { center: Vec2; strength: number };
@@ -135,6 +137,8 @@ export function logisticTrajectory(seed: number, growth: number, steps: number):
 export function seededPopulationStep(state: PopulationState, control: number, seed: number, dt = .1): PopulationState { return lotkaVolterraStep(state, dt, { birth: control, predation: .006 + (Math.abs(seed) % 5) * .002, growth: .005, death: .7 + (Math.abs(seed) % 4) * .08 }); }
 export function seededSpringStep(state: SpringState, damping: number, seed: number, dt = .1): SpringState { return springStep(state, dt, 1 + (Math.abs(seed) % 3) * .4, 2 + (Math.abs(seed) % 5) * .6, damping); }
 export function seededChaosTrajectory(seed: number, growth: number, steps = 30): number[] { return logisticTrajectory(.12 + (Math.abs(seed) % 20) / 100, growth, steps); }
+export type SeededChaosProfile = { initial: number; defaultGrowth: number };
+export function seededChaosProfile(seed: number): SeededChaosProfile { const value = Math.abs(Math.floor(seed)); return { initial: .12 + (value % 20) / 100, defaultGrowth: 3.2 + (value % 70) / 100 }; }
 
 export function multiplyMatrix(a: Matrix2, b: Matrix2): Matrix2 { return [a[0] * b[0] + a[1] * b[2], a[0] * b[1] + a[1] * b[3], a[2] * b[0] + a[3] * b[2], a[2] * b[1] + a[3] * b[3]]; }
 export function applyMatrix(matrix: Matrix2, point: Vec2): Vec2 { return { x: matrix[0] * point.x + matrix[1] * point.y, y: matrix[2] * point.x + matrix[3] * point.y }; }

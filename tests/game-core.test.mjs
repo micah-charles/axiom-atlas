@@ -174,6 +174,7 @@ test("advanced pure engines model accumulation, limits, fields, dynamics, transf
   assert.ok(ADVANCED_CAMPAIGN.every(validateAdvancedLevelDefinition));
   assert.equal(ADVANCED_ENGINE_MANIFEST.length, 10);
   assert.ok(ADVANCED_LEVEL_CATALOG.every(level => ADVANCED_ENGINE_MANIFEST.some(engine => engine.id === level.engine && engine.concepts.includes(level.concept))));
+  assert.equal(validateAdvancedLevelDefinition({ id: "bad", world: "", concept: "", engine: "curve", act: "experience", objective: "", tools: [], goal: { type: "x" }, revealNotationAfterCompletion: false }), false);
   assert.equal(closedPath([{ x: 0, y: 0 }, { x: 1, y: 0 }]).length, 3);
   assert.ok(lotkaVolterraStep({ rabbits: 300, foxes: 20 }, .1).rabbits > 0);
   assert.ok(Math.abs(springStep({ position: 1, velocity: 0 }, .01, 1, 1, .1).position - 1) < .01);

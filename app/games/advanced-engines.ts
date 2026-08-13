@@ -72,7 +72,9 @@ export const ADVANCED_NOTATION: Record<string, string> = {
 export function advancedNotation(concept: string): string { return ADVANCED_NOTATION[concept] ?? "Formal rule recorded"; }
 
 export function validateAdvancedLevelDefinition(level: AdvancedLevelDefinition): boolean {
-  return Boolean(level.id && level.world && level.concept && ADVANCED_ENGINE_MANIFEST.some(engine => engine.id === level.engine && engine.concepts.includes(level.concept)) && level.act && level.objective && level.tools.length && level.goal.type && level.revealNotationAfterCompletion);
+  const acts: AdvancedAct[] = ["experience", "control", "measure", "generalise", "name"];
+  const validGoal = Boolean(level.goal && typeof level.goal.type === "string" && (!("target" in level.goal) || typeof level.goal.target === "number") && (!("moveLimit" in level.goal) || typeof level.goal.moveLimit === "number"));
+  return Boolean(level.id && level.world && level.concept && ADVANCED_ENGINE_MANIFEST.some(engine => engine.id === level.engine && engine.concepts.includes(level.concept)) && acts.includes(level.act) && level.objective && Array.isArray(level.tools) && level.tools.length && level.tools.every(tool => typeof tool === "string" && tool.length > 0) && validGoal && level.revealNotationAfterCompletion === true);
 }
 
 export function advancedGoalSatisfied(goal: AdvancedLevelDefinition["goal"], value: number, tolerance = .08): boolean {

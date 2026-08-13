@@ -9,7 +9,7 @@ import {
 import { LEARNING_LAYERS, generateBubbleLevel, generateEndlessLevel } from "../app/lib/campaign.ts";
 import { FAMILY_CAMPAIGN_COUNT, FAMILY_LEVELS, generateFamilyEndless, generateFamilyLevel } from "../app/games/family-generator.ts";
 import { FAMILY_WORLD_IDS, WORLD_IDS, WORLD_META } from "../app/games/world-registry.ts";
-import { GAME_FRAMEWORKS, validateModeSelection } from "../app/games/mode-frameworks.ts";
+import { GAME_FRAMEWORKS, modeSelectionMessage, modeSelectionState, validateModeSelection } from "../app/games/mode-frameworks.ts";
 import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, ADVANCED_LEVEL_CATALOG, advancedActRule, advancedActUnlocked, advancedNotation, advancedSeedProfile, applyMatrix, closedPath, complexMultiply, curl, dailyAdvancedExpedition, determinant, divergence, discreteSpectrum, generateAdvancedExpedition, gaussianHeight, jacobian, lineIntegral, logisticMapStep, logisticTrajectory, lotkaVolterraStep, monteCarloEstimate, multiplyMatrix, polygonArea, polylineLength, secantSlope, selectedPathWeight, shortestPath, springStep, surfaceFlux, surfaceFlux3D, tangentSlope, triangleArea, trapezoidIntegral } from "../app/games/advanced-engines.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
@@ -52,6 +52,15 @@ test("mode validators enforce each framework's interaction contract", () => {
   assert.equal(validateModeSelection(GAME_FRAMEWORKS.probability, ["NORTH", "EAST"], ["NORTH"]), false);
   assert.equal(validateModeSelection(GAME_FRAMEWORKS.optimisation, ["CONSTRAINT", "TRADE-OFF", "BEST PLAN"], ["CONSTRAINT", "TRADE-OFF", "BEST PLAN"]), true);
   assert.equal(validateModeSelection(GAME_FRAMEWORKS.optimisation, ["TRADE-OFF", "CONSTRAINT", "BEST PLAN"], ["CONSTRAINT", "TRADE-OFF", "BEST PLAN"]), false);
+});
+
+test("mode selections provide progressive, world-specific feedback", () => {
+  assert.equal(modeSelectionState([], ["A"]), "empty");
+  assert.equal(modeSelectionState(["A"], ["A", "B"]), "progress");
+  assert.equal(modeSelectionState(["A", "B"], ["A", "B"]), "complete");
+  assert.equal(modeSelectionState(["B"], ["A", "B"]), "wrong");
+  assert.match(modeSelectionMessage(GAME_FRAMEWORKS.arithmetic, "wrong"), /operator/i);
+  assert.match(modeSelectionMessage(GAME_FRAMEWORKS.coordinates, "wrong"), /vector/i);
 });
 
 test("advanced mathematics catalog is data-driven across reusable engines", () => {

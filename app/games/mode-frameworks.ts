@@ -3,6 +3,7 @@ import type { FamilyWorldId } from "./world-registry.ts";
 export type ModeBoard = "conveyor" | "balance" | "bridge" | "forest" | "harbor" | "routes" | "constellation" | "grid" | "network" | "machines" | "valley";
 export type ModeInteraction = "compose" | "balance" | "rotate" | "deduce" | "scale" | "choose" | "construct" | "navigate" | "connect" | "transform" | "allocate";
 export type ModeControl = "operator-pad" | "balance-rail" | "angle-dial" | "clue-gates" | "cargo-cards" | "route-cards" | "star-tiles" | "direction-pad" | "node-links" | "machine-slots" | "resource-plans";
+export type ModeSelectionState = "empty" | "progress" | "complete" | "wrong";
 
 export type GameFramework = {
   world: Exclude<FamilyWorldId, "lab"> | "lab";
@@ -44,4 +45,34 @@ export function validateModeSelection(framework: GameFramework, selected: string
     case "balance": return selected.join("|") === solution.join("|");
     default: return selected.every((token, index) => token === solution[index]);
   }
+}
+
+/** Evaluate a partial sequence so the interface can teach while the player builds it. */
+export function modeSelectionState(selected: string[], solution: string[]): ModeSelectionState {
+  if (!selected.length) return "empty";
+  const prefixMatches = selected.every((token, index) => token === solution[index]);
+  if (!prefixMatches) return "wrong";
+  return selected.length === solution.length ? "complete" : "progress";
+}
+
+export function modeSelectionMessage(framework: GameFramework, state: ModeSelectionState): string {
+  if (state === "empty") return framework.controlPrompt;
+  if (state === "complete") return `${framework.success} — ready to test.`;
+  if (state === "wrong") {
+    const messages: Record<ModeControl, string> = {
+      "operator-pad": "The ingot drifts off target — try a different operator order.",
+      "balance-rail": "The towers tilt — undo the last operation on both sides.",
+      "angle-dial": "The beam misses the socket — keep the target angle in view.",
+      "clue-gates": "A clue contradicts this gate — inspect the guardian statements again.",
+      "cargo-cards": "That hold has a different capacity — compare numerator and denominator together.",
+      "route-cards": "The forecast weakens — compare probability × reward before launching.",
+      "star-tiles": "The constellation flickers — look for the recurrence, not a nearby number.",
+      "direction-pad": "The explorer veers away — retrace the shortest vector sequence.",
+      "node-links": "That station adds a costly detour — keep the network connected.",
+      "machine-slots": "The output is unstable — composition order changes the function.",
+      "resource-plans": "The valley exceeds a constraint — trade one resource for another.",
+    };
+    return messages[framework.control];
+  }
+  return `${framework.feedback} — the mechanism is responding.`;
 }

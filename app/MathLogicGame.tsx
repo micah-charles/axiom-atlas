@@ -12,7 +12,7 @@ import {
   generateEndlessLevel,
 } from "./lib/campaign";
 import { FAMILY_LEVELS, FamilyLevel, FamilyWorldId, generateFamilyEndless } from "./games/family-generator";
-import { validateModeSelection } from "./games/mode-frameworks";
+import { modeSelectionMessage, modeSelectionState, validateModeSelection } from "./games/mode-frameworks";
 import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, AdvancedLevelDefinition, advancedActRule, advancedActUnlocked, advancedNotation, closedPath, complexMultiply, curl, dailyAdvancedExpedition, determinant, divergence, discreteSpectrum, generateAdvancedExpedition, gaussianHeight, jacobian, lineIntegral, logisticTrajectory, lotkaVolterraStep, monteCarloEstimate, multiplyMatrix, polygonArea, polylineLength, selectedPathWeight, shortestPath, springStep, surfaceFlux3D, tangentSlope, triangleArea, trapezoidIntegral } from "./games/advanced-engines";
 import { FAMILY_WORLD_IDS, WORLD_IDS, WORLD_META } from "./games/world-registry";
 
@@ -488,7 +488,7 @@ function FamilyWorld({ world, onBack, progress, completeLevel }: GameProps & { w
   const resetRun = useCallback(() => { setSelected([]); setMistakes(0); setMessage("Build the mechanism, then test your reasoning."); setHintTier(0); setShowComplete(false); }, []);
   const changeLevel = (index: number) => { setEndlessLevel(null); setLevelIndex(index); resetRun(); };
   const startEndless = () => { setEndlessLevel(generateFamilyEndless(world, endlessRun.current++)); resetRun(); };
-  const appendToken = (token: string) => { if (selected.length >= level.solution.length) return; setSelected(items => [...items, token]); setMessage(`${token} placed. ${Math.max(0, level.solution.length - selected.length - 1)} step${level.solution.length - selected.length - 1 === 1 ? "" : "s"} remain.`); play("tap"); };
+  const appendToken = (token: string) => { if (selected.length >= level.solution.length) return; const next = [...selected, token]; const state = modeSelectionState(next, level.solution); setSelected(next); setMessage(modeSelectionMessage(level.framework, state)); play(state === "wrong" ? "bad" : state === "complete" ? "good" : "tap"); };
   const testSolution = () => {
     const correct = validateModeSelection(level.framework, selected, level.solution);
     if (!correct) {

@@ -16,6 +16,7 @@ export type AdvancedLevelDefinition = {
   goal: { type: string; target?: number; moveLimit?: number };
   revealNotationAfterCompletion: boolean;
   seed?: number;
+  dailyKey?: string;
 };
 
 export const ADVANCED_LEVEL_CATALOG: AdvancedLevelDefinition[] = [
@@ -77,7 +78,7 @@ export function generateAdvancedExpedition(seed: number, concept?: string, act: 
 
 export function dailyAdvancedExpedition(date = new Date()): AdvancedLevelDefinition {
   const daySeed = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()) / 86_400_000;
-  return generateAdvancedExpedition(daySeed, undefined, "measure");
+  return { ...generateAdvancedExpedition(daySeed, undefined, "measure"), dailyKey: `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}-${String(date.getUTCDate()).padStart(2, "0")}` };
 }
 
 export type AdvancedSeedProfile = { seed: number; variant: number; amplitude: number; probability: number; fieldStrength: number; rotation: number; scale: number; edgeBias: number };

@@ -68,6 +68,7 @@ test("advanced mathematics catalog is data-driven across reusable engines", () =
   const daily = dailyAdvancedExpedition(new Date("2026-08-13T12:00:00Z"));
   assert.deepEqual(daily, dailyAdvancedExpedition(new Date("2026-08-13T23:59:59Z")));
   assert.notEqual(daily.id, dailyAdvancedExpedition(new Date("2026-08-14T00:00:00Z")).id);
+  assert.equal(daily.dailyKey, "2026-08-13");
   assert.deepEqual(advancedSeedProfile(12), advancedSeedProfile(12));
   assert.notEqual(advancedSeedProfile(12).probability, advancedSeedProfile(13).probability);
   assert.ok(advancedSeedProfile(12).amplitude > 0 && advancedSeedProfile(12).scale >= 1);

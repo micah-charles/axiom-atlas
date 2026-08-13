@@ -13,6 +13,7 @@ export type WorldScene = {
 };
 
 export type SceneForce = (entity: WorldEntity, scene: WorldScene) => SimulationVector;
+export type ParticleField = (position: SimulationVector, time: number) => SimulationVector;
 
 /** Shared scene/entity stepper used by dynamic, flow, and field worlds. */
 export function stepScene(scene: WorldScene, dt: number, force: SceneForce): WorldScene {
@@ -44,6 +45,15 @@ export function entityById(scene: WorldScene, id: string): WorldEntity | undefin
 
 export function moveEntity(scene: WorldScene, id: string, position: SimulationVector): WorldScene {
   return { ...scene, entities: scene.entities.map(entity => entity.id === id ? { ...entity, position: { ...position } } : entity) };
+}
+
+/** Advect flow particles through a vector field without coupling the field to a renderer. */
+export function advectParticles(particles: WorldEntity[], field: ParticleField, dt: number, time = 0): WorldEntity[] {
+  const safeDt = Number.isFinite(dt) ? Math.max(0, dt) : 0;
+  return particles.map(particle => {
+    const velocity = field(particle.position, time);
+    return { ...particle, velocity: { ...velocity }, position: { x: particle.position.x + velocity.x * safeDt, y: particle.position.y + velocity.y * safeDt } };
+  });
 }
 
 export type ResourceReservoir = { current: number; capacity: number };

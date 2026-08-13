@@ -119,11 +119,13 @@ export function surfaceFlux(field: VectorField, normal: Vec2, area: number): num
 export function surfaceFlux3D(field: (point: Vec3) => Vec3, normal: Vec3, area: number, point: Vec3 = { x: 0, y: 0, z: 0 }): number { const vector = field(point); return (vector.x * normal.x + vector.y * normal.y + vector.z * normal.z) * area; }
 export function closedPath(path: Vec2[]): Vec2[] { if (path.length < 2) return path; const first = path[0]; const last = path[path.length - 1]; return first.x === last.x && first.y === last.y ? path : [...path, first]; }
 export type SeededFlowMode = "line integral" | "surface integral" | "Stokes theorem";
+export type SeededFlowProfile = { strength: number; surfaceHeight: number };
+export function seededFlowProfile(seed: number): SeededFlowProfile { const value = Math.abs(Math.floor(seed)); return { strength: 1 + (value % 7) * .25, surfaceHeight: 6 + value % 4 }; }
 export function seededFlowReading(mode: SeededFlowMode, strength: number, route: Vec2[], control = 0, seed = 0): number {
   if (mode === "line integral") return lineIntegral(() => ({ x: strength, y: 0 }), route) * 25;
   if (mode === "surface integral") {
     const radians = control * Math.PI / 180;
-    return surfaceFlux3D(() => ({ x: strength, y: 1.5, z: 6 + Math.abs(seed) % 4 }), { x: Math.sin(radians), y: 0, z: Math.cos(radians) }, 1);
+    return surfaceFlux3D(() => ({ x: strength, y: 1.5, z: seededFlowProfile(seed).surfaceHeight }), { x: Math.sin(radians), y: 0, z: Math.cos(radians) }, 1);
   }
   return lineIntegral(point => ({ x: -point.y * strength, y: point.x * strength }), closedPath(route));
 }

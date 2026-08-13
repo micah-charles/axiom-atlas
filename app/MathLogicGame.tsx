@@ -438,6 +438,39 @@ function ModeControls({ level, selected, onSelect }: { level: FamilyLevel; selec
   </div>;
 }
 
+function ModeReadout({ level, selected }: { level: FamilyLevel; selected: string[] }) {
+  const valueOf = (token: string) => Number(token.replace(/[+×−÷]/g, ""));
+  let title = "LIVE SYSTEM";
+  let value = `${selected.length} / ${level.solution.length} actions`;
+  let detail = "Choose a control to change the world state.";
+  if (level.world === "arithmetic") {
+    let current = Number(level.startLabel); selected.forEach(token => { const amount = valueOf(token); if (token.startsWith("+")) current += amount; else if (token.startsWith("−")) current -= amount; else if (token.startsWith("×")) current *= amount; else if (token.startsWith("÷")) current /= amount; });
+    title = "INGOT OUTPUT"; value = Number.isInteger(current) ? String(current) : current.toFixed(2); detail = `Target ${level.targetLabel} · ${selected.length ? selected.join(" → ") : "no operator applied"}`;
+  } else if (level.world === "equations") {
+    title = "BALANCE STATE"; value = selected.length ? `${selected.length} inverse${selected.length === 1 ? "" : "s"} applied` : "Both towers equal"; detail = selected.length ? `Applying ${selected.join(" then ")} to both sides` : "Pick the operation that undoes the visible term.";
+  } else if (level.world === "geometry") {
+    const angle = selected[0]?.match(/(\d+)°/)?.[1] ?? "0"; title = "BEAM ANGLE"; value = `${angle}°`; detail = `Socket target ${level.prompt.replace(/\D/g, "")}° · ${selected.length ? "alignment recorded" : "beam at rest"}`;
+  } else if (level.world === "fractions") {
+    title = "HOLD CAPACITY"; value = selected[0] ?? "EMPTY"; detail = selected.length ? `${selected[0]} compared with ${level.startLabel}` : "Equivalent proportions occupy the same capacity.";
+  } else if (level.world === "probability") {
+    const route = selected[0]; const fact = route && level.facts?.find(item => item.startsWith(route)); title = "ROUTE FORECAST"; value = route ?? "NO ROUTE"; detail = fact ? `Expected return · ${fact}` : "Compare chance × reward before launch.";
+  } else if (level.world === "logic") {
+    title = "CONSISTENCY CHECK"; value = selected[0] ? (selected[0] === level.solution[0] ? "CONSISTENT" : "CONTRADICTION") : "UNTESTED"; detail = selected[0] ? "The guardians’ clues have been evaluated." : "Choose a gate, then test it against every clue.";
+  } else if (level.world === "patterns") {
+    title = "CONSTELLATION"; value = selected[0] ?? "?"; detail = `${selected.length ? "Candidate star placed" : "Missing star"} · use the visible recurrence.`;
+  } else if (level.world === "coordinates") {
+    let x = 0; let y = 0; selected.forEach(token => { if (token === "EAST") x += 1; if (token === "WEST") x -= 1; if (token === "NORTH") y += 1; if (token === "SOUTH") y -= 1; const vector = token.match(/VECTOR \(([-\d]+),([-\d]+)\)/); if (vector) { x += Number(vector[1]); y += Number(vector[2]); } });
+    title = "VECTOR POSITION"; value = `(${x}, ${y})`; detail = `Beacon route · ${selected.length} move${selected.length === 1 ? "" : "s"} plotted`;
+  } else if (level.world === "graphs") {
+    title = "NETWORK ROUTE"; value = selected.length ? `A → ${selected.join(" → ")}` : "A → ?"; detail = "Each station adds a transfer; keep the path connected and light.";
+  } else if (level.world === "functions") {
+    title = "MACHINE OUTPUT"; value = selected.length ? selected.join(" → ") : "INPUT"; detail = `${selected.length} transformation${selected.length === 1 ? "" : "s"} composed · order matters.`;
+  } else if (level.world === "optimisation") {
+    title = "VALLEY PLAN"; value = selected.length ? `${selected.length} constraint${selected.length === 1 ? "" : "s"} locked` : "NO PLAN"; detail = selected.length ? selected.join(" + ") : "Every resource has an opportunity cost.";
+  }
+  return <div className="mode-readout"><small>{title}</small><b>{value}</b><span>{detail}</span></div>;
+}
+
 function FamilyWorld({ world, onBack, progress, completeLevel }: GameProps & { world: FamilyWorldId }) {
   const levels = FAMILY_LEVELS[world];
   const [levelIndex, setLevelIndex] = useState(() => Math.max(0, levels.findIndex(level => !progress.completed[level.id])));
@@ -484,6 +517,7 @@ function FamilyWorld({ world, onBack, progress, completeLevel }: GameProps & { w
         <div className="mechanic-emblem" aria-hidden="true"><span>{meta.icon}</span><i /><i /></div>
         <div className="framework-caption"><span>{level.framework.mechanic}</span><b>{level.framework.feedback}</b></div>
         <ModeBoard level={level} selected={selected} onRemove={index => setSelected(items => items.slice(0, index))} />
+        <ModeReadout level={level} selected={selected} />
         <ModeControls level={level} selected={selected} onSelect={appendToken} />
         <div className={`family-feedback ${message.includes("cannot") || message.includes("broken") ? "warn" : ""}`}><span>{showComplete ? "✓" : meta.icon}</span><p>{message}</p></div>
         {hint && <div className="hint-bubble family-hint"><b>{meta.name} signal</b>{hint}</div>}

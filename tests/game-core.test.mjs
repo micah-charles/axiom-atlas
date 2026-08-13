@@ -143,6 +143,7 @@ test("advanced pure engines model accumulation, limits, fields, dynamics, transf
   const graph = seededGraphEdges(42);
   assert.equal(graph.length, 5);
   assert.ok(graph.every(edge => edge.weight > 0));
+  assert.equal(graph[0].weight, 1 + advancedSeedProfile(42).edgeBias % 4);
   assert.equal(shortestPath(4, graph, 0, 3), shortestPath(4, seededGraphEdges(42), 0, 3));
   assert.deepEqual(seededFieldProfile(42), seededFieldProfile(42));
   assert.ok(seededFieldProfile(42).strength >= 1);

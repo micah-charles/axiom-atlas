@@ -13,7 +13,7 @@ import {
 } from "./lib/campaign";
 import { FAMILY_LEVELS, FamilyLevel, FamilyWorldId, generateFamilyEndless } from "./games/family-generator";
 import { validateModeSelection } from "./games/mode-frameworks";
-import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, AdvancedLevelDefinition, advancedActRule, advancedActUnlocked, advancedNotation, closedPath, complexMultiply, curl, determinant, divergence, discreteSpectrum, gaussianHeight, jacobian, lineIntegral, logisticTrajectory, lotkaVolterraStep, monteCarloEstimate, multiplyMatrix, polygonArea, polylineLength, selectedPathWeight, shortestPath, springStep, surfaceFlux3D, tangentSlope, triangleArea, trapezoidIntegral } from "./games/advanced-engines";
+import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, AdvancedLevelDefinition, advancedActRule, advancedActUnlocked, advancedNotation, closedPath, complexMultiply, curl, determinant, divergence, discreteSpectrum, generateAdvancedExpedition, gaussianHeight, jacobian, lineIntegral, logisticTrajectory, lotkaVolterraStep, monteCarloEstimate, multiplyMatrix, polygonArea, polylineLength, selectedPathWeight, shortestPath, springStep, surfaceFlux3D, tangentSlope, triangleArea, trapezoidIntegral } from "./games/advanced-engines";
 import { FAMILY_WORLD_IDS, WORLD_IDS, WORLD_META } from "./games/world-registry";
 
 type Screen = "map" | WorldId | "advanced";
@@ -146,7 +146,8 @@ function ActGuide({ level }: { level: AdvancedLevelDefinition }) {
 }
 
 function AdvancedRoute({ level, children }: { level: AdvancedLevelDefinition; children: React.ReactNode }) {
-  return <div className="advanced-route"><ActGuide level={level} />{children}</div>;
+  const launch = () => { if (typeof window !== "undefined") window.dispatchEvent(new CustomEvent<AdvancedLevelDefinition>("advanced-expedition", { detail: generateAdvancedExpedition(Date.now(), undefined, level.act) })); };
+  return <div className="advanced-route"><ActGuide level={level} /><button className="advanced-expedition-button" onClick={launch}>✦ New expedition</button>{children}</div>;
 }
 
 function useKeyboardHistory(onUndo: () => void, onRedo: () => void, onReset: () => void) {
@@ -612,9 +613,10 @@ function GeometryWorld({ level, onBack, completeLevel, sound }: Pick<GameProps, 
 }
 
 function AdvancedWorld({ onBack, completeLevel, sound }: GameProps) {
-  const [levelIndex, setLevelIndex] = useState(0); const [observations, setObservations] = useState(0); const [showNotation, setShowNotation] = useState(false);
+  const [levelIndex, setLevelIndex] = useState(0); const [generatedLevel, setGeneratedLevel] = useState<AdvancedLevelDefinition | null>(null); const [observations, setObservations] = useState(0); const [showNotation, setShowNotation] = useState(false);
   const [sliceWidth, setSliceWidth] = useState(1); const [markerGap, setMarkerGap] = useState(4); const [sensorRadius, setSensorRadius] = useState(1); const [pathLength, setPathLength] = useState(2); const [pathPoints, setPathPoints] = useState<{ x: number; y: number }[]>([]); const [damping, setDamping] = useState(.4); const [frequency, setFrequency] = useState(120); const [matrixScale, setMatrixScale] = useState(2); const [matrixOrder, setMatrixOrder] = useState<"rotate-stretch" | "stretch-rotate">("rotate-stretch"); const [portalAngle, setPortalAngle] = useState(90);
-  const level: AdvancedLevelDefinition = ADVANCED_CAMPAIGN[levelIndex]; const actMeta = ADVANCED_ACTS.find(act => act.id === level.act); const actRule = advancedActRule(level.act);
+  useEffect(() => { const onExpedition = (event: Event) => { setGeneratedLevel((event as CustomEvent<AdvancedLevelDefinition>).detail); setObservations(0); setShowNotation(false); setPathPoints([]); }; window.addEventListener("advanced-expedition", onExpedition); return () => window.removeEventListener("advanced-expedition", onExpedition); }, []);
+  const level: AdvancedLevelDefinition = generatedLevel ?? ADVANCED_CAMPAIGN[levelIndex]; const actMeta = ADVANCED_ACTS.find(act => act.id === level.act); const actRule = advancedActRule(level.act);
   if (level.concept === "divergence" || level.concept === "curl") return <AdvancedRoute level={level}><FieldWorld mode={level.concept} level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} /></AdvancedRoute>;
   if (level.concept === "integration" || level.concept === "derivative") return <AdvancedRoute level={level}><CurveWorld mode={level.concept} level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} /></AdvancedRoute>;
   if (level.concept === "gradient" || level.concept === "partial derivatives") return <AdvancedRoute level={level}><GradientWorld level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} /></AdvancedRoute>;
@@ -633,7 +635,7 @@ function AdvancedWorld({ onBack, completeLevel, sound }: GameProps) {
   if (level.concept === "probability simulation") return <AdvancedRoute level={level}><ProbabilityWorld level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} /></AdvancedRoute>;
   if (level.concept === "geometry construction") return <AdvancedRoute level={level}><GeometryWorld level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} /></AdvancedRoute>;
   const reset = () => { setObservations(0); setShowNotation(false); setPathPoints([]); };
-  const select = (index: number) => { setLevelIndex(index); setObservations(0); setShowNotation(false); setPathPoints([]); };
+  const select = (index: number) => { setGeneratedLevel(null); setLevelIndex(index); setObservations(0); setShowNotation(false); setPathPoints([]); };
   const route = pathPoints.length > 1 ? pathPoints.map(point => ({ x: point.x / 42, y: point.y / 42 })) : [{ x: 0, y: 0 }, { x: pathLength, y: 0 }];
   const act = () => { const next = observations + 1; setObservations(next); sound(next >= actRule.minimumObservations ? "win" : "good"); if (next >= actRule.minimumObservations) { setShowNotation(actRule.revealNotation); completeLevel(level.id, actRule.revealNotation ? 3 : 2, next); } };
   const readout = (() => {

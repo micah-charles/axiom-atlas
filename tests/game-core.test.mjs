@@ -138,7 +138,7 @@ test("advanced pure engines model accumulation, limits, fields, dynamics, transf
   assert.deepEqual(seededFieldProfile(42), seededFieldProfile(42));
   assert.ok(seededFieldProfile(42).strength >= 1);
   assert.deepEqual(seededGradientProfile(42), seededGradientProfile(42));
-  assert.ok(seededGradientProfile(42).spread >= 3);
+  assert.ok(seededGradientProfile(42).spread >= 3 && seededGradientProfile(42).heading >= 0);
   assert.deepEqual(seededCurveProfile(42), seededCurveProfile(42));
   assert.ok(seededCurveProfile(42).amplitude >= 14);
   assert.deepEqual(seededChaosProfile(42), seededChaosProfile(42));

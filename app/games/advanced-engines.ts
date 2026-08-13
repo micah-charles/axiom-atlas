@@ -8,6 +8,20 @@ export type AdvancedEngine = "curve" | "field" | "flow" | "dynamic" | "transform
 export type AdvancedAct = "experience" | "control" | "measure" | "generalise" | "name";
 export const ADVANCED_GOAL_TYPES = ["accumulate", "maxSlope", "reachMaximum", "comparePartialRates", "locateMaxDivergence", "locateMaxCurl", "pathEnergy", "flux", "stokesInference", "stabilisePopulation", "settleOscillation", "compareTrajectories", "filterSignal", "matchShape", "findInvariantDirection", "measureAreaScale", "localLinearise", "reachGate", "matchWave", "shortestPath", "estimateProbability", "matchArea"] as const;
 export type AdvancedGoalType = typeof ADVANCED_GOAL_TYPES[number];
+export type ObjectiveConstraint = { comparator: "atLeast" | "atMost" | "within"; target: number; tolerance?: number };
+export function evaluateConstraint(value: number, constraint: ObjectiveConstraint): boolean {
+  if (!Number.isFinite(value) || !Number.isFinite(constraint.target)) return false;
+  if (constraint.comparator === "atLeast") return value >= constraint.target;
+  if (constraint.comparator === "atMost") return value <= constraint.target;
+  return Math.abs(value - constraint.target) <= Math.max(0, constraint.tolerance ?? .08);
+}
+export function constraintProgress(value: number, constraint: ObjectiveConstraint): number {
+  if (!Number.isFinite(value) || !Number.isFinite(constraint.target)) return 0;
+  if (constraint.comparator === "atLeast") return Math.max(0, Math.min(1, value / Math.max(1e-6, constraint.target)));
+  if (constraint.comparator === "atMost") return Math.max(0, Math.min(1, constraint.target / Math.max(1e-6, value)));
+  const tolerance = Math.max(1e-6, constraint.tolerance ?? .08);
+  return Math.max(0, Math.min(1, 1 - Math.abs(value - constraint.target) / tolerance));
+}
 export type AdvancedEngineManifestEntry = { id: AdvancedEngine; systems: string[]; concepts: string[] };
 export const ADVANCED_ENGINE_MANIFEST: AdvancedEngineManifestEntry[] = [
   { id: "curve", systems: ["RateCurve", "Accumulator", "SecantProbe"], concepts: ["integration", "derivative"] },
@@ -68,10 +82,10 @@ export function validateAdvancedLevelDefinition(level: AdvancedLevelDefinition):
 
 export function advancedGoalSatisfied(goal: AdvancedLevelDefinition["goal"], value: number, tolerance = .08): boolean {
   if (!Number.isFinite(value) || typeof goal.target !== "number") return false;
-  if (goal.type === "accumulate" || goal.type === "pathEnergy") return value >= goal.target;
-  if (goal.type === "shortestPath") return value <= goal.target;
+  if (goal.type === "accumulate" || goal.type === "pathEnergy") return evaluateConstraint(value, { comparator: "atLeast", target: goal.target });
+  if (goal.type === "shortestPath") return evaluateConstraint(value, { comparator: "atMost", target: goal.target });
   const allowed = goal.type === "flux" ? Math.max(1, goal.target * .18) : tolerance;
-  return Math.abs(value - goal.target) <= allowed;
+  return evaluateConstraint(value, { comparator: "within", target: goal.target, tolerance: allowed });
 }
 
 export function advancedActRule(act: AdvancedAct): { verb: string; minimumObservations: number; revealNotation: boolean } { const rule = ADVANCED_ACTS.find(candidate => candidate.id === act); return rule ? { verb: rule.verb, minimumObservations: rule.minimumObservations, revealNotation: rule.revealNotation } : { verb: "Observe", minimumObservations: 1, revealNotation: false }; }

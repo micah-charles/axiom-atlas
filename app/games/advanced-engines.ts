@@ -75,6 +75,11 @@ export function generateAdvancedExpedition(seed: number, concept?: string, act: 
   return { ...base, id: `${base.id}-${actDefinition.id}-endless-${Math.abs(Math.floor(seed))}`, act: actDefinition.id, seed: Math.floor(seed), objective: `${actDefinition.label}: ${base.objective} Variant ${variant}.`, goal: { ...base.goal, ...(target === undefined ? {} : { target }) } };
 }
 
+export function dailyAdvancedExpedition(date = new Date()): AdvancedLevelDefinition {
+  const daySeed = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()) / 86_400_000;
+  return generateAdvancedExpedition(daySeed, undefined, "measure");
+}
+
 export function advancedActUnlocked(campaign: AdvancedLevelDefinition[], completed: Record<string, unknown>, level: AdvancedLevelDefinition): boolean {
   const actIndex = ADVANCED_ACTS.findIndex(act => act.id === level.act);
   if (actIndex <= 0) return true;

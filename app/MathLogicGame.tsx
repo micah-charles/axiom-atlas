@@ -13,7 +13,7 @@ import {
 } from "./lib/campaign";
 import { FAMILY_LEVELS, FamilyLevel, FamilyWorldId, generateFamilyEndless } from "./games/family-generator";
 import { validateModeSelection } from "./games/mode-frameworks";
-import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, AdvancedLevelDefinition, advancedActRule, advancedActUnlocked, advancedNotation, closedPath, complexMultiply, curl, determinant, divergence, discreteSpectrum, generateAdvancedExpedition, gaussianHeight, jacobian, lineIntegral, logisticTrajectory, lotkaVolterraStep, monteCarloEstimate, multiplyMatrix, polygonArea, polylineLength, selectedPathWeight, shortestPath, springStep, surfaceFlux3D, tangentSlope, triangleArea, trapezoidIntegral } from "./games/advanced-engines";
+import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, AdvancedLevelDefinition, advancedActRule, advancedActUnlocked, advancedNotation, closedPath, complexMultiply, curl, dailyAdvancedExpedition, determinant, divergence, discreteSpectrum, generateAdvancedExpedition, gaussianHeight, jacobian, lineIntegral, logisticTrajectory, lotkaVolterraStep, monteCarloEstimate, multiplyMatrix, polygonArea, polylineLength, selectedPathWeight, shortestPath, springStep, surfaceFlux3D, tangentSlope, triangleArea, trapezoidIntegral } from "./games/advanced-engines";
 import { FAMILY_WORLD_IDS, WORLD_IDS, WORLD_META } from "./games/world-registry";
 
 type Screen = "map" | WorldId | "advanced";
@@ -148,7 +148,8 @@ function ActGuide({ level }: { level: AdvancedLevelDefinition }) {
 
 function AdvancedRoute({ level, children }: { level: AdvancedLevelDefinition; children: React.ReactNode }) {
   const launch = () => { if (typeof window !== "undefined") window.dispatchEvent(new CustomEvent<AdvancedLevelDefinition>("advanced-expedition", { detail: generateAdvancedExpedition(Date.now(), undefined, level.act) })); };
-  return <div className="advanced-route"><ActGuide level={level} /><button className="advanced-expedition-button" onClick={launch}>✦ New expedition</button>{children}</div>;
+  const daily = () => { if (typeof window !== "undefined") window.dispatchEvent(new CustomEvent<AdvancedLevelDefinition>("advanced-expedition", { detail: dailyAdvancedExpedition() })); };
+  return <div className="advanced-route"><ActGuide level={level} /><div className="advanced-expedition-actions"><button className="advanced-expedition-button" onClick={launch}>✦ New expedition</button><button className="advanced-daily-button" onClick={daily}>◷ Daily challenge</button></div>{children}</div>;
 }
 
 function useKeyboardHistory(onUndo: () => void, onRedo: () => void, onReset: () => void) {

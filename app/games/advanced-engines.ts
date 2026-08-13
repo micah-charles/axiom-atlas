@@ -103,6 +103,8 @@ export function trapezoidIntegral(rate: (t: number) => number, start: number, en
 export function secantSlope(value: (x: number) => number, a: number, b: number): number { return (value(b) - value(a)) / (b - a); }
 export function tangentSlope(value: (x: number) => number, x: number, epsilon = 1e-4): number { return secantSlope(value, x - epsilon, x + epsilon); }
 export function gaussianHeight(point: Vec2, peak: Vec2 = { x: 0, y: 0 }, spread = 4): number { const dx = point.x - peak.x; const dy = point.y - peak.y; return Math.exp(-(dx * dx + dy * dy) / spread); }
+export type SeededGradientProfile = { peak: Vec2; spread: number };
+export function seededGradientProfile(seed: number): SeededGradientProfile { const value = Math.abs(Math.floor(seed)); return { peak: { x: (value % 5) - 2, y: (Math.floor(value / 5) % 5) - 2 }, spread: 3 + value % 4 }; }
 
 export type VectorField = (point: Vec2) => Vec2;
 export type SeededFieldProfile = { center: Vec2; strength: number };

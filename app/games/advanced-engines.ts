@@ -58,6 +58,13 @@ export const ADVANCED_NOTATION: Record<string, string> = {
 
 export function advancedNotation(concept: string): string { return ADVANCED_NOTATION[concept] ?? "Formal rule recorded"; }
 
+export function advancedGoalSatisfied(goal: AdvancedLevelDefinition["goal"], value: number, tolerance = .08): boolean {
+  if (!Number.isFinite(value) || typeof goal.target !== "number") return false;
+  if (goal.type === "accumulate" || goal.type === "pathEnergy") return value >= goal.target;
+  const allowed = goal.type === "flux" ? Math.max(1, goal.target * .18) : tolerance;
+  return Math.abs(value - goal.target) <= allowed;
+}
+
 export function advancedActRule(act: AdvancedAct): { verb: string; minimumObservations: number; revealNotation: boolean } { const rule = ADVANCED_ACTS.find(candidate => candidate.id === act); return rule ? { verb: rule.verb, minimumObservations: rule.minimumObservations, revealNotation: rule.revealNotation } : { verb: "Observe", minimumObservations: 1, revealNotation: false }; }
 
 export const ADVANCED_CAMPAIGN: AdvancedLevelDefinition[] = ADVANCED_LEVEL_CATALOG.flatMap(level => ADVANCED_ACTS.map(act => ({

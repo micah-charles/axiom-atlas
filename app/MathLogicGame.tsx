@@ -142,7 +142,8 @@ type GameProps = { onBack: () => void; progress: Progress; completeLevel: (id: s
 
 function ActGuide({ level }: { level: AdvancedLevelDefinition }) {
   const meta = ADVANCED_ACTS.find(act => act.id === level.act)!;
-  return <div className="act-guide" aria-label={`${meta.label}: ${meta.instruction}`}><span>{meta.verb}</span><div><b>{meta.label}</b><small>{meta.instruction}</small>{meta.revealNotation && <code>{advancedNotation(level.concept)}</code>}</div>{meta.revealNotation && <i>Notation unlocked</i>}</div>;
+  const variant = level.seed === undefined ? "Campaign mission" : `Seeded expedition · ${Math.abs(level.seed) % 7 + 1}`;
+  return <div className="act-guide" aria-label={`${meta.label}: ${meta.instruction}`}><span>{meta.verb}</span><div><b>{meta.label}</b><small>{meta.instruction}</small><em>{variant}</em>{meta.revealNotation && <code>{advancedNotation(level.concept)}</code>}</div>{meta.revealNotation && <i>Notation unlocked</i>}</div>;
 }
 
 function AdvancedRoute({ level, children }: { level: AdvancedLevelDefinition; children: React.ReactNode }) {

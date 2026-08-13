@@ -15,6 +15,7 @@ export type AdvancedLevelDefinition = {
   tools: string[];
   goal: { type: string; target?: number; moveLimit?: number };
   revealNotationAfterCompletion: boolean;
+  seed?: number;
 };
 
 export const ADVANCED_LEVEL_CATALOG: AdvancedLevelDefinition[] = [
@@ -71,7 +72,7 @@ export function generateAdvancedExpedition(seed: number, concept?: string, act: 
   const actDefinition = ADVANCED_ACTS.find(candidate => candidate.id === act) ?? ADVANCED_ACTS[0];
   const variant = Math.abs(Math.floor(seed)) % 7 + 1;
   const target = typeof base.goal.target === "number" ? Number((base.goal.target * (0.85 + variant * 0.05)).toFixed(3)) : base.goal.target;
-  return { ...base, id: `${base.id}-${actDefinition.id}-endless-${Math.abs(Math.floor(seed))}`, act: actDefinition.id, objective: `${actDefinition.label}: ${base.objective} Variant ${variant}.`, goal: { ...base.goal, ...(target === undefined ? {} : { target }) } };
+  return { ...base, id: `${base.id}-${actDefinition.id}-endless-${Math.abs(Math.floor(seed))}`, act: actDefinition.id, seed: Math.floor(seed), objective: `${actDefinition.label}: ${base.objective} Variant ${variant}.`, goal: { ...base.goal, ...(target === undefined ? {} : { target }) } };
 }
 
 export function advancedActUnlocked(campaign: AdvancedLevelDefinition[], completed: Record<string, unknown>, level: AdvancedLevelDefinition): boolean {

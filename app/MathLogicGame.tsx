@@ -140,6 +140,15 @@ function WorldHeader({ world, levelName, progressLabel, onBack, history, onUndo,
 
 type GameProps = { onBack: () => void; progress: Progress; completeLevel: (id: string, stars: number, moves: number) => void; sound: (tone: "tap" | "good" | "bad" | "win") => void };
 
+function ActGuide({ level }: { level: AdvancedLevelDefinition }) {
+  const meta = ADVANCED_ACTS.find(act => act.id === level.act)!;
+  return <div className="act-guide" aria-label={`${meta.label}: ${meta.instruction}`}><span>{meta.verb}</span><div><b>{meta.label}</b><small>{meta.instruction}</small></div>{meta.revealNotation && <i>Notation unlocked</i>}</div>;
+}
+
+function AdvancedRoute({ level, children }: { level: AdvancedLevelDefinition; children: React.ReactNode }) {
+  return <div className="advanced-route"><ActGuide level={level} />{children}</div>;
+}
+
 function useKeyboardHistory(onUndo: () => void, onRedo: () => void, onReset: () => void) {
   useEffect(() => {
     const key = (event: KeyboardEvent) => {
@@ -606,23 +615,23 @@ function AdvancedWorld({ onBack, completeLevel, sound }: GameProps) {
   const [levelIndex, setLevelIndex] = useState(0); const [observations, setObservations] = useState(0); const [showNotation, setShowNotation] = useState(false);
   const [sliceWidth, setSliceWidth] = useState(1); const [markerGap, setMarkerGap] = useState(4); const [sensorRadius, setSensorRadius] = useState(1); const [pathLength, setPathLength] = useState(2); const [pathPoints, setPathPoints] = useState<{ x: number; y: number }[]>([]); const [damping, setDamping] = useState(.4); const [frequency, setFrequency] = useState(120); const [matrixScale, setMatrixScale] = useState(2); const [matrixOrder, setMatrixOrder] = useState<"rotate-stretch" | "stretch-rotate">("rotate-stretch"); const [portalAngle, setPortalAngle] = useState(90);
   const level: AdvancedLevelDefinition = ADVANCED_CAMPAIGN[levelIndex]; const actMeta = ADVANCED_ACTS.find(act => act.id === level.act); const actRule = advancedActRule(level.act);
-  if (level.concept === "divergence" || level.concept === "curl") return <FieldWorld mode={level.concept} level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} />;
-  if (level.concept === "integration" || level.concept === "derivative") return <CurveWorld mode={level.concept} level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} />;
-  if (level.concept === "gradient" || level.concept === "partial derivatives") return <GradientWorld level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} />;
-  if (level.concept === "line integral") return <SailingWorld level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} />;
-  if (level.concept === "chaotic dynamics") return <ChaosWorld level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} />;
-  if (level.concept === "differential equations" || level.concept === "second-order differential equations") return <DynamicWorld mode={level.concept === "differential equations" ? "population" : "spring"} level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} />;
-  if (level.concept === "surface integral") return <SurfaceWorld level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} />;
-  if (level.concept === "Stokes theorem") return <StokesWorld level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} />;
-  if (level.concept === "Fourier transform") return <SoundWorld level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} />;
-  if (level.concept === "eigenvectors") return <EigenvectorWorld level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} />;
-  if (level.concept === "Jacobian") return <JacobianWorld level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} />;
-  if (level.concept === "matrix transformations" || level.concept === "determinant") return <MatrixWorld mode={level.concept as MatrixMode} level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} />;
-  if (level.concept === "Euler formula") return <EulerWorld level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} />;
-  if (level.concept === "complex numbers") return <ComplexWorld mode="complex numbers" level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} />;
-  if (level.concept === "graph paths") return <GraphWorld level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} />;
-  if (level.concept === "probability simulation") return <ProbabilityWorld level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} />;
-  if (level.concept === "geometry construction") return <GeometryWorld level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} />;
+  if (level.concept === "divergence" || level.concept === "curl") return <AdvancedRoute level={level}><FieldWorld mode={level.concept} level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} /></AdvancedRoute>;
+  if (level.concept === "integration" || level.concept === "derivative") return <AdvancedRoute level={level}><CurveWorld mode={level.concept} level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} /></AdvancedRoute>;
+  if (level.concept === "gradient" || level.concept === "partial derivatives") return <AdvancedRoute level={level}><GradientWorld level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} /></AdvancedRoute>;
+  if (level.concept === "line integral") return <AdvancedRoute level={level}><SailingWorld level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} /></AdvancedRoute>;
+  if (level.concept === "chaotic dynamics") return <AdvancedRoute level={level}><ChaosWorld level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} /></AdvancedRoute>;
+  if (level.concept === "differential equations" || level.concept === "second-order differential equations") return <AdvancedRoute level={level}><DynamicWorld mode={level.concept === "differential equations" ? "population" : "spring"} level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} /></AdvancedRoute>;
+  if (level.concept === "surface integral") return <AdvancedRoute level={level}><SurfaceWorld level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} /></AdvancedRoute>;
+  if (level.concept === "Stokes theorem") return <AdvancedRoute level={level}><StokesWorld level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} /></AdvancedRoute>;
+  if (level.concept === "Fourier transform") return <AdvancedRoute level={level}><SoundWorld level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} /></AdvancedRoute>;
+  if (level.concept === "eigenvectors") return <AdvancedRoute level={level}><EigenvectorWorld level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} /></AdvancedRoute>;
+  if (level.concept === "Jacobian") return <AdvancedRoute level={level}><JacobianWorld level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} /></AdvancedRoute>;
+  if (level.concept === "matrix transformations" || level.concept === "determinant") return <AdvancedRoute level={level}><MatrixWorld mode={level.concept as MatrixMode} level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} /></AdvancedRoute>;
+  if (level.concept === "Euler formula") return <AdvancedRoute level={level}><EulerWorld level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} /></AdvancedRoute>;
+  if (level.concept === "complex numbers") return <AdvancedRoute level={level}><ComplexWorld mode="complex numbers" level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} /></AdvancedRoute>;
+  if (level.concept === "graph paths") return <AdvancedRoute level={level}><GraphWorld level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} /></AdvancedRoute>;
+  if (level.concept === "probability simulation") return <AdvancedRoute level={level}><ProbabilityWorld level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} /></AdvancedRoute>;
+  if (level.concept === "geometry construction") return <AdvancedRoute level={level}><GeometryWorld level={level} onBack={onBack} completeLevel={completeLevel} sound={sound} /></AdvancedRoute>;
   const reset = () => { setObservations(0); setShowNotation(false); setPathPoints([]); };
   const select = (index: number) => { setLevelIndex(index); setObservations(0); setShowNotation(false); setPathPoints([]); };
   const route = pathPoints.length > 1 ? pathPoints.map(point => ({ x: point.x / 42, y: point.y / 42 })) : [{ x: 0, y: 0 }, { x: pathLength, y: 0 }];

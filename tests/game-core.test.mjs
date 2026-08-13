@@ -27,6 +27,10 @@ test("advanced level JSON schema is shipped beside the data engine", () => {
   const schema = JSON.parse(readFileSync(new URL("../app/games/advanced-level.schema.json", import.meta.url), "utf8"));
   assert.equal(schema.title, "Axiom Atlas Advanced Level");
   assert.ok(schema.required.includes("engine") && schema.required.includes("goal"));
+  const levels = JSON.parse(readFileSync(new URL("../app/games/advanced-levels.json", import.meta.url), "utf8"));
+  assert.equal(levels.length, ADVANCED_LEVEL_CATALOG.length);
+  assert.equal(levels[0].id, "water-valley-01");
+  assert.equal(levels.at(-1).id, "geometry-workshop-01");
 });
 
 test("default progress includes a separate daily challenge record", async () => {

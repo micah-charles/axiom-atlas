@@ -129,6 +129,7 @@ test("advanced pure engines model accumulation, limits, fields, dynamics, transf
   assert.equal(signal.purity, 100 - Math.abs(82 - signal.birdTarget) * .08);
   const probability = seededProbabilityProfile(42, 20);
   assert.equal(probability.outcomes.length, 20);
+  assert.equal(probability.target, advancedSeedProfile(42).probability);
   assert.ok(probability.target >= .45 && probability.target <= .85);
   assert.equal(probability.estimate, probability.outcomes.filter(Boolean).length / 20);
   const graph = seededGraphEdges(42);

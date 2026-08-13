@@ -185,7 +185,7 @@ export function seededGraphEdges(seed: number): GraphEdge[] { const value = Math
 export function monteCarloEstimate(trials: number, sample: () => boolean): number { let successes = 0; for (let index = 0; index < Math.max(1, trials); index++) if (sample()) successes++; return successes / Math.max(1, trials); }
 export type SeededProbabilityProfile = { target: number; estimate: number; outcomes: boolean[]; accurate: boolean };
 export function seededProbabilityProfile(seed: number, trials: number, offset = 0): SeededProbabilityProfile {
-  const value = Math.abs(Math.floor(seed)); const target = Math.min(.85, .45 + (value % 9) * .04); const outcomes = Array.from({ length: Math.max(1, Math.floor(trials)) }, (_, index) => ((index + offset + value) % 10) < Math.round(target * 10)); const estimate = outcomes.filter(Boolean).length / outcomes.length; return { target, estimate, outcomes, accurate: Math.abs(estimate - target) < .08 };
+  const value = Math.abs(Math.floor(seed)); const target = advancedSeedProfile(seed).probability; const outcomes = Array.from({ length: Math.max(1, Math.floor(trials)) }, (_, index) => ((index + offset + value) % 10) < Math.round(target * 10)); const estimate = outcomes.filter(Boolean).length / outcomes.length; return { target, estimate, outcomes, accurate: Math.abs(estimate - target) < .08 };
 }
 export function triangleArea(a: Vec2, b: Vec2, c: Vec2): number { return Math.abs((a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y)) / 2); }
 export function seededGeometryTarget(seed: number, fallback = 6): number { return fallback + (Math.abs(Math.floor(seed)) % 3) * .5; }

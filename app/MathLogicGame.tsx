@@ -14,7 +14,7 @@ import {
 import { FAMILY_LEVELS, FamilyLevel, FamilyWorldId, generateFamilyEndless } from "./games/family-generator";
 import { modeSelectionMessage, modeSelectionState, validateModeSelection } from "./games/mode-frameworks";
 import { angleFromToken, arithmeticChain, expectedValueFromFact, functionTrace, vectorWalk } from "./games/mode-engines";
-import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, AdvancedLevelDefinition, SeededFlowMode, SeededTransformMode, advancedActRule, advancedActUnlocked, advancedGoalSatisfied, advancedNotation, applyMatrix, closedPath, complexMultiply, curl, dailyAdvancedExpedition, determinant, divergence, discreteSpectrum, generateAdvancedExpedition, gaussianHeight, jacobian, lineIntegral, logisticTrajectory, lotkaVolterraStep, monteCarloEstimate, multiplyMatrix, polygonArea, polylineLength, seededChaosProfile, seededChaosTrajectory, seededCurveProfile, seededDynamicProfile, seededFieldProfile, seededFlowProfile, seededFlowReading, seededGraphEdges, seededGeometryTarget, seededGradientProfile, seededPopulationStep, seededProbabilityProfile, seededSignalDefaults, seededSignalProfile, seededSpringStep, seededTransformOutput, seededTransformProfile, seededVectorField, selectedPathWeight, shortestPath, springStep, surfaceFlux3D, tangentSlope, triangleArea, trapezoidIntegral } from "./games/advanced-engines";
+import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, AdvancedLevelDefinition, SeededFlowMode, SeededTransformMode, accumulateFlow, advancedActRule, advancedActUnlocked, advancedGoalSatisfied, advancedNotation, applyMatrix, closedPath, complexMultiply, curl, dailyAdvancedExpedition, determinant, divergence, discreteSpectrum, generateAdvancedExpedition, gaussianHeight, jacobian, lineIntegral, logisticTrajectory, lotkaVolterraStep, monteCarloEstimate, multiplyMatrix, polygonArea, polylineLength, seededChaosProfile, seededChaosTrajectory, seededCurveProfile, seededDynamicProfile, seededFieldProfile, seededFlowProfile, seededFlowReading, seededGraphEdges, seededGeometryTarget, seededGradientProfile, seededPopulationStep, seededProbabilityProfile, seededSignalDefaults, seededSignalProfile, seededSpringStep, seededTransformOutput, seededTransformProfile, seededVectorField, selectedPathWeight, shortestPath, springStep, surfaceFlux3D, tangentSlope, triangleArea, trapezoidIntegral } from "./games/advanced-engines";
 import { FAMILY_WORLD_IDS, WORLD_IDS, WORLD_META } from "./games/world-registry";
 
 type Screen = "map" | WorldId | "advanced";
@@ -568,7 +568,7 @@ function SeededCurveWorld({ mode, level, onBack, completeLevel, sound }: Pick<Ga
   const [resolution, setResolution] = useState(1);
   const [observations, setObservations] = useState(0);
   const rate = (x: number) => 30 + amplitude * (1 + Math.sin(x + ratePhase));
-  const accumulated = trapezoidIntegral(rate, 0, position, Math.max(1, Math.round(position / resolution)));
+  const accumulated = accumulateFlow(rate, 0, position, Math.max(1, Math.round(position / resolution)));
   const slope = tangentSlope(x => x * x + Math.sin(x + slopePhase), position, Math.max(.05, resolution / 10));
   const reading = mode === "integration" ? accumulated : slope;
   const accurate = mode === "integration" ? Math.abs(reading - target) < Math.max(35, target * .12) : Math.abs(reading - target) < .7;

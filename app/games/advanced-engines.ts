@@ -126,6 +126,7 @@ export function trapezoidIntegral(rate: (t: number) => number, start: number, en
   for (let i = 0; i < n; i++) total += (rate(start + i * width) + rate(start + (i + 1) * width)) * width / 2;
   return total;
 }
+export function accumulateFlow(rate: (t: number) => number, start: number, end: number, slices: number, reservoir = 0): number { return reservoir + trapezoidIntegral(rate, start, end, slices); }
 
 export function secantSlope(value: (x: number) => number, a: number, b: number): number { return (value(b) - value(a)) / (b - a); }
 export function tangentSlope(value: (x: number) => number, x: number, epsilon = 1e-4): number { return secantSlope(value, x - epsilon, x + epsilon); }

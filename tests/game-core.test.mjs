@@ -12,7 +12,7 @@ import { FAMILY_CAMPAIGN_COUNT, FAMILY_LEVELS, WORLD_NOTATION, generateFamilyEnd
 import { FAMILY_WORLD_IDS, WORLD_IDS, WORLD_META } from "../app/games/world-registry.ts";
 import { GAME_FRAMEWORKS, modeSelectionMessage, modeSelectionState, validateModeSelection } from "../app/games/mode-frameworks.ts";
 import { angleFromToken, arithmeticChain, expectedValueFromFact, functionTrace, vectorWalk } from "../app/games/mode-engines.ts";
-import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, ADVANCED_ENGINE_MANIFEST, ADVANCED_LEVEL_CATALOG, advancedActRule, advancedActUnlocked, advancedGoalSatisfied, advancedNotation, advancedSeedProfile, applyMatrix, closedPath, complexMultiply, curl, dailyAdvancedExpedition, determinant, divergence, discreteSpectrum, generateAdvancedExpedition, gaussianHeight, jacobian, lineIntegral, logisticMapStep, logisticTrajectory, lotkaVolterraStep, monteCarloEstimate, multiplyMatrix, polygonArea, polylineLength, seededChaosProfile, seededChaosTrajectory, seededCurveProfile, seededDynamicProfile, seededFieldProfile, seededFlowProfile, seededFlowReading, seededGraphEdges, seededGeometryTarget, seededGradientProfile, seededPopulationStep, seededProbabilityProfile, seededSignalDefaults, seededSignalProfile, seededSpringStep, seededTransformOutput, seededTransformProfile, seededVectorField, secantSlope, selectedPathWeight, shortestPath, springStep, surfaceFlux, surfaceFlux3D, tangentSlope, triangleArea, trapezoidIntegral, validateAdvancedLevelDefinition } from "../app/games/advanced-engines.ts";
+import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, ADVANCED_ENGINE_MANIFEST, ADVANCED_LEVEL_CATALOG, accumulateFlow, advancedActRule, advancedActUnlocked, advancedGoalSatisfied, advancedNotation, advancedSeedProfile, applyMatrix, closedPath, complexMultiply, curl, dailyAdvancedExpedition, determinant, divergence, discreteSpectrum, generateAdvancedExpedition, gaussianHeight, jacobian, lineIntegral, logisticMapStep, logisticTrajectory, lotkaVolterraStep, monteCarloEstimate, multiplyMatrix, polygonArea, polylineLength, seededChaosProfile, seededChaosTrajectory, seededCurveProfile, seededDynamicProfile, seededFieldProfile, seededFlowProfile, seededFlowReading, seededGraphEdges, seededGeometryTarget, seededGradientProfile, seededPopulationStep, seededProbabilityProfile, seededSignalDefaults, seededSignalProfile, seededSpringStep, seededTransformOutput, seededTransformProfile, seededVectorField, secantSlope, selectedPathWeight, shortestPath, springStep, surfaceFlux, surfaceFlux3D, tangentSlope, triangleArea, trapezoidIntegral, validateAdvancedLevelDefinition } from "../app/games/advanced-engines.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
   assert.equal(LEARNING_LAYERS.length, 5);
@@ -155,6 +155,7 @@ test("advanced pure engines model accumulation, limits, fields, dynamics, transf
   assert.ok(seededCurveProfile(42).amplitude >= 14);
   assert.deepEqual(seededChaosProfile(42), seededChaosProfile(42));
   assert.equal(seededChaosTrajectory(42, seededChaosProfile(42).defaultGrowth)[0], seededChaosProfile(42).initial);
+  assert.equal(accumulateFlow(() => 2, 0, 3, 3, 5), 11);
   const dynamics = seededDynamicProfile(42);
   assert.deepEqual(dynamics, seededDynamicProfile(42));
   assert.ok(dynamics.population.rabbits > dynamics.population.foxes && dynamics.mass > 0 && dynamics.stiffness > 0);

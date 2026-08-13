@@ -137,6 +137,15 @@ export function applyMatrix(matrix: Matrix2, point: Vec2): Vec2 { return { x: ma
 export function determinant(matrix: Matrix2): number { return matrix[0] * matrix[3] - matrix[1] * matrix[2]; }
 export function jacobian(field: (point: Vec2) => Vec2, point: Vec2, epsilon = 1e-4): Matrix2 { const px = field({ x: point.x + epsilon, y: point.y }); const mx = field({ x: point.x - epsilon, y: point.y }); const py = field({ x: point.x, y: point.y + epsilon }); const my = field({ x: point.x, y: point.y - epsilon }); return [(px.x - mx.x) / (2 * epsilon), (py.x - my.x) / (2 * epsilon), (px.y - mx.y) / (2 * epsilon), (py.y - my.y) / (2 * epsilon)]; }
 export function complexMultiply(a: Vec2, b: Vec2): Vec2 { return { x: a.x * b.x - a.y * b.y, y: a.x * b.y + a.y * b.x }; }
+export type SeededTransformMode = "complex numbers" | "Euler formula" | "eigenvectors" | "Jacobian" | "determinant" | "matrix transformations";
+export function seededTransformOutput(mode: SeededTransformMode, angle: number, scale: number): { output: Vec2; measure: number; target: number } {
+  const radians = angle * Math.PI / 180;
+  const output = mode === "complex numbers" || mode === "Euler formula" ? { x: Math.cos(radians) * scale, y: Math.sin(radians) * scale } : { x: Math.cos(radians) * scale + .2 * Math.sin(radians), y: Math.sin(radians) * scale };
+  const magnitude = Math.hypot(output.x, output.y);
+  const measure = mode === "eigenvectors" ? Math.abs(Math.atan2(output.y, output.x) - radians) * 180 / Math.PI : mode === "Jacobian" ? magnitude : mode === "determinant" ? scale : magnitude;
+  const target = mode === "eigenvectors" ? 0 : mode === "Jacobian" ? 1 : mode === "determinant" ? 1.5 : mode === "complex numbers" ? 2 : 1;
+  return { output, measure, target };
+}
 
 export function discreteSpectrum(samples: number[]): number[] { const n = samples.length; return Array.from({ length: n }, (_, k) => { let real = 0; let imaginary = 0; for (let t = 0; t < n; t++) { const angle = 2 * Math.PI * k * t / n; real += samples[t] * Math.cos(angle); imaginary -= samples[t] * Math.sin(angle); } return Math.hypot(real, imaginary) / n; }); }
 export type GraphEdge = { from: number; to: number; weight: number };

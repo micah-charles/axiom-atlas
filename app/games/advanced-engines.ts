@@ -114,7 +114,7 @@ export function gaussianHeight(point: Vec2, peak: Vec2 = { x: 0, y: 0 }, spread 
 export type SeededGradientProfile = { peak: Vec2; spread: number; heading: number };
 export function seededGradientProfile(seed: number): SeededGradientProfile { const value = Math.abs(Math.floor(seed)); return { peak: { x: (value % 5) - 2, y: (Math.floor(value / 5) % 5) - 2 }, spread: 3 + value % 4, heading: value % 360 }; }
 export type SeededCurveProfile = { amplitude: number; ratePhase: number; slopePhase: number };
-export function seededCurveProfile(seed: number): SeededCurveProfile { const value = Math.abs(Math.floor(seed)); return { amplitude: 14 + value % 18, ratePhase: value % 6, slopePhase: value % 4 }; }
+export function seededCurveProfile(seed: number): SeededCurveProfile { const value = Math.abs(Math.floor(seed)); return { amplitude: advancedSeedProfile(seed).amplitude, ratePhase: value % 6, slopePhase: value % 4 }; }
 
 export type VectorField = (point: Vec2) => Vec2;
 export type SeededFieldProfile = { center: Vec2; strength: number };
@@ -128,7 +128,7 @@ export function surfaceFlux3D(field: (point: Vec3) => Vec3, normal: Vec3, area: 
 export function closedPath(path: Vec2[]): Vec2[] { if (path.length < 2) return path; const first = path[0]; const last = path[path.length - 1]; return first.x === last.x && first.y === last.y ? path : [...path, first]; }
 export type SeededFlowMode = "line integral" | "surface integral" | "Stokes theorem";
 export type SeededFlowProfile = { strength: number; surfaceHeight: number };
-export function seededFlowProfile(seed: number): SeededFlowProfile { const value = Math.abs(Math.floor(seed)); return { strength: 1 + (value % 7) * .25, surfaceHeight: 6 + value % 4 }; }
+export function seededFlowProfile(seed: number): SeededFlowProfile { const value = Math.abs(Math.floor(seed)); return { strength: advancedSeedProfile(seed).fieldStrength, surfaceHeight: 6 + value % 4 }; }
 export function seededFlowReading(mode: SeededFlowMode, strength: number, route: Vec2[], control = 0, seed = 0): number {
   if (mode === "line integral") return lineIntegral(() => ({ x: strength, y: 0 }), route) * 25;
   if (mode === "surface integral") {
@@ -159,7 +159,7 @@ export function jacobian(field: (point: Vec2) => Vec2, point: Vec2, epsilon = 1e
 export function complexMultiply(a: Vec2, b: Vec2): Vec2 { return { x: a.x * b.x - a.y * b.y, y: a.x * b.y + a.y * b.x }; }
 export type SeededTransformMode = "complex numbers" | "Euler formula" | "eigenvectors" | "Jacobian" | "determinant" | "matrix transformations";
 export type SeededTransformProfile = { angle: number; scale: number };
-export function seededTransformProfile(seed: number): SeededTransformProfile { const value = Math.abs(Math.floor(seed)); return { angle: value % 90, scale: 1 + (value % 5) * .25 }; }
+export function seededTransformProfile(seed: number): SeededTransformProfile { const profile = advancedSeedProfile(seed); return { angle: profile.rotation, scale: profile.scale }; }
 export function seededTransformOutput(mode: SeededTransformMode, angle: number, scale: number): { output: Vec2; measure: number; target: number } {
   const radians = angle * Math.PI / 180;
   const output = mode === "complex numbers" || mode === "Euler formula" ? { x: Math.cos(radians) * scale, y: Math.sin(radians) * scale } : { x: Math.cos(radians) * scale + .2 * Math.sin(radians), y: Math.sin(radians) * scale };

@@ -98,6 +98,7 @@ test("advanced mathematics catalog is data-driven across reusable engines", () =
   assert.deepEqual(advancedSeedProfile(12), advancedSeedProfile(12));
   assert.notEqual(advancedSeedProfile(12).probability, advancedSeedProfile(13).probability);
   assert.ok(advancedSeedProfile(12).amplitude > 0 && advancedSeedProfile(12).scale >= 1);
+  assert.ok(advancedSeedProfile(12).surfaceHeight >= 6 && advancedSeedProfile(12).chaosInitial > 0 && advancedSeedProfile(12).chaosGrowth > 3);
   assert.ok(ADVANCED_CAMPAIGN.every(level => ADVANCED_ACTS.some(act => act.id === level.act)));
 });
 

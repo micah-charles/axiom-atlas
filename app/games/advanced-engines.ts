@@ -106,10 +106,10 @@ export function dailyAdvancedExpedition(date = new Date()): AdvancedLevelDefinit
   return { ...generateAdvancedExpedition(daySeed, undefined, "measure"), dailyKey: `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}-${String(date.getUTCDate()).padStart(2, "0")}` };
 }
 
-export type AdvancedSeedProfile = { seed: number; variant: number; amplitude: number; probability: number; fieldStrength: number; rotation: number; scale: number; edgeBias: number };
+export type AdvancedSeedProfile = { seed: number; variant: number; amplitude: number; probability: number; fieldStrength: number; rotation: number; scale: number; edgeBias: number; surfaceHeight: number; chaosInitial: number; chaosGrowth: number };
 export function advancedSeedProfile(seed: number): AdvancedSeedProfile {
   const value = Math.abs(Math.floor(seed));
-  return { seed: value, variant: value % 7 + 1, amplitude: 14 + value % 18, probability: Math.min(.85, .45 + (value % 9) * .04), fieldStrength: 1 + (value % 7) * .25, rotation: value % 90, scale: 1 + (value % 5) * .25, edgeBias: value % 5 };
+  return { seed: value, variant: value % 7 + 1, amplitude: 14 + value % 18, probability: Math.min(.85, .45 + (value % 9) * .04), fieldStrength: 1 + (value % 7) * .25, rotation: value % 90, scale: 1 + (value % 5) * .25, edgeBias: value % 5, surfaceHeight: 6 + value % 4, chaosInitial: .12 + (value % 20) / 100, chaosGrowth: 3.2 + (value % 70) / 100 };
 }
 
 export function advancedActUnlocked(campaign: AdvancedLevelDefinition[], completed: Record<string, unknown>, level: AdvancedLevelDefinition): boolean {
@@ -147,7 +147,7 @@ export function surfaceFlux3D(field: (point: Vec3) => Vec3, normal: Vec3, area: 
 export function closedPath(path: Vec2[]): Vec2[] { if (path.length < 2) return path; const first = path[0]; const last = path[path.length - 1]; return first.x === last.x && first.y === last.y ? path : [...path, first]; }
 export type SeededFlowMode = "line integral" | "surface integral" | "Stokes theorem";
 export type SeededFlowProfile = { strength: number; surfaceHeight: number };
-export function seededFlowProfile(seed: number): SeededFlowProfile { const value = Math.abs(Math.floor(seed)); return { strength: advancedSeedProfile(seed).fieldStrength, surfaceHeight: 6 + value % 4 }; }
+export function seededFlowProfile(seed: number): SeededFlowProfile { const profile = advancedSeedProfile(seed); return { strength: profile.fieldStrength, surfaceHeight: profile.surfaceHeight }; }
 export function seededFlowReading(mode: SeededFlowMode, strength: number, route: Vec2[], control = 0, seed = 0): number {
   if (mode === "line integral") return lineIntegral(() => ({ x: strength, y: 0 }), route) * 25;
   if (mode === "surface integral") {
@@ -169,7 +169,7 @@ export function seededPopulationStep(state: PopulationState, control: number, se
 export function seededSpringStep(state: SpringState, damping: number, seed: number, dt = .1): SpringState { const profile = seededDynamicProfile(seed); return springStep(state, dt, profile.mass, profile.stiffness, damping); }
 export function seededChaosTrajectory(seed: number, growth: number, steps = 30): number[] { return logisticTrajectory(.12 + (Math.abs(seed) % 20) / 100, growth, steps); }
 export type SeededChaosProfile = { initial: number; defaultGrowth: number };
-export function seededChaosProfile(seed: number): SeededChaosProfile { const value = Math.abs(Math.floor(seed)); return { initial: .12 + (value % 20) / 100, defaultGrowth: 3.2 + (value % 70) / 100 }; }
+export function seededChaosProfile(seed: number): SeededChaosProfile { const profile = advancedSeedProfile(seed); return { initial: profile.chaosInitial, defaultGrowth: profile.chaosGrowth }; }
 
 export function multiplyMatrix(a: Matrix2, b: Matrix2): Matrix2 { return [a[0] * b[0] + a[1] * b[2], a[0] * b[1] + a[1] * b[3], a[2] * b[0] + a[3] * b[2], a[2] * b[1] + a[3] * b[3]]; }
 export function applyMatrix(matrix: Matrix2, point: Vec2): Vec2 { return { x: matrix[0] * point.x + matrix[1] * point.y, y: matrix[2] * point.x + matrix[3] * point.y }; }

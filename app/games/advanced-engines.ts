@@ -150,6 +150,8 @@ export function determinant(matrix: Matrix2): number { return matrix[0] * matrix
 export function jacobian(field: (point: Vec2) => Vec2, point: Vec2, epsilon = 1e-4): Matrix2 { const px = field({ x: point.x + epsilon, y: point.y }); const mx = field({ x: point.x - epsilon, y: point.y }); const py = field({ x: point.x, y: point.y + epsilon }); const my = field({ x: point.x, y: point.y - epsilon }); return [(px.x - mx.x) / (2 * epsilon), (py.x - my.x) / (2 * epsilon), (px.y - mx.y) / (2 * epsilon), (py.y - my.y) / (2 * epsilon)]; }
 export function complexMultiply(a: Vec2, b: Vec2): Vec2 { return { x: a.x * b.x - a.y * b.y, y: a.x * b.y + a.y * b.x }; }
 export type SeededTransformMode = "complex numbers" | "Euler formula" | "eigenvectors" | "Jacobian" | "determinant" | "matrix transformations";
+export type SeededTransformProfile = { angle: number; scale: number };
+export function seededTransformProfile(seed: number): SeededTransformProfile { const value = Math.abs(Math.floor(seed)); return { angle: value % 90, scale: 1 + (value % 5) * .25 }; }
 export function seededTransformOutput(mode: SeededTransformMode, angle: number, scale: number): { output: Vec2; measure: number; target: number } {
   const radians = angle * Math.PI / 180;
   const output = mode === "complex numbers" || mode === "Euler formula" ? { x: Math.cos(radians) * scale, y: Math.sin(radians) * scale } : { x: Math.cos(radians) * scale + .2 * Math.sin(radians), y: Math.sin(radians) * scale };

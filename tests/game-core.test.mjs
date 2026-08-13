@@ -13,6 +13,7 @@ import { FAMILY_WORLD_IDS, WORLD_IDS, WORLD_META } from "../app/games/world-regi
 import { GAME_FRAMEWORKS, modeSelectionMessage, modeSelectionState, validateModeSelection } from "../app/games/mode-frameworks.ts";
 import { angleFromToken, arithmeticChain, expectedValueFromFact, functionTrace, vectorWalk } from "../app/games/mode-engines.ts";
 import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, ADVANCED_ENGINE_MANIFEST, ADVANCED_INSTRUMENTS, ADVANCED_LEVEL_CATALOG, accumulateFlow, advancedActRule, advancedActUnlocked, advancedGoalSatisfied, advancedNotation, advancedSeedProfile, applyMatrix, closedPath, complexMultiply, curl, dailyAdvancedExpedition, determinant, divergence, discreteSpectrum, generateAdvancedExpedition, gaussianHeight, jacobian, lineIntegral, logisticMapStep, logisticTrajectory, lotkaVolterraStep, measurementInstrument, monteCarloEstimate, multiplyMatrix, polygonArea, polylineLength, seededChaosProfile, seededChaosTrajectory, seededCurveProfile, seededDynamicProfile, seededFieldProfile, seededFlowProfile, seededFlowReading, seededGraphEdges, seededGeometryTarget, seededGradientProfile, seededPopulationStep, seededProbabilityProfile, seededSignalDefaults, seededSignalProfile, seededSpringStep, seededTransformOutput, seededTransformProfile, seededVectorField, secantSlope, selectedPathWeight, shortestPath, springStep, surfaceFlux, surfaceFlux3D, tangentSlope, triangleArea, trapezoidIntegral, validateAdvancedLevelDefinition } from "../app/games/advanced-engines.ts";
+import { addResource, createReservoir, entityById, moveEntity, reservoirFilled, stepScene } from "../app/games/simulation-systems.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
   assert.equal(LEARNING_LAYERS.length, 5);
@@ -203,6 +204,17 @@ test("advanced pure engines model accumulation, limits, fields, dynamics, transf
   assert.equal(polygonArea([{ x: -2, y: -1 }, { x: 2, y: -1 }, { x: 2, y: 1 }, { x: -2, y: 1 }]), 8);
   assert.ok(logisticMapStep(.5, 2) > 0);
   assert.equal(logisticTrajectory(.5, 2, 4).length, 4);
+});
+
+test("shared scene and resource systems are deterministic and reusable", () => {
+  const scene = { time: 0, entities: [{ id: "ship", position: { x: 0, y: 0 }, velocity: { x: 1, y: 0 }, mass: 2 }] };
+  const moved = stepScene(scene, .5, () => ({ x: 2, y: 0 }));
+  assert.equal(moved.time, .5);
+  assert.deepEqual(entityById(moved, "ship")?.position, { x: .75, y: 0 });
+  assert.deepEqual(moveEntity(moved, "ship", { x: 4, y: 2 }).entities[0].position, { x: 4, y: 2 });
+  const reservoir = addResource(createReservoir(10, 2), 12);
+  assert.deepEqual(reservoir, { capacity: 10, current: 10 });
+  assert.equal(reservoirFilled(reservoir), true);
 });
 
 for (const world of FAMILY_WORLD_IDS) {

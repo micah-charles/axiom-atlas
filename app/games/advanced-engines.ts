@@ -4,6 +4,19 @@ export type Matrix2 = [number, number, number, number];
 
 export type AdvancedEngine = "curve" | "field" | "flow" | "dynamic" | "transformation" | "plane" | "signal" | "graph" | "probability" | "geometry";
 export type AdvancedAct = "experience" | "control" | "measure" | "generalise" | "name";
+export type AdvancedEngineManifestEntry = { id: AdvancedEngine; systems: string[]; concepts: string[] };
+export const ADVANCED_ENGINE_MANIFEST: AdvancedEngineManifestEntry[] = [
+  { id: "curve", systems: ["RateCurve", "Accumulator", "SecantProbe"], concepts: ["integration", "derivative"] },
+  { id: "field", systems: ["VectorField", "MeasurementSensor", "GradientTerrain"], concepts: ["gradient", "partial derivatives", "divergence", "curl"] },
+  { id: "flow", systems: ["PathDrawer", "FluxGauge", "BoundaryRoute"], concepts: ["line integral", "surface integral", "Stokes theorem"] },
+  { id: "dynamic", systems: ["TimeController", "StateStepper", "TrajectoryPlot"], concepts: ["differential equations", "second-order differential equations", "chaotic dynamics"] },
+  { id: "transformation", systems: ["MatrixOperator", "GridDeformer", "InvariantProbe"], concepts: ["matrix transformations", "eigenvectors", "determinant", "Jacobian"] },
+  { id: "plane", systems: ["ComplexPlane", "PortalOperator", "ProjectionMeter"], concepts: ["complex numbers", "Euler formula"] },
+  { id: "signal", systems: ["Waveform", "Spectrum", "Filter"], concepts: ["Fourier transform"] },
+  { id: "graph", systems: ["VertexGraph", "PathSolver", "WeightMeter"], concepts: ["graph paths"] },
+  { id: "probability", systems: ["TrialSampler", "EstimateGauge", "OutcomeStream"], concepts: ["probability simulation"] },
+  { id: "geometry", systems: ["ConstructionPlane", "VertexHandles", "AreaGauge"], concepts: ["geometry construction"] },
+];
 
 export type AdvancedLevelDefinition = {
   id: string;
@@ -59,7 +72,7 @@ export const ADVANCED_NOTATION: Record<string, string> = {
 export function advancedNotation(concept: string): string { return ADVANCED_NOTATION[concept] ?? "Formal rule recorded"; }
 
 export function validateAdvancedLevelDefinition(level: AdvancedLevelDefinition): boolean {
-  return Boolean(level.id && level.world && level.concept && level.engine && level.act && level.objective && level.tools.length && level.goal.type && level.revealNotationAfterCompletion);
+  return Boolean(level.id && level.world && level.concept && ADVANCED_ENGINE_MANIFEST.some(engine => engine.id === level.engine && engine.concepts.includes(level.concept)) && level.act && level.objective && level.tools.length && level.goal.type && level.revealNotationAfterCompletion);
 }
 
 export function advancedGoalSatisfied(goal: AdvancedLevelDefinition["goal"], value: number, tolerance = .08): boolean {

@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import {
   BUBBLE_LEVELS, QUADRATIC_LEVELS, TREE_LEVELS, beginTreeStep, bubbleDecision,
   commit, createBubbleState, createHistory, createTreeState, formatQuadratic,
@@ -20,6 +21,12 @@ test("campaign is generated deterministically across five learning layers", () =
   assert.equal(QUADRATIC_LEVELS.length, 40);
   assert.deepEqual(generateBubbleLevel(LEARNING_LAYERS[3], 4), generateBubbleLevel(LEARNING_LAYERS[3], 4));
   assert.notDeepEqual(generateEndlessLevel("bubble", 1).values, generateEndlessLevel("bubble", 2).values);
+});
+
+test("advanced level JSON schema is shipped beside the data engine", () => {
+  const schema = JSON.parse(readFileSync(new URL("../app/games/advanced-level.schema.json", import.meta.url), "utf8"));
+  assert.equal(schema.title, "Axiom Atlas Advanced Level");
+  assert.ok(schema.required.includes("engine") && schema.required.includes("goal"));
 });
 
 test("default progress includes a separate daily challenge record", async () => {

@@ -13,7 +13,7 @@ import {
 } from "./lib/campaign";
 import { FAMILY_LEVELS, FamilyLevel, FamilyWorldId, generateFamilyEndless } from "./games/family-generator";
 import { validateModeSelection } from "./games/mode-frameworks";
-import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, AdvancedLevelDefinition, advancedActRule, advancedActUnlocked, closedPath, complexMultiply, curl, determinant, divergence, discreteSpectrum, gaussianHeight, jacobian, lineIntegral, logisticTrajectory, lotkaVolterraStep, monteCarloEstimate, multiplyMatrix, polygonArea, polylineLength, selectedPathWeight, shortestPath, springStep, surfaceFlux3D, tangentSlope, triangleArea, trapezoidIntegral } from "./games/advanced-engines";
+import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, AdvancedLevelDefinition, advancedActRule, advancedActUnlocked, advancedNotation, closedPath, complexMultiply, curl, determinant, divergence, discreteSpectrum, gaussianHeight, jacobian, lineIntegral, logisticTrajectory, lotkaVolterraStep, monteCarloEstimate, multiplyMatrix, polygonArea, polylineLength, selectedPathWeight, shortestPath, springStep, surfaceFlux3D, tangentSlope, triangleArea, trapezoidIntegral } from "./games/advanced-engines";
 import { FAMILY_WORLD_IDS, WORLD_IDS, WORLD_META } from "./games/world-registry";
 
 type Screen = "map" | WorldId | "advanced";
@@ -142,7 +142,7 @@ type GameProps = { onBack: () => void; progress: Progress; completeLevel: (id: s
 
 function ActGuide({ level }: { level: AdvancedLevelDefinition }) {
   const meta = ADVANCED_ACTS.find(act => act.id === level.act)!;
-  return <div className="act-guide" aria-label={`${meta.label}: ${meta.instruction}`}><span>{meta.verb}</span><div><b>{meta.label}</b><small>{meta.instruction}</small></div>{meta.revealNotation && <i>Notation unlocked</i>}</div>;
+  return <div className="act-guide" aria-label={`${meta.label}: ${meta.instruction}`}><span>{meta.verb}</span><div><b>{meta.label}</b><small>{meta.instruction}</small>{meta.revealNotation && <code>{advancedNotation(level.concept)}</code>}</div>{meta.revealNotation && <i>Notation unlocked</i>}</div>;
 }
 
 function AdvancedRoute({ level, children }: { level: AdvancedLevelDefinition; children: React.ReactNode }) {

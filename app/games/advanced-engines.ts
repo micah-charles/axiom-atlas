@@ -50,6 +50,12 @@ export const ADVANCED_ACTS: { id: AdvancedAct; label: string; instruction: strin
   { id: "name", label: "Act 5 · Name", instruction: "Reveal the formal notation after the discovery.", verb: "Name", minimumObservations: 3, revealNotation: true },
 ];
 
+export const ADVANCED_NOTATION: Record<string, string> = {
+  integration: "∫ₐᵇ f(t) dt", derivative: "f′(x)", gradient: "∇f", "partial derivatives": "∂f/∂x, ∂f/∂y", divergence: "∇·F", curl: "∇×F", "line integral": "∫C F·dr", "surface integral": "∬S F·n dS", "Stokes theorem": "∮∂S F·dr = ∬S (∇×F)·n dS", "differential equations": "dR/dt = aR − bRF", "second-order differential equations": "mx″ + cx′ + kx = 0", "chaotic dynamics": "xₙ₊₁ = r xₙ(1 − xₙ)", "Fourier transform": "F(ω) = ∫ f(t)e⁻ⁱωt dt", "matrix transformations": "v′ = Av", eigenvectors: "Av = λv", determinant: "det(A)", Jacobian: "J(x,y)", "complex numbers": "z = a + bi", "Euler formula": "eⁱθ = cos θ + i sin θ", "graph paths": "d(v) = minₚ w(p)", "probability simulation": "P(A) = limₙ→∞ successes/n", "geometry construction": "A = ½bh",
+};
+
+export function advancedNotation(concept: string): string { return ADVANCED_NOTATION[concept] ?? "Formal rule recorded"; }
+
 export function advancedActRule(act: AdvancedAct): { verb: string; minimumObservations: number; revealNotation: boolean } { const rule = ADVANCED_ACTS.find(candidate => candidate.id === act); return rule ? { verb: rule.verb, minimumObservations: rule.minimumObservations, revealNotation: rule.revealNotation } : { verb: "Observe", minimumObservations: 1, revealNotation: false }; }
 
 export const ADVANCED_CAMPAIGN: AdvancedLevelDefinition[] = ADVANCED_LEVEL_CATALOG.flatMap(level => ADVANCED_ACTS.map(act => ({

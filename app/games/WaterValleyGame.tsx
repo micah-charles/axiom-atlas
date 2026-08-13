@@ -27,6 +27,7 @@ export function WaterValleyGame({ level, onBack, completeLevel, sound }: WaterVa
   const [gateTime, setGateTime] = useState(54);
   const [sliceWidth, setSliceWidth] = useState(10);
   const [readings, setReadings] = useState<ValleyReading[]>([]);
+  const [tutorialStep, setTutorialStep] = useState(0);
   const [attempts, setAttempts] = useState(2);
   const [message, setMessage] = useState("The river is changing. We need a plan before the gate bell rings.");
   const [revealedVolume, setRevealedVolume] = useState<number | null>(null);
@@ -42,6 +43,20 @@ export function WaterValleyGame({ level, onBack, completeLevel, sound }: WaterVa
   const confidence = valleyConfidence(readings, gateTime);
   const selectedRate = valleyFlowRate(probeTime, seed, target, modelIndex);
   const reservoirPercent = Math.max(0, Math.min(100, ((revealedVolume ?? estimate) / target) * 100));
+  const tutorialPrompt = tutorialStep === 1
+    ? "Move the probe to 10 seconds."
+    : tutorialStep === 2
+      ? "Record this reading."
+      : tutorialStep === 3
+        ? "One reading is not enough. Move to 25 seconds."
+        : tutorialStep === 4
+          ? "Record the 25-second reading."
+          : tutorialStep === 5
+            ? "Now measure one more point at 40 seconds."
+            : tutorialStep === 6
+              ? "Record the 40-second reading to unlock free play."
+              : "Choose a moment on the river, then record its flow.";
+  const tutorialLocked = tutorialStep > 0 && tutorialStep < 7;
 
   useEffect(() => {
     if (phase !== "playing") return;
@@ -57,15 +72,29 @@ export function WaterValleyGame({ level, onBack, completeLevel, sound }: WaterVa
 
   const start = () => {
     setPhase("playing");
-    setMessage("Nia: Place probes across the whole river timeline, then choose a gate-closing time.");
+    setTutorialStep(1);
+    setProbeTime(10);
+    setMessage("Nia: Move the probe to 10 seconds. Only one action is needed now.");
     sound("good");
   };
 
   const recordReading = () => {
     if (phase !== "playing") return;
+    if (tutorialStep === 1 && probeTime !== 10) { setMessage("Nia: Start at 10 seconds so we can learn the river together."); sound("bad"); return; }
+    if (tutorialStep === 3 && probeTime !== 25) { setMessage("Nia: Move the probe to 25 seconds next."); sound("bad"); return; }
+    if (tutorialStep === 5 && probeTime !== 40) { setMessage("Nia: One more reading at 40 seconds, then you are on your own."); sound("bad"); return; }
+    if (tutorialStep === 2 && probeTime !== 10) { setMessage("Nia: Record the highlighted 10-second reading first."); sound("bad"); return; }
+    if (tutorialStep === 4 && probeTime !== 25) { setMessage("Nia: Record the highlighted 25-second reading first."); sound("bad"); return; }
+    if (tutorialStep === 6 && probeTime !== 40) { setMessage("Nia: Record the highlighted 40-second reading first."); sound("bad"); return; }
     if (readings.length >= 7) { setMessage("The probe battery is empty. Improve the plan with the readings you have."); sound("bad"); return; }
     const reading = { time: probeTime, rate: selectedRate };
     setReadings(current => [...current.filter(item => item.time !== probeTime), reading].sort((a, b) => a.time - b.time));
+    if (tutorialStep === 1) setTutorialStep(2);
+    else if (tutorialStep === 2) { setTutorialStep(3); setProbeTime(25); }
+    else if (tutorialStep === 3) setTutorialStep(4);
+    else if (tutorialStep === 4) { setTutorialStep(5); setProbeTime(40); }
+    else if (tutorialStep === 5) setTutorialStep(6);
+    else if (tutorialStep === 6) setTutorialStep(7);
     setMessage(probeTime >= 28 && probeTime <= 38 ? "Nia: That spike confirms the cloudburst. Tighten the slices here." : probeTime >= 44 ? "Nia: The leak is real. Late flow is weaker than expected." : `Nia: ${selectedRate.toFixed(1)} units/s recorded at ${probeTime}s.`);
     sound("good");
   };
@@ -103,7 +132,7 @@ export function WaterValleyGame({ level, onBack, completeLevel, sound }: WaterVa
   };
 
   const reset = () => {
-    setPhase("briefing"); setTimeLeft(60); setProbeTime(18); setGateTime(54); setSliceWidth(10); setReadings([]); setAttempts(2); setRevealedVolume(null); completedRef.current = false;
+    setPhase("briefing"); setTimeLeft(60); setProbeTime(10); setGateTime(54); setSliceWidth(10); setReadings([]); setAttempts(2); setRevealedVolume(null); setTutorialStep(0); completedRef.current = false;
     setMessage("The river is changing. We need a plan before the gate bell rings.");
   };
 
@@ -139,7 +168,8 @@ export function WaterValleyGame({ level, onBack, completeLevel, sound }: WaterVa
           <div className="wv-water-mark">◒</div><small>LOWER RESERVOIR</small>
           <b>{Math.round(revealedVolume ?? estimate)} <span>/ {target.toFixed(0)} units</span></b>
           <div className="wv-fill-track"><i style={{ width: `${reservoirPercent}%` }} /></div>
-          <p>{revealedVolume === null ? `Estimate ±${Math.max(8, Math.round((100 - confidence) * .7))} · ${confidence}% confidence` : `${Math.abs(revealedVolume - target).toFixed(1)} units from target`}</p>
+          <div className="wv-target-readout"><span>TARGET <b>{target.toFixed(0)}</b></span><span>CURRENT <b>{revealedVolume === null ? (readings.length ? Math.round(estimate) : "—") : Math.round(revealedVolume)}</b></span><span>ERROR <b>{revealedVolume === null ? (readings.length ? `±${Math.max(8, Math.round((100 - confidence) * .7))}` : "Unknown") : `${Math.abs(revealedVolume - target).toFixed(1)}`}</b></span></div>
+          <p>{revealedVolume === null ? `Mission: get within ±10 units · ${confidence}% confidence` : `${Math.abs(revealedVolume - target).toFixed(1)} units from target`}</p>
         </div>
 
         <div className="wv-event-strip">{riverModel.events.map((event, index) => <span key={event}>{index === 0 ? "☁" : "◌"} {event}</span>)}</div>
@@ -157,19 +187,20 @@ export function WaterValleyGame({ level, onBack, completeLevel, sound }: WaterVa
           <div className="wv-axis"><span>0s</span><span>15s</span><span>30s</span><span>45s</span><span>60s</span></div>
 
           <div className="wv-rectangle-lab">
-            <div className="wv-rectangle-title"><span>WATER BLOCKS · HEIGHT × WIDTH = VOLUME</span><b>{rectangles.map(rectangle => Math.round(rectangle.volume)).join(" + ")} = <i>{Math.round(estimate)}</i></b></div>
+            <div className="wv-rectangle-title"><span>WATER BLOCKS · HEIGHT × WIDTH = VOLUME</span><b>{rectangles.length ? `${rectangles.map(rectangle => Math.round(rectangle.volume)).join(" + ")} = ` : "Add a reading → "}<i>{Math.round(estimate)}</i></b></div>
+            <div className={`wv-leakage wv-leak-${sliceWidth >= 10 ? "wide" : sliceWidth <= 4 ? "tight" : "mid"}`}>{sliceWidth >= 10 ? "Wide blocks leak around the river curve." : sliceWidth <= 4 ? "Thin blocks hold almost all the water." : "Smaller blocks reduce the leak."}</div>
             <div className="wv-rectangles" aria-label="Riemann rectangle calculations">
               {rectangles.map((rectangle, index) => <div key={`${rectangle.start}-${rectangle.end}`} className="wv-rectangle" style={{ "--wv-block-height": `${Math.max(24, rectangle.height / maxRate * 62)}px`, animationDelay: `${Math.min(index, 12) * .035}s` } as CSSProperties}><i /><small>{rectangle.start}–{rectangle.end}s</small><b>{rectangle.height.toFixed(1)} × {rectangle.width.toFixed(0)}</b><span>= {rectangle.volume.toFixed(0)}</span></div>)}
             </div>
           </div>
 
           <div className="wv-controls">
-            <div className="wv-tool probe"><small>PROBE · {7 - readings.length} CHARGES</small><label>Reading time <input type="range" min="0" max="60" step="2" value={probeTime} onChange={event => setProbeTime(Number(event.target.value))} /><b>{probeTime}s</b></label><button onClick={recordReading} disabled={phase !== "playing"}>Record {selectedRate.toFixed(1)}</button></div>
-            <div className="wv-tool"><small>RIEMANN SLICES</small><div className="wv-slice-buttons">{SLICE_OPTIONS.map(option => <button key={option} className={sliceWidth === option ? "active" : ""} onClick={() => { setSliceWidth(option); sound("tap"); }}>{option}s</button>)}</div><p>Smaller slices refine your estimate.</p></div>
-            <div className="wv-tool gate"><small>GATE CLOSE TIME</small><label>Close channel <input type="range" min="20" max="60" step="1" value={gateTime} onChange={event => { setGateTime(Number(event.target.value)); setRevealedVolume(null); }} /><b>{gateTime}s</b></label><button onClick={undoReading} disabled={!readings.length}>Undo probe</button></div>
+            <div className={`wv-tool probe ${tutorialLocked ? "wv-focus" : ""}`}><small>PROBE · {7 - readings.length} CHARGES</small><label>Reading time <input type="range" min="0" max="60" step="2" value={probeTime} onChange={event => { setProbeTime(Number(event.target.value)); if (tutorialStep === 1 && Number(event.target.value) === 10) setTutorialStep(2); if (tutorialStep === 3 && Number(event.target.value) === 25) setTutorialStep(4); if (tutorialStep === 5 && Number(event.target.value) === 40) setTutorialStep(6); }} /><b>{probeTime}s</b></label><button onClick={recordReading} disabled={phase !== "playing"}>Record {selectedRate.toFixed(1)}</button></div>
+            <div className={`wv-tool ${tutorialLocked ? "wv-muted" : ""}`}><small>RIEMANN SLICES</small><div className="wv-slice-buttons">{SLICE_OPTIONS.map(option => <button key={option} disabled={tutorialLocked} className={sliceWidth === option ? "active" : ""} onClick={() => { setSliceWidth(option); sound("tap"); }}>{option}s</button>)}</div><p>Smaller slices refine your estimate.</p></div>
+            <div className={`wv-tool gate ${tutorialLocked ? "wv-muted" : ""}`}><small>GATE CLOSE TIME</small><label>Close channel <input disabled={tutorialLocked} type="range" min="20" max="60" step="1" value={gateTime} onChange={event => { setGateTime(Number(event.target.value)); setRevealedVolume(null); }} /><b>{gateTime}s</b></label><button onClick={undoReading} disabled={tutorialLocked || !readings.length}>Undo probe</button></div>
           </div>
 
-          <div className="wv-command"><div><small>YOUR PLAN</small><b>{Math.round(estimate)} estimated · {readings.length} probes · {confidence}% confidence</b></div><button onClick={commitPlan} disabled={phase !== "playing"}>OPEN THE CHANNEL <span>→</span></button></div>
+          <div className="wv-command"><div><small>{tutorialLocked ? "NEXT ACTION" : "YOUR PLAN"}</small><b>{tutorialLocked ? tutorialPrompt : `${Math.round(estimate)} estimated · ${readings.length} probes · ${confidence}% confidence`}</b></div><button onClick={commitPlan} disabled={phase !== "playing" || tutorialLocked}>OPEN THE CHANNEL <span>→</span></button></div>
         </div>
 
         {phase === "briefing" && <div className="wv-modal"><span>ACT {actIndex + 1} · RIVER MODEL HIDDEN</span><h2>The bell rings in one minute.</h2><p>Probe the river at different times. Each reading builds a visible water block. Add the blocks, refine their width, and choose when to close the gate.</p><button onClick={start}>BEGIN THE WATCH <i>→</i></button><small>No equation yet. Discover the river through evidence.</small></div>}

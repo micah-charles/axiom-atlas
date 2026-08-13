@@ -61,6 +61,7 @@ export function advancedNotation(concept: string): string { return ADVANCED_NOTA
 export function advancedGoalSatisfied(goal: AdvancedLevelDefinition["goal"], value: number, tolerance = .08): boolean {
   if (!Number.isFinite(value) || typeof goal.target !== "number") return false;
   if (goal.type === "accumulate" || goal.type === "pathEnergy") return value >= goal.target;
+  if (goal.type === "shortestPath") return value <= goal.target;
   const allowed = goal.type === "flux" ? Math.max(1, goal.target * .18) : tolerance;
   return Math.abs(value - goal.target) <= allowed;
 }

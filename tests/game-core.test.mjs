@@ -157,6 +157,8 @@ test("advanced pure engines model accumulation, limits, fields, dynamics, transf
   assert.equal(advancedGoalSatisfied({ type: "accumulate", target: 10 }, 10), true);
   assert.equal(advancedGoalSatisfied({ type: "pathEnergy", target: 10 }, 9), false);
   assert.equal(advancedGoalSatisfied({ type: "matchArea", target: 6 }, 6.05), true);
+  assert.equal(advancedGoalSatisfied({ type: "shortestPath", target: 7 }, 6), true);
+  assert.equal(advancedGoalSatisfied({ type: "shortestPath", target: 7 }, 8), false);
   assert.equal(closedPath([{ x: 0, y: 0 }, { x: 1, y: 0 }]).length, 3);
   assert.ok(lotkaVolterraStep({ rabbits: 300, foxes: 20 }, .1).rabbits > 0);
   assert.ok(Math.abs(springStep({ position: 1, velocity: 0 }, .01, 1, 1, .1).position - 1) < .01);

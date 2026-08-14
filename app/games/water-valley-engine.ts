@@ -1,6 +1,8 @@
 export type ValleyReading = { time: number; rate: number };
 export type ValleyOutcome = "success" | "shortage" | "flood";
 export type RiverRectangle = { start: number; end: number; width: number; height: number; volume: number };
+export type ValleyBlockState = "waiting" | "filling" | "complete-measured" | "complete-estimated" | "refined";
+export type ValleyTimeBlock = RiverRectangle & { state: ValleyBlockState; source: "measured" | "interpolated" | "extrapolated" };
 export type RiverModel = { id: "linear" | "quadratic" | "wave" | "flood" | "mixed"; name: string; formula: string; events: string[] };
 
 const MODEL_IDS: RiverModel["id"][] = ["linear", "quadratic", "wave", "flood", "mixed"];
@@ -25,7 +27,7 @@ function rawModelTotal(seed: number, model: RiverModel["id"]): number {
 
 export function valleyRiverModel(modelIndex = 4, seed = 0, target = 420): RiverModel {
   const id = MODEL_IDS[Math.abs(Math.floor(modelIndex)) % MODEL_IDS.length];
-  const scale = target * 1.045 / rawModelTotal(seed, id);
+  const scale = target * 1.15 / rawModelTotal(seed, id);
   const factor = scale.toFixed(2);
   if (id === "linear") return { id, name: "Rising Snowmelt", formula: `Flow(t) = ${factor} × (4.4 + 0.085t)`, events: ["SUNRISE · FLOW RISES STEADILY"] };
   if (id === "quadratic") return { id, name: "Accelerating Thaw", formula: `Flow(t) = ${factor} × (3.8 + 0.0019t²)`, events: ["THAW · FLOW ACCELERATES"] };
@@ -37,7 +39,7 @@ export function valleyRiverModel(modelIndex = 4, seed = 0, target = 420): RiverM
 export function valleyFlowRate(time: number, seed = 0, target = 420, modelIndex = 4): number {
   const t = Math.max(0, Math.min(60, time));
   const model = valleyRiverModel(modelIndex, seed, target);
-  const scale = target * 1.045 / rawModelTotal(seed, model.id);
+  const scale = target * 1.15 / rawModelTotal(seed, model.id);
   return Math.max(.2, rawRiverRate(t, seed, model.id) * scale);
 }
 
@@ -50,6 +52,31 @@ export function valleyActualVolume(cutoff: number, seed = 0, target = 420, step 
     total += (valleyFlowRate(time, seed, target, modelIndex) + valleyFlowRate(next, seed, target, modelIndex)) * (next - time) / 2;
   }
   return total;
+}
+
+export const actualVolumeAt = valleyActualVolume;
+
+export function findActualTargetCrossing(target = 420, seed = 0, modelIndex = 4): number | null {
+  let low = 0;
+  let high = 60;
+  if (valleyActualVolume(high, seed, target, .05, modelIndex) < target) return null;
+  for (let index = 0; index < 28; index += 1) {
+    const middle = (low + high) / 2;
+    if (valleyActualVolume(middle, seed, target, .05, modelIndex) < target) low = middle;
+    else high = middle;
+  }
+  return high;
+}
+
+export function buildActualRevealBlocks(cutoff: number, seed = 0, target = 420, modelIndex = 4): RiverRectangle[] {
+  const end = Math.max(0, Math.min(60, cutoff));
+  const blocks: RiverRectangle[] = [];
+  for (let start = 0; start < end; start += 5) {
+    const stop = Math.min(end, start + 5);
+    const volume = valleyActualVolume(stop, seed, target, .05, modelIndex) - valleyActualVolume(start, seed, target, .05, modelIndex);
+    blocks.push({ start, end: stop, width: stop - start, height: volume / Math.max(.01, stop - start), volume });
+  }
+  return blocks;
 }
 
 function inferredRate(time: number, readings: ValleyReading[]): number {
@@ -76,6 +103,35 @@ export function buildValleyRectangles(readings: ValleyReading[], cutoff: number,
     rectangles.push({ start, end: stop, width: stop - start, height, volume: height * (stop - start) });
   }
   return rectangles;
+}
+
+export function buildValleyTimeBlocks(readings: ValleyReading[], elapsed: number, blockWidth = 5, refinements: Array<{ start: number; end: number }> = []): ValleyTimeBlock[] {
+  const end = Math.max(0, Math.min(60, elapsed));
+  const width = Math.max(1, blockWidth);
+  const blocks: ValleyTimeBlock[] = [];
+  for (let start = 0; start < 60; start += width) {
+    const stop = Math.min(60, start + width);
+    const visibleEnd = Math.min(stop, end);
+    const midpoint = (start + visibleEnd) / 2;
+    const matching = readings.find(reading => reading.time >= start && reading.time <= stop);
+    const before = readings.filter(reading => reading.time <= midpoint).sort((a, b) => b.time - a.time)[0];
+    const after = readings.filter(reading => reading.time >= midpoint).sort((a, b) => a.time - b.time)[0];
+    const rate = matching?.rate ?? (before && after && after.time !== before.time ? before.rate + ((midpoint - before.time) / (after.time - before.time)) * (after.rate - before.rate) : before?.rate ?? after?.rate ?? 0);
+    const source = matching ? "measured" : before || after ? "interpolated" : "extrapolated";
+    const state: ValleyBlockState = start >= end ? "waiting" : visibleEnd < stop ? "filling" : matching ? "complete-measured" : refinements.some(region => region.start <= start && region.end >= stop) ? "refined" : "complete-estimated";
+    blocks.push({ start, end: stop, width: Math.max(0, visibleEnd - start), height: Math.max(0, rate), volume: Math.max(0, rate * Math.max(0, visibleEnd - start)), state, source });
+  }
+  return blocks;
+}
+
+export function estimateTargetCrossing(readings: ValleyReading[], target = 420, elapsed = 0, blockWidth = 5): [number, number] | null {
+  const blocks = buildValleyTimeBlocks(readings, Math.max(elapsed, 60), blockWidth);
+  let total = 0;
+  for (const block of blocks) {
+    total += block.volume;
+    if (total >= target) return [Math.max(elapsed, block.start), Math.min(60, block.end)];
+  }
+  return null;
 }
 
 export function estimateValleyVolume(readings: ValleyReading[], cutoff: number, sliceWidth: number): number {

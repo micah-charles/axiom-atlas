@@ -2,7 +2,7 @@
 
 import { CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 import { ADVANCED_ACTS, AdvancedLevelDefinition, advancedNotation } from "./advanced-engines";
-import { ValleyReading, buildValleyRectangles, estimateValleyVolume, resolveValleyOutcome, valleyActualVolume, valleyConfidence, valleyFlowRate, valleyRiverModel, valleyStars } from "./water-valley-engine";
+import { ValleyReading, buildActualRevealBlocks, buildValleyTimeBlocks, estimateTargetCrossing, resolveValleyOutcome, valleyActualVolume, valleyConfidence, valleyFlowRate, valleyRiverModel, valleyStars } from "./water-valley-engine";
 
 type WaterValleyGameProps = {
   level: AdvancedLevelDefinition;
@@ -11,8 +11,7 @@ type WaterValleyGameProps = {
   sound: (tone: "tap" | "good" | "bad" | "win") => void;
 };
 
-type ValleyPhase = "briefing" | "playing" | "success" | "failure";
-const SLICE_OPTIONS = [10, 6, 4, 2];
+type ValleyPhase = "briefing" | "playing" | "gate-closing" | "success" | "failure";
 
 export function WaterValleyGame({ level, onBack, completeLevel, sound }: WaterValleyGameProps) {
   const seed = Math.abs(level.seed ?? 0);
@@ -23,11 +22,8 @@ export function WaterValleyGame({ level, onBack, completeLevel, sound }: WaterVa
   const riverModel = valleyRiverModel(modelIndex, seed, target);
   const [phase, setPhase] = useState<ValleyPhase>("briefing");
   const [timeLeft, setTimeLeft] = useState(60);
-  const [probeTime, setProbeTime] = useState(18);
-  const [gateTime, setGateTime] = useState(54);
-  const [sliceWidth, setSliceWidth] = useState(10);
   const [readings, setReadings] = useState<ValleyReading[]>([]);
-  const [tutorialStep, setTutorialStep] = useState(0);
+  const [refinements, setRefinements] = useState<Array<{ start: number; end: number }>>([]);
   const [attempts, setAttempts] = useState(2);
   const [message, setMessage] = useState("The river is changing. We need a plan before the gate bell rings.");
   const [revealedVolume, setRevealedVolume] = useState<number | null>(null);
@@ -38,102 +34,60 @@ export function WaterValleyGame({ level, onBack, completeLevel, sound }: WaterVa
     return { time, rate: valleyFlowRate(time, seed, target, modelIndex) };
   }), [seed, target, modelIndex]);
   const maxRate = Math.max(...chart.map(point => point.rate));
-  const rectangles = useMemo(() => buildValleyRectangles(readings, gateTime, sliceWidth), [readings, gateTime, sliceWidth]);
-  const estimate = useMemo(() => estimateValleyVolume(readings, gateTime, sliceWidth), [readings, gateTime, sliceWidth]);
-  const confidence = valleyConfidence(readings, gateTime);
-  const selectedRate = valleyFlowRate(probeTime, seed, target, modelIndex);
-  const reservoirPercent = Math.max(0, Math.min(100, ((revealedVolume ?? estimate) / target) * 100));
-  const physicalWater = Math.min(target * 1.18, Math.max(0, valleyActualVolume(Math.min(gateTime, 60 - timeLeft), seed, target, .1, modelIndex)));
-  const tutorialPrompt = tutorialStep === 1
-    ? "Move the probe to 10 seconds."
-    : tutorialStep === 2
-      ? "Record this reading."
-      : tutorialStep === 3
-        ? "One reading is not enough. Move to 25 seconds."
-        : tutorialStep === 4
-          ? "Record the 25-second reading."
-          : tutorialStep === 5
-            ? "Now measure one more point at 40 seconds."
-            : tutorialStep === 6
-              ? "Record the 40-second reading to unlock free play."
-              : "Choose a moment on the river, then record its flow.";
-  const tutorialLocked = tutorialStep > 0 && tutorialStep < 7;
+  const elapsedSeconds = Math.max(0, 60 - timeLeft);
+  const rectangles = useMemo(() => buildValleyTimeBlocks(readings, elapsedSeconds, 5, refinements), [readings, elapsedSeconds, refinements]);
+  const estimate = useMemo(() => rectangles.reduce((sum, rectangle) => sum + rectangle.volume, 0), [rectangles]);
+  const confidence = valleyConfidence(readings, Math.max(1, elapsedSeconds));
+  const selectedRate = valleyFlowRate(elapsedSeconds, seed, target, modelIndex);
+  const physicalWater = Math.min(target * 1.18, Math.max(0, valleyActualVolume(elapsedSeconds, seed, target, .1, modelIndex)));
+  const reservoirPercent = Math.max(0, Math.min(100, (physicalWater / (target * 1.12)) * 100));
+  const crossing = estimateTargetCrossing(readings, target, elapsedSeconds, 5);
+  const revealBlocks = useMemo(() => buildActualRevealBlocks(elapsedSeconds, seed, target, modelIndex), [elapsedSeconds, seed, target, modelIndex]);
 
   useEffect(() => {
     if (phase !== "playing") return;
     const timer = window.setInterval(() => setTimeLeft(value => {
-      const next = Math.max(0, value - 1);
-      if (next === 45) { setMessage(riverModel.id === "mixed" ? "Nia: Cloudburst upstream! Re-measure around 28–38 seconds." : `Nia: The ${riverModel.name.toLowerCase()} is changing. Spread the probes across time.`); sound("bad"); }
-      if (next === 25) { setMessage(riverModel.id === "mixed" ? "Nia: The east channel is leaking. Late flow has dropped." : "Nia: The bell is close. Compare thin slices before you commit."); sound("bad"); }
-      if (next === 0) { setPhase("failure"); setMessage("The bell rang before we opened the gate. The lower village remains dry."); sound("bad"); }
+      const next = Math.max(0, Number((value - .1).toFixed(1)));
+      if (value > 45 && next <= 45) { setMessage(riverModel.id === "mixed" ? "Nia: Cloudburst upstream! Measure the changing flow." : `Nia: The ${riverModel.name.toLowerCase()} is changing. Measure now.`); sound("bad"); }
+      if (value > 25 && next <= 25) { setMessage(riverModel.id === "mixed" ? "Nia: The east channel is leaking. The trend has changed." : "Nia: The bell is close. Refine your estimate before you decide."); sound("bad"); }
+      if (next <= 0) { setPhase("failure"); setMessage("The river flooded past the open gate. The valley needed a decision before 60 seconds."); sound("bad"); }
       return next;
-    }), 1000);
+    }), 100);
     return () => window.clearInterval(timer);
   }, [phase, riverModel.id, riverModel.name, sound]);
 
   const start = () => {
     setPhase("playing");
-    setTutorialStep(1);
-    setProbeTime(10);
-    setMessage("Nia: Move the probe to 10 seconds. Only one action is needed now.");
+    setMessage("Nia: Watch the river. Measure now when the flow changes, then close the gate near 420 units.");
     sound("good");
   };
 
   const recordReading = () => {
     if (phase !== "playing") return;
-    if (tutorialStep === 1 && probeTime !== 10) { setMessage("Nia: Start at 10 seconds so we can learn the river together."); sound("bad"); return; }
-    if (tutorialStep === 3 && probeTime !== 25) { setMessage("Nia: Move the probe to 25 seconds next."); sound("bad"); return; }
-    if (tutorialStep === 5 && probeTime !== 40) { setMessage("Nia: One more reading at 40 seconds, then you are on your own."); sound("bad"); return; }
-    if (tutorialStep === 2 && probeTime !== 10) { setMessage("Nia: Record the highlighted 10-second reading first."); sound("bad"); return; }
-    if (tutorialStep === 4 && probeTime !== 25) { setMessage("Nia: Record the highlighted 25-second reading first."); sound("bad"); return; }
-    if (tutorialStep === 6 && probeTime !== 40) { setMessage("Nia: Record the highlighted 40-second reading first."); sound("bad"); return; }
     if (readings.length >= 7) { setMessage("The probe battery is empty. Improve the plan with the readings you have."); sound("bad"); return; }
-    const reading = { time: probeTime, rate: selectedRate };
-    setReadings(current => [...current.filter(item => item.time !== probeTime), reading].sort((a, b) => a.time - b.time));
-    if (tutorialStep === 1) setTutorialStep(2);
-    else if (tutorialStep === 2) { setTutorialStep(3); setProbeTime(25); }
-    else if (tutorialStep === 3) setTutorialStep(4);
-    else if (tutorialStep === 4) { setTutorialStep(5); setProbeTime(40); }
-    else if (tutorialStep === 5) setTutorialStep(6);
-    else if (tutorialStep === 6) setTutorialStep(7);
-    setMessage(probeTime >= 28 && probeTime <= 38 ? "Nia: That spike confirms the cloudburst. Tighten the slices here." : probeTime >= 44 ? "Nia: The leak is real. Late flow is weaker than expected." : `Nia: ${selectedRate.toFixed(1)} units/s recorded at ${probeTime}s.`);
+    const reading = { time: Number(elapsedSeconds.toFixed(1)), rate: selectedRate };
+    setReadings(current => [...current, reading].sort((a, b) => a.time - b.time));
+    setMessage(elapsedSeconds >= 28 && elapsedSeconds <= 38 ? "Nia: Cloudburst upstream. This is a valuable moment to measure." : elapsedSeconds >= 44 ? "Nia: The east channel is leaking. The trend has changed." : `Nia: Probe landed at ${reading.time.toFixed(1)}s · ${selectedRate.toFixed(1)} units/s.`);
     sound("good");
   };
 
-  const undoReading = () => {
-    setReadings(current => current.slice(0, -1));
-    setMessage("Last probe reading removed.");
-    sound("tap");
-  };
-
   const commitPlan = () => {
-    if (readings.length < 3) { setMessage("Nia: Three readings minimum. One point cannot describe a changing river."); sound("bad"); return; }
-    const actual = valleyActualVolume(gateTime, seed, target, .1, modelIndex);
+    if (phase !== "playing") return;
+    const actual = valleyActualVolume(elapsedSeconds, seed, target, .05, modelIndex);
     const outcome = resolveValleyOutcome(actual, target);
     setRevealedVolume(actual);
+    setPhase("gate-closing");
+    setMessage("The floodgate is closing. Calculating what actually passed...");
+    window.setTimeout(() => setPhase(outcome === "success" ? "success" : "failure"), 1100);
+    sound("win");
     if (outcome === "success") {
       const stars = valleyStars(actual, target, timeLeft, readings.length);
-      setPhase("success");
-      setMessage(`The gate closes at ${gateTime}s. ${actual.toFixed(1)} units reach the reservoir—safe and full.`);
-      sound("win");
       if (!completedRef.current) { completedRef.current = true; completeLevel(level.id, stars, readings.length); }
-      return;
     }
-    if (attempts > 1) {
-      setAttempts(value => value - 1);
-      setTimeLeft(value => Math.max(8, value - 8));
-      setMessage(outcome === "shortage" ? `Only ${actual.toFixed(0)} units arrived. Families at the lower terraces still have no water. Close later.` : `${actual.toFixed(0)} units surged through. The spillway nearly flooded. Close earlier.`);
-      sound("bad");
-      return;
-    }
-    setAttempts(0);
-    setPhase("failure");
-    setMessage(outcome === "shortage" ? "The gate closed too early. The village ration line has run dry." : "The reservoir overflowed and the emergency spillway failed.");
-    sound("bad");
   };
 
   const reset = () => {
-    setPhase("briefing"); setTimeLeft(60); setProbeTime(10); setGateTime(54); setSliceWidth(10); setReadings([]); setAttempts(2); setRevealedVolume(null); setTutorialStep(0); completedRef.current = false;
+    setPhase("briefing"); setTimeLeft(60); setReadings([]); setRefinements([]); setAttempts(2); setRevealedVolume(null); completedRef.current = false;
     setMessage("The river is changing. We need a plan before the gate bell rings.");
   };
 
@@ -143,7 +97,7 @@ export function WaterValleyGame({ level, onBack, completeLevel, sound }: WaterVa
     <header className="wv-header">
       <button className="wv-back" onClick={onBack} aria-label="Return to advanced world map">← <span>AXIOM ATLAS</span></button>
       <div className="wv-title"><small>WATER VALLEY</small><b>{act.label}</b></div>
-      <div className={`wv-clock ${timeLeft <= 15 ? "urgent" : ""}`}><small>GATE BELL</small><b>00:{String(timeLeft).padStart(2, "0")}</b></div>
+      <div className={`wv-clock ${timeLeft <= 15 ? "urgent" : ""}`}><small>TIME REMAINING</small><b>00:{timeLeft.toFixed(1).padStart(4, "0")}</b></div>
       <div className="wv-attempts"><small>SAFETY TOKENS</small><span>{Array.from({ length: 2 }, (_, index) => <i key={index} className={index < attempts ? "active" : ""}>◆</i>)}</span></div>
     </header>
 
@@ -163,50 +117,50 @@ export function WaterValleyGame({ level, onBack, completeLevel, sound }: WaterVa
         <div className="wv-atmosphere">{Array.from({ length: 12 }, (_, index) => <i key={index} style={{ left: `${8 + index * 7.6}%`, animationDelay: `${index * .17}s` }} />)}</div>
         <div className="wv-landmark wv-upper">UPPER LAKE <i>Mountain source</i></div>
         <div className="wv-landmark wv-station">MEASURING STATION <i>Probe deployed here</i></div>
-        <div className="wv-landmark wv-gate">VILLAGE GATE <i>Closes at {gateTime}s</i></div>
+        <div className="wv-landmark wv-gate">VILLAGE GATE <i>Close it when you are ready</i></div>
 
         <div className="wv-reservoir-hud">
           <div className="wv-water-mark">◒</div><small>LOWER RESERVOIR</small>
           <b>{Math.round(revealedVolume ?? estimate)} <span>/ {target.toFixed(0)} units</span></b>
           <div className="wv-fill-track"><i style={{ width: `${reservoirPercent}%` }} /></div>
           <div className="wv-target-readout"><span>TARGET <b>{target.toFixed(0)}</b></span><span>PREDICTION <b>{revealedVolume === null ? (readings.length ? Math.round(estimate) : "—") : Math.round(revealedVolume)}</b></span><span>ERROR <b>{revealedVolume === null ? (readings.length ? `±${Math.max(8, Math.round((100 - confidence) * .7))}` : "Unknown") : `${Math.abs(revealedVolume - target).toFixed(1)}`}</b></span></div>
-          <div className="wv-physical-water">WATER ALREADY PASSED <b>{Math.round(physicalWater)}</b> units</div>
-          <p>{revealedVolume === null ? `Mission: get within ±10 units · ${confidence}% confidence` : `${Math.abs(revealedVolume - target).toFixed(1)} units from target`}</p>
+          <div className="wv-physical-water">RESERVOIR LEVEL <b>{physicalWater < target * .45 ? "RISING" : physicalWater < target * .85 ? "HIGH" : "NEAR CAPACITY"}</b></div>
+          <p>{revealedVolume === null ? `Your estimate ≈ ${Math.round(estimate)} · ${confidence}% confidence` : `Gate closed at ${elapsedSeconds.toFixed(1)}s`}</p>
         </div>
 
         <div className="wv-event-strip">{riverModel.events.map((event, index) => <span key={event}>{index === 0 ? "☁" : "◌"} {event}</span>)}</div>
 
         <div className="wv-console">
-          <div className="wv-chart-head"><div><small>RIVER FLOW</small><b>Select a moment, then record its rate</b></div><span>{selectedRate.toFixed(1)} units/s <i>at {probeTime}s</i></span></div>
+          <div className="wv-chart-head"><div><small>FLOW RATE · LIVE CURVE</small><b>Watch the river and measure the current moment</b></div><span>{selectedRate.toFixed(1)} units/s <i>NOW · {elapsedSeconds.toFixed(1)}s</i></span></div>
           <div className="wv-chart" aria-label="River flow over sixty seconds">
             {chart.map(point => {
-              const recorded = readings.some(reading => reading.time === point.time);
+              const recorded = readings.some(reading => Math.abs(reading.time - point.time) < 1.1);
               const style = { "--wv-height": `${Math.max(12, point.rate / maxRate * 100)}%` } as CSSProperties;
-              return <button key={point.time} style={style} className={`${point.time === probeTime ? "selected" : ""} ${recorded ? "recorded" : ""}`} onClick={() => { setProbeTime(point.time); sound("tap"); }} aria-label={`Select ${point.time} seconds`}><i /><span>{recorded ? "◆" : ""}</span></button>;
+              return <i key={point.time} style={style} className={`${point.time <= elapsedSeconds ? "past" : "future"} ${recorded ? "recorded" : ""}`} aria-label={`${point.time} seconds flow ${point.rate.toFixed(1)} units per second`}><b>{recorded ? "◆" : ""}</b></i>;
             })}
-            <div className="wv-chart-target" style={{ left: `${gateTime / 60 * 100}%` }}><span>GATE</span></div>
+            <div className="wv-chart-target" style={{ left: `${elapsedSeconds / 60 * 100}%` }}><span>NOW</span></div>
           </div>
           <div className="wv-axis"><span>0s</span><span>15s</span><span>30s</span><span>45s</span><span>60s</span></div>
 
           <div className="wv-rectangle-lab">
-            <div className="wv-rectangle-title"><span>TIME BLOCKS · FLOW × TIME = WATER</span><b>{rectangles.length ? `${rectangles.map(rectangle => Math.round(rectangle.volume)).join(" + ")} = ` : "Deploy a probe → "}<i>{Math.round(estimate)}</i></b></div>
-            <div className={`wv-leakage wv-leak-${sliceWidth >= 10 ? "wide" : sliceWidth <= 4 ? "tight" : "mid"}`}>{sliceWidth >= 10 ? "Wide blocks leak around the river curve." : sliceWidth <= 4 ? "Thin blocks hold almost all the water." : "Smaller blocks reduce the leak."}</div>
-            <div className="wv-rectangles" aria-label="Riemann rectangle calculations">
-              {rectangles.map((rectangle, index) => <div key={`${rectangle.start}-${rectangle.end}`} className="wv-rectangle" style={{ "--wv-block-height": `${Math.max(24, rectangle.height / maxRate * 62)}px`, animationDelay: `${Math.min(index, 12) * .035}s` } as CSSProperties}><i /><small>{rectangle.start}–{rectangle.end}s</small><b>{rectangle.height.toFixed(1)} × {rectangle.width.toFixed(0)}</b><span>= {rectangle.volume.toFixed(0)}</span></div>)}
+            <div className="wv-rectangle-title"><span>WATER ACCUMULATION · EACH BLOCK = FLOW × TIME</span><b>{rectangles.filter(rectangle => rectangle.state !== "waiting").map(rectangle => Math.round(rectangle.volume)).join(" + ") || "Watch the first block fill"} = <i>{Math.round(estimate)}</i></b></div>
+            <div className="wv-leakage wv-leak-mid">{refinements.length ? "Refined blocks hug the changing river more closely." : "Wide blocks miss quick changes. Refine a high-change interval."}</div>
+            <div className="wv-rectangles" aria-label="Time block water calculations">
+              {rectangles.map((rectangle, index) => <div key={`${rectangle.start}-${rectangle.end}`} className={`wv-rectangle wv-block-${rectangle.state}`} style={{ "--wv-block-height": `${Math.max(24, rectangle.height / maxRate * 62)}px`, animationDelay: `${Math.min(index, 12) * .035}s` } as CSSProperties}><i /><small>{rectangle.start}–{rectangle.end}s</small><b>{rectangle.height ? `${rectangle.height.toFixed(1)} × ${rectangle.width.toFixed(1)}` : "WAITING"}</b><span>{rectangle.state === "filling" ? "FILLING…" : rectangle.state === "waiting" ? "WAITING" : `= ${rectangle.volume.toFixed(1)} ${rectangle.source === "measured" ? "MEASURED" : "EST."}`}</span></div>)}
             </div>
           </div>
 
           <div className="wv-controls">
-            <div className={`wv-tool probe ${tutorialLocked ? "wv-focus" : ""}`}><small>SURVEY PROBE · {7 - readings.length} CHARGES</small><label>Probe position <input aria-label="Survey probe position" type="range" min="0" max="60" step="1" value={probeTime} onChange={event => { setProbeTime(Number(event.target.value)); if (tutorialStep === 1 && Number(event.target.value) === 10) setTutorialStep(2); if (tutorialStep === 3 && Number(event.target.value) === 25) setTutorialStep(4); if (tutorialStep === 5 && Number(event.target.value) === 40) setTutorialStep(6); }} /><b>{probeTime}s</b></label><button onClick={recordReading} disabled={phase !== "playing"}>DEPLOY PROBE · {selectedRate.toFixed(1)}</button></div>
-            <div className={`wv-tool ${tutorialLocked ? "wv-muted" : ""}`}><small>RIEMANN SLICES</small><div className="wv-slice-buttons">{SLICE_OPTIONS.map(option => <button key={option} disabled={tutorialLocked} className={sliceWidth === option ? "active" : ""} onClick={() => { setSliceWidth(option); sound("tap"); }}>{option}s</button>)}</div><p>Smaller slices refine your estimate.</p></div>
-            <div className={`wv-tool gate ${tutorialLocked ? "wv-muted" : ""}`}><small>FLOODGATE LEVER</small><label>Pull at <input aria-label="Floodgate close time" disabled={tutorialLocked} type="range" min="20" max="60" step="1" value={gateTime} onChange={event => { setGateTime(Number(event.target.value)); setRevealedVolume(null); }} /><b>{gateTime}s</b></label><button onClick={undoReading} disabled={tutorialLocked || !readings.length}>Remove last probe</button></div>
+            <div className="wv-tool probe"><small>SURVEY PROBE · {7 - readings.length} CHARGES</small><b>NOW · {elapsedSeconds.toFixed(1)}s · {selectedRate.toFixed(1)} units/s</b><button onClick={recordReading} disabled={phase !== "playing" || readings.length >= 7}>MEASURE NOW</button></div>
+            <div className="wv-tool"><small>REFINEMENT</small><b>{crossing ? `Estimated crossing · ${crossing[0].toFixed(1)}–${crossing[1].toFixed(1)}s` : "Keep watching the changing flow"}</b><button onClick={() => { const start = Math.max(0, Math.floor((elapsedSeconds - 5) / 5) * 5); setRefinements(current => current.some(region => region.start === start) ? current : [...current, { start, end: start + 10 }]); setMessage("Nia: Smaller blocks can improve the estimate where the river changes fastest."); sound("tap"); }} disabled={phase !== "playing" || elapsedSeconds < 5}>REFINE BLOCKS</button></div>
+            <div className="wv-tool gate"><small>FLOODGATE LEVER</small><b>Stop the water at this moment</b><button onClick={commitPlan} disabled={phase !== "playing"}>CLOSE GATE NOW</button></div>
           </div>
 
-          <div className="wv-command"><div><small>{tutorialLocked ? "NEXT ACTION" : "FINAL DECISION"}</small><b>{tutorialLocked ? tutorialPrompt : `${Math.round(estimate)} predicted · ${readings.length} probes · ${confidence}% confidence`}</b></div><button onClick={commitPlan} disabled={phase !== "playing" || tutorialLocked}>PULL THE FLOODGATE <span>→</span></button></div>
+          <div className="wv-command"><div><small>YOUR RUNNING ESTIMATE</small><b>≈ {estimate.toFixed(1)} units · target {target.toFixed(0)} · {confidence}% confidence</b></div><button onClick={commitPlan} disabled={phase !== "playing"}>CLOSE GATE NOW <span>→</span></button></div>
         </div>
 
         {phase === "briefing" && <div className="wv-modal"><span>ACT {actIndex + 1} · RIVER MODEL HIDDEN</span><h2>The bell rings in one minute.</h2><p>Probe the river at different times. Each reading builds a visible water block. Add the blocks, refine their width, and choose when to close the gate.</p><button onClick={start}>BEGIN THE WATCH <i>→</i></button><small>No equation yet. Discover the river through evidence.</small></div>}
-        {(phase === "success" || phase === "failure") && <div className={`wv-modal result ${phase}`}><span>{phase === "success" ? "VALLEY SAVED · RIVER REVEALED" : "MISSION FAILED"}</span><h2>{phase === "success" ? "The water reaches every home." : "The gate bell has rung."}</h2><div className="wv-result-stars">{Array.from({ length: 3 }, (_, index) => <i key={index} className={phase === "success" && index < stars ? "earned" : ""}>★</i>)}</div><p>{message}</p>{phase === "success" && <><div className="wv-formula-reveal"><small>THE HIDDEN PHYSICS</small><b>{riverModel.name}</b><code>{riverModel.formula}</code><p>Your rectangles approximated the area under this flow curve. That accumulated area is the definite integral: <strong>{advancedNotation(level.concept)}</strong>.</p></div><div className="wv-crystal"><i>◆</i><div><b>CONCEPT CRYSTAL EARNED</b><span>Rectangle → area → accumulation → integral</span></div></div></>}<div className="wv-result-actions"><button onClick={reset}>{phase === "success" ? "REPLAY" : "TRY AGAIN"}</button><button onClick={onBack}>WORLD MAP →</button></div></div>}
+        {(phase === "success" || phase === "failure") && <div className={`wv-modal result ${phase}`}><span>{phase === "success" ? "VALLEY SAVED · ACTUAL WATER REVEALED" : "RESERVOIR OUTCOME"}</span><h2>{phase === "success" ? "The water reaches every home." : "The gate was too early or too late."}</h2><div className="wv-result-stars">{Array.from({ length: 3 }, (_, index) => <i key={index} className={phase === "success" && index < stars ? "earned" : ""}>★</i>)}</div><p>{message}</p><div className="wv-reveal-stream"><small>BLOCK-BY-BLOCK REVEAL · GATE CLOSED {elapsedSeconds.toFixed(1)}s</small>{revealBlocks.map((block, index) => <div key={`${block.start}-${block.end}`}><span>{block.start.toFixed(1)}–{block.end.toFixed(1)}s</span><b>+{block.volume.toFixed(1)}</b><i>Total {revealBlocks.slice(0, index + 1).reduce((sum, item) => sum + item.volume, 0).toFixed(1)}</i></div>)}</div><div className="wv-result-actual"><span>TARGET <b>{target.toFixed(1)}</b></span><span>ACTUAL <b>{(revealedVolume ?? 0).toFixed(1)}</b></span><span>ERROR <b>{((revealedVolume ?? 0) - target).toFixed(1)}</b></span></div>{phase === "success" && <><div className="wv-formula-reveal"><small>THE HIDDEN PHYSICS</small><b>{riverModel.name}</b><code>{riverModel.formula}</code><p>Each block was flow × time. You added them to estimate the total. That sum is the definite integral: <strong>{advancedNotation(level.concept)}</strong>.</p></div><div className="wv-crystal"><i>◆</i><div><b>CONCEPT CRYSTAL EARNED</b><span>Σ flow × time → ∫ flow dt</span></div></div></>}<div className="wv-result-actions"><button onClick={reset}>{phase === "success" ? "REPLAY" : "TRY AGAIN"}</button><button onClick={onBack}>WORLD MAP →</button></div></div>}
       </section>
     </main>
   </div>;

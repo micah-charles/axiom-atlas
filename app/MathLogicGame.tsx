@@ -17,8 +17,9 @@ import { angleFromToken, arithmeticChain, expectedValueFromFact, functionTrace, 
 import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, AdvancedLevelDefinition, SeededFlowMode, SeededTransformMode, accumulateFlow, advancedActRule, advancedActUnlocked, advancedGoalSatisfied, advancedNotation, applyMatrix, closedPath, complexMultiply, curl, dailyAdvancedExpedition, determinant, divergence, discreteSpectrum, generateAdvancedExpedition, gaussianHeight, jacobian, lineIntegral, logisticTrajectory, lotkaVolterraStep, monteCarloEstimate, multiplyMatrix, polygonArea, polylineLength, seededChaosProfile, seededChaosTrajectory, seededCurveProfile, seededDynamicProfile, seededFieldProfile, seededFlowProfile, seededFlowReading, seededGraphEdges, seededGeometryTarget, seededGradientProfile, seededPopulationStep, seededProbabilityProfile, seededSignalDefaults, seededSignalProfile, seededSpringStep, seededTransformOutput, seededTransformProfile, seededVectorField, selectedPathWeight, shortestPath, springStep, surfaceFlux3D, tangentSlope, triangleArea, trapezoidIntegral } from "./games/advanced-engines";
 import { FAMILY_WORLD_IDS, WORLD_IDS, WORLD_META } from "./games/world-registry";
 import { WaterValleyGame } from "./games/WaterValleyGame";
+import ClimateDetectiveGame from "./games/climate-detective/ClimateDetectiveGame";
 
-type Screen = "map" | WorldId | "advanced";
+type Screen = "map" | WorldId | "advanced" | "climate";
 type Toast = { kind: "success" | "warn" | "info"; text: string } | null;
 
 function loadProgress(): Progress {
@@ -120,6 +121,7 @@ function WorldMap({ progress, onEnter }: { progress: Progress; onEnter: (world: 
       })}
     </section>
     <button className="advanced-launch" onClick={() => onEnter("advanced")}><span>∞</span><div><b>Advanced Worlds</b><small>Calculus, fields, dynamics, signals, matrices, and complex planes</small></div><i>{progress.dailyChallenge?.key === new Date().toISOString().slice(0, 10) ? `Daily complete · ${progress.dailyStreak} day streak · Enter lab →` : "Enter simulation lab →"}</i></button>
+    <button className="climate-launch" onClick={() => onEnter("climate")}><span>☁</span><div><b>Climate Detective</b><small>Investigate one real UK year through evidence, forecasts, and reveal</small></div><i>Enter field notebook →</i></button>
     <div className="map-footer"><span>Direct manipulation</span><i /> <span>Deterministic worlds</span><i /> <span>Your reasoning, replayed</span></div>
   </main>;
 }
@@ -808,6 +810,7 @@ export default function MathLogicGame() {
     {screen === "bubble" && <BubbleVillage {...props} />}{screen === "tree" && <TreeGarden {...props} />}{screen === "parabola" && <ParabolaValley {...props} />}
     {screen !== "map" && FAMILY_WORLD_IDS.includes(screen as FamilyWorldId) && <FamilyWorld {...props} world={screen as FamilyWorldId} />}
     {screen === "advanced" && <AdvancedWorld {...props} />}
+    {screen === "climate" && <ClimateDetectiveGame onBack={() => setScreen("map")} />}
     <button className="settings-button" onClick={() => setSettings(true)} aria-label="Open settings">⚙</button>
     {settings && <Settings progress={progress} update={patch => setProgress(p => ({ ...p, ...patch }))} close={() => setSettings(false)} />}
     {toast && <div className={`toast ${toast.kind}`}>{toast.text}</div>}

@@ -1,0 +1,3883 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "featurecla": "Admin-0 country",
+        "scalerank": 1,
+        "LABELRANK": 3,
+        "SOVEREIGNT": "Norway",
+        "SOV_A3": "NOR",
+        "ADM0_DIF": 0,
+        "LEVEL": 2,
+        "TYPE": "Sovereign country",
+        "TLC": null,
+        "ADMIN": "Norway",
+        "ADM0_A3": "NOR",
+        "GEOU_DIF": 0,
+        "GEOUNIT": "Norway",
+        "GU_A3": "NOR",
+        "SU_DIF": 0,
+        "SUBUNIT": "Norway",
+        "SU_A3": "NOR",
+        "BRK_DIFF": 0,
+        "NAME": "Norway",
+        "NAME_LONG": "Norway",
+        "BRK_A3": "NOR",
+        "BRK_NAME": "Norway",
+        "BRK_GROUP": null,
+        "ABBREV": "Nor.",
+        "POSTAL": "N",
+        "FORMAL_EN": "Kingdom of Norway",
+        "FORMAL_FR": null,
+        "NAME_CIAWF": "Norway",
+        "NOTE_ADM0": null,
+        "NOTE_BRK": null,
+        "NAME_SORT": "Norway",
+        "NAME_ALT": null,
+        "MAPCOLOR7": 5,
+        "MAPCOLOR8": 3,
+        "MAPCOLOR9": 8,
+        "MAPCOLOR13": 12,
+        "POP_EST": 5347896,
+        "POP_RANK": 13,
+        "POP_YEAR": 2019,
+        "GDP_MD": 403336,
+        "GDP_YEAR": 2019,
+        "ECONOMY": "2. Developed region: nonG7",
+        "INCOME_GRP": "1. High income: OECD",
+        "FIPS_10": "-99",
+        "ISO_A2": "-99",
+        "ISO_A2_EH": "NO",
+        "ISO_A3": "-99",
+        "ISO_A3_EH": "NOR",
+        "ISO_N3": "-99",
+        "ISO_N3_EH": "578",
+        "UN_A3": "-99",
+        "WB_A2": "-99",
+        "WB_A3": "-99",
+        "WOE_ID": -90,
+        "WOE_ID_EH": 23424910,
+        "WOE_NOTE": "Does not include Svalbard, Jan Mayen, or Bouvet Islands (28289410).",
+        "ADM0_ISO": "NOR",
+        "ADM0_DIFF": null,
+        "ADM0_TLC": "NOR",
+        "ADM0_A3_US": "NOR",
+        "ADM0_A3_FR": "NOR",
+        "ADM0_A3_RU": "NOR",
+        "ADM0_A3_ES": "NOR",
+        "ADM0_A3_CN": "NOR",
+        "ADM0_A3_TW": "NOR",
+        "ADM0_A3_IN": "NOR",
+        "ADM0_A3_NP": "NOR",
+        "ADM0_A3_PK": "NOR",
+        "ADM0_A3_DE": "NOR",
+        "ADM0_A3_GB": "NOR",
+        "ADM0_A3_BR": "NOR",
+        "ADM0_A3_IL": "NOR",
+        "ADM0_A3_PS": "NOR",
+        "ADM0_A3_SA": "NOR",
+        "ADM0_A3_EG": "NOR",
+        "ADM0_A3_MA": "NOR",
+        "ADM0_A3_PT": "NOR",
+        "ADM0_A3_AR": "NOR",
+        "ADM0_A3_JP": "NOR",
+        "ADM0_A3_KO": "NOR",
+        "ADM0_A3_VN": "NOR",
+        "ADM0_A3_TR": "NOR",
+        "ADM0_A3_ID": "NOR",
+        "ADM0_A3_PL": "NOR",
+        "ADM0_A3_GR": "NOR",
+        "ADM0_A3_IT": "NOR",
+        "ADM0_A3_NL": "NOR",
+        "ADM0_A3_SE": "NOR",
+        "ADM0_A3_BD": "NOR",
+        "ADM0_A3_UA": "NOR",
+        "ADM0_A3_UN": -99,
+        "ADM0_A3_WB": -99,
+        "CONTINENT": "Europe",
+        "REGION_UN": "Europe",
+        "SUBREGION": "Northern Europe",
+        "REGION_WB": "Europe & Central Asia",
+        "NAME_LEN": 6,
+        "LONG_LEN": 6,
+        "ABBREV_LEN": 4,
+        "TINY": -99,
+        "HOMEPART": 1,
+        "MIN_ZOOM": 0,
+        "MIN_LABEL": 3,
+        "MAX_LABEL": 7,
+        "LABEL_X": 9.679975,
+        "LABEL_Y": 61.357092,
+        "NE_ID": 1159321109,
+        "WIKIDATAID": "Q20",
+        "NAME_AR": "النرويج",
+        "NAME_BN": "নরওয়ে",
+        "NAME_DE": "Norwegen",
+        "NAME_EN": "Norway",
+        "NAME_ES": "Noruega",
+        "NAME_FA": "نروژ",
+        "NAME_FR": "Norvège",
+        "NAME_EL": "Νορβηγία",
+        "NAME_HE": "נורווגיה",
+        "NAME_HI": "नॉर्वे",
+        "NAME_HU": "Norvégia",
+        "NAME_ID": "Norwegia",
+        "NAME_IT": "Norvegia",
+        "NAME_JA": "ノルウェー",
+        "NAME_KO": "노르웨이",
+        "NAME_NL": "Noorwegen",
+        "NAME_PL": "Norwegia",
+        "NAME_PT": "Noruega",
+        "NAME_RU": "Норвегия",
+        "NAME_SV": "Norge",
+        "NAME_TR": "Norveç",
+        "NAME_UK": "Норвегія",
+        "NAME_UR": "ناروے",
+        "NAME_VI": "Na Uy",
+        "NAME_ZH": "挪威",
+        "NAME_ZHT": "挪威",
+        "FCLASS_ISO": "Unrecognized",
+        "TLC_DIFF": null,
+        "FCLASS_TLC": "Unrecognized",
+        "FCLASS_US": null,
+        "FCLASS_FR": null,
+        "FCLASS_RU": null,
+        "FCLASS_ES": null,
+        "FCLASS_CN": null,
+        "FCLASS_TW": null,
+        "FCLASS_IN": null,
+        "FCLASS_NP": null,
+        "FCLASS_PK": null,
+        "FCLASS_DE": null,
+        "FCLASS_GB": null,
+        "FCLASS_BR": null,
+        "FCLASS_IL": null,
+        "FCLASS_PS": null,
+        "FCLASS_SA": null,
+        "FCLASS_EG": null,
+        "FCLASS_MA": null,
+        "FCLASS_PT": null,
+        "FCLASS_AR": null,
+        "FCLASS_JP": null,
+        "FCLASS_KO": null,
+        "FCLASS_VN": null,
+        "FCLASS_TR": null,
+        "FCLASS_ID": null,
+        "FCLASS_PL": null,
+        "FCLASS_GR": null,
+        "FCLASS_IT": null,
+        "FCLASS_NL": null,
+        "FCLASS_SE": null,
+        "FCLASS_BD": null,
+        "FCLASS_UA": null
+      },
+      "bbox": [
+        4.992078,
+        58.078884,
+        31.293418,
+        80.657144
+      ],
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                15.14282,
+                79.67431
+              ],
+              [
+                15.52255,
+                80.01608
+              ],
+              [
+                16.99085,
+                80.05086
+              ],
+              [
+                18.25183,
+                79.70175
+              ],
+              [
+                21.54383,
+                78.95611
+              ],
+              [
+                19.02737,
+                78.5626
+              ],
+              [
+                18.47172,
+                77.82669
+              ],
+              [
+                17.59441,
+                77.63796
+              ],
+              [
+                17.1182,
+                76.80941
+              ],
+              [
+                15.91315,
+                76.77045
+              ],
+              [
+                13.76259,
+                77.38035
+              ],
+              [
+                14.66956,
+                77.73565
+              ],
+              [
+                13.1706,
+                78.02493
+              ],
+              [
+                11.22231,
+                78.8693
+              ],
+              [
+                10.44453,
+                79.65239
+              ],
+              [
+                13.17077,
+                80.01046
+              ],
+              [
+                13.71852,
+                79.66039
+              ],
+              [
+                15.14282,
+                79.67431
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                31.101042,
+                69.558101
+              ],
+              [
+                29.39955,
+                69.15692
+              ],
+              [
+                28.59193,
+                69.064777
+              ],
+              [
+                29.015573,
+                69.766491
+              ],
+              [
+                27.732292,
+                70.164193
+              ],
+              [
+                26.179622,
+                69.825299
+              ],
+              [
+                25.689213,
+                69.092114
+              ],
+              [
+                24.735679,
+                68.649557
+              ],
+              [
+                23.66205,
+                68.891247
+              ],
+              [
+                22.356238,
+                68.841741
+              ],
+              [
+                21.244936,
+                69.370443
+              ],
+              [
+                20.645593,
+                69.106247
+              ],
+              [
+                20.025269,
+                69.065139
+              ],
+              [
+                19.87856,
+                68.407194
+              ],
+              [
+                17.993868,
+                68.567391
+              ],
+              [
+                17.729182,
+                68.010552
+              ],
+              [
+                16.768879,
+                68.013937
+              ],
+              [
+                16.108712,
+                67.302456
+              ],
+              [
+                15.108411,
+                66.193867
+              ],
+              [
+                13.55569,
+                64.787028
+              ],
+              [
+                13.919905,
+                64.445421
+              ],
+              [
+                13.571916,
+                64.049114
+              ],
+              [
+                12.579935,
+                64.066219
+              ],
+              [
+                11.930569,
+                63.128318
+              ],
+              [
+                11.992064,
+                61.800362
+              ],
+              [
+                12.631147,
+                61.293572
+              ],
+              [
+                12.300366,
+                60.117933
+              ],
+              [
+                11.468272,
+                59.432393
+              ],
+              [
+                11.027369,
+                58.856149
+              ],
+              [
+                10.356557,
+                59.469807
+              ],
+              [
+                8.382,
+                58.313288
+              ],
+              [
+                7.048748,
+                58.078884
+              ],
+              [
+                5.665835,
+                58.588155
+              ],
+              [
+                5.308234,
+                59.663232
+              ],
+              [
+                4.992078,
+                61.970998
+              ],
+              [
+                5.9129,
+                62.614473
+              ],
+              [
+                8.553411,
+                63.454008
+              ],
+              [
+                10.527709,
+                64.486038
+              ],
+              [
+                12.358347,
+                65.879726
+              ],
+              [
+                14.761146,
+                67.810642
+              ],
+              [
+                16.435927,
+                68.563205
+              ],
+              [
+                19.184028,
+                69.817444
+              ],
+              [
+                21.378416,
+                70.255169
+              ],
+              [
+                23.023742,
+                70.202072
+              ],
+              [
+                24.546543,
+                71.030497
+              ],
+              [
+                26.37005,
+                70.986262
+              ],
+              [
+                28.165547,
+                71.185474
+              ],
+              [
+                31.293418,
+                70.453788
+              ],
+              [
+                30.005435,
+                70.186259
+              ],
+              [
+                31.101042,
+                69.558101
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                27.407506,
+                80.056406
+              ],
+              [
+                25.924651,
+                79.517834
+              ],
+              [
+                23.024466,
+                79.400012
+              ],
+              [
+                20.075188,
+                79.566823
+              ],
+              [
+                19.897266,
+                79.842362
+              ],
+              [
+                18.462264,
+                79.85988
+              ],
+              [
+                17.368015,
+                80.318896
+              ],
+              [
+                20.455992,
+                80.598156
+              ],
+              [
+                21.907945,
+                80.357679
+              ],
+              [
+                22.919253,
+                80.657144
+              ],
+              [
+                25.447625,
+                80.40734
+              ],
+              [
+                27.407506,
+                80.056406
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                24.72412,
+                77.85385
+              ],
+              [
+                22.49032,
+                77.44493
+              ],
+              [
+                20.72601,
+                77.67704
+              ],
+              [
+                21.41611,
+                77.93504
+              ],
+              [
+                20.8119,
+                78.25463
+              ],
+              [
+                22.88426,
+                78.45494
+              ],
+              [
+                23.28134,
+                78.07954
+              ],
+              [
+                24.72412,
+                77.85385
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "featurecla": "Admin-0 country",
+        "scalerank": 1,
+        "LABELRANK": 2,
+        "SOVEREIGNT": "France",
+        "SOV_A3": "FR1",
+        "ADM0_DIF": 1,
+        "LEVEL": 2,
+        "TYPE": "Country",
+        "TLC": "1",
+        "ADMIN": "France",
+        "ADM0_A3": "FRA",
+        "GEOU_DIF": 0,
+        "GEOUNIT": "France",
+        "GU_A3": "FRA",
+        "SU_DIF": 0,
+        "SUBUNIT": "France",
+        "SU_A3": "FRA",
+        "BRK_DIFF": 0,
+        "NAME": "France",
+        "NAME_LONG": "France",
+        "BRK_A3": "FRA",
+        "BRK_NAME": "France",
+        "BRK_GROUP": null,
+        "ABBREV": "Fr.",
+        "POSTAL": "F",
+        "FORMAL_EN": "French Republic",
+        "FORMAL_FR": null,
+        "NAME_CIAWF": "France",
+        "NOTE_ADM0": null,
+        "NOTE_BRK": null,
+        "NAME_SORT": "France",
+        "NAME_ALT": null,
+        "MAPCOLOR7": 7,
+        "MAPCOLOR8": 5,
+        "MAPCOLOR9": 9,
+        "MAPCOLOR13": 11,
+        "POP_EST": 67059887,
+        "POP_RANK": 16,
+        "POP_YEAR": 2019,
+        "GDP_MD": 2715518,
+        "GDP_YEAR": 2019,
+        "ECONOMY": "1. Developed region: G7",
+        "INCOME_GRP": "1. High income: OECD",
+        "FIPS_10": "FR",
+        "ISO_A2": "-99",
+        "ISO_A2_EH": "FR",
+        "ISO_A3": "-99",
+        "ISO_A3_EH": "FRA",
+        "ISO_N3": "-99",
+        "ISO_N3_EH": "250",
+        "UN_A3": "250",
+        "WB_A2": "FR",
+        "WB_A3": "FRA",
+        "WOE_ID": -90,
+        "WOE_ID_EH": 23424819,
+        "WOE_NOTE": "Includes only Metropolitan France (including Corsica)",
+        "ADM0_ISO": "FRA",
+        "ADM0_DIFF": null,
+        "ADM0_TLC": "FRA",
+        "ADM0_A3_US": "FRA",
+        "ADM0_A3_FR": "FRA",
+        "ADM0_A3_RU": "FRA",
+        "ADM0_A3_ES": "FRA",
+        "ADM0_A3_CN": "FRA",
+        "ADM0_A3_TW": "FRA",
+        "ADM0_A3_IN": "FRA",
+        "ADM0_A3_NP": "FRA",
+        "ADM0_A3_PK": "FRA",
+        "ADM0_A3_DE": "FRA",
+        "ADM0_A3_GB": "FRA",
+        "ADM0_A3_BR": "FRA",
+        "ADM0_A3_IL": "FRA",
+        "ADM0_A3_PS": "FRA",
+        "ADM0_A3_SA": "FRA",
+        "ADM0_A3_EG": "FRA",
+        "ADM0_A3_MA": "FRA",
+        "ADM0_A3_PT": "FRA",
+        "ADM0_A3_AR": "FRA",
+        "ADM0_A3_JP": "FRA",
+        "ADM0_A3_KO": "FRA",
+        "ADM0_A3_VN": "FRA",
+        "ADM0_A3_TR": "FRA",
+        "ADM0_A3_ID": "FRA",
+        "ADM0_A3_PL": "FRA",
+        "ADM0_A3_GR": "FRA",
+        "ADM0_A3_IT": "FRA",
+        "ADM0_A3_NL": "FRA",
+        "ADM0_A3_SE": "FRA",
+        "ADM0_A3_BD": "FRA",
+        "ADM0_A3_UA": "FRA",
+        "ADM0_A3_UN": -99,
+        "ADM0_A3_WB": -99,
+        "CONTINENT": "Europe",
+        "REGION_UN": "Europe",
+        "SUBREGION": "Western Europe",
+        "REGION_WB": "Europe & Central Asia",
+        "NAME_LEN": 6,
+        "LONG_LEN": 6,
+        "ABBREV_LEN": 3,
+        "TINY": -99,
+        "HOMEPART": 1,
+        "MIN_ZOOM": 0,
+        "MIN_LABEL": 1.7,
+        "MAX_LABEL": 6.7,
+        "LABEL_X": 2.552275,
+        "LABEL_Y": 46.696113,
+        "NE_ID": 1159320637,
+        "WIKIDATAID": "Q142",
+        "NAME_AR": "فرنسا",
+        "NAME_BN": "ফ্রান্স",
+        "NAME_DE": "Frankreich",
+        "NAME_EN": "France",
+        "NAME_ES": "Francia",
+        "NAME_FA": "فرانسه",
+        "NAME_FR": "France",
+        "NAME_EL": "Γαλλία",
+        "NAME_HE": "צרפת",
+        "NAME_HI": "फ़्रान्स",
+        "NAME_HU": "Franciaország",
+        "NAME_ID": "Prancis",
+        "NAME_IT": "Francia",
+        "NAME_JA": "フランス",
+        "NAME_KO": "프랑스",
+        "NAME_NL": "Frankrijk",
+        "NAME_PL": "Francja",
+        "NAME_PT": "França",
+        "NAME_RU": "Франция",
+        "NAME_SV": "Frankrike",
+        "NAME_TR": "Fransa",
+        "NAME_UK": "Франція",
+        "NAME_UR": "فرانس",
+        "NAME_VI": "Pháp",
+        "NAME_ZH": "法国",
+        "NAME_ZHT": "法國",
+        "FCLASS_ISO": "Admin-0 country",
+        "TLC_DIFF": null,
+        "FCLASS_TLC": "Admin-0 country",
+        "FCLASS_US": null,
+        "FCLASS_FR": null,
+        "FCLASS_RU": null,
+        "FCLASS_ES": null,
+        "FCLASS_CN": null,
+        "FCLASS_TW": null,
+        "FCLASS_IN": null,
+        "FCLASS_NP": null,
+        "FCLASS_PK": null,
+        "FCLASS_DE": null,
+        "FCLASS_GB": null,
+        "FCLASS_BR": null,
+        "FCLASS_IL": null,
+        "FCLASS_PS": null,
+        "FCLASS_SA": null,
+        "FCLASS_EG": null,
+        "FCLASS_MA": null,
+        "FCLASS_PT": null,
+        "FCLASS_AR": null,
+        "FCLASS_JP": null,
+        "FCLASS_KO": null,
+        "FCLASS_VN": null,
+        "FCLASS_TR": null,
+        "FCLASS_ID": null,
+        "FCLASS_PL": null,
+        "FCLASS_GR": null,
+        "FCLASS_IT": null,
+        "FCLASS_NL": null,
+        "FCLASS_SE": null,
+        "FCLASS_BD": null,
+        "FCLASS_UA": null
+      },
+      "bbox": [
+        -54.524754,
+        2.053389,
+        9.560016,
+        51.148506
+      ],
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -51.657797,
+                4.156232
+              ],
+              [
+                -52.249338,
+                3.241094
+              ],
+              [
+                -52.556425,
+                2.504705
+              ],
+              [
+                -52.939657,
+                2.124858
+              ],
+              [
+                -53.418465,
+                2.053389
+              ],
+              [
+                -53.554839,
+                2.334897
+              ],
+              [
+                -53.778521,
+                2.376703
+              ],
+              [
+                -54.088063,
+                2.105557
+              ],
+              [
+                -54.524754,
+                2.311849
+              ],
+              [
+                -54.269705,
+                2.732392
+              ],
+              [
+                -54.181726,
+                3.18978
+              ],
+              [
+                -54.006931,
+                3.620038
+              ],
+              [
+                -54.399542,
+                4.212611
+              ],
+              [
+                -54.478633,
+                4.896756
+              ],
+              [
+                -53.958045,
+                5.756548
+              ],
+              [
+                -53.618453,
+                5.646529
+              ],
+              [
+                -52.882141,
+                5.409851
+              ],
+              [
+                -51.823343,
+                4.565768
+              ],
+              [
+                -51.657797,
+                4.156232
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                6.18632,
+                49.463803
+              ],
+              [
+                6.65823,
+                49.201958
+              ],
+              [
+                8.099279,
+                49.017784
+              ],
+              [
+                7.593676,
+                48.333019
+              ],
+              [
+                7.466759,
+                47.620582
+              ],
+              [
+                7.192202,
+                47.449766
+              ],
+              [
+                6.736571,
+                47.541801
+              ],
+              [
+                6.768714,
+                47.287708
+              ],
+              [
+                6.037389,
+                46.725779
+              ],
+              [
+                6.022609,
+                46.27299
+              ],
+              [
+                6.5001,
+                46.429673
+              ],
+              [
+                6.843593,
+                45.991147
+              ],
+              [
+                6.802355,
+                45.70858
+              ],
+              [
+                7.096652,
+                45.333099
+              ],
+              [
+                6.749955,
+                45.028518
+              ],
+              [
+                7.007562,
+                44.254767
+              ],
+              [
+                7.549596,
+                44.127901
+              ],
+              [
+                7.435185,
+                43.693845
+              ],
+              [
+                6.529245,
+                43.128892
+              ],
+              [
+                4.556963,
+                43.399651
+              ],
+              [
+                3.100411,
+                43.075201
+              ],
+              [
+                2.985999,
+                42.473015
+              ],
+              [
+                1.826793,
+                42.343385
+              ],
+              [
+                0.701591,
+                42.795734
+              ],
+              [
+                0.338047,
+                42.579546
+              ],
+              [
+                -1.502771,
+                43.034014
+              ],
+              [
+                -1.901351,
+                43.422802
+              ],
+              [
+                -1.384225,
+                44.02261
+              ],
+              [
+                -1.193798,
+                46.014918
+              ],
+              [
+                -2.225724,
+                47.064363
+              ],
+              [
+                -2.963276,
+                47.570327
+              ],
+              [
+                -4.491555,
+                47.954954
+              ],
+              [
+                -4.59235,
+                48.68416
+              ],
+              [
+                -3.295814,
+                48.901692
+              ],
+              [
+                -1.616511,
+                48.644421
+              ],
+              [
+                -1.933494,
+                49.776342
+              ],
+              [
+                -0.989469,
+                49.347376
+              ],
+              [
+                1.338761,
+                50.127173
+              ],
+              [
+                1.639001,
+                50.946606
+              ],
+              [
+                2.513573,
+                51.148506
+              ],
+              [
+                2.658422,
+                50.796848
+              ],
+              [
+                3.123252,
+                50.780363
+              ],
+              [
+                3.588184,
+                50.378992
+              ],
+              [
+                4.286023,
+                49.907497
+              ],
+              [
+                4.799222,
+                49.985373
+              ],
+              [
+                5.674052,
+                49.529484
+              ],
+              [
+                5.897759,
+                49.442667
+              ],
+              [
+                6.18632,
+                49.463803
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                8.746009,
+                42.628122
+              ],
+              [
+                9.390001,
+                43.009985
+              ],
+              [
+                9.560016,
+                42.152492
+              ],
+              [
+                9.229752,
+                41.380007
+              ],
+              [
+                8.775723,
+                41.583612
+              ],
+              [
+                8.544213,
+                42.256517
+              ],
+              [
+                8.746009,
+                42.628122
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "featurecla": "Admin-0 country",
+        "scalerank": 1,
+        "LABELRANK": 2,
+        "SOVEREIGNT": "Germany",
+        "SOV_A3": "DEU",
+        "ADM0_DIF": 0,
+        "LEVEL": 2,
+        "TYPE": "Sovereign country",
+        "TLC": "1",
+        "ADMIN": "Germany",
+        "ADM0_A3": "DEU",
+        "GEOU_DIF": 0,
+        "GEOUNIT": "Germany",
+        "GU_A3": "DEU",
+        "SU_DIF": 0,
+        "SUBUNIT": "Germany",
+        "SU_A3": "DEU",
+        "BRK_DIFF": 0,
+        "NAME": "Germany",
+        "NAME_LONG": "Germany",
+        "BRK_A3": "DEU",
+        "BRK_NAME": "Germany",
+        "BRK_GROUP": null,
+        "ABBREV": "Ger.",
+        "POSTAL": "D",
+        "FORMAL_EN": "Federal Republic of Germany",
+        "FORMAL_FR": null,
+        "NAME_CIAWF": "Germany",
+        "NOTE_ADM0": null,
+        "NOTE_BRK": null,
+        "NAME_SORT": "Germany",
+        "NAME_ALT": null,
+        "MAPCOLOR7": 2,
+        "MAPCOLOR8": 5,
+        "MAPCOLOR9": 5,
+        "MAPCOLOR13": 1,
+        "POP_EST": 83132799,
+        "POP_RANK": 16,
+        "POP_YEAR": 2019,
+        "GDP_MD": 3861123,
+        "GDP_YEAR": 2019,
+        "ECONOMY": "1. Developed region: G7",
+        "INCOME_GRP": "1. High income: OECD",
+        "FIPS_10": "GM",
+        "ISO_A2": "DE",
+        "ISO_A2_EH": "DE",
+        "ISO_A3": "DEU",
+        "ISO_A3_EH": "DEU",
+        "ISO_N3": "276",
+        "ISO_N3_EH": "276",
+        "UN_A3": "276",
+        "WB_A2": "DE",
+        "WB_A3": "DEU",
+        "WOE_ID": 23424829,
+        "WOE_ID_EH": 23424829,
+        "WOE_NOTE": "Exact WOE match as country",
+        "ADM0_ISO": "DEU",
+        "ADM0_DIFF": null,
+        "ADM0_TLC": "DEU",
+        "ADM0_A3_US": "DEU",
+        "ADM0_A3_FR": "DEU",
+        "ADM0_A3_RU": "DEU",
+        "ADM0_A3_ES": "DEU",
+        "ADM0_A3_CN": "DEU",
+        "ADM0_A3_TW": "DEU",
+        "ADM0_A3_IN": "DEU",
+        "ADM0_A3_NP": "DEU",
+        "ADM0_A3_PK": "DEU",
+        "ADM0_A3_DE": "DEU",
+        "ADM0_A3_GB": "DEU",
+        "ADM0_A3_BR": "DEU",
+        "ADM0_A3_IL": "DEU",
+        "ADM0_A3_PS": "DEU",
+        "ADM0_A3_SA": "DEU",
+        "ADM0_A3_EG": "DEU",
+        "ADM0_A3_MA": "DEU",
+        "ADM0_A3_PT": "DEU",
+        "ADM0_A3_AR": "DEU",
+        "ADM0_A3_JP": "DEU",
+        "ADM0_A3_KO": "DEU",
+        "ADM0_A3_VN": "DEU",
+        "ADM0_A3_TR": "DEU",
+        "ADM0_A3_ID": "DEU",
+        "ADM0_A3_PL": "DEU",
+        "ADM0_A3_GR": "DEU",
+        "ADM0_A3_IT": "DEU",
+        "ADM0_A3_NL": "DEU",
+        "ADM0_A3_SE": "DEU",
+        "ADM0_A3_BD": "DEU",
+        "ADM0_A3_UA": "DEU",
+        "ADM0_A3_UN": -99,
+        "ADM0_A3_WB": -99,
+        "CONTINENT": "Europe",
+        "REGION_UN": "Europe",
+        "SUBREGION": "Western Europe",
+        "REGION_WB": "Europe & Central Asia",
+        "NAME_LEN": 7,
+        "LONG_LEN": 7,
+        "ABBREV_LEN": 4,
+        "TINY": -99,
+        "HOMEPART": 1,
+        "MIN_ZOOM": 0,
+        "MIN_LABEL": 1.7,
+        "MAX_LABEL": 6.7,
+        "LABEL_X": 9.678348,
+        "LABEL_Y": 50.961733,
+        "NE_ID": 1159320539,
+        "WIKIDATAID": "Q183",
+        "NAME_AR": "ألمانيا",
+        "NAME_BN": "জার্মানি",
+        "NAME_DE": "Deutschland",
+        "NAME_EN": "Germany",
+        "NAME_ES": "Alemania",
+        "NAME_FA": "آلمان",
+        "NAME_FR": "Allemagne",
+        "NAME_EL": "Γερμανία",
+        "NAME_HE": "גרמניה",
+        "NAME_HI": "जर्मनी",
+        "NAME_HU": "Németország",
+        "NAME_ID": "Jerman",
+        "NAME_IT": "Germania",
+        "NAME_JA": "ドイツ",
+        "NAME_KO": "독일",
+        "NAME_NL": "Duitsland",
+        "NAME_PL": "Niemcy",
+        "NAME_PT": "Alemanha",
+        "NAME_RU": "Германия",
+        "NAME_SV": "Tyskland",
+        "NAME_TR": "Almanya",
+        "NAME_UK": "Німеччина",
+        "NAME_UR": "جرمنی",
+        "NAME_VI": "Đức",
+        "NAME_ZH": "德国",
+        "NAME_ZHT": "德國",
+        "FCLASS_ISO": "Admin-0 country",
+        "TLC_DIFF": null,
+        "FCLASS_TLC": "Admin-0 country",
+        "FCLASS_US": null,
+        "FCLASS_FR": null,
+        "FCLASS_RU": null,
+        "FCLASS_ES": null,
+        "FCLASS_CN": null,
+        "FCLASS_TW": null,
+        "FCLASS_IN": null,
+        "FCLASS_NP": null,
+        "FCLASS_PK": null,
+        "FCLASS_DE": null,
+        "FCLASS_GB": null,
+        "FCLASS_BR": null,
+        "FCLASS_IL": null,
+        "FCLASS_PS": null,
+        "FCLASS_SA": null,
+        "FCLASS_EG": null,
+        "FCLASS_MA": null,
+        "FCLASS_PT": null,
+        "FCLASS_AR": null,
+        "FCLASS_JP": null,
+        "FCLASS_KO": null,
+        "FCLASS_VN": null,
+        "FCLASS_TR": null,
+        "FCLASS_ID": null,
+        "FCLASS_PL": null,
+        "FCLASS_GR": null,
+        "FCLASS_IT": null,
+        "FCLASS_NL": null,
+        "FCLASS_SE": null,
+        "FCLASS_BD": null,
+        "FCLASS_UA": null
+      },
+      "bbox": [
+        5.988658,
+        47.302488,
+        15.016996,
+        54.983104
+      ],
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              14.119686,
+              53.757029
+            ],
+            [
+              14.353315,
+              53.248171
+            ],
+            [
+              14.074521,
+              52.981263
+            ],
+            [
+              14.4376,
+              52.62485
+            ],
+            [
+              14.685026,
+              52.089947
+            ],
+            [
+              14.607098,
+              51.745188
+            ],
+            [
+              15.016996,
+              51.106674
+            ],
+            [
+              14.570718,
+              51.002339
+            ],
+            [
+              14.307013,
+              51.117268
+            ],
+            [
+              14.056228,
+              50.926918
+            ],
+            [
+              13.338132,
+              50.733234
+            ],
+            [
+              12.966837,
+              50.484076
+            ],
+            [
+              12.240111,
+              50.266338
+            ],
+            [
+              12.415191,
+              49.969121
+            ],
+            [
+              12.521024,
+              49.547415
+            ],
+            [
+              13.031329,
+              49.307068
+            ],
+            [
+              13.595946,
+              48.877172
+            ],
+            [
+              13.243357,
+              48.416115
+            ],
+            [
+              12.884103,
+              48.289146
+            ],
+            [
+              13.025851,
+              47.637584
+            ],
+            [
+              12.932627,
+              47.467646
+            ],
+            [
+              12.62076,
+              47.672388
+            ],
+            [
+              12.141357,
+              47.703083
+            ],
+            [
+              11.426414,
+              47.523766
+            ],
+            [
+              10.544504,
+              47.566399
+            ],
+            [
+              10.402084,
+              47.302488
+            ],
+            [
+              9.896068,
+              47.580197
+            ],
+            [
+              9.594226,
+              47.525058
+            ],
+            [
+              8.522612,
+              47.830828
+            ],
+            [
+              8.317301,
+              47.61358
+            ],
+            [
+              7.466759,
+              47.620582
+            ],
+            [
+              7.593676,
+              48.333019
+            ],
+            [
+              8.099279,
+              49.017784
+            ],
+            [
+              6.65823,
+              49.201958
+            ],
+            [
+              6.18632,
+              49.463803
+            ],
+            [
+              6.242751,
+              49.902226
+            ],
+            [
+              6.043073,
+              50.128052
+            ],
+            [
+              6.156658,
+              50.803721
+            ],
+            [
+              5.988658,
+              51.851616
+            ],
+            [
+              6.589397,
+              51.852029
+            ],
+            [
+              6.84287,
+              52.22844
+            ],
+            [
+              7.092053,
+              53.144043
+            ],
+            [
+              6.90514,
+              53.482162
+            ],
+            [
+              7.100425,
+              53.693932
+            ],
+            [
+              7.936239,
+              53.748296
+            ],
+            [
+              8.121706,
+              53.527792
+            ],
+            [
+              8.800734,
+              54.020786
+            ],
+            [
+              8.572118,
+              54.395646
+            ],
+            [
+              8.526229,
+              54.962744
+            ],
+            [
+              9.282049,
+              54.830865
+            ],
+            [
+              9.921906,
+              54.983104
+            ],
+            [
+              9.93958,
+              54.596642
+            ],
+            [
+              10.950112,
+              54.363607
+            ],
+            [
+              10.939467,
+              54.008693
+            ],
+            [
+              11.956252,
+              54.196486
+            ],
+            [
+              12.51844,
+              54.470371
+            ],
+            [
+              13.647467,
+              54.075511
+            ],
+            [
+              14.119686,
+              53.757029
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "featurecla": "Admin-0 country",
+        "scalerank": 1,
+        "LABELRANK": 2,
+        "SOVEREIGNT": "Belgium",
+        "SOV_A3": "BEL",
+        "ADM0_DIF": 0,
+        "LEVEL": 2,
+        "TYPE": "Sovereign country",
+        "TLC": "1",
+        "ADMIN": "Belgium",
+        "ADM0_A3": "BEL",
+        "GEOU_DIF": 0,
+        "GEOUNIT": "Belgium",
+        "GU_A3": "BEL",
+        "SU_DIF": 0,
+        "SUBUNIT": "Belgium",
+        "SU_A3": "BEL",
+        "BRK_DIFF": 0,
+        "NAME": "Belgium",
+        "NAME_LONG": "Belgium",
+        "BRK_A3": "BEL",
+        "BRK_NAME": "Belgium",
+        "BRK_GROUP": null,
+        "ABBREV": "Belg.",
+        "POSTAL": "B",
+        "FORMAL_EN": "Kingdom of Belgium",
+        "FORMAL_FR": null,
+        "NAME_CIAWF": "Belgium",
+        "NOTE_ADM0": null,
+        "NOTE_BRK": null,
+        "NAME_SORT": "Belgium",
+        "NAME_ALT": null,
+        "MAPCOLOR7": 3,
+        "MAPCOLOR8": 2,
+        "MAPCOLOR9": 1,
+        "MAPCOLOR13": 8,
+        "POP_EST": 11484055,
+        "POP_RANK": 14,
+        "POP_YEAR": 2019,
+        "GDP_MD": 533097,
+        "GDP_YEAR": 2019,
+        "ECONOMY": "2. Developed region: nonG7",
+        "INCOME_GRP": "1. High income: OECD",
+        "FIPS_10": "BE",
+        "ISO_A2": "BE",
+        "ISO_A2_EH": "BE",
+        "ISO_A3": "BEL",
+        "ISO_A3_EH": "BEL",
+        "ISO_N3": "056",
+        "ISO_N3_EH": "056",
+        "UN_A3": "056",
+        "WB_A2": "BE",
+        "WB_A3": "BEL",
+        "WOE_ID": 23424757,
+        "WOE_ID_EH": 23424757,
+        "WOE_NOTE": "Exact WOE match as country",
+        "ADM0_ISO": "BEL",
+        "ADM0_DIFF": null,
+        "ADM0_TLC": "BEL",
+        "ADM0_A3_US": "BEL",
+        "ADM0_A3_FR": "BEL",
+        "ADM0_A3_RU": "BEL",
+        "ADM0_A3_ES": "BEL",
+        "ADM0_A3_CN": "BEL",
+        "ADM0_A3_TW": "BEL",
+        "ADM0_A3_IN": "BEL",
+        "ADM0_A3_NP": "BEL",
+        "ADM0_A3_PK": "BEL",
+        "ADM0_A3_DE": "BEL",
+        "ADM0_A3_GB": "BEL",
+        "ADM0_A3_BR": "BEL",
+        "ADM0_A3_IL": "BEL",
+        "ADM0_A3_PS": "BEL",
+        "ADM0_A3_SA": "BEL",
+        "ADM0_A3_EG": "BEL",
+        "ADM0_A3_MA": "BEL",
+        "ADM0_A3_PT": "BEL",
+        "ADM0_A3_AR": "BEL",
+        "ADM0_A3_JP": "BEL",
+        "ADM0_A3_KO": "BEL",
+        "ADM0_A3_VN": "BEL",
+        "ADM0_A3_TR": "BEL",
+        "ADM0_A3_ID": "BEL",
+        "ADM0_A3_PL": "BEL",
+        "ADM0_A3_GR": "BEL",
+        "ADM0_A3_IT": "BEL",
+        "ADM0_A3_NL": "BEL",
+        "ADM0_A3_SE": "BEL",
+        "ADM0_A3_BD": "BEL",
+        "ADM0_A3_UA": "BEL",
+        "ADM0_A3_UN": -99,
+        "ADM0_A3_WB": -99,
+        "CONTINENT": "Europe",
+        "REGION_UN": "Europe",
+        "SUBREGION": "Western Europe",
+        "REGION_WB": "Europe & Central Asia",
+        "NAME_LEN": 7,
+        "LONG_LEN": 7,
+        "ABBREV_LEN": 5,
+        "TINY": -99,
+        "HOMEPART": 1,
+        "MIN_ZOOM": 0,
+        "MIN_LABEL": 4,
+        "MAX_LABEL": 9,
+        "LABEL_X": 4.800448,
+        "LABEL_Y": 50.785392,
+        "NE_ID": 1159320389,
+        "WIKIDATAID": "Q31",
+        "NAME_AR": "بلجيكا",
+        "NAME_BN": "বেলজিয়াম",
+        "NAME_DE": "Belgien",
+        "NAME_EN": "Belgium",
+        "NAME_ES": "Bélgica",
+        "NAME_FA": "بلژیک",
+        "NAME_FR": "Belgique",
+        "NAME_EL": "Βέλγιο",
+        "NAME_HE": "בלגיה",
+        "NAME_HI": "बेल्जियम",
+        "NAME_HU": "Belgium",
+        "NAME_ID": "Belgia",
+        "NAME_IT": "Belgio",
+        "NAME_JA": "ベルギー",
+        "NAME_KO": "벨기에",
+        "NAME_NL": "België",
+        "NAME_PL": "Belgia",
+        "NAME_PT": "Bélgica",
+        "NAME_RU": "Бельгия",
+        "NAME_SV": "Belgien",
+        "NAME_TR": "Belçika",
+        "NAME_UK": "Бельгія",
+        "NAME_UR": "بلجئیم",
+        "NAME_VI": "Bỉ",
+        "NAME_ZH": "比利时",
+        "NAME_ZHT": "比利時",
+        "FCLASS_ISO": "Admin-0 country",
+        "TLC_DIFF": null,
+        "FCLASS_TLC": "Admin-0 country",
+        "FCLASS_US": null,
+        "FCLASS_FR": null,
+        "FCLASS_RU": null,
+        "FCLASS_ES": null,
+        "FCLASS_CN": null,
+        "FCLASS_TW": null,
+        "FCLASS_IN": null,
+        "FCLASS_NP": null,
+        "FCLASS_PK": null,
+        "FCLASS_DE": null,
+        "FCLASS_GB": null,
+        "FCLASS_BR": null,
+        "FCLASS_IL": null,
+        "FCLASS_PS": null,
+        "FCLASS_SA": null,
+        "FCLASS_EG": null,
+        "FCLASS_MA": null,
+        "FCLASS_PT": null,
+        "FCLASS_AR": null,
+        "FCLASS_JP": null,
+        "FCLASS_KO": null,
+        "FCLASS_VN": null,
+        "FCLASS_TR": null,
+        "FCLASS_ID": null,
+        "FCLASS_PL": null,
+        "FCLASS_GR": null,
+        "FCLASS_IT": null,
+        "FCLASS_NL": null,
+        "FCLASS_SE": null,
+        "FCLASS_BD": null,
+        "FCLASS_UA": null
+      },
+      "bbox": [
+        2.513573,
+        49.529484,
+        6.156658,
+        51.475024
+      ],
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              6.156658,
+              50.803721
+            ],
+            [
+              6.043073,
+              50.128052
+            ],
+            [
+              5.782417,
+              50.090328
+            ],
+            [
+              5.674052,
+              49.529484
+            ],
+            [
+              4.799222,
+              49.985373
+            ],
+            [
+              4.286023,
+              49.907497
+            ],
+            [
+              3.588184,
+              50.378992
+            ],
+            [
+              3.123252,
+              50.780363
+            ],
+            [
+              2.658422,
+              50.796848
+            ],
+            [
+              2.513573,
+              51.148506
+            ],
+            [
+              3.314971,
+              51.345781
+            ],
+            [
+              3.315011,
+              51.345777
+            ],
+            [
+              3.314971,
+              51.345755
+            ],
+            [
+              4.047071,
+              51.267259
+            ],
+            [
+              4.973991,
+              51.475024
+            ],
+            [
+              5.606976,
+              51.037298
+            ],
+            [
+              6.156658,
+              50.803721
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "featurecla": "Admin-0 country",
+        "scalerank": 1,
+        "LABELRANK": 5,
+        "SOVEREIGNT": "Netherlands",
+        "SOV_A3": "NL1",
+        "ADM0_DIF": 1,
+        "LEVEL": 2,
+        "TYPE": "Country",
+        "TLC": "1",
+        "ADMIN": "Netherlands",
+        "ADM0_A3": "NLD",
+        "GEOU_DIF": 0,
+        "GEOUNIT": "Netherlands",
+        "GU_A3": "NLD",
+        "SU_DIF": 0,
+        "SUBUNIT": "Netherlands",
+        "SU_A3": "NLD",
+        "BRK_DIFF": 0,
+        "NAME": "Netherlands",
+        "NAME_LONG": "Netherlands",
+        "BRK_A3": "NLD",
+        "BRK_NAME": "Netherlands",
+        "BRK_GROUP": null,
+        "ABBREV": "Neth.",
+        "POSTAL": "NL",
+        "FORMAL_EN": "Kingdom of the Netherlands",
+        "FORMAL_FR": null,
+        "NAME_CIAWF": "Netherlands",
+        "NOTE_ADM0": null,
+        "NOTE_BRK": null,
+        "NAME_SORT": "Netherlands",
+        "NAME_ALT": null,
+        "MAPCOLOR7": 4,
+        "MAPCOLOR8": 2,
+        "MAPCOLOR9": 2,
+        "MAPCOLOR13": 9,
+        "POP_EST": 17332850,
+        "POP_RANK": 14,
+        "POP_YEAR": 2019,
+        "GDP_MD": 907050,
+        "GDP_YEAR": 2019,
+        "ECONOMY": "2. Developed region: nonG7",
+        "INCOME_GRP": "1. High income: OECD",
+        "FIPS_10": "NL",
+        "ISO_A2": "NL",
+        "ISO_A2_EH": "NL",
+        "ISO_A3": "NLD",
+        "ISO_A3_EH": "NLD",
+        "ISO_N3": "528",
+        "ISO_N3_EH": "528",
+        "UN_A3": "528",
+        "WB_A2": "NL",
+        "WB_A3": "NLD",
+        "WOE_ID": -90,
+        "WOE_ID_EH": 23424909,
+        "WOE_NOTE": "Doesn't include new former units of Netherlands Antilles (24549811, 24549808, and 24549809)",
+        "ADM0_ISO": "NLD",
+        "ADM0_DIFF": null,
+        "ADM0_TLC": "NLD",
+        "ADM0_A3_US": "NLD",
+        "ADM0_A3_FR": "NLD",
+        "ADM0_A3_RU": "NLD",
+        "ADM0_A3_ES": "NLD",
+        "ADM0_A3_CN": "NLD",
+        "ADM0_A3_TW": "NLD",
+        "ADM0_A3_IN": "NLD",
+        "ADM0_A3_NP": "NLD",
+        "ADM0_A3_PK": "NLD",
+        "ADM0_A3_DE": "NLD",
+        "ADM0_A3_GB": "NLD",
+        "ADM0_A3_BR": "NLD",
+        "ADM0_A3_IL": "NLD",
+        "ADM0_A3_PS": "NLD",
+        "ADM0_A3_SA": "NLD",
+        "ADM0_A3_EG": "NLD",
+        "ADM0_A3_MA": "NLD",
+        "ADM0_A3_PT": "NLD",
+        "ADM0_A3_AR": "NLD",
+        "ADM0_A3_JP": "NLD",
+        "ADM0_A3_KO": "NLD",
+        "ADM0_A3_VN": "NLD",
+        "ADM0_A3_TR": "NLD",
+        "ADM0_A3_ID": "NLD",
+        "ADM0_A3_PL": "NLD",
+        "ADM0_A3_GR": "NLD",
+        "ADM0_A3_IT": "NLD",
+        "ADM0_A3_NL": "NLD",
+        "ADM0_A3_SE": "NLD",
+        "ADM0_A3_BD": "NLD",
+        "ADM0_A3_UA": "NLD",
+        "ADM0_A3_UN": -99,
+        "ADM0_A3_WB": -99,
+        "CONTINENT": "Europe",
+        "REGION_UN": "Europe",
+        "SUBREGION": "Western Europe",
+        "REGION_WB": "Europe & Central Asia",
+        "NAME_LEN": 11,
+        "LONG_LEN": 11,
+        "ABBREV_LEN": 5,
+        "TINY": -99,
+        "HOMEPART": 1,
+        "MIN_ZOOM": 0,
+        "MIN_LABEL": 4,
+        "MAX_LABEL": 10,
+        "LABEL_X": 5.61144,
+        "LABEL_Y": 52.422211,
+        "NE_ID": 1159321101,
+        "WIKIDATAID": "Q55",
+        "NAME_AR": "هولندا",
+        "NAME_BN": "নেদারল্যান্ডস",
+        "NAME_DE": "Niederlande",
+        "NAME_EN": "Netherlands",
+        "NAME_ES": "Países Bajos",
+        "NAME_FA": "هلند",
+        "NAME_FR": "Pays-Bas",
+        "NAME_EL": "Ολλανδία",
+        "NAME_HE": "הולנד",
+        "NAME_HI": "नीदरलैण्ड",
+        "NAME_HU": "Hollandia",
+        "NAME_ID": "Belanda",
+        "NAME_IT": "Paesi Bassi",
+        "NAME_JA": "オランダ",
+        "NAME_KO": "네덜란드",
+        "NAME_NL": "Nederland",
+        "NAME_PL": "Holandia",
+        "NAME_PT": "Países Baixos",
+        "NAME_RU": "Нидерланды",
+        "NAME_SV": "Nederländerna",
+        "NAME_TR": "Hollanda",
+        "NAME_UK": "Нідерланди",
+        "NAME_UR": "نیدرلینڈز",
+        "NAME_VI": "Hà Lan",
+        "NAME_ZH": "荷兰",
+        "NAME_ZHT": "荷蘭",
+        "FCLASS_ISO": "Admin-0 country",
+        "TLC_DIFF": null,
+        "FCLASS_TLC": "Admin-0 country",
+        "FCLASS_US": null,
+        "FCLASS_FR": null,
+        "FCLASS_RU": null,
+        "FCLASS_ES": null,
+        "FCLASS_CN": null,
+        "FCLASS_TW": null,
+        "FCLASS_IN": null,
+        "FCLASS_NP": null,
+        "FCLASS_PK": null,
+        "FCLASS_DE": null,
+        "FCLASS_GB": null,
+        "FCLASS_BR": null,
+        "FCLASS_IL": null,
+        "FCLASS_PS": null,
+        "FCLASS_SA": null,
+        "FCLASS_EG": null,
+        "FCLASS_MA": null,
+        "FCLASS_PT": null,
+        "FCLASS_AR": null,
+        "FCLASS_JP": null,
+        "FCLASS_KO": null,
+        "FCLASS_VN": null,
+        "FCLASS_TR": null,
+        "FCLASS_ID": null,
+        "FCLASS_PL": null,
+        "FCLASS_GR": null,
+        "FCLASS_IT": null,
+        "FCLASS_NL": null,
+        "FCLASS_SE": null,
+        "FCLASS_BD": null,
+        "FCLASS_UA": null
+      },
+      "bbox": [
+        3.314971,
+        50.803721,
+        7.092053,
+        53.510403
+      ],
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              6.90514,
+              53.482162
+            ],
+            [
+              7.092053,
+              53.144043
+            ],
+            [
+              6.84287,
+              52.22844
+            ],
+            [
+              6.589397,
+              51.852029
+            ],
+            [
+              5.988658,
+              51.851616
+            ],
+            [
+              6.156658,
+              50.803721
+            ],
+            [
+              5.606976,
+              51.037298
+            ],
+            [
+              4.973991,
+              51.475024
+            ],
+            [
+              4.047071,
+              51.267259
+            ],
+            [
+              3.314971,
+              51.345755
+            ],
+            [
+              3.315011,
+              51.345777
+            ],
+            [
+              3.830289,
+              51.620545
+            ],
+            [
+              4.705997,
+              53.091798
+            ],
+            [
+              6.074183,
+              53.510403
+            ],
+            [
+              6.90514,
+              53.482162
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "featurecla": "Admin-0 country",
+        "scalerank": 1,
+        "LABELRANK": 2,
+        "SOVEREIGNT": "Portugal",
+        "SOV_A3": "PRT",
+        "ADM0_DIF": 0,
+        "LEVEL": 2,
+        "TYPE": "Sovereign country",
+        "TLC": "1",
+        "ADMIN": "Portugal",
+        "ADM0_A3": "PRT",
+        "GEOU_DIF": 0,
+        "GEOUNIT": "Portugal",
+        "GU_A3": "PRT",
+        "SU_DIF": 1,
+        "SUBUNIT": "Portugal",
+        "SU_A3": "PR1",
+        "BRK_DIFF": 0,
+        "NAME": "Portugal",
+        "NAME_LONG": "Portugal",
+        "BRK_A3": "PR1",
+        "BRK_NAME": "Portugal",
+        "BRK_GROUP": null,
+        "ABBREV": "Port.",
+        "POSTAL": "P",
+        "FORMAL_EN": "Portuguese Republic",
+        "FORMAL_FR": null,
+        "NAME_CIAWF": "Portugal",
+        "NOTE_ADM0": null,
+        "NOTE_BRK": null,
+        "NAME_SORT": "Portugal",
+        "NAME_ALT": null,
+        "MAPCOLOR7": 1,
+        "MAPCOLOR8": 7,
+        "MAPCOLOR9": 1,
+        "MAPCOLOR13": 4,
+        "POP_EST": 10269417,
+        "POP_RANK": 14,
+        "POP_YEAR": 2019,
+        "GDP_MD": 238785,
+        "GDP_YEAR": 2019,
+        "ECONOMY": "2. Developed region: nonG7",
+        "INCOME_GRP": "1. High income: OECD",
+        "FIPS_10": "PO",
+        "ISO_A2": "PT",
+        "ISO_A2_EH": "PT",
+        "ISO_A3": "PRT",
+        "ISO_A3_EH": "PRT",
+        "ISO_N3": "620",
+        "ISO_N3_EH": "620",
+        "UN_A3": "620",
+        "WB_A2": "PT",
+        "WB_A3": "PRT",
+        "WOE_ID": 23424925,
+        "WOE_ID_EH": 23424925,
+        "WOE_NOTE": "Exact WOE match as country",
+        "ADM0_ISO": "PR1",
+        "ADM0_DIFF": null,
+        "ADM0_TLC": "PR1",
+        "ADM0_A3_US": "PRT",
+        "ADM0_A3_FR": "PRT",
+        "ADM0_A3_RU": "PRT",
+        "ADM0_A3_ES": "PRT",
+        "ADM0_A3_CN": "PRT",
+        "ADM0_A3_TW": "PRT",
+        "ADM0_A3_IN": "PRT",
+        "ADM0_A3_NP": "PRT",
+        "ADM0_A3_PK": "PRT",
+        "ADM0_A3_DE": "PRT",
+        "ADM0_A3_GB": "PRT",
+        "ADM0_A3_BR": "PRT",
+        "ADM0_A3_IL": "PRT",
+        "ADM0_A3_PS": "PRT",
+        "ADM0_A3_SA": "PRT",
+        "ADM0_A3_EG": "PRT",
+        "ADM0_A3_MA": "PRT",
+        "ADM0_A3_PT": "PRT",
+        "ADM0_A3_AR": "PRT",
+        "ADM0_A3_JP": "PRT",
+        "ADM0_A3_KO": "PRT",
+        "ADM0_A3_VN": "PRT",
+        "ADM0_A3_TR": "PRT",
+        "ADM0_A3_ID": "PRT",
+        "ADM0_A3_PL": "PRT",
+        "ADM0_A3_GR": "PRT",
+        "ADM0_A3_IT": "PRT",
+        "ADM0_A3_NL": "PRT",
+        "ADM0_A3_SE": "PRT",
+        "ADM0_A3_BD": "PRT",
+        "ADM0_A3_UA": "PRT",
+        "ADM0_A3_UN": -99,
+        "ADM0_A3_WB": -99,
+        "CONTINENT": "Europe",
+        "REGION_UN": "Europe",
+        "SUBREGION": "Southern Europe",
+        "REGION_WB": "Europe & Central Asia",
+        "NAME_LEN": 8,
+        "LONG_LEN": 8,
+        "ABBREV_LEN": 5,
+        "TINY": -99,
+        "HOMEPART": 1,
+        "MIN_ZOOM": 0,
+        "MIN_LABEL": 3,
+        "MAX_LABEL": 8,
+        "LABEL_X": -8.271754,
+        "LABEL_Y": 39.606675,
+        "NE_ID": 1159321187,
+        "WIKIDATAID": "Q45",
+        "NAME_AR": "البرتغال",
+        "NAME_BN": "পর্তুগাল",
+        "NAME_DE": "Portugal",
+        "NAME_EN": "Portugal",
+        "NAME_ES": "Portugal",
+        "NAME_FA": "پرتغال",
+        "NAME_FR": "Portugal",
+        "NAME_EL": "Πορτογαλία",
+        "NAME_HE": "פורטוגל",
+        "NAME_HI": "पुर्तगाल",
+        "NAME_HU": "Portugália",
+        "NAME_ID": "Portugal",
+        "NAME_IT": "Portogallo",
+        "NAME_JA": "ポルトガル",
+        "NAME_KO": "포르투갈",
+        "NAME_NL": "Portugal",
+        "NAME_PL": "Portugalia",
+        "NAME_PT": "Portugal",
+        "NAME_RU": "Португалия",
+        "NAME_SV": "Portugal",
+        "NAME_TR": "Portekiz",
+        "NAME_UK": "Португалія",
+        "NAME_UR": "پرتگال",
+        "NAME_VI": "Bồ Đào Nha",
+        "NAME_ZH": "葡萄牙",
+        "NAME_ZHT": "葡萄牙",
+        "FCLASS_ISO": "Admin-0 country",
+        "TLC_DIFF": null,
+        "FCLASS_TLC": "Admin-0 country",
+        "FCLASS_US": null,
+        "FCLASS_FR": null,
+        "FCLASS_RU": null,
+        "FCLASS_ES": null,
+        "FCLASS_CN": null,
+        "FCLASS_TW": null,
+        "FCLASS_IN": null,
+        "FCLASS_NP": null,
+        "FCLASS_PK": null,
+        "FCLASS_DE": null,
+        "FCLASS_GB": null,
+        "FCLASS_BR": null,
+        "FCLASS_IL": null,
+        "FCLASS_PS": null,
+        "FCLASS_SA": null,
+        "FCLASS_EG": null,
+        "FCLASS_MA": null,
+        "FCLASS_PT": null,
+        "FCLASS_AR": null,
+        "FCLASS_JP": null,
+        "FCLASS_KO": null,
+        "FCLASS_VN": null,
+        "FCLASS_TR": null,
+        "FCLASS_ID": null,
+        "FCLASS_PL": null,
+        "FCLASS_GR": null,
+        "FCLASS_IT": null,
+        "FCLASS_NL": null,
+        "FCLASS_SE": null,
+        "FCLASS_BD": null,
+        "FCLASS_UA": null
+      },
+      "bbox": [
+        -9.526571,
+        36.838269,
+        -6.389088,
+        42.280469
+      ],
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -9.034818,
+              41.880571
+            ],
+            [
+              -8.671946,
+              42.134689
+            ],
+            [
+              -8.263857,
+              42.280469
+            ],
+            [
+              -8.013175,
+              41.790886
+            ],
+            [
+              -7.422513,
+              41.792075
+            ],
+            [
+              -7.251309,
+              41.918346
+            ],
+            [
+              -6.668606,
+              41.883387
+            ],
+            [
+              -6.389088,
+              41.381815
+            ],
+            [
+              -6.851127,
+              41.111083
+            ],
+            [
+              -6.86402,
+              40.330872
+            ],
+            [
+              -7.026413,
+              40.184524
+            ],
+            [
+              -7.066592,
+              39.711892
+            ],
+            [
+              -7.498632,
+              39.629571
+            ],
+            [
+              -7.098037,
+              39.030073
+            ],
+            [
+              -7.374092,
+              38.373059
+            ],
+            [
+              -7.029281,
+              38.075764
+            ],
+            [
+              -7.166508,
+              37.803894
+            ],
+            [
+              -7.537105,
+              37.428904
+            ],
+            [
+              -7.453726,
+              37.097788
+            ],
+            [
+              -7.855613,
+              36.838269
+            ],
+            [
+              -8.382816,
+              36.97888
+            ],
+            [
+              -8.898857,
+              36.868809
+            ],
+            [
+              -8.746101,
+              37.651346
+            ],
+            [
+              -8.839998,
+              38.266243
+            ],
+            [
+              -9.287464,
+              38.358486
+            ],
+            [
+              -9.526571,
+              38.737429
+            ],
+            [
+              -9.446989,
+              39.392066
+            ],
+            [
+              -9.048305,
+              39.755093
+            ],
+            [
+              -8.977353,
+              40.159306
+            ],
+            [
+              -8.768684,
+              40.760639
+            ],
+            [
+              -8.790853,
+              41.184334
+            ],
+            [
+              -8.990789,
+              41.543459
+            ],
+            [
+              -9.034818,
+              41.880571
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "featurecla": "Admin-0 country",
+        "scalerank": 1,
+        "LABELRANK": 2,
+        "SOVEREIGNT": "Spain",
+        "SOV_A3": "ESP",
+        "ADM0_DIF": 0,
+        "LEVEL": 2,
+        "TYPE": "Sovereign country",
+        "TLC": "1",
+        "ADMIN": "Spain",
+        "ADM0_A3": "ESP",
+        "GEOU_DIF": 0,
+        "GEOUNIT": "Spain",
+        "GU_A3": "ESP",
+        "SU_DIF": 0,
+        "SUBUNIT": "Spain",
+        "SU_A3": "ESP",
+        "BRK_DIFF": 0,
+        "NAME": "Spain",
+        "NAME_LONG": "Spain",
+        "BRK_A3": "ESP",
+        "BRK_NAME": "Spain",
+        "BRK_GROUP": null,
+        "ABBREV": "Sp.",
+        "POSTAL": "E",
+        "FORMAL_EN": "Kingdom of Spain",
+        "FORMAL_FR": null,
+        "NAME_CIAWF": "Spain",
+        "NOTE_ADM0": null,
+        "NOTE_BRK": null,
+        "NAME_SORT": "Spain",
+        "NAME_ALT": null,
+        "MAPCOLOR7": 4,
+        "MAPCOLOR8": 5,
+        "MAPCOLOR9": 5,
+        "MAPCOLOR13": 5,
+        "POP_EST": 47076781,
+        "POP_RANK": 15,
+        "POP_YEAR": 2019,
+        "GDP_MD": 1393490,
+        "GDP_YEAR": 2019,
+        "ECONOMY": "2. Developed region: nonG7",
+        "INCOME_GRP": "1. High income: OECD",
+        "FIPS_10": "SP",
+        "ISO_A2": "ES",
+        "ISO_A2_EH": "ES",
+        "ISO_A3": "ESP",
+        "ISO_A3_EH": "ESP",
+        "ISO_N3": "724",
+        "ISO_N3_EH": "724",
+        "UN_A3": "724",
+        "WB_A2": "ES",
+        "WB_A3": "ESP",
+        "WOE_ID": 23424950,
+        "WOE_ID_EH": 23424950,
+        "WOE_NOTE": "Exact WOE match as country",
+        "ADM0_ISO": "ESP",
+        "ADM0_DIFF": null,
+        "ADM0_TLC": "ESP",
+        "ADM0_A3_US": "ESP",
+        "ADM0_A3_FR": "ESP",
+        "ADM0_A3_RU": "ESP",
+        "ADM0_A3_ES": "ESP",
+        "ADM0_A3_CN": "ESP",
+        "ADM0_A3_TW": "ESP",
+        "ADM0_A3_IN": "ESP",
+        "ADM0_A3_NP": "ESP",
+        "ADM0_A3_PK": "ESP",
+        "ADM0_A3_DE": "ESP",
+        "ADM0_A3_GB": "ESP",
+        "ADM0_A3_BR": "ESP",
+        "ADM0_A3_IL": "ESP",
+        "ADM0_A3_PS": "ESP",
+        "ADM0_A3_SA": "ESP",
+        "ADM0_A3_EG": "ESP",
+        "ADM0_A3_MA": "ESP",
+        "ADM0_A3_PT": "ESP",
+        "ADM0_A3_AR": "ESP",
+        "ADM0_A3_JP": "ESP",
+        "ADM0_A3_KO": "ESP",
+        "ADM0_A3_VN": "ESP",
+        "ADM0_A3_TR": "ESP",
+        "ADM0_A3_ID": "ESP",
+        "ADM0_A3_PL": "ESP",
+        "ADM0_A3_GR": "ESP",
+        "ADM0_A3_IT": "ESP",
+        "ADM0_A3_NL": "ESP",
+        "ADM0_A3_SE": "ESP",
+        "ADM0_A3_BD": "ESP",
+        "ADM0_A3_UA": "ESP",
+        "ADM0_A3_UN": -99,
+        "ADM0_A3_WB": -99,
+        "CONTINENT": "Europe",
+        "REGION_UN": "Europe",
+        "SUBREGION": "Southern Europe",
+        "REGION_WB": "Europe & Central Asia",
+        "NAME_LEN": 5,
+        "LONG_LEN": 5,
+        "ABBREV_LEN": 3,
+        "TINY": -99,
+        "HOMEPART": 1,
+        "MIN_ZOOM": 0,
+        "MIN_LABEL": 2,
+        "MAX_LABEL": 7,
+        "LABEL_X": -3.464718,
+        "LABEL_Y": 40.090953,
+        "NE_ID": 1159320587,
+        "WIKIDATAID": "Q29",
+        "NAME_AR": "إسبانيا",
+        "NAME_BN": "স্পেন",
+        "NAME_DE": "Spanien",
+        "NAME_EN": "Spain",
+        "NAME_ES": "España",
+        "NAME_FA": "اسپانیا",
+        "NAME_FR": "Espagne",
+        "NAME_EL": "Ισπανία",
+        "NAME_HE": "ספרד",
+        "NAME_HI": "स्पेन",
+        "NAME_HU": "Spanyolország",
+        "NAME_ID": "Spanyol",
+        "NAME_IT": "Spagna",
+        "NAME_JA": "スペイン",
+        "NAME_KO": "스페인",
+        "NAME_NL": "Spanje",
+        "NAME_PL": "Hiszpania",
+        "NAME_PT": "Espanha",
+        "NAME_RU": "Испания",
+        "NAME_SV": "Spanien",
+        "NAME_TR": "İspanya",
+        "NAME_UK": "Іспанія",
+        "NAME_UR": "ہسپانیہ",
+        "NAME_VI": "Tây Ban Nha",
+        "NAME_ZH": "西班牙",
+        "NAME_ZHT": "西班牙",
+        "FCLASS_ISO": "Admin-0 country",
+        "TLC_DIFF": null,
+        "FCLASS_TLC": "Admin-0 country",
+        "FCLASS_US": null,
+        "FCLASS_FR": null,
+        "FCLASS_RU": null,
+        "FCLASS_ES": null,
+        "FCLASS_CN": null,
+        "FCLASS_TW": null,
+        "FCLASS_IN": null,
+        "FCLASS_NP": null,
+        "FCLASS_PK": null,
+        "FCLASS_DE": null,
+        "FCLASS_GB": null,
+        "FCLASS_BR": null,
+        "FCLASS_IL": null,
+        "FCLASS_PS": null,
+        "FCLASS_SA": null,
+        "FCLASS_EG": null,
+        "FCLASS_MA": null,
+        "FCLASS_PT": null,
+        "FCLASS_AR": null,
+        "FCLASS_JP": null,
+        "FCLASS_KO": null,
+        "FCLASS_VN": null,
+        "FCLASS_TR": null,
+        "FCLASS_ID": null,
+        "FCLASS_PL": null,
+        "FCLASS_GR": null,
+        "FCLASS_IT": null,
+        "FCLASS_NL": null,
+        "FCLASS_SE": null,
+        "FCLASS_BD": null,
+        "FCLASS_UA": null
+      },
+      "bbox": [
+        -9.392884,
+        35.94685,
+        3.039484,
+        43.748338
+      ],
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -7.453726,
+              37.097788
+            ],
+            [
+              -7.537105,
+              37.428904
+            ],
+            [
+              -7.166508,
+              37.803894
+            ],
+            [
+              -7.029281,
+              38.075764
+            ],
+            [
+              -7.374092,
+              38.373059
+            ],
+            [
+              -7.098037,
+              39.030073
+            ],
+            [
+              -7.498632,
+              39.629571
+            ],
+            [
+              -7.066592,
+              39.711892
+            ],
+            [
+              -7.026413,
+              40.184524
+            ],
+            [
+              -6.86402,
+              40.330872
+            ],
+            [
+              -6.851127,
+              41.111083
+            ],
+            [
+              -6.389088,
+              41.381815
+            ],
+            [
+              -6.668606,
+              41.883387
+            ],
+            [
+              -7.251309,
+              41.918346
+            ],
+            [
+              -7.422513,
+              41.792075
+            ],
+            [
+              -8.013175,
+              41.790886
+            ],
+            [
+              -8.263857,
+              42.280469
+            ],
+            [
+              -8.671946,
+              42.134689
+            ],
+            [
+              -9.034818,
+              41.880571
+            ],
+            [
+              -8.984433,
+              42.592775
+            ],
+            [
+              -9.392884,
+              43.026625
+            ],
+            [
+              -7.97819,
+              43.748338
+            ],
+            [
+              -6.754492,
+              43.567909
+            ],
+            [
+              -5.411886,
+              43.57424
+            ],
+            [
+              -4.347843,
+              43.403449
+            ],
+            [
+              -3.517532,
+              43.455901
+            ],
+            [
+              -1.901351,
+              43.422802
+            ],
+            [
+              -1.502771,
+              43.034014
+            ],
+            [
+              0.338047,
+              42.579546
+            ],
+            [
+              0.701591,
+              42.795734
+            ],
+            [
+              1.826793,
+              42.343385
+            ],
+            [
+              2.985999,
+              42.473015
+            ],
+            [
+              3.039484,
+              41.89212
+            ],
+            [
+              2.091842,
+              41.226089
+            ],
+            [
+              0.810525,
+              41.014732
+            ],
+            [
+              0.721331,
+              40.678318
+            ],
+            [
+              0.106692,
+              40.123934
+            ],
+            [
+              -0.278711,
+              39.309978
+            ],
+            [
+              0.111291,
+              38.738514
+            ],
+            [
+              -0.467124,
+              38.292366
+            ],
+            [
+              -0.683389,
+              37.642354
+            ],
+            [
+              -1.438382,
+              37.443064
+            ],
+            [
+              -2.146453,
+              36.674144
+            ],
+            [
+              -3.415781,
+              36.6589
+            ],
+            [
+              -4.368901,
+              36.677839
+            ],
+            [
+              -4.995219,
+              36.324708
+            ],
+            [
+              -5.37716,
+              35.94685
+            ],
+            [
+              -5.866432,
+              36.029817
+            ],
+            [
+              -6.236694,
+              36.367677
+            ],
+            [
+              -6.520191,
+              36.942913
+            ],
+            [
+              -7.453726,
+              37.097788
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "featurecla": "Admin-0 country",
+        "scalerank": 1,
+        "LABELRANK": 3,
+        "SOVEREIGNT": "Ireland",
+        "SOV_A3": "IRL",
+        "ADM0_DIF": 0,
+        "LEVEL": 2,
+        "TYPE": "Sovereign country",
+        "TLC": "1",
+        "ADMIN": "Ireland",
+        "ADM0_A3": "IRL",
+        "GEOU_DIF": 0,
+        "GEOUNIT": "Ireland",
+        "GU_A3": "IRL",
+        "SU_DIF": 0,
+        "SUBUNIT": "Ireland",
+        "SU_A3": "IRL",
+        "BRK_DIFF": 0,
+        "NAME": "Ireland",
+        "NAME_LONG": "Ireland",
+        "BRK_A3": "IRL",
+        "BRK_NAME": "Ireland",
+        "BRK_GROUP": null,
+        "ABBREV": "Ire.",
+        "POSTAL": "IRL",
+        "FORMAL_EN": "Ireland",
+        "FORMAL_FR": null,
+        "NAME_CIAWF": "Ireland",
+        "NOTE_ADM0": null,
+        "NOTE_BRK": null,
+        "NAME_SORT": "Ireland",
+        "NAME_ALT": null,
+        "MAPCOLOR7": 2,
+        "MAPCOLOR8": 3,
+        "MAPCOLOR9": 2,
+        "MAPCOLOR13": 2,
+        "POP_EST": 4941444,
+        "POP_RANK": 12,
+        "POP_YEAR": 2019,
+        "GDP_MD": 388698,
+        "GDP_YEAR": 2019,
+        "ECONOMY": "2. Developed region: nonG7",
+        "INCOME_GRP": "1. High income: OECD",
+        "FIPS_10": "EI",
+        "ISO_A2": "IE",
+        "ISO_A2_EH": "IE",
+        "ISO_A3": "IRL",
+        "ISO_A3_EH": "IRL",
+        "ISO_N3": "372",
+        "ISO_N3_EH": "372",
+        "UN_A3": "372",
+        "WB_A2": "IE",
+        "WB_A3": "IRL",
+        "WOE_ID": 23424803,
+        "WOE_ID_EH": 23424803,
+        "WOE_NOTE": "Exact WOE match as country",
+        "ADM0_ISO": "IRL",
+        "ADM0_DIFF": null,
+        "ADM0_TLC": "IRL",
+        "ADM0_A3_US": "IRL",
+        "ADM0_A3_FR": "IRL",
+        "ADM0_A3_RU": "IRL",
+        "ADM0_A3_ES": "IRL",
+        "ADM0_A3_CN": "IRL",
+        "ADM0_A3_TW": "IRL",
+        "ADM0_A3_IN": "IRL",
+        "ADM0_A3_NP": "IRL",
+        "ADM0_A3_PK": "IRL",
+        "ADM0_A3_DE": "IRL",
+        "ADM0_A3_GB": "IRL",
+        "ADM0_A3_BR": "IRL",
+        "ADM0_A3_IL": "IRL",
+        "ADM0_A3_PS": "IRL",
+        "ADM0_A3_SA": "IRL",
+        "ADM0_A3_EG": "IRL",
+        "ADM0_A3_MA": "IRL",
+        "ADM0_A3_PT": "IRL",
+        "ADM0_A3_AR": "IRL",
+        "ADM0_A3_JP": "IRL",
+        "ADM0_A3_KO": "IRL",
+        "ADM0_A3_VN": "IRL",
+        "ADM0_A3_TR": "IRL",
+        "ADM0_A3_ID": "IRL",
+        "ADM0_A3_PL": "IRL",
+        "ADM0_A3_GR": "IRL",
+        "ADM0_A3_IT": "IRL",
+        "ADM0_A3_NL": "IRL",
+        "ADM0_A3_SE": "IRL",
+        "ADM0_A3_BD": "IRL",
+        "ADM0_A3_UA": "IRL",
+        "ADM0_A3_UN": -99,
+        "ADM0_A3_WB": -99,
+        "CONTINENT": "Europe",
+        "REGION_UN": "Europe",
+        "SUBREGION": "Northern Europe",
+        "REGION_WB": "Europe & Central Asia",
+        "NAME_LEN": 7,
+        "LONG_LEN": 7,
+        "ABBREV_LEN": 4,
+        "TINY": -99,
+        "HOMEPART": 1,
+        "MIN_ZOOM": 0,
+        "MIN_LABEL": 3,
+        "MAX_LABEL": 8,
+        "LABEL_X": -7.798588,
+        "LABEL_Y": 53.078726,
+        "NE_ID": 1159320877,
+        "WIKIDATAID": "Q27",
+        "NAME_AR": "جمهورية أيرلندا",
+        "NAME_BN": "প্রজাতন্ত্রী আয়ারল্যান্ড",
+        "NAME_DE": "Irland",
+        "NAME_EN": "Ireland",
+        "NAME_ES": "Irlanda",
+        "NAME_FA": "ایرلند",
+        "NAME_FR": "Irlande",
+        "NAME_EL": "Δημοκρατία της Ιρλανδίας",
+        "NAME_HE": "אירלנד",
+        "NAME_HI": "आयरलैण्ड",
+        "NAME_HU": "Írország",
+        "NAME_ID": "Republik Irlandia",
+        "NAME_IT": "Irlanda",
+        "NAME_JA": "アイルランド",
+        "NAME_KO": "아일랜드",
+        "NAME_NL": "Ierland",
+        "NAME_PL": "Irlandia",
+        "NAME_PT": "República da Irlanda",
+        "NAME_RU": "Ирландия",
+        "NAME_SV": "Irland",
+        "NAME_TR": "İrlanda",
+        "NAME_UK": "Ірландія",
+        "NAME_UR": "جمہوریہ آئرلینڈ",
+        "NAME_VI": "Cộng hòa Ireland",
+        "NAME_ZH": "爱尔兰",
+        "NAME_ZHT": "愛爾蘭",
+        "FCLASS_ISO": "Admin-0 country",
+        "TLC_DIFF": null,
+        "FCLASS_TLC": "Admin-0 country",
+        "FCLASS_US": null,
+        "FCLASS_FR": null,
+        "FCLASS_RU": null,
+        "FCLASS_ES": null,
+        "FCLASS_CN": null,
+        "FCLASS_TW": null,
+        "FCLASS_IN": null,
+        "FCLASS_NP": null,
+        "FCLASS_PK": null,
+        "FCLASS_DE": null,
+        "FCLASS_GB": null,
+        "FCLASS_BR": null,
+        "FCLASS_IL": null,
+        "FCLASS_PS": null,
+        "FCLASS_SA": null,
+        "FCLASS_EG": null,
+        "FCLASS_MA": null,
+        "FCLASS_PT": null,
+        "FCLASS_AR": null,
+        "FCLASS_JP": null,
+        "FCLASS_KO": null,
+        "FCLASS_VN": null,
+        "FCLASS_TR": null,
+        "FCLASS_ID": null,
+        "FCLASS_PL": null,
+        "FCLASS_GR": null,
+        "FCLASS_IT": null,
+        "FCLASS_NL": null,
+        "FCLASS_SE": null,
+        "FCLASS_BD": null,
+        "FCLASS_UA": null
+      },
+      "bbox": [
+        -9.977086,
+        51.669301,
+        -6.032985,
+        55.131622
+      ],
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -6.197885,
+              53.867565
+            ],
+            [
+              -6.032985,
+              53.153164
+            ],
+            [
+              -6.788857,
+              52.260118
+            ],
+            [
+              -8.561617,
+              51.669301
+            ],
+            [
+              -9.977086,
+              51.820455
+            ],
+            [
+              -9.166283,
+              52.864629
+            ],
+            [
+              -9.688525,
+              53.881363
+            ],
+            [
+              -8.327987,
+              54.664519
+            ],
+            [
+              -7.572168,
+              55.131622
+            ],
+            [
+              -7.366031,
+              54.595841
+            ],
+            [
+              -7.572168,
+              54.059956
+            ],
+            [
+              -6.95373,
+              54.073702
+            ],
+            [
+              -6.197885,
+              53.867565
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "featurecla": "Admin-0 country",
+        "scalerank": 1,
+        "LABELRANK": 4,
+        "SOVEREIGNT": "Denmark",
+        "SOV_A3": "DN1",
+        "ADM0_DIF": 1,
+        "LEVEL": 2,
+        "TYPE": "Country",
+        "TLC": "1",
+        "ADMIN": "Denmark",
+        "ADM0_A3": "DNK",
+        "GEOU_DIF": 0,
+        "GEOUNIT": "Denmark",
+        "GU_A3": "DNK",
+        "SU_DIF": 0,
+        "SUBUNIT": "Denmark",
+        "SU_A3": "DNK",
+        "BRK_DIFF": 0,
+        "NAME": "Denmark",
+        "NAME_LONG": "Denmark",
+        "BRK_A3": "DNK",
+        "BRK_NAME": "Denmark",
+        "BRK_GROUP": null,
+        "ABBREV": "Den.",
+        "POSTAL": "DK",
+        "FORMAL_EN": "Kingdom of Denmark",
+        "FORMAL_FR": null,
+        "NAME_CIAWF": "Denmark",
+        "NOTE_ADM0": null,
+        "NOTE_BRK": null,
+        "NAME_SORT": "Denmark",
+        "NAME_ALT": null,
+        "MAPCOLOR7": 4,
+        "MAPCOLOR8": 1,
+        "MAPCOLOR9": 3,
+        "MAPCOLOR13": 12,
+        "POP_EST": 5818553,
+        "POP_RANK": 13,
+        "POP_YEAR": 2019,
+        "GDP_MD": 350104,
+        "GDP_YEAR": 2019,
+        "ECONOMY": "2. Developed region: nonG7",
+        "INCOME_GRP": "1. High income: OECD",
+        "FIPS_10": "DA",
+        "ISO_A2": "DK",
+        "ISO_A2_EH": "DK",
+        "ISO_A3": "DNK",
+        "ISO_A3_EH": "DNK",
+        "ISO_N3": "208",
+        "ISO_N3_EH": "208",
+        "UN_A3": "208",
+        "WB_A2": "DK",
+        "WB_A3": "DNK",
+        "WOE_ID": 23424796,
+        "WOE_ID_EH": 23424796,
+        "WOE_NOTE": "Exact WOE match as country",
+        "ADM0_ISO": "DNK",
+        "ADM0_DIFF": null,
+        "ADM0_TLC": "DNK",
+        "ADM0_A3_US": "DNK",
+        "ADM0_A3_FR": "DNK",
+        "ADM0_A3_RU": "DNK",
+        "ADM0_A3_ES": "DNK",
+        "ADM0_A3_CN": "DNK",
+        "ADM0_A3_TW": "DNK",
+        "ADM0_A3_IN": "DNK",
+        "ADM0_A3_NP": "DNK",
+        "ADM0_A3_PK": "DNK",
+        "ADM0_A3_DE": "DNK",
+        "ADM0_A3_GB": "DNK",
+        "ADM0_A3_BR": "DNK",
+        "ADM0_A3_IL": "DNK",
+        "ADM0_A3_PS": "DNK",
+        "ADM0_A3_SA": "DNK",
+        "ADM0_A3_EG": "DNK",
+        "ADM0_A3_MA": "DNK",
+        "ADM0_A3_PT": "DNK",
+        "ADM0_A3_AR": "DNK",
+        "ADM0_A3_JP": "DNK",
+        "ADM0_A3_KO": "DNK",
+        "ADM0_A3_VN": "DNK",
+        "ADM0_A3_TR": "DNK",
+        "ADM0_A3_ID": "DNK",
+        "ADM0_A3_PL": "DNK",
+        "ADM0_A3_GR": "DNK",
+        "ADM0_A3_IT": "DNK",
+        "ADM0_A3_NL": "DNK",
+        "ADM0_A3_SE": "DNK",
+        "ADM0_A3_BD": "DNK",
+        "ADM0_A3_UA": "DNK",
+        "ADM0_A3_UN": -99,
+        "ADM0_A3_WB": -99,
+        "CONTINENT": "Europe",
+        "REGION_UN": "Europe",
+        "SUBREGION": "Northern Europe",
+        "REGION_WB": "Europe & Central Asia",
+        "NAME_LEN": 7,
+        "LONG_LEN": 7,
+        "ABBREV_LEN": 4,
+        "TINY": -99,
+        "HOMEPART": 1,
+        "MIN_ZOOM": 0,
+        "MIN_LABEL": 3,
+        "MAX_LABEL": 8,
+        "LABEL_X": 9.018163,
+        "LABEL_Y": 55.966965,
+        "NE_ID": 1159320547,
+        "WIKIDATAID": "Q35",
+        "NAME_AR": "الدنمارك",
+        "NAME_BN": "ডেনমার্ক",
+        "NAME_DE": "Dänemark",
+        "NAME_EN": "Denmark",
+        "NAME_ES": "Dinamarca",
+        "NAME_FA": "دانمارک",
+        "NAME_FR": "Danemark",
+        "NAME_EL": "Δανία",
+        "NAME_HE": "דנמרק",
+        "NAME_HI": "डेनमार्क",
+        "NAME_HU": "Dánia",
+        "NAME_ID": "Denmark",
+        "NAME_IT": "Danimarca",
+        "NAME_JA": "デンマーク",
+        "NAME_KO": "덴마크",
+        "NAME_NL": "Denemarken",
+        "NAME_PL": "Dania",
+        "NAME_PT": "Dinamarca",
+        "NAME_RU": "Дания",
+        "NAME_SV": "Danmark",
+        "NAME_TR": "Danimarka",
+        "NAME_UK": "Данія",
+        "NAME_UR": "ڈنمارک",
+        "NAME_VI": "Đan Mạch",
+        "NAME_ZH": "丹麦",
+        "NAME_ZHT": "丹麥",
+        "FCLASS_ISO": "Admin-0 country",
+        "TLC_DIFF": null,
+        "FCLASS_TLC": "Admin-0 country",
+        "FCLASS_US": null,
+        "FCLASS_FR": null,
+        "FCLASS_RU": null,
+        "FCLASS_ES": null,
+        "FCLASS_CN": null,
+        "FCLASS_TW": null,
+        "FCLASS_IN": null,
+        "FCLASS_NP": null,
+        "FCLASS_PK": null,
+        "FCLASS_DE": null,
+        "FCLASS_GB": null,
+        "FCLASS_BR": null,
+        "FCLASS_IL": null,
+        "FCLASS_PS": null,
+        "FCLASS_SA": null,
+        "FCLASS_EG": null,
+        "FCLASS_MA": null,
+        "FCLASS_PT": null,
+        "FCLASS_AR": null,
+        "FCLASS_JP": null,
+        "FCLASS_KO": null,
+        "FCLASS_VN": null,
+        "FCLASS_TR": null,
+        "FCLASS_ID": null,
+        "FCLASS_PL": null,
+        "FCLASS_GR": null,
+        "FCLASS_IT": null,
+        "FCLASS_NL": null,
+        "FCLASS_SE": null,
+        "FCLASS_BD": null,
+        "FCLASS_UA": null
+      },
+      "bbox": [
+        8.089977,
+        54.800015,
+        12.690006,
+        57.730017
+      ],
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                9.921906,
+                54.983104
+              ],
+              [
+                9.282049,
+                54.830865
+              ],
+              [
+                8.526229,
+                54.962744
+              ],
+              [
+                8.120311,
+                55.517723
+              ],
+              [
+                8.089977,
+                56.540012
+              ],
+              [
+                8.256582,
+                56.809969
+              ],
+              [
+                8.543438,
+                57.110003
+              ],
+              [
+                9.424469,
+                57.172066
+              ],
+              [
+                9.775559,
+                57.447941
+              ],
+              [
+                10.580006,
+                57.730017
+              ],
+              [
+                10.546106,
+                57.215733
+              ],
+              [
+                10.25,
+                56.890016
+              ],
+              [
+                10.369993,
+                56.609982
+              ],
+              [
+                10.912182,
+                56.458621
+              ],
+              [
+                10.667804,
+                56.081383
+              ],
+              [
+                10.369993,
+                56.190007
+              ],
+              [
+                9.649985,
+                55.469999
+              ],
+              [
+                9.921906,
+                54.983104
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                12.370904,
+                56.111407
+              ],
+              [
+                12.690006,
+                55.609991
+              ],
+              [
+                12.089991,
+                54.800015
+              ],
+              [
+                11.043543,
+                55.364864
+              ],
+              [
+                10.903914,
+                55.779955
+              ],
+              [
+                12.370904,
+                56.111407
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "featurecla": "Admin-0 country",
+        "scalerank": 1,
+        "LABELRANK": 2,
+        "SOVEREIGNT": "United Kingdom",
+        "SOV_A3": "GB1",
+        "ADM0_DIF": 1,
+        "LEVEL": 2,
+        "TYPE": "Country",
+        "TLC": "1",
+        "ADMIN": "United Kingdom",
+        "ADM0_A3": "GBR",
+        "GEOU_DIF": 0,
+        "GEOUNIT": "United Kingdom",
+        "GU_A3": "GBR",
+        "SU_DIF": 0,
+        "SUBUNIT": "United Kingdom",
+        "SU_A3": "GBR",
+        "BRK_DIFF": 0,
+        "NAME": "United Kingdom",
+        "NAME_LONG": "United Kingdom",
+        "BRK_A3": "GBR",
+        "BRK_NAME": "United Kingdom",
+        "BRK_GROUP": null,
+        "ABBREV": "U.K.",
+        "POSTAL": "GB",
+        "FORMAL_EN": "United Kingdom of Great Britain and Northern Ireland",
+        "FORMAL_FR": null,
+        "NAME_CIAWF": "United Kingdom",
+        "NOTE_ADM0": null,
+        "NOTE_BRK": null,
+        "NAME_SORT": "United Kingdom",
+        "NAME_ALT": null,
+        "MAPCOLOR7": 6,
+        "MAPCOLOR8": 6,
+        "MAPCOLOR9": 6,
+        "MAPCOLOR13": 3,
+        "POP_EST": 66834405,
+        "POP_RANK": 16,
+        "POP_YEAR": 2019,
+        "GDP_MD": 2829108,
+        "GDP_YEAR": 2019,
+        "ECONOMY": "1. Developed region: G7",
+        "INCOME_GRP": "1. High income: OECD",
+        "FIPS_10": "UK",
+        "ISO_A2": "GB",
+        "ISO_A2_EH": "GB",
+        "ISO_A3": "GBR",
+        "ISO_A3_EH": "GBR",
+        "ISO_N3": "826",
+        "ISO_N3_EH": "826",
+        "UN_A3": "826",
+        "WB_A2": "GB",
+        "WB_A3": "GBR",
+        "WOE_ID": -90,
+        "WOE_ID_EH": 23424975,
+        "WOE_NOTE": "Eh ID includes Channel Islands and Isle of Man. UK constituent countries of England (24554868), Wales (12578049), Scotland (12578048), and Northern Ireland (20070563).",
+        "ADM0_ISO": "GBR",
+        "ADM0_DIFF": null,
+        "ADM0_TLC": "GBR",
+        "ADM0_A3_US": "GBR",
+        "ADM0_A3_FR": "GBR",
+        "ADM0_A3_RU": "GBR",
+        "ADM0_A3_ES": "GBR",
+        "ADM0_A3_CN": "GBR",
+        "ADM0_A3_TW": "GBR",
+        "ADM0_A3_IN": "GBR",
+        "ADM0_A3_NP": "GBR",
+        "ADM0_A3_PK": "GBR",
+        "ADM0_A3_DE": "GBR",
+        "ADM0_A3_GB": "GBR",
+        "ADM0_A3_BR": "GBR",
+        "ADM0_A3_IL": "GBR",
+        "ADM0_A3_PS": "GBR",
+        "ADM0_A3_SA": "GBR",
+        "ADM0_A3_EG": "GBR",
+        "ADM0_A3_MA": "GBR",
+        "ADM0_A3_PT": "GBR",
+        "ADM0_A3_AR": "GBR",
+        "ADM0_A3_JP": "GBR",
+        "ADM0_A3_KO": "GBR",
+        "ADM0_A3_VN": "GBR",
+        "ADM0_A3_TR": "GBR",
+        "ADM0_A3_ID": "GBR",
+        "ADM0_A3_PL": "GBR",
+        "ADM0_A3_GR": "GBR",
+        "ADM0_A3_IT": "GBR",
+        "ADM0_A3_NL": "GBR",
+        "ADM0_A3_SE": "GBR",
+        "ADM0_A3_BD": "GBR",
+        "ADM0_A3_UA": "GBR",
+        "ADM0_A3_UN": -99,
+        "ADM0_A3_WB": -99,
+        "CONTINENT": "Europe",
+        "REGION_UN": "Europe",
+        "SUBREGION": "Northern Europe",
+        "REGION_WB": "Europe & Central Asia",
+        "NAME_LEN": 14,
+        "LONG_LEN": 14,
+        "ABBREV_LEN": 4,
+        "TINY": -99,
+        "HOMEPART": 1,
+        "MIN_ZOOM": 0,
+        "MIN_LABEL": 1.7,
+        "MAX_LABEL": 6.7,
+        "LABEL_X": -2.116346,
+        "LABEL_Y": 54.402739,
+        "NE_ID": 1159320713,
+        "WIKIDATAID": "Q145",
+        "NAME_AR": "المملكة المتحدة",
+        "NAME_BN": "যুক্তরাজ্য",
+        "NAME_DE": "Vereinigtes Königreich",
+        "NAME_EN": "United Kingdom",
+        "NAME_ES": "Reino Unido",
+        "NAME_FA": "بریتانیا",
+        "NAME_FR": "Royaume-Uni",
+        "NAME_EL": "Ηνωμένο Βασίλειο",
+        "NAME_HE": "הממלכה המאוחדת",
+        "NAME_HI": "यूनाइटेड किंगडम",
+        "NAME_HU": "Egyesült Királyság",
+        "NAME_ID": "Britania Raya",
+        "NAME_IT": "Regno Unito",
+        "NAME_JA": "イギリス",
+        "NAME_KO": "영국",
+        "NAME_NL": "Verenigd Koninkrijk",
+        "NAME_PL": "Wielka Brytania",
+        "NAME_PT": "Reino Unido",
+        "NAME_RU": "Великобритания",
+        "NAME_SV": "Storbritannien",
+        "NAME_TR": "Birleşik Krallık",
+        "NAME_UK": "Велика Британія",
+        "NAME_UR": "مملکت متحدہ",
+        "NAME_VI": "Vương quốc Liên hiệp Anh và Bắc Ireland",
+        "NAME_ZH": "英国",
+        "NAME_ZHT": "英國",
+        "FCLASS_ISO": "Admin-0 country",
+        "TLC_DIFF": null,
+        "FCLASS_TLC": "Admin-0 country",
+        "FCLASS_US": null,
+        "FCLASS_FR": null,
+        "FCLASS_RU": null,
+        "FCLASS_ES": null,
+        "FCLASS_CN": null,
+        "FCLASS_TW": null,
+        "FCLASS_IN": null,
+        "FCLASS_NP": null,
+        "FCLASS_PK": null,
+        "FCLASS_DE": null,
+        "FCLASS_GB": null,
+        "FCLASS_BR": null,
+        "FCLASS_IL": null,
+        "FCLASS_PS": null,
+        "FCLASS_SA": null,
+        "FCLASS_EG": null,
+        "FCLASS_MA": null,
+        "FCLASS_PT": null,
+        "FCLASS_AR": null,
+        "FCLASS_JP": null,
+        "FCLASS_KO": null,
+        "FCLASS_VN": null,
+        "FCLASS_TR": null,
+        "FCLASS_ID": null,
+        "FCLASS_PL": null,
+        "FCLASS_GR": null,
+        "FCLASS_IT": null,
+        "FCLASS_NL": null,
+        "FCLASS_SE": null,
+        "FCLASS_BD": null,
+        "FCLASS_UA": null
+      },
+      "bbox": [
+        -7.572168,
+        49.96,
+        1.681531,
+        58.635
+      ],
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -6.197885,
+                53.867565
+              ],
+              [
+                -6.95373,
+                54.073702
+              ],
+              [
+                -7.572168,
+                54.059956
+              ],
+              [
+                -7.366031,
+                54.595841
+              ],
+              [
+                -7.572168,
+                55.131622
+              ],
+              [
+                -6.733847,
+                55.17286
+              ],
+              [
+                -5.661949,
+                54.554603
+              ],
+              [
+                -6.197885,
+                53.867565
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -3.093831,
+                53.404547
+              ],
+              [
+                -3.09208,
+                53.404441
+              ],
+              [
+                -2.945009,
+                53.985
+              ],
+              [
+                -3.614701,
+                54.600937
+              ],
+              [
+                -3.630005,
+                54.615013
+              ],
+              [
+                -4.844169,
+                54.790971
+              ],
+              [
+                -5.082527,
+                55.061601
+              ],
+              [
+                -4.719112,
+                55.508473
+              ],
+              [
+                -5.047981,
+                55.783986
+              ],
+              [
+                -5.586398,
+                55.311146
+              ],
+              [
+                -5.644999,
+                56.275015
+              ],
+              [
+                -6.149981,
+                56.78501
+              ],
+              [
+                -5.786825,
+                57.818848
+              ],
+              [
+                -5.009999,
+                58.630013
+              ],
+              [
+                -4.211495,
+                58.550845
+              ],
+              [
+                -3.005005,
+                58.635
+              ],
+              [
+                -4.073828,
+                57.553025
+              ],
+              [
+                -3.055002,
+                57.690019
+              ],
+              [
+                -1.959281,
+                57.6848
+              ],
+              [
+                -2.219988,
+                56.870017
+              ],
+              [
+                -3.119003,
+                55.973793
+              ],
+              [
+                -2.085009,
+                55.909998
+              ],
+              [
+                -2.005676,
+                55.804903
+              ],
+              [
+                -1.114991,
+                54.624986
+              ],
+              [
+                -0.430485,
+                54.464376
+              ],
+              [
+                0.184981,
+                53.325014
+              ],
+              [
+                0.469977,
+                52.929999
+              ],
+              [
+                1.681531,
+                52.73952
+              ],
+              [
+                1.559988,
+                52.099998
+              ],
+              [
+                1.050562,
+                51.806761
+              ],
+              [
+                1.449865,
+                51.289428
+              ],
+              [
+                0.550334,
+                50.765739
+              ],
+              [
+                -0.787517,
+                50.774989
+              ],
+              [
+                -2.489998,
+                50.500019
+              ],
+              [
+                -2.956274,
+                50.69688
+              ],
+              [
+                -3.617448,
+                50.228356
+              ],
+              [
+                -4.542508,
+                50.341837
+              ],
+              [
+                -5.245023,
+                49.96
+              ],
+              [
+                -5.776567,
+                50.159678
+              ],
+              [
+                -4.30999,
+                51.210001
+              ],
+              [
+                -3.414851,
+                51.426009
+              ],
+              [
+                -3.422719,
+                51.426848
+              ],
+              [
+                -4.984367,
+                51.593466
+              ],
+              [
+                -5.267296,
+                51.9914
+              ],
+              [
+                -4.222347,
+                52.301356
+              ],
+              [
+                -4.770013,
+                52.840005
+              ],
+              [
+                -4.579999,
+                53.495004
+              ],
+              [
+                -3.093831,
+                53.404547
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "featurecla": "Admin-0 country",
+        "scalerank": 1,
+        "LABELRANK": 3,
+        "SOVEREIGNT": "Iceland",
+        "SOV_A3": "ISL",
+        "ADM0_DIF": 0,
+        "LEVEL": 2,
+        "TYPE": "Sovereign country",
+        "TLC": "1",
+        "ADMIN": "Iceland",
+        "ADM0_A3": "ISL",
+        "GEOU_DIF": 0,
+        "GEOUNIT": "Iceland",
+        "GU_A3": "ISL",
+        "SU_DIF": 0,
+        "SUBUNIT": "Iceland",
+        "SU_A3": "ISL",
+        "BRK_DIFF": 0,
+        "NAME": "Iceland",
+        "NAME_LONG": "Iceland",
+        "BRK_A3": "ISL",
+        "BRK_NAME": "Iceland",
+        "BRK_GROUP": null,
+        "ABBREV": "Iceland",
+        "POSTAL": "IS",
+        "FORMAL_EN": "Republic of Iceland",
+        "FORMAL_FR": null,
+        "NAME_CIAWF": "Iceland",
+        "NOTE_ADM0": null,
+        "NOTE_BRK": null,
+        "NAME_SORT": "Iceland",
+        "NAME_ALT": null,
+        "MAPCOLOR7": 1,
+        "MAPCOLOR8": 4,
+        "MAPCOLOR9": 4,
+        "MAPCOLOR13": 9,
+        "POP_EST": 361313,
+        "POP_RANK": 10,
+        "POP_YEAR": 2019,
+        "GDP_MD": 24188,
+        "GDP_YEAR": 2019,
+        "ECONOMY": "2. Developed region: nonG7",
+        "INCOME_GRP": "1. High income: OECD",
+        "FIPS_10": "IC",
+        "ISO_A2": "IS",
+        "ISO_A2_EH": "IS",
+        "ISO_A3": "ISL",
+        "ISO_A3_EH": "ISL",
+        "ISO_N3": "352",
+        "ISO_N3_EH": "352",
+        "UN_A3": "352",
+        "WB_A2": "IS",
+        "WB_A3": "ISL",
+        "WOE_ID": 23424845,
+        "WOE_ID_EH": 23424845,
+        "WOE_NOTE": "Exact WOE match as country",
+        "ADM0_ISO": "ISL",
+        "ADM0_DIFF": null,
+        "ADM0_TLC": "ISL",
+        "ADM0_A3_US": "ISL",
+        "ADM0_A3_FR": "ISL",
+        "ADM0_A3_RU": "ISL",
+        "ADM0_A3_ES": "ISL",
+        "ADM0_A3_CN": "ISL",
+        "ADM0_A3_TW": "ISL",
+        "ADM0_A3_IN": "ISL",
+        "ADM0_A3_NP": "ISL",
+        "ADM0_A3_PK": "ISL",
+        "ADM0_A3_DE": "ISL",
+        "ADM0_A3_GB": "ISL",
+        "ADM0_A3_BR": "ISL",
+        "ADM0_A3_IL": "ISL",
+        "ADM0_A3_PS": "ISL",
+        "ADM0_A3_SA": "ISL",
+        "ADM0_A3_EG": "ISL",
+        "ADM0_A3_MA": "ISL",
+        "ADM0_A3_PT": "ISL",
+        "ADM0_A3_AR": "ISL",
+        "ADM0_A3_JP": "ISL",
+        "ADM0_A3_KO": "ISL",
+        "ADM0_A3_VN": "ISL",
+        "ADM0_A3_TR": "ISL",
+        "ADM0_A3_ID": "ISL",
+        "ADM0_A3_PL": "ISL",
+        "ADM0_A3_GR": "ISL",
+        "ADM0_A3_IT": "ISL",
+        "ADM0_A3_NL": "ISL",
+        "ADM0_A3_SE": "ISL",
+        "ADM0_A3_BD": "ISL",
+        "ADM0_A3_UA": "ISL",
+        "ADM0_A3_UN": -99,
+        "ADM0_A3_WB": -99,
+        "CONTINENT": "Europe",
+        "REGION_UN": "Europe",
+        "SUBREGION": "Northern Europe",
+        "REGION_WB": "Europe & Central Asia",
+        "NAME_LEN": 7,
+        "LONG_LEN": 7,
+        "ABBREV_LEN": 7,
+        "TINY": -99,
+        "HOMEPART": 1,
+        "MIN_ZOOM": 0,
+        "MIN_LABEL": 2,
+        "MAX_LABEL": 7,
+        "LABEL_X": -18.673711,
+        "LABEL_Y": 64.779286,
+        "NE_ID": 1159320917,
+        "WIKIDATAID": "Q189",
+        "NAME_AR": "آيسلندا",
+        "NAME_BN": "আইসল্যান্ড",
+        "NAME_DE": "Island",
+        "NAME_EN": "Iceland",
+        "NAME_ES": "Islandia",
+        "NAME_FA": "ایسلند",
+        "NAME_FR": "Islande",
+        "NAME_EL": "Ισλανδία",
+        "NAME_HE": "איסלנד",
+        "NAME_HI": "आइसलैण्ड",
+        "NAME_HU": "Izland",
+        "NAME_ID": "Islandia",
+        "NAME_IT": "Islanda",
+        "NAME_JA": "アイスランド",
+        "NAME_KO": "아이슬란드",
+        "NAME_NL": "IJsland",
+        "NAME_PL": "Islandia",
+        "NAME_PT": "Islândia",
+        "NAME_RU": "Исландия",
+        "NAME_SV": "Island",
+        "NAME_TR": "İzlanda",
+        "NAME_UK": "Ісландія",
+        "NAME_UR": "آئس لینڈ",
+        "NAME_VI": "Iceland",
+        "NAME_ZH": "冰岛",
+        "NAME_ZHT": "冰島",
+        "FCLASS_ISO": "Admin-0 country",
+        "TLC_DIFF": null,
+        "FCLASS_TLC": "Admin-0 country",
+        "FCLASS_US": null,
+        "FCLASS_FR": null,
+        "FCLASS_RU": null,
+        "FCLASS_ES": null,
+        "FCLASS_CN": null,
+        "FCLASS_TW": null,
+        "FCLASS_IN": null,
+        "FCLASS_NP": null,
+        "FCLASS_PK": null,
+        "FCLASS_DE": null,
+        "FCLASS_GB": null,
+        "FCLASS_BR": null,
+        "FCLASS_IL": null,
+        "FCLASS_PS": null,
+        "FCLASS_SA": null,
+        "FCLASS_EG": null,
+        "FCLASS_MA": null,
+        "FCLASS_PT": null,
+        "FCLASS_AR": null,
+        "FCLASS_JP": null,
+        "FCLASS_KO": null,
+        "FCLASS_VN": null,
+        "FCLASS_TR": null,
+        "FCLASS_ID": null,
+        "FCLASS_PL": null,
+        "FCLASS_GR": null,
+        "FCLASS_IT": null,
+        "FCLASS_NL": null,
+        "FCLASS_SE": null,
+        "FCLASS_BD": null,
+        "FCLASS_UA": null
+      },
+      "bbox": [
+        -24.326184,
+        63.496383,
+        -13.609732,
+        66.526792
+      ],
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -14.508695,
+              66.455892
+            ],
+            [
+              -14.739637,
+              65.808748
+            ],
+            [
+              -13.609732,
+              65.126671
+            ],
+            [
+              -14.909834,
+              64.364082
+            ],
+            [
+              -17.794438,
+              63.678749
+            ],
+            [
+              -18.656246,
+              63.496383
+            ],
+            [
+              -19.972755,
+              63.643635
+            ],
+            [
+              -22.762972,
+              63.960179
+            ],
+            [
+              -21.778484,
+              64.402116
+            ],
+            [
+              -23.955044,
+              64.89113
+            ],
+            [
+              -22.184403,
+              65.084968
+            ],
+            [
+              -22.227423,
+              65.378594
+            ],
+            [
+              -24.326184,
+              65.611189
+            ],
+            [
+              -23.650515,
+              66.262519
+            ],
+            [
+              -22.134922,
+              66.410469
+            ],
+            [
+              -20.576284,
+              65.732112
+            ],
+            [
+              -19.056842,
+              66.276601
+            ],
+            [
+              -17.798624,
+              65.993853
+            ],
+            [
+              -16.167819,
+              66.526792
+            ],
+            [
+              -14.508695,
+              66.455892
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

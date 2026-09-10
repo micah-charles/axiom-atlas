@@ -15,6 +15,7 @@ import { angleFromToken, arithmeticChain, expectedValueFromFact, functionTrace, 
 import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, ADVANCED_ENGINE_MANIFEST, ADVANCED_GOAL_TYPES, ADVANCED_INSTRUMENTS, ADVANCED_LEVEL_CATALOG, accumulateFlow, advancedActRule, advancedActUnlocked, advancedGoalSatisfied, advancedNotation, advancedSeedProfile, applyMatrix, closedPath, complexMultiply, constraintProgress, curl, dailyAdvancedExpedition, determinant, divergence, discreteSpectrum, evaluateConstraint, generateAdvancedExpedition, gaussianHeight, jacobian, lineIntegral, logisticMapStep, logisticTrajectory, lotkaVolterraStep, measurementInstrument, monteCarloEstimate, multiplyMatrix, polygonArea, polylineLength, seededChaosProfile, seededChaosTrajectory, seededCurveProfile, seededDynamicProfile, seededFieldProfile, seededFlowProfile, seededFlowReading, seededGraphEdges, seededGeometryTarget, seededGradientProfile, seededPopulationStep, seededProbabilityProfile, seededSignalDefaults, seededSignalProfile, seededSpringStep, seededTransformOutput, seededTransformProfile, seededVectorField, secantSlope, selectedPathWeight, shortestPath, springStep, surfaceFlux, surfaceFlux3D, tangentSlope, triangleArea, trapezoidIntegral, validateAdvancedLevelDefinition } from "../app/games/advanced-engines.ts";
 import { addResource, advectParticles, createReservoir, entityById, moveEntity, reservoirFilled, stepScene } from "../app/games/simulation-systems.ts";
 import { buildActualRevealBlocks, buildValleyRectangles, buildValleyTimeBlocks, estimateTargetCrossing, estimateValleyVolume, findActualTargetCrossing, resolveValleyOutcome, valleyActualVolume, valleyFlowRate, valleyRiverModel } from "../app/games/water-valley-engine.ts";
+import { CLIMATE_DATA, CLIMATE_MISSIONS, CLIMATE_YEAR, conceptsFromText, dayLengthHours, evidenceValue, locationById, pressureHpa, scoreMission, seasonFor, solarAngle, windDirectionLabel } from "../app/games/climate-detective/engine.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
   assert.equal(LEARNING_LAYERS.length, 5);
@@ -257,6 +258,67 @@ test("Water Valley real-time blocks and hidden target crossing remain determinis
   const reveal = buildActualRevealBlocks(crossing, 42, 420, 4);
   assert.ok(reveal.at(-1).end <= crossing);
   assert.ok(Math.abs(reveal.reduce((sum, block) => sum + block.volume, 0) - valleyActualVolume(crossing, 42, 420, .05, 4)) < .2);
+});
+
+test("Climate Detective ships a complete, sourced 2018 daily dataset", () => {
+  assert.equal(CLIMATE_YEAR, 2018);
+  assert.equal(CLIMATE_DATA.baseline.period, "2001-2020");
+  assert.equal(CLIMATE_DATA.source.timeStandard, "UTC");
+  assert.equal(CLIMATE_DATA.locations.length, 5);
+  assert.equal(CLIMATE_DATA.oceanSource.provider, "NOAA NCEI");
+  assert.equal(CLIMATE_DATA.selectedEvents.year, 2018);
+  for (const location of CLIMATE_DATA.locations) {
+    assert.equal(location.daily.length, 365);
+    assert.equal(location.daily[0].date, "2018-01-01");
+    assert.equal(location.daily.at(-1).date, "2018-12-31");
+    assert.ok(location.daily.every(row => Object.values(row).every(value => value !== -999 && value !== -9999)));
+    assert.ok(location.daily.every(row => row.evidenceQuality.complete));
+  }
+  assert.deepEqual(CLIMATE_MISSIONS.map(mission => mission.id), ["depression", "cold-snap", "warm-anomaly"]);
+});
+
+test("Climate Detective uses deterministic concepts, seasonal geometry, and evidence units", () => {
+  const london = locationById("london");
+  const winterDaylight = dayLengthHours(london.latitude, "2018-01-15");
+  const summerDaylight = dayLengthHours(london.latitude, "2018-07-26");
+  assert.ok(summerDaylight > winterDaylight);
+  assert.ok(solarAngle(london.latitude, "2018-07-26") > solarAngle(london.latitude, "2018-01-15"));
+  assert.equal(seasonFor("2018-03-18"), "spring");
+  assert.equal(seasonFor("2018-07-26"), "summer");
+  assert.equal(pressureHpa(london.daily[0]), Number((london.daily[0].pressureKpa * 10).toFixed(1)));
+  assert.match(windDirectionLabel(90), /easterly sector/);
+  assert.match(windDirectionLabel(270), /westerly sector/);
+  assert.match(windDirectionLabel(180), /mixed sector/);
+  const coldRow = london.daily.find(row => row.date === "2018-03-18");
+  assert.ok(coldRow);
+  const sst = evidenceValue("sst", coldRow, london.daily[0], london, "2018-03-18");
+  assert.match(sst.value, /°C/);
+  assert.ok(conceptsFromText("The pressure fell as an easterly air mass arrived from the continent.").includes("PRESSURE"));
+  assert.ok(conceptsFromText("The pressure fell as an easterly air mass arrived from the continent.").includes("CONTINENTALITY"));
+  assert.ok(conceptsFromText("Earth's axial tilt gives a higher solar angle and longer daylight.").includes("AXIAL_TILT"));
+});
+
+test("Climate Detective scoring rewards evidence, causal order, concepts, and forecasts", () => {
+  const mission = CLIMATE_MISSIONS.find(item => item.id === "depression");
+  const london = locationById("london");
+  const actual = london.daily.find(row => row.date === mission.date);
+  const following = london.daily[london.daily.indexOf(actual) + 1];
+  assert.ok(mission && actual && following);
+  const strong = scoreMission(
+    mission,
+    mission.evidence,
+    mission.chain.map(step => step.id),
+    "Falling pressure brings a front and rising air, causing rainfall as the Atlantic air mass arrives.",
+    { temperature: "steady", pressure: following.pressureKpa < actual.pressureKpa ? "falling" : "rising", wind: following.windSpeed > actual.windSpeed ? "stronger" : "lighter", rain: following.precipitation > actual.precipitation ? "wetter" : "drier" },
+    actual,
+    following,
+  );
+  assert.equal(strong.evidence, 3);
+  assert.equal(strong.concepts, 2);
+  assert.equal(strong.reasoning, 3);
+  assert.ok(strong.total >= 11);
+  const weak = scoreMission(mission, ["temperature"], ["front-arrives"], "It changes.", { temperature: "steady", pressure: "steady", wind: "steady", rain: "steady" }, actual, following);
+  assert.ok(weak.total < strong.total);
 });
 
 for (const world of FAMILY_WORLD_IDS) {

@@ -1,0 +1,5 @@
+{
+  "source": "Natural Earth 1:110m admin-0 country boundaries",
+  "sourceUrl": "https://github.com/nvkelso/natural-earth-vector",
+  "note": "Run scripts/climate-detective/prepare-natural-earth.mjs to refresh the filtered geometry."
+}

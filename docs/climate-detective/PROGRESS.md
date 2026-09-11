@@ -2,7 +2,7 @@
 
 Last updated: 2026-09-11
 Current milestone: M25 Mission 01 gameplay recovery — local + deployed QA passed; persistent screenshot evidence pending
-Current blocker: None
+Current blocker: Persistent screenshot files are unavailable while the host display is locked; CUA provides inline captures only
 Next action: capture persistent screenshot files for the recovered Mission 01 states, then reassess the M25 verification gate
 
 ## Mission status
@@ -54,10 +54,11 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 - Added strong/supporting notebook evidence, FROM/TO wind convention, causal-chain recovery, hint accounting and field-note validation.
 - Completed a fresh-player local browser pass including deliberate wrong-link recovery, blank-note lock, valid-note unlock and historical reveal.
 - Completed the same Mission 01 recovery flow against the deployed private Site version 109; console errors were absent and the reveal scored 11/14.
+- Added deterministic coverage for wrong evidence, deduplicated excessive evidence, and hint efficiency scoring.
 
 ## Tests
 
-- `npm test`: 154 tests passed, including Climate Detective data/rules and recovery-lock tests.
+- `npm test`: 155 tests passed, including Climate Detective data/rules, recovery-lock, and wrong/excessive/hint scoring tests.
 - `npm run lint`: passed.
 - `npm test` build stage: Vinext build completed; only a non-fatal >500 kB chunk warning remains.
 - `npm test` rendered HTML stage: 2 tests passed.
@@ -73,10 +74,12 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 - Recovery contract and acceptance checklist: `docs/climate-detective/GAMEPLAY_RECOVERY.md`
 - Local browser captures: CUA inline desktop 1280×900 reveal and mobile 390×844 Task 1 pressure state, both 2026-09-11.
 - Deployed Site: `https://the-axiom-atlas.ckstks246335.chatgpt.site` — version 109, recovery flow passed 2026-09-11.
+- Additional browser smoke: wrong H target feedback, duplicate clue deduplication, hint, Restart, reload, and keyboard map-target activation, 2026-09-11.
 
 ## Known problems
 
 - Persistent screenshot files have not yet been produced; local CUA captures are recorded inline in the task evidence.
+- Native `screencapture` could not create an image because the host display is locked; persistent PNG capture needs an unlocked display or a browser screenshot artifact path.
 - The current atmospheric data is NASA POWER/MERRA-2 gridded analysis rather than a station observation or operational forecast; the UI labels this explicitly.
 - ERA5 is deferred because the CDS download path requires account-backed access in this environment.
 
@@ -86,6 +89,6 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 
 ## Next three actions
 
-1. Capture persistent desktop and mobile evidence for the recovered Mission 01 states.
+1. Capture persistent desktop and mobile evidence for the recovered Mission 01 states once screenshot output is available.
 2. Record the screenshot paths in `EVIDENCE.md` and `PROGRESS.md`.
 3. Reassess M25 and the vertical-slice gate; keep expansion frozen unless both pass.

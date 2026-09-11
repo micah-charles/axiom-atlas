@@ -6,7 +6,7 @@
 | --- | --- | --- |
 | Climate data generation | pass | `app/games/climate-detective/data/year-2018.json` and `candidate-year-report.json` |
 | Candidate-year comparison | pass | `docs/climate-detective/CANDIDATE_YEAR_REPORT.md` |
-| Core tests | pass | `npm test` — 154 tests passed |
+| Core tests | pass | `npm test` — 155 tests passed |
 | Lint | pass | `npm run lint` |
 | Production build | pass | `npm test` build stage; Vinext build completed |
 | Rendered HTML smoke tests | pass | `npm test` — 2 tests passed |
@@ -29,6 +29,11 @@
 - The same recovery flow passed against the deployed private Site version 109; the reveal showed 16 Jan 2018 and scored 11/14.
 - Desktop visual capture: CUA inline capture, 1280×900 viewport, 2026-09-11 (reveal state).
 - Mobile visual capture: CUA inline capture, 390×844 viewport, 2026-09-11 (Mission 01 Pressure / Task 1 state).
+- Wrong evidence smoke: selecting the H target produces a visible task-specific correction; the H is not pinned.
+- Excessive evidence smoke: repeated selection of the L target remains deduplicated at 1/3 notebook clues.
+- Hint smoke: the hint is visible and the deterministic scoring test confirms the efficiency reduction.
+- Restart/reload smoke: Restart year returns to 1 Jan with empty progress; reload returns safely to the Atlas entry surface.
+- Keyboard smoke: Tab reaches the instrument controls and Enter activates a focused map target; the target is exposed as an accessible button.
 
 ## Manual evidence still required
 

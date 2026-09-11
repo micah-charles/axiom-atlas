@@ -321,6 +321,26 @@ test("Climate Detective scoring rewards evidence, causal order, concepts, and fo
   assert.ok(weak.total < strong.total);
 });
 
+test("Climate Detective scoring handles wrong, excessive, and hinted investigations", () => {
+  const mission = CLIMATE_MISSIONS.find(item => item.id === "depression");
+  const london = locationById("london");
+  const actual = london.daily.find(row => row.date === mission.date);
+  const following = london.daily[london.daily.indexOf(actual) + 1];
+  assert.ok(mission && actual && following);
+  const chain = mission.chain.map(step => step.id);
+  const answer = "Falling pressure brings maritime Atlantic air upward; rising air condenses and brings rain.";
+  const forecast = { temperature: "steady", pressure: "rising", wind: "lighter", rain: "drier" };
+  const focused = scoreMission(mission, ["pressure", "wind", "rain"], chain, answer, forecast, actual, following, 0);
+  const hinted = scoreMission(mission, ["pressure", "wind", "rain"], chain, answer, forecast, actual, following, 1);
+  const wrong = scoreMission(mission, ["sst"], ["low-pressure-centre"], "It changes.", forecast, actual, following, 0);
+  const excessive = scoreMission(mission, mission.evidence, chain, answer, forecast, actual, following, 2);
+  assert.equal(focused.efficiency, 2);
+  assert.equal(hinted.efficiency, 1);
+  assert.ok(wrong.evidence < focused.evidence);
+  assert.equal(excessive.evidence, 3);
+  assert.equal(excessive.efficiency, 0);
+});
+
 test("Climate Detective pressure field is real, gridded, and contourable", () => {
   const field = CLIMATE_DATA.pressureField;
   assert.equal(field.provider, "NASA POWER");

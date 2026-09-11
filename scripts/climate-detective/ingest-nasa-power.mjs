@@ -16,6 +16,16 @@ const locations = [
 const dailyParameters = "T2M,T2M_MAX,T2M_MIN,PRECTOTCORR,PS,WS10M,WD10M";
 const monthlyParameters = dailyParameters;
 const normalParameters = "T2M,T2M_MAX,T2M_MIN,PRECTOTCORR,PS,WS10M,WD10M";
+const pressureFieldTiles = [
+  { west: -20, east: -10, south: 45, north: 55 },
+  { west: -10, east: 0, south: 45, north: 55 },
+  { west: 0, east: 10, south: 45, north: 55 },
+  { west: 10, east: 12, south: 45, north: 55 },
+  { west: -20, east: -10, south: 55, north: 64 },
+  { west: -10, east: 0, south: 55, north: 64 },
+  { west: 0, east: 10, south: 55, north: 64 },
+  { west: 10, east: 12, south: 55, north: 64 },
+];
 
 async function fetchJson(url) {
   const response = await fetch(url, { headers: { accept: "application/json" } });
@@ -30,6 +40,10 @@ function powerUrl(kind, location, start, end) {
 
 function climatologyUrl(location) {
   return `${POWER_BASE}/temporal/climatology/point?parameters=${normalParameters}&community=RE&longitude=${location.longitude}&latitude=${location.latitude}&format=JSON&time-standard=UTC`;
+}
+
+function regionalPressureUrl(tile, start, end) {
+  return `${POWER_BASE}/temporal/daily/regional?parameters=PS&community=RE&longitude-min=${tile.west}&longitude-max=${tile.east}&latitude-min=${tile.south}&latitude-max=${tile.north}&start=${start}&end=${end}&format=JSON&time-standard=UTC`;
 }
 
 function rowsFromPower(payload) {
@@ -63,6 +77,12 @@ function normalByMonth(payload) {
 }
 
 function monthOf(date) { return Number(date.slice(5, 7)); }
+function compactDate(date) { return date.replaceAll("-", ""); }
+function moveDate(date, days) {
+  const value = new Date(`${date}T00:00:00Z`);
+  value.setUTCDate(value.getUTCDate() + days);
+  return value.toISOString().slice(0, 10);
+}
 function mean(values) { return values.reduce((sum, value) => sum + value, 0) / values.length; }
 function directionIsEasterly(direction) { return direction >= 35 && direction <= 145; }
 function deriveSignals(rows, normals) {
@@ -131,6 +151,44 @@ async function fetchSst(dates) {
   return values;
 }
 
+async function fetchPressureField(dates) {
+  if (!dates.length) return null;
+  const start = compactDate(dates[0]);
+  const end = compactDate(dates.at(-1));
+  const payloads = await Promise.all(pressureFieldTiles.map(tile => fetchJson(regionalPressureUrl(tile, start, end))));
+  const values = Object.fromEntries(dates.map(date => [date, []]));
+  const seen = Object.fromEntries(dates.map(date => [date, new Set()]));
+  for (const payload of payloads) {
+    for (const feature of payload.features ?? []) {
+      const [longitude, latitude, surfaceElevation = 0] = feature.geometry?.coordinates ?? [];
+      const parameter = feature.properties?.parameter?.PS ?? {};
+      for (const date of dates) {
+        const key = compactDate(date);
+        const pressureKpa = parameter[key];
+        const pointKey = `${longitude.toFixed(3)},${latitude.toFixed(3)}`;
+        if (Number.isFinite(pressureKpa) && pressureKpa !== -999 && !seen[date].has(pointKey)) {
+          seen[date].add(pointKey);
+          values[date].push({ longitude, latitude, surfaceElevation, pressureKpa });
+        }
+      }
+    }
+  }
+  for (const date of dates) {
+    values[date].sort((a, b) => a.latitude - b.latitude || a.longitude - b.longitude);
+    if (values[date].length < 100) throw new Error(`Pressure field for ${date} is incomplete: ${values[date].length} points`);
+  }
+  return {
+    provider: "NASA POWER",
+    parameter: "PS",
+    units: "kPa",
+    sourceUrl: "https://power.larc.nasa.gov/docs/services/api/temporal/daily/",
+    timeStandard: "UTC",
+    resolution: { latitudeDegrees: 0.5, longitudeDegrees: 0.625, note: "native regional API grid; tiles de-duplicated at shared boundaries" },
+    bounds: { west: -20, east: 12, south: 45, north: 64 },
+    values,
+  };
+}
+
 async function main() {
   await mkdir(OUTPUT_DIR, { recursive: true });
   const london = locations[0];
@@ -154,12 +212,16 @@ async function main() {
   }
   const eventDates = [selected.coldSnap?.date, selected.depression?.date, selected.warmAnomaly?.date].filter(Boolean);
   const sst = await fetchSst([...new Set(eventDates)]);
+  const depressionDate = selected.depression?.date;
+  const pressureFieldDates = depressionDate ? [-1, 0, 1].map(offset => moveDate(depressionDate, offset)) : [];
+  const pressureField = await fetchPressureField(pressureFieldDates);
   const dataset = {
-    schemaVersion: 1,
+    schemaVersion: 2,
     generatedAt: new Date().toISOString(),
     historicalYear: year,
     baseline: { provider: "NASA POWER", period: "2001-2020", kind: "pre-computed monthly climatology" },
-    source: { provider: "NASA POWER", dailyParameters, timeStandard: "UTC", sourceUrl: "https://power.larc.nasa.gov/", atmosphericBase: "MERRA-2" },
+    source: { provider: "NASA POWER", dailyParameters, timeStandard: "UTC", sourceUrl: "https://power.larc.nasa.gov/", dailyApiDocs: "https://power.larc.nasa.gov/docs/services/api/temporal/daily/", atmosphericBase: "MERRA-2", regionalField: "PS at native regional grid resolution" },
+    pressureField,
     oceanSource: { provider: "NOAA NCEI", dataset: "OISST v2.1", gridPoint: { latitude: 50.125, longitude: -9.875 }, sourceUrl: "https://www.ncei.noaa.gov/products/optimum-interpolation-sst", values: sst },
     candidates: candidateReport,
     selectedEvents: selected,

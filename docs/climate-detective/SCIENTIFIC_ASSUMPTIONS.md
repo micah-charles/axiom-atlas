@@ -7,6 +7,14 @@
 - **Derived values:** anomalies, rolling changes, wind compass labels, event detection scores, day length and solar-angle calculations.
 - **Teaching model:** simplified air-mass arrows and seasonal geometry. These are explanatory overlays and never presented as measured atmospheric streamlines.
 
+Mission 01's pressure contours are derived from NASA POWER `PS`, which is
+surface pressure from a gridded MERRA-2 analysis. They are intentionally
+labelled as surface-pressure contours rather than sea-level isobars. The
+low/high markers are deterministic extrema over the bounded, low-elevation
+North Atlantic / British Isles search area. This preserves the evidence
+relationship without implying that a local surface-pressure field is an
+operational synoptic chart.
+
 ## Units and conventions
 
 - temperature: °C;

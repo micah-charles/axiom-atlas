@@ -185,6 +185,27 @@ Legend: ⬜ not started · 🟨 in progress · 🟦 implemented / needs QA · �
 - [ ] Verify the complete 14-step gate in a fresh manual playthrough.
 - [x] Keep the release report honest: the gate remains pending Sites/manual QA until evidence is recorded.
 
+### M25 — Mission 01 gameplay recovery 🟨
+
+Expansion is frozen until this recovery gate passes. Missions 02 and 03 remain
+in the codebase but are not being expanded in this milestone.
+
+- [x] Reproduce the original forecast lock with an incomplete chain and blank field note.
+- [x] Replace passive Mission 01 evidence browsing with three guided map tasks.
+- [x] Render a real NASA POWER regional surface-pressure field for 14–16 Jan 2018.
+- [x] Derive pressure contours and low/high centres deterministically from the field.
+- [x] Render observed point wind vectors with explicit FROM / arrow TO convention.
+- [x] Render observed rainfall targets and label them as supporting evidence.
+- [x] Persist discovered clues in a notebook with strong/supporting signal labels.
+- [x] Add progressive hints and account for hints in efficiency scoring.
+- [x] Add causal-chain progress, wrong-order feedback and removable links.
+- [x] Add exact deterministic lock reasons for chain, note and concept requirements.
+- [x] Require a complete five-link chain and a concept-bearing field note before forecasting.
+- [x] Run fresh-player browser coverage for happy path, wrong-link repair, blank-note lock and valid-note unlock.
+- [x] Inspect desktop and 390×844 mobile states in the local chatgpt.site-compatible preview.
+- [ ] Capture persistent screenshot files and complete the same flow against the deployed private Site.
+- [ ] Mark M25 verified only after the persistent evidence and deployed pass are recorded.
+
 ## Checkpoint rule
 
 At each meaningful milestone: run tests, run the build, inspect output, record evidence, update `PROGRESS.md`, and commit a focused checkpoint when repository workflow permits.

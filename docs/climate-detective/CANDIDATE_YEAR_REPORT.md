@@ -1,6 +1,6 @@
 # Candidate year report
 
-Generated: 2026-09-10T18:28:40.575Z
+Generated: 2026-09-11T20:55:00.066Z
 Selected historical year: **2018**
 
 | Year | Annual mean °C | Cold snap | Atlantic depression | Warm anomaly | Score |

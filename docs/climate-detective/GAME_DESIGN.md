@@ -8,7 +8,7 @@ Something in Britain changes. The player must find the evidence, build the best 
 
 The first viewport is a mission surface, not a dashboard:
 
-- left: “Mission 01 — The eastern door” and one clear objective;
+- left: “Mission 01 — The Atlantic conveyor” and one clear objective;
 - centre: a real UK / North Atlantic map with a moving date marker and selected location;
 - bottom: timeline controls and an event track;
 - right: compact live readout and evidence drawer.
@@ -18,7 +18,7 @@ The player can start with one action: **Run to next clue**. The game pauses when
 ## Core loop
 
 1. Observe the changing map and timeline.
-2. Investigate evidence cards. Evidence actions are recorded.
+2. Investigate the map through guided instruments. Each discovery is recorded in the field notebook.
 3. Explain by ordering causal cards and writing a short explanation.
 4. Predict the next 24 hours where the mission asks for it.
 5. Advance the historical clock.
@@ -30,7 +30,11 @@ The player can start with one action: **Run to next clue**. The game pauses when
 
 ### Event 1 — The Atlantic conveyor / depression and forecast
 
-The first interruption is a pressure fall with wind and rainfall evidence. The player predicts the next 24 hours, then compares the forecast with the historical record.
+The first interruption is a pressure fall with wind and rainfall evidence. The player completes three map tasks: find the low-pressure centre, inspect London's observed wind FROM direction, and inspect the rainfall signal. Those clues become a notebook, then the player builds the five-link causal chain, writes a field note, predicts the next 24 hours, and compares the forecast with the historical record.
+
+The Mission 01 chain is:
+
+`Atlantic low → falling surface pressure → pressure gradient strengthens wind → moist maritime air arrives → rising air cools, condenses, and brings rain`
 
 ### Event 2 — The eastern door / cold snap
 

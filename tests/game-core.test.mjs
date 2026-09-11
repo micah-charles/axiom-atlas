@@ -15,7 +15,7 @@ import { angleFromToken, arithmeticChain, expectedValueFromFact, functionTrace, 
 import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, ADVANCED_ENGINE_MANIFEST, ADVANCED_GOAL_TYPES, ADVANCED_INSTRUMENTS, ADVANCED_LEVEL_CATALOG, accumulateFlow, advancedActRule, advancedActUnlocked, advancedGoalSatisfied, advancedNotation, advancedSeedProfile, applyMatrix, closedPath, complexMultiply, constraintProgress, curl, dailyAdvancedExpedition, determinant, divergence, discreteSpectrum, evaluateConstraint, generateAdvancedExpedition, gaussianHeight, jacobian, lineIntegral, logisticMapStep, logisticTrajectory, lotkaVolterraStep, measurementInstrument, monteCarloEstimate, multiplyMatrix, polygonArea, polylineLength, seededChaosProfile, seededChaosTrajectory, seededCurveProfile, seededDynamicProfile, seededFieldProfile, seededFlowProfile, seededFlowReading, seededGraphEdges, seededGeometryTarget, seededGradientProfile, seededPopulationStep, seededProbabilityProfile, seededSignalDefaults, seededSignalProfile, seededSpringStep, seededTransformOutput, seededTransformProfile, seededVectorField, secantSlope, selectedPathWeight, shortestPath, springStep, surfaceFlux, surfaceFlux3D, tangentSlope, triangleArea, trapezoidIntegral, validateAdvancedLevelDefinition } from "../app/games/advanced-engines.ts";
 import { addResource, advectParticles, createReservoir, entityById, moveEntity, reservoirFilled, stepScene } from "../app/games/simulation-systems.ts";
 import { buildActualRevealBlocks, buildValleyRectangles, buildValleyTimeBlocks, estimateTargetCrossing, estimateValleyVolume, findActualTargetCrossing, resolveValleyOutcome, valleyActualVolume, valleyFlowRate, valleyRiverModel } from "../app/games/water-valley-engine.ts";
-import { CLIMATE_DATA, CLIMATE_MISSIONS, CLIMATE_YEAR, conceptsFromText, dayLengthHours, evidenceValue, locationById, pressureHpa, scoreMission, seasonFor, solarAngle, windDirectionLabel } from "../app/games/climate-detective/engine.ts";
+import { CLIMATE_DATA, CLIMATE_MISSIONS, CLIMATE_YEAR, conceptsFromText, dayLengthHours, derivePressureCentres, evidenceValue, explanationLockReasons, locationById, pressureContourSegments, pressureHpa, scoreMission, seasonFor, solarAngle, windDirectionLabel } from "../app/games/climate-detective/engine.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
   assert.equal(LEARNING_LAYERS.length, 5);
@@ -314,11 +314,38 @@ test("Climate Detective scoring rewards evidence, causal order, concepts, and fo
     following,
   );
   assert.equal(strong.evidence, 3);
-  assert.equal(strong.concepts, 2);
+  assert.equal(strong.concepts, 3);
   assert.equal(strong.reasoning, 3);
   assert.ok(strong.total >= 11);
   const weak = scoreMission(mission, ["temperature"], ["front-arrives"], "It changes.", { temperature: "steady", pressure: "steady", wind: "steady", rain: "steady" }, actual, following);
   assert.ok(weak.total < strong.total);
+});
+
+test("Climate Detective pressure field is real, gridded, and contourable", () => {
+  const field = CLIMATE_DATA.pressureField;
+  assert.equal(field.provider, "NASA POWER");
+  assert.equal(field.parameter, "PS");
+  assert.equal(field.units, "kPa");
+  assert.deepEqual(field.resolution, { latitudeDegrees: 0.5, longitudeDegrees: 0.625, note: "native regional API grid; tiles de-duplicated at shared boundaries" });
+  const points = field.values["2018-01-15"];
+  assert.equal(points.length, 2028);
+  assert.ok(points.every(point => Number.isFinite(point.pressureKpa) && Number.isFinite(point.surfaceElevation)));
+  const segments = pressureContourSegments(field, "2018-01-15", [98, 100, 102]);
+  assert.ok(segments.length > 0);
+  assert.ok(segments.every(segment => segment.a.longitude >= -20 && segment.a.longitude <= 12 && segment.b.latitude >= 45 && segment.b.latitude <= 64));
+  const centres = derivePressureCentres(field, "2018-01-15");
+  assert.deepEqual(centres.map(centre => centre.kind), ["L", "H"]);
+  assert.ok(centres.every(centre => Number.isFinite(centre.pressureKpa)));
+});
+
+test("Climate Detective exposes exact explanation lock reasons", () => {
+  const mission = CLIMATE_MISSIONS[0];
+  const blank = explanationLockReasons(mission, mission.chain.slice(0, 2).map(step => step.id), "", false);
+  assert.ok(blank.some(reason => /three map tasks/i.test(reason)));
+  assert.ok(blank.some(reason => /causal chain/i.test(reason)));
+  assert.ok(blank.some(reason => /field note/i.test(reason)));
+  const ready = explanationLockReasons(mission, mission.chain.map(step => step.id), "Falling pressure brings maritime Atlantic air upward; rising air condenses and brings rain.", true);
+  assert.deepEqual(ready, []);
 });
 
 for (const world of FAMILY_WORLD_IDS) {

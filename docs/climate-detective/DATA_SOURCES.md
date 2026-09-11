@@ -18,6 +18,26 @@ The vertical slice uses downloaded, version-stamped static inputs so the hosted 
 
 ERA5 is the preferred future regional atmospheric source because it supplies pressure, wind, temperature, precipitation, radiation and SST in a consistent reanalysis. The CDS download path requires account-backed access in this environment, so the first slice uses NASA POWER plus NOAA OISST with explicit source labels. ERA5 remains an upgrade path for a later version, not a reason to block the playable slice.
 
+## Mission 01 pressure field
+
+Mission 01 uses the NASA POWER Daily Regional endpoint for `PS` (surface
+pressure) over eight adjacent tiles covering 20°W–12°E and 45°N–64°N for
+2018-01-14 through 2018-01-16. Each tile stays within the API's 10-degree
+bounding-box limit. The generated field contains 2,028 points per date at the
+native 0.5° latitude × 0.625° longitude grid and records the local surface
+elevation returned with the feature geometry.
+
+`PS` is pressure at the local surface, not reduced sea-level pressure. Terrain
+can therefore produce low values over high ground. The game labels the layer
+`SURFACE PRESSURE · NASA POWER PS`, filters the derived centre search to the
+low-elevation investigation sector, and does not present the contours as a
+synoptic sea-level-pressure chart. Contour segments and the L/H markers are
+deterministic derivatives of the stored field; they are not hand-authored
+decorations.
+
+The field ingestion records the official [NASA POWER Daily API documentation](https://power.larc.nasa.gov/docs/services/api/temporal/daily/)
+alongside the source endpoint and retrieval timestamp.
+
 ## Historical year selection
 
 Candidate years are compared from the same NASA POWER location and normal baseline. The comparison rewards a strong, interpretable temperature transition, a pressure/wind/rain event suitable for prediction, and a warm anomaly that can be taught without attributing one weather event to climate change. The Met Office's official 2018 summary documents the cold spell, warm summer and Atlantic events that make 2018 a strong candidate; the generated report is the quantitative gate.

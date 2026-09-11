@@ -1,9 +1,9 @@
 # Climate Detective Progress
 
 Last updated: 2026-09-11
-Current milestone: M25 Mission 01 gameplay recovery — local QA passed; deployed evidence pending
+Current milestone: M25 Mission 01 gameplay recovery — local + deployed QA passed; persistent screenshot evidence pending
 Current blocker: None
-Next action: publish the current checkpoint to the existing private chatgpt.site project, then repeat the recovery flow there
+Next action: capture persistent screenshot files for the recovered Mission 01 states, then reassess the M25 verification gate
 
 ## Mission status
 
@@ -36,7 +36,7 @@ Next action: publish the current checkpoint to the existing private chatgpt.site
 
 ## Current work
 
-The vertical slice lives in `app/games/climate-detective/` and launches as a separate Climate Detective surface from the Atlas map. Existing 15-world registry and advanced-world infrastructure remain unchanged. Expansion is frozen at Mission 01 recovery: the player now discovers the first mystery through three map tasks, a field notebook, a repairable causal chain, a required field note, and a forecast/reveal. Local fresh-player QA passed; deployed Site QA and persistent screenshot artifacts remain open.
+The vertical slice lives in `app/games/climate-detective/` and launches as a separate Climate Detective surface from the Atlas map. Existing 15-world registry and advanced-world infrastructure remain unchanged. Expansion is frozen at Mission 01 recovery: the player now discovers the first mystery through three map tasks, a field notebook, a repairable causal chain, a required field note, and a forecast/reveal. Local and deployed fresh-player QA passed; persistent screenshot artifacts remain open.
 
 ## Completed since last checkpoint
 
@@ -53,6 +53,7 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 - Replaced passive Mission 01 evidence browsing with sequential Pressure → Wind → Rainfall map tasks.
 - Added strong/supporting notebook evidence, FROM/TO wind convention, causal-chain recovery, hint accounting and field-note validation.
 - Completed a fresh-player local browser pass including deliberate wrong-link recovery, blank-note lock, valid-note unlock and historical reveal.
+- Completed the same Mission 01 recovery flow against the deployed private Site version 109; console errors were absent and the reveal scored 11/14.
 
 ## Tests
 
@@ -71,10 +72,10 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 - Generated dataset: `app/games/climate-detective/data/year-2018.json`
 - Recovery contract and acceptance checklist: `docs/climate-detective/GAMEPLAY_RECOVERY.md`
 - Local browser captures: CUA inline desktop 1280×900 reveal and mobile 390×844 Task 1 pressure state, both 2026-09-11.
+- Deployed Site: `https://the-axiom-atlas.ckstks246335.chatgpt.site` — version 109, recovery flow passed 2026-09-11.
 
 ## Known problems
 
-- The deployed private Site still contains the previous saved version until the recovery checkpoint is pushed and deployed.
 - Persistent screenshot files have not yet been produced; local CUA captures are recorded inline in the task evidence.
 - The current atmospheric data is NASA POWER/MERRA-2 gridded analysis rather than a station observation or operational forecast; the UI labels this explicitly.
 - ERA5 is deferred because the CDS download path requires account-backed access in this environment.
@@ -85,6 +86,6 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 
 ## Next three actions
 
-1. Commit the recovery checkpoint and push it to the existing Sites source repository.
-2. Save and deploy that exact commit privately, then rerun the browser contract against the deployed URL.
-3. Capture persistent desktop/mobile evidence and only then decide whether M25 and the vertical-slice gate can be marked verified.
+1. Capture persistent desktop and mobile evidence for the recovered Mission 01 states.
+2. Record the screenshot paths in `EVIDENCE.md` and `PROGRESS.md`.
+3. Reassess M25 and the vertical-slice gate; keep expansion frozen unless both pass.

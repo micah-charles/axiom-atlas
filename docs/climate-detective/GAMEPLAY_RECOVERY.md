@@ -72,25 +72,25 @@ the player's deterministic explanation, not additional measurements.
 
 ## Mission 01 acceptance checklist
 
-- [ ] A new player sees the mission objective and the current task within ten
+- [x] A new player sees the mission objective and the current task within ten
   seconds.
-- [ ] The map visibly changes when Pressure, Wind, and Rainfall instruments are
+- [x] The map visibly changes when Pressure, Wind, and Rainfall instruments are
   activated.
-- [ ] Pressure contours are generated from the stored NASA POWER field and
+- [x] Pressure contours are generated from the stored NASA POWER field and
   include an identifiable low centre.
-- [ ] Wind arrows are actual point samples and state `FROM` versus arrow `TO`.
-- [ ] Task 1, 2, and 3 are explicit, sequential, and notebook-driven.
-- [ ] A wrong causal link can be removed and replaced without resetting the
+- [x] Wind arrows are actual point samples and state `FROM` versus arrow `TO`.
+- [x] Task 1, 2, and 3 are explicit, sequential, and notebook-driven.
+- [x] A wrong causal link can be removed and replaced without resetting the
   investigation.
-- [ ] The explanation panel shows progress and lists exact lock reasons.
-- [ ] Full chain + blank field note keeps forecasting locked with a visible
+- [x] The explanation panel shows progress and lists exact lock reasons.
+- [x] Full chain + blank field note keeps forecasting locked with a visible
   reason.
-- [ ] Full chain + valid field note unlocks forecasting.
-- [ ] Hints are optional, useful, and reflected in the efficiency result.
-- [ ] Run +24 hours reveals the actual historical next day and the scoring
+- [x] Full chain + valid field note unlocks forecasting.
+- [x] Hints are optional, useful, and reflected in the efficiency result.
+- [x] Run +24 hours reveals the actual historical next day and the scoring
   dimensions.
 - [x] Browser E2E covers the happy path, wrong-link recovery, blank-note lock,
-  and valid-note unlock in the local preview.
+  and valid-note unlock in the local preview and deployed private Site.
 - [ ] Desktop and 390 × 844 visual evidence is captured and linked from
   `PROGRESS.md` as persistent files.
 
@@ -113,10 +113,10 @@ roles rather than implementation selectors:
 
 ## Recovery gate
 
-Status: LOCAL PASS / DEPLOYED VERIFICATION PENDING
+Status: LOCAL + DEPLOYED PASS / PERSISTENT SCREENSHOT EVIDENCE PENDING
 
 The gate becomes VERIFIED only after implementation, automated tests, a
 fresh-player browser run, desktop/mobile visual inspection, and persistent
-evidence paths are recorded in `PROGRESS.md`. The local flow passed on
-2026-09-11; the current recovery checkpoint still needs to be saved and
-deployed to the private Site before the final status can change.
+evidence paths are recorded in `PROGRESS.md`. Local and deployed recovery
+flows passed on 2026-09-11. The remaining open item is persistent screenshot
+file capture; M25 is not yet marked VERIFIED.

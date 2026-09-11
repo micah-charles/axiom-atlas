@@ -203,7 +203,7 @@ in the codebase but are not being expanded in this milestone.
 - [x] Require a complete five-link chain and a concept-bearing field note before forecasting.
 - [x] Run fresh-player browser coverage for happy path, wrong-link repair, blank-note lock and valid-note unlock.
 - [x] Inspect desktop and 390×844 mobile states in the local chatgpt.site-compatible preview.
-- [ ] Capture persistent screenshot files and complete the same flow against the deployed private Site.
+- [ ] Capture persistent screenshot files; the same recovery flow is now verified against the deployed private Site.
 - [ ] Mark M25 verified only after the persistent evidence and deployed pass are recorded.
 
 ## Checkpoint rule

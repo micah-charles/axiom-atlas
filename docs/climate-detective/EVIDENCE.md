@@ -26,13 +26,13 @@
 - Complete chain with a blank note remained locked with visible chain/note/concept reasons.
 - Valid field note unlocked forecast; Run +24 hours revealed 16 Jan 2018 and scored 11/14 in the tested pass.
 - Browser console errors after the flow: none.
+- The same recovery flow passed against the deployed private Site version 109; the reveal showed 16 Jan 2018 and scored 11/14.
 - Desktop visual capture: CUA inline capture, 1280×900 viewport, 2026-09-11 (reveal state).
 - Mobile visual capture: CUA inline capture, 390×844 viewport, 2026-09-11 (Mission 01 Pressure / Task 1 state).
 
 ## Manual evidence still required
 
-- Deployed private Site pass at a normal desktop viewport.
-- Deployed private Site mobile pass around 390 × 844.
 - Persistent screenshot files for the first mission, reveal state and final assessment.
 
-Until those checks are recorded, implemented missions remain `🟦 IMPLEMENTED / NEEDS QA`; they are not marked verified.
+Until the persistent screenshot files are recorded, implemented missions remain
+`🟦 IMPLEMENTED / NEEDS QA`; they are not marked verified.

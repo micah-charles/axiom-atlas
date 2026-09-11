@@ -1,0 +1,20 @@
+{
+  "baseUrl": "http://localhost:3001/",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "errors": [],
+  "screenshots": [
+    "mission-01-explain-incomplete-desktop.png",
+    "mission-01-forecast-locked-desktop.png",
+    "mission-01-forecast-unlocked-desktop.png",
+    "mission-01-prediction-desktop.png",
+    "mission-01-pressure-desktop.png",
+    "mission-01-pressure-mobile.png",
+    "mission-01-rainfall-desktop.png",
+    "mission-01-reveal-desktop.png",
+    "mission-01-wind-desktop.png",
+    "year-end-assessment-desktop.png"
+  ]
+}

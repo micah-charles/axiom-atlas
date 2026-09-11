@@ -91,7 +91,7 @@ the player's deterministic explanation, not additional measurements.
   dimensions.
 - [x] Browser E2E covers the happy path, wrong-link recovery, blank-note lock,
   and valid-note unlock in the local preview and deployed private Site.
-- [ ] Desktop and 390 × 844 visual evidence is captured and linked from
+- [x] Desktop and 390 × 844 visual evidence is captured and linked from
   `PROGRESS.md` as persistent files.
 
 ## Browser test contract
@@ -113,10 +113,10 @@ roles rather than implementation selectors:
 
 ## Recovery gate
 
-Status: LOCAL + DEPLOYED PASS / PERSISTENT SCREENSHOT EVIDENCE PENDING
+Status: VERIFIED
 
-The gate becomes VERIFIED only after implementation, automated tests, a
-fresh-player browser run, desktop/mobile visual inspection, and persistent
-evidence paths are recorded in `PROGRESS.md`. Local and deployed recovery
-flows passed on 2026-09-11. The remaining open item is persistent screenshot
-file capture; M25 is not yet marked VERIFIED.
+The gate is VERIFIED: implementation, automated tests, fresh-player browser
+runs, desktop/mobile visual inspection, and persistent evidence paths are all
+recorded in `PROGRESS.md`. Local and deployed recovery flows passed on
+2026-09-11. The full-year capture also reached the end-of-year assessment;
+future mission expansion remains intentionally frozen after this checkpoint.

@@ -1,9 +1,9 @@
 # Climate Detective Progress
 
 Last updated: 2026-09-11
-Current milestone: M25 Mission 01 gameplay recovery — local + deployed QA passed; persistent screenshot evidence pending
-Current blocker: Persistent screenshot files are unavailable while the host display is locked; CUA provides inline captures only
-Next action: capture persistent screenshot files for the recovered Mission 01 states, then reassess the M25 verification gate
+Current milestone: M25 Mission 01 gameplay recovery — VERIFIED
+Current blocker: None
+Next action: keep Mission 02 expansion frozen; reassess the broader M24 release gate before starting new mission work
 
 ## Mission status
 
@@ -32,11 +32,11 @@ Next action: capture persistent screenshot files for the recovered Mission 01 st
 - M22 Gameplay QA ⬜
 - M23 Evidence 🟨
 - M24 Vertical-slice gate 🟨
-- M25 Mission 01 gameplay recovery 🟦
+- M25 Mission 01 gameplay recovery ✅
 
 ## Current work
 
-The vertical slice lives in `app/games/climate-detective/` and launches as a separate Climate Detective surface from the Atlas map. Existing 15-world registry and advanced-world infrastructure remain unchanged. Expansion is frozen at Mission 01 recovery: the player now discovers the first mystery through three map tasks, a field notebook, a repairable causal chain, a required field note, and a forecast/reveal. Local and deployed fresh-player QA passed; persistent screenshot artifacts remain open.
+The vertical slice lives in `app/games/climate-detective/` and launches as a separate Climate Detective surface from the Atlas map. Existing 15-world registry and advanced-world infrastructure remain unchanged. M25 Mission 01 recovery is verified: the player discovers the first mystery through three map tasks, a field notebook, a repairable causal chain, a required field note, and a forecast/reveal. Mission 02 expansion remains frozen while the broader M24 release gate is reviewed.
 
 ## Completed since last checkpoint
 
@@ -55,6 +55,8 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 - Completed a fresh-player local browser pass including deliberate wrong-link recovery, blank-note lock, valid-note unlock and historical reveal.
 - Completed the same Mission 01 recovery flow against the deployed private Site version 109; console errors were absent and the reveal scored 11/14.
 - Added deterministic coverage for wrong evidence, deduplicated excessive evidence, and hint efficiency scoring.
+- Added a reproducible isolated browser capture harness and persistent visual evidence for the recovery states and year-end assessment.
+- Fixed the final assessment banner so the end-of-year report is not mislabeled as the previous mission.
 
 ## Tests
 
@@ -75,11 +77,10 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 - Local browser captures: CUA inline desktop 1280×900 reveal and mobile 390×844 Task 1 pressure state, both 2026-09-11.
 - Deployed Site: `https://the-axiom-atlas.ckstks246335.chatgpt.site` — version 109, recovery flow passed 2026-09-11.
 - Additional browser smoke: wrong H target feedback, duplicate clue deduplication, hint, Restart, reload, and keyboard map-target activation, 2026-09-11.
+- Persistent screenshot set: `docs/climate-detective/evidence/` (10 PNGs plus `browser-console.json`; local capture flow completed with `errors: []`).
 
 ## Known problems
 
-- Persistent screenshot files have not yet been produced; local CUA captures are recorded inline in the task evidence.
-- Native `screencapture` could not create an image because the host display is locked; persistent PNG capture needs an unlocked display or a browser screenshot artifact path.
 - The current atmospheric data is NASA POWER/MERRA-2 gridded analysis rather than a station observation or operational forecast; the UI labels this explicitly.
 - ERA5 is deferred because the CDS download path requires account-backed access in this environment.
 
@@ -89,6 +90,6 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 
 ## Next three actions
 
-1. Capture persistent desktop and mobile evidence for the recovered Mission 01 states once screenshot output is available.
-2. Record the screenshot paths in `EVIDENCE.md` and `PROGRESS.md`.
-3. Reassess M25 and the vertical-slice gate; keep expansion frozen unless both pass.
+1. Reassess the broader M24 vertical-slice gate against the deployed Site, if required.
+2. Decide whether to begin Mission 02 only after that gate review.
+3. Preserve the current data provenance and recovery evidence as the baseline.

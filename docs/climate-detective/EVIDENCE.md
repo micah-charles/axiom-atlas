@@ -35,9 +35,21 @@
 - Restart/reload smoke: Restart year returns to 1 Jan with empty progress; reload returns safely to the Atlas entry surface.
 - Keyboard smoke: Tab reaches the instrument controls and Enter activates a focused map target; the target is exposed as an accessible button.
 
-## Manual evidence still required
+## Persistent visual evidence
 
-- Persistent screenshot files for the first mission, reveal state and final assessment.
+- Capture harness: `scripts/climate-detective/capture-recovery-evidence.cjs`.
+- Desktop Pressure layer: `evidence/mission-01-pressure-desktop.png`.
+- Desktop Wind layer: `evidence/mission-01-wind-desktop.png`.
+- Desktop Rainfall layer: `evidence/mission-01-rainfall-desktop.png`.
+- Incomplete Explain state: `evidence/mission-01-explain-incomplete-desktop.png`.
+- Locked Forecast: `evidence/mission-01-forecast-locked-desktop.png`.
+- Unlocked Forecast: `evidence/mission-01-forecast-unlocked-desktop.png`.
+- Prediction: `evidence/mission-01-prediction-desktop.png`.
+- Historical Reveal: `evidence/mission-01-reveal-desktop.png`.
+- Mobile 390 × 844 Pressure state: `evidence/mission-01-pressure-mobile.png`.
+- End-of-year assessment: `evidence/year-end-assessment-desktop.png`.
+- Browser console ledger: `evidence/browser-console.json` (`errors: []`).
 
-Until the persistent screenshot files are recorded, implemented missions remain
-`🟦 IMPLEMENTED / NEEDS QA`; they are not marked verified.
+All Mission 01 recovery evidence requirements are now recorded. M25 can be
+marked `✅ VERIFIED`; M23/M24 remain separately tracked until their broader
+release gates are completed.

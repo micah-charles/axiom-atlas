@@ -185,7 +185,7 @@ Legend: ⬜ not started · 🟨 in progress · 🟦 implemented / needs QA · �
 - [ ] Verify the complete 14-step gate in a fresh manual playthrough.
 - [x] Keep the release report honest: the gate remains pending Sites/manual QA until evidence is recorded.
 
-### M25 — Mission 01 gameplay recovery 🟨
+### M25 — Mission 01 gameplay recovery ✅
 
 Expansion is frozen until this recovery gate passes. Missions 02 and 03 remain
 in the codebase but are not being expanded in this milestone.
@@ -203,8 +203,8 @@ in the codebase but are not being expanded in this milestone.
 - [x] Require a complete five-link chain and a concept-bearing field note before forecasting.
 - [x] Run fresh-player browser coverage for happy path, wrong-link repair, blank-note lock and valid-note unlock.
 - [x] Inspect desktop and 390×844 mobile states in the local chatgpt.site-compatible preview.
-- [ ] Capture persistent screenshot files; the same recovery flow is now verified against the deployed private Site.
-- [ ] Mark M25 verified only after the persistent evidence and deployed pass are recorded.
+- [x] Capture persistent screenshot files; the same recovery flow is verified against the deployed private Site.
+- [x] Mark M25 verified after the persistent evidence and deployed pass were recorded.
 
 ## Checkpoint rule
 

@@ -53,7 +53,8 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 - Replaced passive Mission 01 evidence browsing with sequential Pressure → Wind → Rainfall map tasks.
 - Added strong/supporting notebook evidence, FROM/TO wind convention, causal-chain recovery, hint accounting and field-note validation.
 - Completed a fresh-player local browser pass including deliberate wrong-link recovery, blank-note lock, valid-note unlock and historical reveal.
-- Completed the same Mission 01 recovery flow against the deployed private Site version 109; console errors were absent and the reveal scored 11/14.
+- Completed the same Mission 01 recovery flow against the deployed private Site version 110; console errors were absent and the reveal scored 13/14 with an exact next-day forecast.
+- Continued the published 2018 year through Mission 02, Mission 03, and the end-of-year weather report; the final assessment showed 3/3 cases solved and 33 field points.
 - Added deterministic coverage for wrong evidence, deduplicated excessive evidence, and hint efficiency scoring.
 - Added a reproducible isolated browser capture harness and persistent visual evidence for the recovery states and year-end assessment.
 - Fixed the final assessment banner so the end-of-year report is not mislabeled as the previous mission.
@@ -75,7 +76,7 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 - Generated dataset: `app/games/climate-detective/data/year-2018.json`
 - Recovery contract and acceptance checklist: `docs/climate-detective/GAMEPLAY_RECOVERY.md`
 - Local browser captures: CUA inline desktop 1280×900 reveal and mobile 390×844 Task 1 pressure state, both 2026-09-11.
-- Deployed Site: `https://the-axiom-atlas.ckstks246335.chatgpt.site` — version 109, recovery flow passed 2026-09-11.
+- Deployed Site: `https://the-axiom-atlas.ckstks246335.chatgpt.site` — version 110, full recovery flow passed 2026-09-11.
 - Additional browser smoke: wrong H target feedback, duplicate clue deduplication, hint, Restart, reload, and keyboard map-target activation, 2026-09-11.
 - Persistent screenshot set: `docs/climate-detective/evidence/` (10 PNGs plus `browser-console.json`; local capture flow completed with `errors: []`).
 

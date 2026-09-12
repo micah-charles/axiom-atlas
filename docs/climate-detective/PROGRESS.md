@@ -1,7 +1,7 @@
 # Climate Detective Progress
 
 Last updated: 2026-09-12
-Current milestone: M26 Investigation Gameplay & Scientific Visualisation V2 — VERIFIED; final publish queued
+Current milestone: M26 Investigation Gameplay & Scientific Visualisation V2 — VERIFIED and published
 Current blocker: None
 Next action: keep Mission 02 expansion frozen and use the verified M26 slice for game-director review before planning the next milestone
 
@@ -92,7 +92,7 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 - Additional browser smoke: wrong H target feedback, duplicate clue deduplication, hint, Restart, reload, and keyboard map-target activation, 2026-09-11.
 - Persistent screenshot set: `docs/climate-detective/evidence/` (17 PNGs plus `browser-console.json`; latest local capture completed with `errors: []`).
 - M26 V2 evidence: `docs/climate-detective/evidence/` contains fresh objective, Pressure OFF/ON, Hint 4, selected-low, clues-complete, Wind, Rainfall, Explain incomplete/feedback, Forecast locked/unlocked, Prediction, Reveal, mobile and year-end screenshots; `browser-console.json` records `errors: []`.
-- The latest local source checkpoint is `739fe84d06fcf3dc6672f1c0175620e59ebd5989`; final Site publication of this checkpoint is the next action.
+- App source checkpoint `ffdda035fe8aa3c8afde34871f4e1bc3dab42241` was published as private Site version 114; deployment succeeded at `https://the-axiom-atlas.ckstks246335.chatgpt.site`.
 
 ## Known problems
 

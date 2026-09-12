@@ -144,7 +144,9 @@ future mission expansion remains intentionally frozen after this checkpoint.
 
 Status: VERIFIED
 
-The local implementation and evidence gates pass. Latest local source
-checkpoint is `739fe84d06fcf3dc6672f1c0175620e59ebd5989`; its private Site
-publication is queued. Mission 02 expansion remains frozen until the
-game-director review agrees that the core loop is still legible.
+The local implementation and evidence gates pass. App source checkpoint
+`ffdda035fe8aa3c8afde34871f4e1bc3dab42241` is published as private Site
+version 114 with a succeeded deployment at
+`https://the-axiom-atlas.ckstks246335.chatgpt.site`. Mission 02 expansion
+remains frozen until the game-director review agrees that the core loop is
+still legible.

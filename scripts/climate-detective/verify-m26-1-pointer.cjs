@@ -24,8 +24,8 @@ async function assertText(page, text) {
   if (!(await locator.count())) throw new Error(`Expected visible text: ${text}`);
 }
 
-async function openTask(browser, viewport = { width: 1440, height: 1000 }) {
-  const page = await browser.newPage({ viewport, deviceScaleFactor: 1 });
+async function openTask(browser, viewport = { width: 1440, height: 1000 }, options = {}) {
+  const page = await browser.newPage({ viewport, deviceScaleFactor: 1, ...options });
   await page.goto(baseUrl, { waitUntil: "networkidle" });
   await roleButton(page, "Climate Detective").click();
   await roleButton(page, "Run to next clue").click();
@@ -113,12 +113,29 @@ async function assertLowSuccess(page, locator, description) {
     await mobile.close();
   }
 
+  const touch = await openTask(browser, { width: 390, height: 844 }, { isMobile: true, hasTouch: true });
+  try {
+    await assertFreshTask(touch);
+    const lowCircle = touch.locator(".climate-pressure-centre.low > circle:not(.climate-pressure-hit-area)");
+    const box = await lowCircle.boundingBox();
+    if (!box) throw new Error("Expected a visible low-pressure circle for touch testing");
+    await touch.touchscreen.tap(box.x + box.width / 2, box.y + box.height / 2);
+    await assertText(touch, "1/3 clues pinned");
+    await assertText(touch, "LOW-PRESSURE SYSTEM FOUND");
+    console.log("PASS mobile L touch tap");
+  } catch (error) {
+    failures.push(`mobile L touch tap: ${error.message}`);
+    console.error(`FAIL mobile L touch tap: ${error.message}`);
+  } finally {
+    await touch.close();
+  }
+
   await browser.close();
   if (failures.length) {
     console.error(JSON.stringify({ baseUrl, failures }));
     process.exitCode = 1;
   } else {
-    console.log(JSON.stringify({ baseUrl, checks: 9, failures: [] }));
+    console.log(JSON.stringify({ baseUrl, checks: 10, failures: [] }));
   }
 })().catch(error => {
   console.error(error.stack ?? error);

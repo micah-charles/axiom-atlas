@@ -10,6 +10,7 @@
 | Lint | pass | `npm run lint` |
 | Production build | pass | `npm test` build stage; Vinext build completed |
 | Rendered HTML smoke tests | pass | `npm test` — 2 tests passed |
+| M26.1 rendered pointer/touch regression | pass | `verify-m26-1-pointer.cjs` — 10/10 checks passed |
 
 ## Data evidence
 
@@ -38,29 +39,33 @@
 
 ## M26 investigation gameplay and scientific visualisation V2
 
-Status: REOPENED — Gameplay E2E / Fresh-player gate FAILS
+Status: VERIFIED — Gameplay E2E / Fresh-player gate PASSES
 
 - Deployed fresh-player replay on 2026-09-12 against Site version 114 reproduced the user-visible failure: after Pressure activation, real pointer clicks on the visible L, H, London and a nearby contour left `0/3 clues pinned` with no feedback.
 - Deployed DOM inspection found the visible SVG L around `(560,364)` and the transparent fallback low button around `(442,354)` at the same viewport; the fallback did not cover the visible marker. The parent SVG also captured every pointer for panning.
 - Previous E2E was a false positive for this failure class because it selected `.climate-map-target.low/.high` by selector and only asserted `errors: []`; it did not click the visible SVG marker with pointer coordinates.
-- M26.1 is now the active recovery milestone. No Mission 02 expansion is permitted until the deployed visible-pointer flow passes.
+- M26.1 repaired the root cause: interactive SVG descendants stop pan capture, rendered feature groups own their hit areas, and the legacy HTML map-target overlay is removed.
 
 - Local fresh-player V2 browser run passed on 2026-09-12 against `http://localhost:3001/`; browser console ledger reports `errors: []`.
 - Task 1 begins with an investigation objective rather than naming the L; the deterministic hint ladder was verified in order: compare values → follow decreasing values → look west → L marker.
 - Pressure source check passed: 2,028 points on 15 Jan 2018, NASA POWER `PS`, MERRA-2 analysis, kPa source values displayed as hPa after explicit conversion. The game continues to label this as surface-pressure data, not sea-level pressure.
 - Contour check passed: levels are generated from the focused Britain / North Atlantic low-elevation field at a 4 hPa interval; labels are derived from actual marching-squares segments. The tested level sequence is 96.4–101.6 kPa in 0.4 kPa steps.
-- Duplicate-marker check passed: the rendered SVG contains exactly one L and one H centre; the separate HTML controls are transparent accessible hit targets and do not create a second visible marker.
+- Duplicate-marker check passed: the rendered SVG contains exactly one L and one H centre; the legacy HTML target overlay is absent, so there is one rendered target per feature.
 - Post-selection check passed: the selected L emits explicit `Pressure decreases toward 963 hPa` feedback and highlights the nearby derived contours only after the correct discovery.
 - Map recovery check passed: a wrong H remains unpinned; wrong Aberdeen selections in Wind and Rainfall show task-specific recovery messages before London pins the correct clues.
+- Rendered-pointer regression passed locally 10/10: L circle, L text, 963 hPa label, marker edge, H, London, contour, keyboard, mobile pointer and mobile touch.
 - No-hint Mission 01 path passed: 11/14, complete causal chain, field note, forecast, +24-hour historical reveal. The full local year reached 3/3 cases and the end-of-year weather report with 31 points.
 - Reveal-state check passed after clearing the selected pressure centre before changing dates: the 16 Jan 2018 actual field shows its own contours and H/L markers without stale selected contours from 15 Jan.
 - Desktop and mobile visual inspection passed for the fresh objective, Pressure OFF/ON, Hint 4, selected low, clues complete, Wind, Rainfall, Explain incomplete/feedback, Forecast, Prediction, Reveal, and 390 × 844 Pressure tutorial states.
+- Final deployed Chrome replay passed against Site version 116: L circle, H, London, contour, visible Wind/Rain targets, wrong-order recovery, field note, forecast and historical reveal; final result was 12/14 with actual 16 Jan 2018 data.
 - App source checkpoint `ffdda035fe8aa3c8afde34871f4e1bc3dab42241` was published as private Site version 114; deployment `appgdep_6aa53d31c3308191a9934757577e4fd5` succeeded at `https://the-axiom-atlas.ckstks246335.chatgpt.site`.
 - Exact verified commit `b115812063c78d435defd043037df837574683f6` was published as private Site version 112; deployment `succeeded`, production URL remained `https://the-axiom-atlas.ckstks246335.chatgpt.site`, and owner-only custom access remained one allowed user with no groups.
+- Final app commit `a2716f522291005deedae24d50faa679d04ee184` was published as private Site version 116; deployment `appgdep_6aa586a993588191bcb11c64978c6a22` succeeded, production URL remained `https://the-axiom-atlas.ckstks246335.chatgpt.site`, and owner-only custom access remained one allowed user with no groups.
 
 ## Persistent visual evidence
 
 - Capture harness: `scripts/climate-detective/capture-recovery-evidence.cjs`.
+- Rendered-pointer harness: `scripts/climate-detective/verify-m26-1-pointer.cjs`; pointer coordinates are derived from visible SVG geometry and application handlers are never invoked directly.
 - Desktop Pressure layer: `evidence/mission-01-pressure-desktop.png`.
 - Fresh-player objective: `evidence/mission-01-fresh-player-objective-desktop.png`.
 - Pressure OFF: `evidence/mission-01-pressure-off-desktop.png`.
@@ -80,7 +85,7 @@ Status: REOPENED — Gameplay E2E / Fresh-player gate FAILS
 - End-of-year assessment: `evidence/year-end-assessment-desktop.png`.
 - Browser console ledger: `evidence/browser-console.json` (`errors: []`).
 
-Mission 01 recovery evidence remains recorded, but the M26 V2 gate is reopened.
-M25 is `✅ VERIFIED`; M26 is `🟨 IN PROGRESS` under M26.1. The broader M24
-release gate and future mission expansion remain separately tracked and
-intentionally frozen.
+Mission 01 recovery evidence remains recorded. M25 is `✅ VERIFIED`; M26 and
+M26.1 are `✅ VERIFIED` after the final deployed replay. The broader M24 release
+gate and future mission expansion remain separately tracked and intentionally
+frozen.

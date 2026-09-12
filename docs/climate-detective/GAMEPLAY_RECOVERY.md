@@ -72,7 +72,7 @@ the player's deterministic explanation, not additional measurements.
 
 ## M26 V2 verification
 
-Status: REOPENED — DEPLOYED GAMEPLAY GATE FAILS
+Status: VERIFIED — DEPLOYED GAMEPLAY GATE PASSES
 
 ### Critical Task-1 Interaction Blocker
 
@@ -116,22 +116,40 @@ H feedback, London feedback, contour feedback, touch/keyboard, `1/3` clue
 transition and complete deployed Task 1 → Task 2 → Task 3 → Explain → Forecast
 → Reveal replay.
 
+### Resolution verified on 2026-09-12
+
+The deployed blocker is resolved in app commit
+`a2716f522291005deedae24d50faa679d04ee184` (private Site version 116,
+deployment `appgdep_6aa586a993588191bcb11c64978c6a22`). The fix has four parts:
+
+1. SVG pan capture now exits when the pointer begins inside a pressure centre,
+   location marker, Wind/Rain feature or contour.
+2. Pressure centres contain a transparent 120×60 SVG hit area around the
+   visible circle, symbol and hPa label; Wind and Rain features have equivalent
+   rendered SVG hit areas. The visible groups remain keyboard buttons.
+3. The tutorial is centred away from the low marker, and the map plus Task 1
+   copy explicitly says that weather features can be selected for investigation.
+4. The legacy absolute HTML map-target overlay was removed entirely. There is
+   now one rendered SVG target per map feature, avoiding duplicate markers,
+   mismatched letterboxed coordinates and selector-based false positives.
+
 The pressure investigation now opens with `Find the pressure system` and lets
 the player read the field before the L answer is named. A contextual tutorial
 explains that the lines join places with equal surface pressure, and the four
 optional hints progress from comparing values to the L marker. Contour labels
 are generated from the stored field's actual 4 hPa levels. Selecting the real L
 adds a single selected SVG centre, explicit decrease-toward-centre feedback,
-and a highlight on the nearby derived contour segments. The HTML target layer
-remains available for keyboard/touch activation but is visually transparent,
-so it cannot duplicate the SVG markers.
+and a highlight on the nearby derived contour segments. The legacy HTML target
+layer is no longer rendered; keyboard and touch use the same visible SVG
+feature groups as pointer input.
 
 Local V2 browser and visual QA passed on 2026-09-12. The no-hint Mission 01
 path scored 11/14 and the full-year path reached the end-of-year assessment;
 wrong H, wrong Wind point and wrong Rainfall point recovery were also tested.
 The Reveal transition now clears the selected 15 Jan pressure centre before
 rendering the actual 16 Jan field, so highlighted contours cannot leak across
-dates. The deployed Site check remains the final M26 gate for this checkpoint.
+dates. The dedicated rendered-pointer suite passed 10/10 locally, including
+mobile touch. The final deployed Chrome replay reached Reveal with `12/14`.
 
 ## Mission 01 acceptance checklist
 
@@ -152,15 +170,18 @@ dates. The deployed Site check remains the final M26 gate for this checkpoint.
 - [x] Hints are optional, useful, and reflected in the efficiency result.
 - [x] Run +24 hours reveals the actual historical next day and the scoring
   dimensions.
-- [x] Browser E2E covers the happy path, wrong-link recovery, blank-note lock,
-  and valid-note unlock in the local preview and deployed private Site.
+- [x] Browser E2E covers visible map targets, wrong H/London/contour recovery,
+  Wind/Rain wrong-point recovery, wrong-link recovery, blank-note lock,
+  valid-note unlock, forecast and reveal in the local preview and deployed
+  private Site.
 - [x] Desktop and 390 × 844 visual evidence is captured and linked from
   `PROGRESS.md` as persistent files.
 
 ## Browser test contract
 
 The browser test is intentionally written against player-visible labels and
-roles rather than implementation selectors:
+roles, with map clicks performed from the rendered feature geometry rather than
+the removed fallback controls:
 
 1. Enter Climate Detective and run to the first clue.
 2. Confirm `TASK 1 OF 3` and no passive evidence-card menu.
@@ -180,14 +201,17 @@ Status: VERIFIED
 
 The gate is VERIFIED: implementation, automated tests, fresh-player browser
 runs, desktop/mobile visual inspection, and persistent evidence paths are all
-recorded in `PROGRESS.md`. Local and deployed recovery flows passed on
-2026-09-11. The full-year capture also reached the end-of-year assessment;
-future mission expansion remains intentionally frozen after this checkpoint.
+recorded in `PROGRESS.md`. Local recovery and the final deployed Site replay
+passed on 2026-09-12. The full-year capture also reached the end-of-year
+assessment; future mission expansion remains intentionally frozen after this
+checkpoint.
 
 ## M26 gate
 
-Status: 🟨 IN PROGRESS
+Status: VERIFIED
 
-The previous local/deployed PASS is invalidated by the real-user pointer
-failure above. M26.1 must fix and verify the deployed interaction before M26
-can return to VERIFIED.
+The previous local/deployed PASS was correctly invalidated by the real-user
+pointer failure above. M26.1 repaired the root cause, removed the legacy
+fallback overlay, passed the 10-check local rendered-pointer suite, and passed
+the final deployed Chrome replay against version 116. M26 can return to
+VERIFIED; Mission 02 expansion remains frozen by the stop-and-reassess rule.

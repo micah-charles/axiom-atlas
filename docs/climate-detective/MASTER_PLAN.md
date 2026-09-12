@@ -206,7 +206,7 @@ in the codebase but are not being expanded in this milestone.
 - [x] Capture persistent screenshot files; the same recovery flow is verified against the deployed private Site.
 - [x] Mark M25 verified after the persistent evidence and deployed pass were recorded.
 
-### M26 — Investigation Gameplay & Scientific Visualisation V2 🟨 IN PROGRESS
+### M26 — Investigation Gameplay & Scientific Visualisation V2 ✅ VERIFIED
 
 Expansion remains frozen until Mission 01 teaches map reading rather than
 answer-following. This milestone preserves the Task 1 → Task 2 → Task 3
@@ -245,9 +245,9 @@ progressively guided.
 - [x] Update `PROGRESS.md`, `GAMEPLAY_RECOVERY.md` and evidence ledger with measured results.
 - [x] Commit each verified fix as a focused checkpoint.
 - [x] Publish the exact verified source to the existing private Site.
-- [ ] Mark M26 verified only after scientific, gameplay, mobile and evidence gates pass.
+- [x] Mark M26 verified only after scientific, gameplay, mobile and evidence gates pass.
 
-### M26.1 — Critical Map Interaction Recovery 🟨 IN PROGRESS
+### M26.1 — Critical Map Interaction Recovery ✅ VERIFIED
 
 The previous M26 PASS is reopened after a deployed fresh-player replay found
 that visible pressure centres silently ignored real pointer clicks. Mission 02
@@ -256,19 +256,19 @@ verified with visible-element pointer interactions.
 
 - [x] Reproduce the deployed failure with fresh-player navigation and real pointer coordinates.
 - [x] Inspect event targets, SVG transforms, overlay geometry and pointer capture.
-- [ ] Identify and document the exact interaction root cause.
-- [ ] Make the complete visible L marker and label a single ≥44px interactive target.
-- [ ] Prevent map panning pointer capture from swallowing feature clicks.
-- [ ] Add hover/focus/touch affordance and a self-discovery instruction.
-- [ ] Add educational feedback for L, H, London and isobar clicks.
-- [ ] Update the progressive hint ladder to include the interaction mechanic.
-- [ ] Add rendered visible-element pointer E2E coverage for circle, label, edge, H and London.
-- [ ] Run local tests/build and the complete Task 1 → Task 2 → Task 3 → Explain → Forecast → Reveal flow.
-- [ ] Deploy the exact fixed source to the existing private Site.
-- [ ] Replay the same pointer interactions against the deployed build.
-- [ ] Capture before/after, wrong-click, touch, keyboard and full-flow evidence.
-- [ ] Update `GAMEPLAY_RECOVERY.md`, `EVIDENCE.md` and `PROGRESS.md`.
-- [ ] Restore M26 to VERIFIED only after the deployed fresh-player gate passes.
+- [x] Identify and document the exact interaction root cause.
+- [x] Make the complete visible L marker and label a single ≥44px interactive target.
+- [x] Prevent map panning pointer capture from swallowing feature clicks.
+- [x] Add hover/focus/touch affordance and a self-discovery instruction.
+- [x] Add educational feedback for L, H, London and isobar clicks.
+- [x] Update the progressive hint ladder to include the interaction mechanic.
+- [x] Add rendered visible-element pointer E2E coverage for circle, label, edge, H and London.
+- [x] Run local tests/build and the complete Task 1 → Task 2 → Task 3 → Explain → Forecast → Reveal flow.
+- [x] Deploy the exact fixed source to the existing private Site.
+- [x] Replay the same pointer interactions against the deployed build.
+- [x] Capture after-fix wrong-click, touch, keyboard and full-flow evidence; retain the prior failure as coordinate evidence.
+- [x] Update `GAMEPLAY_RECOVERY.md`, `EVIDENCE.md` and `PROGRESS.md`.
+- [x] Restore M26 to VERIFIED only after the deployed fresh-player gate passes.
 
 ## Checkpoint rule
 

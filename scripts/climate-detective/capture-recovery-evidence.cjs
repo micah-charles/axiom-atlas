@@ -22,16 +22,18 @@ const assertText = async (page, text) => {
   await locator.first().waitFor({ state: "visible", timeout: 10000 });
 };
 
-async function solveMissionOne(page) {
+async function exercisePressureTask(page) {
   await button(page, "Climate Detective").click();
   await button(page, "Run to next clue").click();
   await assertText(page, "Britain’s weather is changing. Use the pressure map to find the weather system that may be responsible.");
-  await screenshot(page, "mission-01-pressure-off-desktop.png");
+  await screenshot(page, "mission-01-fresh-player-objective-desktop.png");
   await instrument(page, "Pressure").click();
   await assertText(page, "HOW TO READ PRESSURE");
   await assertText(page, "derived surface-pressure contour");
   if (await page.locator(".climate-pressure-centre").count() !== 2) throw new Error("Expected exactly one visible SVG centre per H/L kind");
   if (await page.locator(".climate-isobar-label").count() < 1) throw new Error("Expected actual contour labels");
+  const overlayOpacity = await page.locator(".climate-map-target.low").evaluate(node => getComputedStyle(node).opacity);
+  if (overlayOpacity !== "0") throw new Error("The accessibility hit target must not render a duplicate pressure marker");
   await screenshot(page, "mission-01-pressure-on-desktop.png");
   await button(page, "I can read this").click();
   await page.locator(".climate-map-target.high").click();
@@ -46,6 +48,23 @@ async function solveMissionOne(page) {
     await assertText(page, hint);
   }
   await screenshot(page, "mission-01-task1-hint4-desktop.png");
+  await page.locator(".climate-map-target.low").click();
+  await assertText(page, "LOW-PRESSURE SYSTEM FOUND");
+  if (await page.locator(".climate-pressure-centre.selected").count() !== 1) throw new Error("Expected one selected pressure centre");
+  if (await page.locator(".climate-isobar.selected").count() < 1) throw new Error("Expected selected pressure contours");
+  await screenshot(page, "mission-01-pressure-low-selected-desktop.png");
+}
+
+async function solveMissionOne(page) {
+  await button(page, "Climate Detective").click();
+  await button(page, "Run to next clue").click();
+  await assertText(page, "Britain’s weather is changing. Use the pressure map to find the weather system that may be responsible.");
+  await screenshot(page, "mission-01-pressure-off-desktop.png");
+  await instrument(page, "Pressure").click();
+  await assertText(page, "HOW TO READ PRESSURE");
+  await assertText(page, "derived surface-pressure contour");
+  await screenshot(page, "mission-01-pressure-on-desktop.png");
+  await button(page, "I can read this").click();
   await page.locator(".climate-map-target.low").click();
   await assertText(page, "1/3 clues pinned");
   await assertText(page, "LOW-PRESSURE SYSTEM FOUND");
@@ -151,9 +170,7 @@ async function captureMobile(browser) {
   v2Page.on("console", message => { if (message.type() === "error") errors.push(`console: ${message.text()}`); });
   v2Page.on("pageerror", error => errors.push(`pageerror: ${error.message}`));
   await v2Page.goto(baseUrl, { waitUntil: "networkidle" });
-  await button(v2Page, "Climate Detective").click();
-  await button(v2Page, "Run to next clue").click();
-  await screenshot(v2Page, "mission-01-fresh-player-objective-desktop.png");
+  await exercisePressureTask(v2Page);
   await v2Page.close();
   await solveYear(page);
   errors.push(...await captureMobile(browser));

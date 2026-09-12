@@ -151,6 +151,30 @@ rendering the actual 16 Jan field, so highlighted contours cannot leak across
 dates. The dedicated rendered-pointer suite passed 10/10 locally, including
 mobile touch. The final deployed Chrome replay reached Reveal with `12/14`.
 
+### Final deployed pointer record
+
+The following screen-coordinate clicks were made against Site version 116 at
+the deployed desktop viewport. Each coordinate was obtained from the rendered
+element's browser bounding box, then clicked with the browser pointer:
+
+| Rendered target | Point | Result |
+| --- | ---: | --- |
+| L circle | `(574,388)` | `1/3 clues pinned`; low-pressure feedback |
+| L symbol text | `(574,388)` | `1/3 clues pinned`; low-pressure feedback |
+| `963 hPa` label | `(610,388)` | `1/3 clues pinned`; low-pressure feedback |
+| Low-marker edge hit area | `(553,388)` | `1/3 clues pinned`; low-pressure feedback |
+| H circle | `(558,761)` | `0/3`; high-pressure teaching feedback |
+| London observation point | `(1028,668)` | `0/3`; observation-point teaching feedback |
+| Pressure contour | `(1056,832)` | `0/3`; isobar teaching feedback |
+| Aberdeen Wind vector | `(988,514)` | Task 2 wrong-point feedback |
+| London Wind vector | `(1039,661)` | Wind clue pinned |
+| Aberdeen Rainfall signal | `(1086,568)` | Task 3 wrong-point feedback |
+| London Rainfall signal | `(1151,756)` | Rainfall clue pinned |
+
+The same deployed session then passed keyboard low-centre activation, wrong
+causal ordering recovery, field-note unlock, forecast selection, `Run +24
+hours`, and the 16 Jan 2018 historical reveal.
+
 ## Mission 01 acceptance checklist
 
 - [x] A new player sees the mission objective and the current task within ten

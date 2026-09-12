@@ -21,6 +21,12 @@ const assertText = async (page, text) => {
   if (!count) throw new Error(`Expected visible text: ${text}`);
   await locator.first().waitFor({ state: "visible", timeout: 10000 });
 };
+const pointerClick = async (page, locator, description) => {
+  await locator.waitFor({ state: "visible", timeout: 10000 });
+  const box = await locator.boundingBox();
+  if (!box) throw new Error(`Expected a visible pointer target: ${description}`);
+  await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+};
 
 async function exercisePressureTask(page) {
   await button(page, "Climate Detective").click();
@@ -36,19 +42,19 @@ async function exercisePressureTask(page) {
   if (overlayOpacity !== "0") throw new Error("The accessibility hit target must not render a duplicate pressure marker");
   await screenshot(page, "mission-01-pressure-on-desktop.png");
   await button(page, "I can read this").click();
-  await page.locator(".climate-map-target.high").click();
-  await assertText(page, "Task 1 asks for the L marker");
+  await pointerClick(page, button(page, "Inspect High pressure centre"), "visible H pressure centre");
+  await assertText(page, "That’s a high-pressure centre");
   for (const hint of [
-    "Compare the pressure values around Britain and the North Atlantic.",
-    "Look for pressure values that decrease toward a centre.",
-    "Look west of Britain and follow the lower values.",
-    "A low-pressure centre is marked L.",
+    "Compare the pressure values across the North Atlantic.",
+    "Look for values that decrease toward a centre.",
+    "Select a pressure centre on the map to inspect it.",
+    "Try the low-pressure centre marked L west/north-west of Britain.",
   ]) {
     await button(page, "Need a hint").click();
     await assertText(page, hint);
   }
   await screenshot(page, "mission-01-task1-hint4-desktop.png");
-  await page.locator(".climate-map-target.low").click();
+  await pointerClick(page, button(page, "Inspect Low pressure centre"), "visible L pressure centre");
   await assertText(page, "LOW-PRESSURE SYSTEM FOUND");
   if (await page.locator(".climate-pressure-centre.selected").count() !== 1) throw new Error("Expected one selected pressure centre");
   if (await page.locator(".climate-isobar.selected").count() < 1) throw new Error("Expected selected pressure contours");
@@ -65,7 +71,7 @@ async function solveMissionOne(page) {
   await assertText(page, "derived surface-pressure contour");
   await screenshot(page, "mission-01-pressure-on-desktop.png");
   await button(page, "I can read this").click();
-  await page.locator(".climate-map-target.low").click();
+  await pointerClick(page, button(page, "Inspect Low pressure centre"), "visible L pressure centre");
   await assertText(page, "1/3 clues pinned");
   await assertText(page, "LOW-PRESSURE SYSTEM FOUND");
   if (await page.locator(".climate-pressure-centre.selected").count() !== 1) throw new Error("Expected one selected pressure centre");
@@ -76,16 +82,16 @@ async function solveMissionOne(page) {
   await assertText(page, "FROM SW");
   await assertText(page, "arrow TO");
   await screenshot(page, "mission-01-wind-desktop.png");
-  await page.locator('.climate-map-target.wind[aria-label*="Aberdeen"]').click();
+  await pointerClick(page, page.locator('.climate-wind-vector[aria-label*="Aberdeen"]'), "visible Aberdeen wind vector");
   await assertText(page, "Task 2 needs the Wind instrument and London's point vector.");
-  await page.locator(".climate-map-target.wind.selected").click();
+  await pointerClick(page, page.locator('.climate-wind-vector[aria-label*="London"]'), "visible London wind vector");
   await assertText(page, "Wind clue pinned");
   await button(page, "Continue to task 3").click();
   await instrument(page, "Rainfall").click();
   await screenshot(page, "mission-01-rainfall-desktop.png");
-  await page.locator('.climate-map-target.rain[aria-label*="Aberdeen"]').click();
+  await pointerClick(page, page.locator('.climate-rain-signal[aria-label*="Aberdeen"]'), "visible Aberdeen rainfall signal");
   await assertText(page, "Task 3 needs the Rainfall instrument and London's point signal.");
-  await page.locator(".climate-map-target.rain.selected").click();
+  await pointerClick(page, page.locator('.climate-rain-signal[aria-label*="London"]'), "visible London rainfall signal");
   await assertText(page, "Rainfall clue pinned");
   await screenshot(page, "mission-01-clues-complete-desktop.png");
   await button(page, "Open causal explanation").click();

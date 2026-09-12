@@ -238,6 +238,7 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 .climate-map-panel { min-width:0; padding:13px; border:1px solid rgba(126,219,212,.22); background:rgba(10,25,30,.9); box-shadow:0 20px 55px rgba(0,0,0,.18); }
 .climate-map-heading { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:10px; }
 .climate-map-heading b { display:block; margin-top:5px; color:#e7f5f1; font:500 1.02rem var(--serif); }
+.climate-map-interaction-hint { display:block; margin-top:5px; color:#a9c7c4; font:600 .52rem var(--mono); letter-spacing:.02em; }
 .climate-map-controls { display:flex; gap:4px; }
 .climate-map-controls button { min-width:30px; padding:7px 8px; }
 .climate-map-layer-controls { display:flex; align-items:center; flex-wrap:wrap; gap:5px; margin:0 0 10px; padding:7px; border:1px solid rgba(255,211,107,.2); background:rgba(255,211,107,.045); }
@@ -245,7 +246,7 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 .climate-map-layer-controls button { padding:7px 9px; border:1px solid rgba(126,219,212,.22); background:rgba(126,219,212,.045); color:#9db5b4; font:800 .48rem var(--mono); letter-spacing:.06em; text-transform:uppercase; cursor:pointer; }
 .climate-map-layer-controls button:hover,.climate-map-layer-controls button.active { border-color:#ffd36b; color:#fff0bb; background:rgba(255,211,107,.12); }
 .climate-map-targets { position:absolute; inset:0; z-index:3; pointer-events:none; }
-.climate-map-target { position:absolute; transform:translate(-50%,-50%); display:block; width:48px; height:48px; min-width:48px; padding:0; border:0; border-radius:50%; background:transparent; color:transparent; cursor:pointer; pointer-events:auto; font-family:var(--mono); text-align:left; z-index:3; opacity:0; }
+.climate-map-target { position:absolute; transform:translate(-50%,-50%); display:none; width:48px; height:48px; min-width:48px; padding:0; border:0; border-radius:50%; background:transparent; color:transparent; cursor:pointer; pointer-events:auto; font-family:var(--mono); text-align:left; z-index:3; opacity:0; }
 .climate-map-target:hover,.climate-map-target.selected { opacity:0; }
 .climate-map-target:focus-visible { opacity:1; border:2px solid #fff1a8; background:rgba(34,48,45,.72); outline:2px solid rgba(255,211,107,.35); outline-offset:2px; }
 .climate-map-target b,.climate-map-target small { visibility:hidden; }
@@ -263,12 +264,14 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 .climate-location-marker:not(.selected) { opacity:.66; }
 .climate-location-marker.selected circle:first-child { fill:rgba(126,219,212,.2); stroke:#7edbd4; stroke-width:2; }
 .climate-location-marker.selected circle:nth-child(2) { fill:#7edbd4; }
-.climate-isobar { fill:none; stroke:rgba(126,219,212,.62); stroke-width:1.5; vector-effect:non-scaling-stroke; pointer-events:none; }
+.climate-isobar { fill:none; stroke:rgba(126,219,212,.62); stroke-width:1.5; vector-effect:non-scaling-stroke; pointer-events:stroke; cursor:help; }
 .climate-isobar.selected { stroke:#fff1a8; stroke-width:2.8; stroke-dasharray:8 4; animation:climate-isobar-pulse 2.2s ease-in-out infinite; }
 @keyframes climate-isobar-pulse { 0%,100% { opacity:.58; } 50% { opacity:1; } }
 .climate-isobar-label rect { fill:rgba(5,15,18,.84); stroke:rgba(126,219,212,.5); stroke-width:1; vector-effect:non-scaling-stroke; }
 .climate-isobar-label text { fill:#d4efeb; font:800 9px var(--mono); letter-spacing:.02em; }
 .climate-pressure-centre { cursor:pointer; }
+.climate-pressure-centre:hover circle,.climate-pressure-centre:focus-visible circle { stroke:#fff1a8; stroke-width:3; filter:drop-shadow(0 0 7px rgba(255,211,107,.7)); }
+.climate-pressure-hit-area { fill:transparent; stroke:none; pointer-events:all; }
 .climate-pressure-centre circle { fill:rgba(5,15,18,.86); stroke:#ffd36b; stroke-width:2; vector-effect:non-scaling-stroke; }
 .climate-pressure-centre.high circle { stroke:#7edbd4; }
 .climate-pressure-centre.selected circle { stroke:#fff1a8; stroke-width:3; filter:drop-shadow(0 0 7px rgba(255,211,107,.8)); }
@@ -284,6 +287,8 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 .climate-rain-signal circle { fill:rgba(126,219,212,.1); stroke:#7edbd4; stroke-width:1.5; vector-effect:non-scaling-stroke; }
 .climate-rain-signal.selected circle { fill:rgba(255,211,107,.18); stroke:#ffd36b; stroke-width:2.5; }
 .climate-rain-signal text { fill:#b7eee6; }
+.climate-feature-hit-area { fill:transparent; stroke:none; pointer-events:all; }
+.climate-event-pulse { pointer-events:none; }
 .climate-event-pulse circle { fill:none; stroke:#ffd36b; stroke-width:2; opacity:.6; transform-origin:center; animation:climate-pulse 2.1s ease-out infinite; }
 .climate-event-pulse circle+circle { animation-delay:.85s; }
 @keyframes climate-pulse { from { transform:scale(.25); opacity:.8; } to { transform:scale(1.2); opacity:0; } }
@@ -292,7 +297,7 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 .climate-map-badge b { display:block; margin:4px 0; color:#fff8dc; font:500 .9rem var(--serif); }
 .climate-map-badge small { color:#859b9d; font-weight:600; letter-spacing:.04em; }
 .climate-map-layer-note { margin-top:4px; color:#a69768 !important; font-size:.4rem !important; }
-.climate-pressure-tutorial { position:absolute; left:14px; top:14px; z-index:4; width:min(320px,calc(100% - 28px)); padding:12px 13px; border:1px solid rgba(255,211,107,.48); background:rgba(8,21,26,.93); box-shadow:0 12px 28px rgba(0,0,0,.24); }
+.climate-pressure-tutorial { position:absolute; left:50%; top:14px; transform:translateX(-50%); z-index:4; width:min(320px,calc(100% - 28px)); padding:12px 13px; border:1px solid rgba(255,211,107,.48); background:rgba(8,21,26,.93); box-shadow:0 12px 28px rgba(0,0,0,.24); }
 .climate-pressure-tutorial>span { display:block; color:#ffd36b; font:800 .47rem var(--mono); letter-spacing:.12em; }
 .climate-pressure-tutorial>b { display:block; margin-top:6px; color:#f6fbf5; font:500 1rem/1.12 var(--serif); }
 .climate-pressure-tutorial>p { margin:7px 0 10px; color:#b5c5c4; font-size:.66rem; line-height:1.45; }

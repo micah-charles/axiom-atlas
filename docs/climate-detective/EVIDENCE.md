@@ -46,7 +46,9 @@
 - Post-selection check passed: the selected L emits explicit `Pressure decreases toward 963 hPa` feedback and highlights the nearby derived contours only after the correct discovery.
 - Map recovery check passed: a wrong H remains unpinned; wrong Aberdeen selections in Wind and Rainfall show task-specific recovery messages before London pins the correct clues.
 - No-hint Mission 01 path passed: 11/14, complete causal chain, field note, forecast, +24-hour historical reveal. The full local year reached 3/3 cases and the end-of-year weather report with 31 points.
-- Desktop and mobile visual inspection passed for the fresh objective, Pressure OFF/ON, Hint 4, selected low, Wind, Rainfall, Explain, Forecast, Reveal, and 390 × 844 Pressure tutorial states.
+- Reveal-state check passed after clearing the selected pressure centre before changing dates: the 16 Jan 2018 actual field shows its own contours and H/L markers without stale selected contours from 15 Jan.
+- Desktop and mobile visual inspection passed for the fresh objective, Pressure OFF/ON, Hint 4, selected low, clues complete, Wind, Rainfall, Explain incomplete/feedback, Forecast, Prediction, Reveal, and 390 × 844 Pressure tutorial states.
+- Latest local source checkpoint: `739fe84d06fcf3dc6672f1c0175620e59ebd5989`; Site publication of this checkpoint is pending this evidence snapshot.
 - Exact verified commit `b115812063c78d435defd043037df837574683f6` was published as private Site version 112; deployment `succeeded`, production URL remained `https://the-axiom-atlas.ckstks246335.chatgpt.site`, and owner-only custom access remained one allowed user with no groups.
 
 ## Persistent visual evidence
@@ -58,9 +60,11 @@
 - Pressure ON with tutorial, labels and derived contour legend: `evidence/mission-01-pressure-on-desktop.png`.
 - Task 1 Hint 4: `evidence/mission-01-task1-hint4-desktop.png`.
 - Selected low-pressure centre and highlighted contours: `evidence/mission-01-pressure-low-selected-desktop.png`.
+- All three clues pinned: `evidence/mission-01-clues-complete-desktop.png`.
 - Desktop Wind layer: `evidence/mission-01-wind-desktop.png`.
 - Desktop Rainfall layer: `evidence/mission-01-rainfall-desktop.png`.
 - Incomplete Explain state: `evidence/mission-01-explain-incomplete-desktop.png`.
+- Explain order feedback: `evidence/mission-01-explain-feedback-desktop.png`.
 - Locked Forecast: `evidence/mission-01-forecast-locked-desktop.png`.
 - Unlocked Forecast: `evidence/mission-01-forecast-unlocked-desktop.png`.
 - Prediction: `evidence/mission-01-prediction-desktop.png`.

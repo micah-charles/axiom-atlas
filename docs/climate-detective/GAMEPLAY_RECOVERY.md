@@ -85,7 +85,9 @@ so it cannot duplicate the SVG markers.
 Local V2 browser and visual QA passed on 2026-09-12. The no-hint Mission 01
 path scored 11/14 and the full-year path reached the end-of-year assessment;
 wrong H, wrong Wind point and wrong Rainfall point recovery were also tested.
-The deployed Site check remains the final M26 gate.
+The Reveal transition now clears the selected 15 Jan pressure centre before
+rendering the actual 16 Jan field, so highlighted contours cannot leak across
+dates. The deployed Site check remains the final M26 gate for this checkpoint.
 
 ## Mission 01 acceptance checklist
 
@@ -142,7 +144,7 @@ future mission expansion remains intentionally frozen after this checkpoint.
 
 Status: VERIFIED
 
-The local implementation and evidence gates pass. Exact commit
-`b115812063c78d435defd043037df837574683f6` is published as private Site
-version 112 with a succeeded deployment. Mission 02 expansion remains frozen
-until the game-director review agrees that the core loop is still legible.
+The local implementation and evidence gates pass. Latest local source
+checkpoint is `739fe84d06fcf3dc6672f1c0175620e59ebd5989`; its private Site
+publication is queued. Mission 02 expansion remains frozen until the
+game-director review agrees that the core loop is still legible.

@@ -1,7 +1,7 @@
 # Climate Detective Progress
 
 Last updated: 2026-09-12
-Current milestone: M26 Investigation Gameplay & Scientific Visualisation V2 — VERIFIED
+Current milestone: M26 Investigation Gameplay & Scientific Visualisation V2 — VERIFIED; final publish queued
 Current blocker: None
 Next action: keep Mission 02 expansion frozen and use the verified M26 slice for game-director review before planning the next milestone
 
@@ -67,6 +67,8 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 - Replaced answer-following Task 1 copy with a progressive no-hint → Hint 4 ladder.
 - Completed fresh-player browser and visual QA: wrong H, four pressure hints, correct L, wrong Wind point, correct London wind, wrong Rainfall point, correct London rainfall, causal-order repair, blank-note lock, forecast and historical reveal.
 - Confirmed the no-hint Mission 01 path scores 11/14; the full local year reaches 3/3 cases, the end assessment, and 31 points with zero browser console errors.
+- Fixed the Reveal transition so the selected pressure centre is cleared before the map advances to 16 Jan 2018; the actual next-day field now displays without stale selected contours from 15 Jan.
+- Replayed the complete M26 browser capture after the Reveal fix: 17 persistent PNGs, desktop/mobile states, full-year assessment, and `browser-console.json` with `errors: []`; source checkpoint is `739fe84d06fcf3dc6672f1c0175620e59ebd5989`.
 - Published the exact verified commit `b115812063c78d435defd043037df837574683f6` to the existing private Site as version 112; deployment status succeeded and the live URL remained `https://the-axiom-atlas.ckstks246335.chatgpt.site`.
 
 ## Tests
@@ -88,9 +90,9 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 - Local browser captures: desktop fresh-player/V2 flow and mobile 390×844 Task 1 pressure state, 2026-09-12.
 - Deployed Site: `https://the-axiom-atlas.ckstks246335.chatgpt.site` — version 112, exact commit `b115812063c78d435defd043037df837574683f6`, deployment succeeded 2026-09-12; owner-only custom access preserved.
 - Additional browser smoke: wrong H target feedback, duplicate clue deduplication, hint, Restart, reload, and keyboard map-target activation, 2026-09-11.
-- Persistent screenshot set: `docs/climate-detective/evidence/` (15 PNGs plus `browser-console.json`; local capture flow completed with `errors: []`).
-- M26 baseline evidence: source/data inspection completed; implementation and V2 playtest remain in progress.
-- M26 V2 evidence: `docs/climate-detective/evidence/` now contains fresh objective, pressure OFF/ON, Hint 4, selected-low, Wind, Rainfall, Explain, Forecast, Reveal, mobile and year-end screenshots; `browser-console.json` records `errors: []`.
+- Persistent screenshot set: `docs/climate-detective/evidence/` (17 PNGs plus `browser-console.json`; latest local capture completed with `errors: []`).
+- M26 V2 evidence: `docs/climate-detective/evidence/` contains fresh objective, Pressure OFF/ON, Hint 4, selected-low, clues-complete, Wind, Rainfall, Explain incomplete/feedback, Forecast locked/unlocked, Prediction, Reveal, mobile and year-end screenshots; `browser-console.json` records `errors: []`.
+- The latest local source checkpoint is `739fe84d06fcf3dc6672f1c0175620e59ebd5989`; final Site publication of this checkpoint is the next action.
 
 ## Known problems
 

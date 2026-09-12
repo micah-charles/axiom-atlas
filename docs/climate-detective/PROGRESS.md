@@ -1,9 +1,9 @@
 # Climate Detective Progress
 
 Last updated: 2026-09-12
-Current milestone: M26 Investigation Gameplay & Scientific Visualisation V2 — VERIFIED and published
-Current blocker: None
-Next action: keep Mission 02 expansion frozen and use the verified M26 slice for game-director review before planning the next milestone
+Current milestone: M26.1 Critical Map Interaction Recovery — IN PROGRESS
+Current blocker: deployed Task 1 visible pressure-marker pointer clicks produce no state change or feedback
+Next action: fix SVG pointer capture / transformed hit-target geometry, then replay the deployed fresh-player flow
 
 ## Mission status
 
@@ -33,11 +33,12 @@ Next action: keep Mission 02 expansion frozen and use the verified M26 slice for
 - M23 Evidence 🟨
 - M24 Vertical-slice gate 🟨
 - M25 Mission 01 gameplay recovery ✅
-- M26 Investigation gameplay & scientific visualisation V2 ✅
+- M26 Investigation gameplay & scientific visualisation V2 🟨
+- M26.1 Critical map interaction recovery 🟨
 
 ## Current work
 
-The vertical slice lives in `app/games/climate-detective/` and launches as a separate Climate Detective surface from the Atlas map. Existing 15-world registry and advanced-world infrastructure remain unchanged. M25 Mission 01 recovery is verified. M26 is now focused on removing answer-following and teaching pressure-map interpretation through the same three-task structure. Mission 02 expansion remains frozen.
+The vertical slice lives in `app/games/climate-detective/` and launches as a separate Climate Detective surface from the Atlas map. Existing 15-world registry and advanced-world infrastructure remain unchanged. M25 Mission 01 recovery remains verified. M26 has been reopened after a deployed fresh-player replay found that visible pressure markers silently ignored pointer clicks. Mission 02 expansion remains frozen until M26.1 passes.
 
 ## Completed since last checkpoint
 
@@ -70,6 +71,9 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 - Fixed the Reveal transition so the selected pressure centre is cleared before the map advances to 16 Jan 2018; the actual next-day field now displays without stale selected contours from 15 Jan.
 - Replayed the complete M26 browser capture after the Reveal fix: 17 persistent PNGs, desktop/mobile states, full-year assessment, and `browser-console.json` with `errors: []`; source checkpoint is `739fe84d06fcf3dc6672f1c0175620e59ebd5989`.
 - Published the exact verified commit `b115812063c78d435defd043037df837574683f6` to the existing private Site as version 112; deployment status succeeded and the live URL remained `https://the-axiom-atlas.ckstks246335.chatgpt.site`.
+- Reopened M26 after a real-user deployed replay showed `0/3 clues pinned` remained unchanged after clicking the visible L, H, London and nearby contour.
+- Confirmed on deployed version 114 that the visible SVG pressure centre receives the browser hit, while the invisible HTML target is positioned at a different coordinate because the SVG uses default `preserveAspectRatio` letterboxing; the parent SVG also captures every pointer on `pointerdown` for panning.
+- Recorded M26.1 as the active blocker; no Mission 02 expansion is being started.
 
 ## Tests
 
@@ -98,7 +102,8 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 
 - The current atmospheric data is NASA POWER/MERRA-2 gridded analysis rather than a station observation or operational forecast; the UI labels this explicitly.
 - ERA5 is deferred because the CDS download path requires account-backed access in this environment.
-- M26 local and deployed gates pass. The broader M24 release gate and curriculum coverage remain separately tracked.
+- M26 is reopened and currently fails the deployed Gameplay E2E / Fresh-player gate; the previous `errors: []` result only proved console silence, not successful visible pointer interaction.
+- The broader M24 release gate, curriculum coverage and future mission expansion remain separately tracked and frozen.
 
 ## Decisions needed
 
@@ -106,6 +111,6 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 
 ## Next three actions
 
-1. Keep Mission 02 expansion frozen after the M07/M26 stop-and-reassess gate.
-2. Use the evidence ledger for game-director/geography QA review.
-3. Plan the next milestone only after the core loop remains legible in review.
+1. Fix the pointer-capture and transformed-pressure-hit-target defect.
+2. Add and run realistic visible-element pointer E2E plus wrong-click feedback checks.
+3. Redeploy and replay the complete Mission 01 flow before changing M26 back to VERIFIED.

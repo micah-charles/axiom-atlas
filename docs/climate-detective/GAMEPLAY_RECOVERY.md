@@ -72,6 +72,50 @@ the player's deterministic explanation, not additional measurements.
 
 ## M26 V2 verification
 
+Status: REOPENED — DEPLOYED GAMEPLAY GATE FAILS
+
+### Critical Task-1 Interaction Blocker
+
+On 2026-09-12, a fresh player replayed the deployed Site version 114 and
+clicked the visible L, H, London and nearby pressure contour with real browser
+pointer coordinates. The UI stayed at `0/3 clues pinned`; no success, error,
+selection or teaching feedback appeared. This invalidates the previous M26
+PASS and blocks Mission 02 expansion.
+
+Root cause identified from the deployed DOM and source:
+
+1. `MapPanel` attaches `onPointerDown` to the whole SVG and calls
+   `setPointerCapture()` for every pointer, including pointers beginning on
+   pressure centres and location markers. That lets the pan surface swallow the
+   child feature's click path.
+2. The fallback `.climate-map-target` buttons calculate percentages from the
+   1000×610 viewBox but do not account for the SVG's default
+   `preserveAspectRatio="xMidYMid meet"` letterboxing. On the deployed 1917×900
+   viewport the visible SVG L was around `(560,364)` while the invisible low
+   target was around `(442,354)`. The fallback target therefore did not cover
+   the visual marker.
+3. The first-use pressure tutorial occupied the visible L position, adding a
+   third obstruction before it was dismissed.
+
+Affected elements: the SVG `g.climate-pressure-centre`, the parent map SVG
+pointer handlers, the invisible `.climate-map-target.low/.high` fallback
+buttons, and the absolute tutorial card.
+
+Why automated tests missed it: the prior browser harness clicked the invisible
+`.climate-map-target.low/.high` elements by selector rather than clicking the
+visible SVG marker with browser coordinates. Its `errors: []` assertion only
+checked console/page errors, so it could pass while a human click did nothing.
+
+Fix required: keep the whole visible pressure marker group clickable, stop
+pan capture on interactive descendants, align or remove the transformed
+fallback overlay, move the tutorial away from the L, add wrong-click teaching
+feedback, and assert the visible interaction state before continuing.
+
+Regression test required: visible low circle, L text, 963 hPa text, marker edge,
+H feedback, London feedback, contour feedback, touch/keyboard, `1/3` clue
+transition and complete deployed Task 1 → Task 2 → Task 3 → Explain → Forecast
+→ Reveal replay.
+
 The pressure investigation now opens with `Find the pressure system` and lets
 the player read the field before the L answer is named. A contextual tutorial
 explains that the lines join places with equal surface pressure, and the four
@@ -142,11 +186,8 @@ future mission expansion remains intentionally frozen after this checkpoint.
 
 ## M26 gate
 
-Status: VERIFIED
+Status: 🟨 IN PROGRESS
 
-The local implementation and evidence gates pass. App source checkpoint
-`ffdda035fe8aa3c8afde34871f4e1bc3dab42241` is published as private Site
-version 114 with a succeeded deployment at
-`https://the-axiom-atlas.ckstks246335.chatgpt.site`. Mission 02 expansion
-remains frozen until the game-director review agrees that the core loop is
-still legible.
+The previous local/deployed PASS is invalidated by the real-user pointer
+failure above. M26.1 must fix and verify the deployed interaction before M26
+can return to VERIFIED.

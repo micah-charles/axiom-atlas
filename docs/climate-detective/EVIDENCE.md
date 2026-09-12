@@ -38,6 +38,13 @@
 
 ## M26 investigation gameplay and scientific visualisation V2
 
+Status: REOPENED — Gameplay E2E / Fresh-player gate FAILS
+
+- Deployed fresh-player replay on 2026-09-12 against Site version 114 reproduced the user-visible failure: after Pressure activation, real pointer clicks on the visible L, H, London and a nearby contour left `0/3 clues pinned` with no feedback.
+- Deployed DOM inspection found the visible SVG L around `(560,364)` and the transparent fallback low button around `(442,354)` at the same viewport; the fallback did not cover the visible marker. The parent SVG also captured every pointer for panning.
+- Previous E2E was a false positive for this failure class because it selected `.climate-map-target.low/.high` by selector and only asserted `errors: []`; it did not click the visible SVG marker with pointer coordinates.
+- M26.1 is now the active recovery milestone. No Mission 02 expansion is permitted until the deployed visible-pointer flow passes.
+
 - Local fresh-player V2 browser run passed on 2026-09-12 against `http://localhost:3001/`; browser console ledger reports `errors: []`.
 - Task 1 begins with an investigation objective rather than naming the L; the deterministic hint ladder was verified in order: compare values → follow decreasing values → look west → L marker.
 - Pressure source check passed: 2,028 points on 15 Jan 2018, NASA POWER `PS`, MERRA-2 analysis, kPa source values displayed as hPa after explicit conversion. The game continues to label this as surface-pressure data, not sea-level pressure.
@@ -73,6 +80,7 @@
 - End-of-year assessment: `evidence/year-end-assessment-desktop.png`.
 - Browser console ledger: `evidence/browser-console.json` (`errors: []`).
 
-All Mission 01 recovery and M26 V2 evidence requirements are recorded.
-M25 is `✅ VERIFIED`; M26 is `✅ VERIFIED`. The broader M24 release gate and
-future mission expansion remain separately tracked and intentionally frozen.
+Mission 01 recovery evidence remains recorded, but the M26 V2 gate is reopened.
+M25 is `✅ VERIFIED`; M26 is `🟨 IN PROGRESS` under M26.1. The broader M24
+release gate and future mission expansion remain separately tracked and
+intentionally frozen.

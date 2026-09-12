@@ -38,8 +38,7 @@ async function exercisePressureTask(page) {
   await assertText(page, "derived surface-pressure contour");
   if (await page.locator(".climate-pressure-centre").count() !== 2) throw new Error("Expected exactly one visible SVG centre per H/L kind");
   if (await page.locator(".climate-isobar-label").count() < 1) throw new Error("Expected actual contour labels");
-  const overlayOpacity = await page.locator(".climate-map-target.low").evaluate(node => getComputedStyle(node).opacity);
-  if (overlayOpacity !== "0") throw new Error("The accessibility hit target must not render a duplicate pressure marker");
+  if (await page.locator(".climate-map-target").count() !== 0) throw new Error("Legacy invisible map targets must not render duplicate controls");
   await screenshot(page, "mission-01-pressure-on-desktop.png");
   await button(page, "I can read this").click();
   await pointerClick(page, button(page, "Inspect High pressure centre"), "visible H pressure centre");

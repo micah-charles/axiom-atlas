@@ -175,7 +175,7 @@ export default function ClimateDetectiveGame({ onBack }: { onBack: () => void })
   const pinEvidence = (id: EvidenceId) => setSelectedEvidence(items => items.includes(id) ? items : [...items, id]);
   const addChainStep = (step: string) => setChain(items => items.includes(step) ? items : [...items, step]);
   const removeChainStep = (index: number) => setChain(items => items.filter((_, itemIndex) => itemIndex !== index));
-  const reveal = () => { if (!activeMission) return; const score = scoreMission(activeMission, selectedEvidence, chain, answer, forecast, current, following, hintsUsed); setResult(score); setCompleted(old => ({ ...old, [activeMission.id]: score })); setRevealDate(following.date); setActiveLayer("pressure"); setPhase("reveal"); };
+  const reveal = () => { if (!activeMission) return; const score = scoreMission(activeMission, selectedEvidence, chain, answer, forecast, current, following, hintsUsed); setResult(score); setCompleted(old => ({ ...old, [activeMission.id]: score })); setSelectedPressureCentre(null); setRevealDate(following.date); setActiveLayer("pressure"); setPhase("reveal"); };
   const lockExplanation = () => { if (explanationReasons.length) return; if (activeMission?.forecast) setPhase("predict"); else reveal(); };
   const continueAfterReveal = () => { if (activeMissionIndex < CLIMATE_MISSIONS.length - 1) { setActiveMissionIndex(activeMissionIndex); resetMissionState(); setPhase("observe"); } else { setDate(CLIMATE_END); setPhase("assessment"); } };
   const restart = () => { setDate(CLIMATE_START); setPhase("observe"); setActiveMissionIndex(-1); setCompleted({}); resetMissionState(); setAssessmentNote(""); };

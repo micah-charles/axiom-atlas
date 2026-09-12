@@ -15,7 +15,7 @@ import { angleFromToken, arithmeticChain, expectedValueFromFact, functionTrace, 
 import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, ADVANCED_ENGINE_MANIFEST, ADVANCED_GOAL_TYPES, ADVANCED_INSTRUMENTS, ADVANCED_LEVEL_CATALOG, accumulateFlow, advancedActRule, advancedActUnlocked, advancedGoalSatisfied, advancedNotation, advancedSeedProfile, applyMatrix, closedPath, complexMultiply, constraintProgress, curl, dailyAdvancedExpedition, determinant, divergence, discreteSpectrum, evaluateConstraint, generateAdvancedExpedition, gaussianHeight, jacobian, lineIntegral, logisticMapStep, logisticTrajectory, lotkaVolterraStep, measurementInstrument, monteCarloEstimate, multiplyMatrix, polygonArea, polylineLength, seededChaosProfile, seededChaosTrajectory, seededCurveProfile, seededDynamicProfile, seededFieldProfile, seededFlowProfile, seededFlowReading, seededGraphEdges, seededGeometryTarget, seededGradientProfile, seededPopulationStep, seededProbabilityProfile, seededSignalDefaults, seededSignalProfile, seededSpringStep, seededTransformOutput, seededTransformProfile, seededVectorField, secantSlope, selectedPathWeight, shortestPath, springStep, surfaceFlux, surfaceFlux3D, tangentSlope, triangleArea, trapezoidIntegral, validateAdvancedLevelDefinition } from "../app/games/advanced-engines.ts";
 import { addResource, advectParticles, createReservoir, entityById, moveEntity, reservoirFilled, stepScene } from "../app/games/simulation-systems.ts";
 import { buildActualRevealBlocks, buildValleyRectangles, buildValleyTimeBlocks, estimateTargetCrossing, estimateValleyVolume, findActualTargetCrossing, resolveValleyOutcome, valleyActualVolume, valleyFlowRate, valleyRiverModel } from "../app/games/water-valley-engine.ts";
-import { CLIMATE_DATA, CLIMATE_MISSIONS, CLIMATE_YEAR, conceptsFromText, dayLengthHours, derivePressureCentres, evidenceValue, explanationLockReasons, locationById, pressureContourSegments, pressureHpa, scoreMission, seasonFor, solarAngle, windDirectionLabel } from "../app/games/climate-detective/engine.ts";
+import { CLIMATE_DATA, CLIMATE_MISSIONS, CLIMATE_YEAR, conceptsFromText, dayLengthHours, derivePressureCentres, evidenceValue, explanationLockReasons, locationById, pressureContourLabels, pressureContourLevels, pressureContourSegments, pressureHpa, scoreMission, seasonFor, solarAngle, windDirectionLabel } from "../app/games/climate-detective/engine.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
   assert.equal(LEARNING_LAYERS.length, 5);
@@ -353,8 +353,16 @@ test("Climate Detective pressure field is real, gridded, and contourable", () =>
   const segments = pressureContourSegments(field, "2018-01-15", [98, 100, 102]);
   assert.ok(segments.length > 0);
   assert.ok(segments.every(segment => segment.a.longitude >= -20 && segment.a.longitude <= 12 && segment.b.latitude >= 45 && segment.b.latitude <= 64));
+  const levels = pressureContourLevels(field, "2018-01-15", 4);
+  assert.deepEqual(levels, [96.4, 96.8, 97.2, 97.6, 98, 98.4, 98.8, 99.2, 99.6, 100, 100.4, 100.8, 101.2, 101.6]);
+  const labels = pressureContourLabels(field, "2018-01-15", levels);
+  assert.ok(labels.length > 0);
+  assert.ok(labels.every(label => levels.includes(label.levelKpa)));
+  assert.equal(new Set(labels.map(label => label.levelKpa)).size, labels.length);
+  assert.equal(pressureContourLabels(field, "2018-01-15", [98], 1).length, 1);
   const centres = derivePressureCentres(field, "2018-01-15");
   assert.deepEqual(centres.map(centre => centre.kind), ["L", "H"]);
+  assert.equal(new Set(centres.map(centre => `${centre.kind}:${centre.longitude}:${centre.latitude}`)).size, centres.length);
   assert.ok(centres.every(centre => Number.isFinite(centre.pressureKpa)));
 });
 

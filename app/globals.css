@@ -245,15 +245,10 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 .climate-map-layer-controls button { padding:7px 9px; border:1px solid rgba(126,219,212,.22); background:rgba(126,219,212,.045); color:#9db5b4; font:800 .48rem var(--mono); letter-spacing:.06em; text-transform:uppercase; cursor:pointer; }
 .climate-map-layer-controls button:hover,.climate-map-layer-controls button.active { border-color:#ffd36b; color:#fff0bb; background:rgba(255,211,107,.12); }
 .climate-map-targets { position:absolute; inset:0; z-index:3; pointer-events:none; }
-.climate-map-target { position:absolute; transform:translate(-50%,-50%); display:flex; align-items:center; gap:5px; min-width:52px; padding:4px 6px; border:1px solid rgba(255,211,107,.72); border-radius:999px; background:rgba(5,15,18,.84); box-shadow:0 3px 12px rgba(0,0,0,.24); color:#fff4c4; cursor:pointer; pointer-events:auto; font-family:var(--mono); text-align:left; z-index:3; }
-.climate-map-target:hover,.climate-map-target:focus-visible,.climate-map-target.selected { border-color:#fff1a8; background:rgba(34,48,45,.94); outline:2px solid rgba(255,211,107,.25); outline-offset:2px; }
-.climate-map-target b { display:grid; width:20px; height:20px; place-items:center; border-radius:50%; background:#ffd36b; color:#1d2420; font-size:.7rem; }
-.climate-map-target.high b { background:#7edbd4; }
-.climate-map-target small { color:#f4eac7; font:800 .48rem var(--mono); letter-spacing:.02em; white-space:nowrap; }
-.climate-map-target.wind b { color:#1d2420; background:#ffd36b; font-size:.9rem; }
-.climate-map-target.wind small { color:#ffd36b; }
-.climate-map-target.rain b { width:auto; min-width:20px; padding:0 3px; border-radius:5px; background:#7edbd4; font-size:.48rem; }
-.climate-map-target.rain small { color:#a9d7d0; }
+.climate-map-target { position:absolute; transform:translate(-50%,-50%); display:block; width:48px; height:48px; min-width:48px; padding:0; border:0; border-radius:50%; background:transparent; color:transparent; cursor:pointer; pointer-events:auto; font-family:var(--mono); text-align:left; z-index:3; opacity:0; }
+.climate-map-target:hover,.climate-map-target.selected { opacity:0; }
+.climate-map-target:focus-visible { opacity:1; border:2px solid #fff1a8; background:rgba(34,48,45,.72); outline:2px solid rgba(255,211,107,.35); outline-offset:2px; }
+.climate-map-target b,.climate-map-target small { visibility:hidden; }
 .climate-map-frame { position:relative; min-height:470px; overflow:hidden; border:1px solid rgba(126,219,212,.16); background:radial-gradient(circle at 50% 50%,rgba(25,78,83,.22),transparent 65%),#07151b; }
 .climate-map-frame svg { display:block; width:100%; min-height:470px; height:clamp(470px,58vh,650px); cursor:grab; touch-action:none; }
 .climate-map-frame svg:active { cursor:grabbing; }
@@ -268,12 +263,18 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 .climate-location-marker:not(.selected) { opacity:.66; }
 .climate-location-marker.selected circle:first-child { fill:rgba(126,219,212,.2); stroke:#7edbd4; stroke-width:2; }
 .climate-location-marker.selected circle:nth-child(2) { fill:#7edbd4; }
-.climate-isobar { fill:none; stroke:rgba(126,219,212,.6); stroke-width:1.4; stroke-dasharray:5 5; vector-effect:non-scaling-stroke; pointer-events:none; }
+.climate-isobar { fill:none; stroke:rgba(126,219,212,.62); stroke-width:1.5; vector-effect:non-scaling-stroke; pointer-events:none; }
+.climate-isobar.selected { stroke:#fff1a8; stroke-width:2.8; stroke-dasharray:8 4; animation:climate-isobar-pulse 2.2s ease-in-out infinite; }
+@keyframes climate-isobar-pulse { 0%,100% { opacity:.58; } 50% { opacity:1; } }
+.climate-isobar-label rect { fill:rgba(5,15,18,.84); stroke:rgba(126,219,212,.5); stroke-width:1; vector-effect:non-scaling-stroke; }
+.climate-isobar-label text { fill:#d4efeb; font:800 9px var(--mono); letter-spacing:.02em; }
 .climate-pressure-centre { cursor:pointer; }
 .climate-pressure-centre circle { fill:rgba(5,15,18,.86); stroke:#ffd36b; stroke-width:2; vector-effect:non-scaling-stroke; }
 .climate-pressure-centre.high circle { stroke:#7edbd4; }
+.climate-pressure-centre.selected circle { stroke:#fff1a8; stroke-width:3; filter:drop-shadow(0 0 7px rgba(255,211,107,.8)); }
 .climate-pressure-centre text { fill:#fff3bf; font:900 17px var(--mono); pointer-events:none; }
 .climate-pressure-centre.high text { fill:#b7eee6; }
+.climate-pressure-centre.selected text { fill:#fffbe0; }
 .climate-pressure-label { font-size:10px !important; font-weight:700 !important; }
 .climate-wind-vector { cursor:pointer; }
 .climate-wind-vector line { stroke:#ffd36b; stroke-width:2.5; vector-effect:non-scaling-stroke; }
@@ -291,6 +292,13 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 .climate-map-badge b { display:block; margin:4px 0; color:#fff8dc; font:500 .9rem var(--serif); }
 .climate-map-badge small { color:#859b9d; font-weight:600; letter-spacing:.04em; }
 .climate-map-layer-note { margin-top:4px; color:#a69768 !important; font-size:.4rem !important; }
+.climate-pressure-tutorial { position:absolute; left:14px; top:14px; z-index:4; width:min(320px,calc(100% - 28px)); padding:12px 13px; border:1px solid rgba(255,211,107,.48); background:rgba(8,21,26,.93); box-shadow:0 12px 28px rgba(0,0,0,.24); }
+.climate-pressure-tutorial>span { display:block; color:#ffd36b; font:800 .47rem var(--mono); letter-spacing:.12em; }
+.climate-pressure-tutorial>b { display:block; margin-top:6px; color:#f6fbf5; font:500 1rem/1.12 var(--serif); }
+.climate-pressure-tutorial>p { margin:7px 0 10px; color:#b5c5c4; font-size:.66rem; line-height:1.45; }
+.climate-pressure-tutorial strong { color:#fff0b8; }
+.climate-pressure-tutorial button { padding:7px 9px; border:1px solid rgba(255,211,107,.5); background:rgba(255,211,107,.1); color:#fff0b8; font:800 .5rem var(--mono); letter-spacing:.04em; text-transform:uppercase; cursor:pointer; }
+.climate-pressure-tutorial button:hover { background:rgba(255,211,107,.18); }
 .climate-map-legend { position:absolute; right:12px; bottom:10px; display:flex; flex-wrap:wrap; justify-content:flex-end; gap:8px; padding:6px 8px; background:rgba(5,15,18,.75); color:#82999d; font:600 .46rem var(--mono); }
 .climate-map-legend span { display:flex; align-items:center; gap:5px; }
 .climate-map-legend i { display:inline-block; width:12px; height:3px; }

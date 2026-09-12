@@ -66,6 +66,7 @@ export type PressureField = {
   values: Record<string, PressureFieldPoint[]>;
 };
 export type PressureContourSegment = { levelKpa: number; a: { longitude: number; latitude: number }; b: { longitude: number; latitude: number } };
+export type PressureContourLabel = { levelKpa: number; longitude: number; latitude: number };
 export type PressureCentre = { kind: "L" | "H"; longitude: number; latitude: number; pressureKpa: number; surfaceElevation?: number };
 export type ClimateMission = {
   id: MissionKind;
@@ -250,6 +251,50 @@ export function pressureContourSegments(field: PressureField, date: string, leve
     }
   }
   return segments;
+}
+
+export function pressureContourLevels(field: PressureField, date: string, intervalHpa = 4): number[] {
+  const points = pressureFieldForDate(field, date);
+  const focused = points.filter(point => point.longitude >= -18 && point.longitude <= 4 && point.latitude >= 48 && point.latitude <= 62 && (point.surfaceElevation ?? 0) <= 10);
+  const values = (focused.length ? focused : points).map(point => point.pressureKpa).filter(Number.isFinite);
+  if (!values.length || intervalHpa <= 0) return [];
+  const minimumHpa = Math.ceil(Math.min(...values) * 10 - 1e-6);
+  const maximumHpa = Math.floor(Math.max(...values) * 10 + 1e-6);
+  const firstHpa = Math.ceil(minimumHpa / intervalHpa) * intervalHpa;
+  const lastHpa = Math.floor(maximumHpa / intervalHpa) * intervalHpa;
+  const levels: number[] = [];
+  for (let hpa = firstHpa; hpa <= lastHpa; hpa += intervalHpa) levels.push(Number((hpa / 10).toFixed(1)));
+  return levels;
+}
+
+export function pressureContourLabels(field: PressureField, date: string, levelsKpa: number[], maximum = 5): PressureContourLabel[] {
+  if (maximum <= 0) return [];
+  const levels = [...new Set(levelsKpa)].sort((a, b) => a - b);
+  if (levels.length <= 1 || maximum === 1) {
+    const levelKpa = levels[0];
+    if (levelKpa === undefined) return [];
+    const segment = pressureContourSegments(field, date, [levelKpa])[0];
+    return segment ? [{ levelKpa, longitude: (segment.a.longitude + segment.b.longitude) / 2, latitude: (segment.a.latitude + segment.b.latitude) / 2 }] : [];
+  }
+  const selectedLevels = levels.length <= maximum
+    ? levels
+    : levels.filter((_, index) => index === 0 || index === levels.length - 1 || index % Math.ceil((levels.length - 1) / (maximum - 1)) === 0).slice(0, maximum);
+  const segments = pressureContourSegments(field, date, selectedLevels);
+  const low = derivePressureCentres(field, date).find(centre => centre.kind === "L");
+  return selectedLevels.flatMap(levelKpa => {
+    const candidates = segments.filter(segment => segment.levelKpa === levelKpa);
+    if (!candidates.length) return [];
+    const ordered = low ? [...candidates].sort((first, second) => {
+      const distance = (segment: PressureContourSegment) => {
+        const longitude = (segment.a.longitude + segment.b.longitude) / 2;
+        const latitude = (segment.a.latitude + segment.b.latitude) / 2;
+        return Math.hypot(longitude - low.longitude, latitude - low.latitude);
+      };
+      return distance(first) - distance(second);
+    }) : candidates;
+    const segment = ordered[0];
+    return [{ levelKpa, longitude: (segment.a.longitude + segment.b.longitude) / 2, latitude: (segment.a.latitude + segment.b.latitude) / 2 }];
+  });
 }
 
 export function derivePressureCentres(field: PressureField, date: string): PressureCentre[] {

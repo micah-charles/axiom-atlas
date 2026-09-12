@@ -1,9 +1,9 @@
 # Climate Detective Progress
 
-Last updated: 2026-09-11
-Current milestone: M25 Mission 01 gameplay recovery — VERIFIED
+Last updated: 2026-09-12
+Current milestone: M26 Investigation Gameplay & Scientific Visualisation V2 — IN PROGRESS
 Current blocker: None
-Next action: keep Mission 02 expansion frozen; reassess the broader M24 release gate before starting new mission work
+Next action: remove duplicate H/L rendering, add pressure reading guidance, then rerun the fresh-player Mission 01 flow
 
 ## Mission status
 
@@ -33,10 +33,11 @@ Next action: keep Mission 02 expansion frozen; reassess the broader M24 release 
 - M23 Evidence 🟨
 - M24 Vertical-slice gate 🟨
 - M25 Mission 01 gameplay recovery ✅
+- M26 Investigation gameplay & scientific visualisation V2 🟨
 
 ## Current work
 
-The vertical slice lives in `app/games/climate-detective/` and launches as a separate Climate Detective surface from the Atlas map. Existing 15-world registry and advanced-world infrastructure remain unchanged. M25 Mission 01 recovery is verified: the player discovers the first mystery through three map tasks, a field notebook, a repairable causal chain, a required field note, and a forecast/reveal. Mission 02 expansion remains frozen while the broader M24 release gate is reviewed.
+The vertical slice lives in `app/games/climate-detective/` and launches as a separate Climate Detective surface from the Atlas map. Existing 15-world registry and advanced-world infrastructure remain unchanged. M25 Mission 01 recovery is verified. M26 is now focused on removing answer-following and teaching pressure-map interpretation through the same three-task structure. Mission 02 expansion remains frozen.
 
 ## Completed since last checkpoint
 
@@ -58,6 +59,9 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 - Added deterministic coverage for wrong evidence, deduplicated excessive evidence, and hint efficiency scoring.
 - Added a reproducible isolated browser capture harness and persistent visual evidence for the recovery states and year-end assessment.
 - Fixed the final assessment banner so the end-of-year report is not mislabeled as the previous mission.
+- Read the M26 V2 mission and added its granular implementation checklist before code changes.
+- Verified that the visible duplicate `L/H` markers come from one SVG centre plus one HTML hit-target overlay; the data engine itself returns one low and one high centre.
+- Verified that the stored 15 Jan 2018 pressure field contains 2,028 NASA POWER `PS` points and that the displayed 963 hPa / 1018 hPa values are derived from the field, not authored display values.
 
 ## Tests
 
@@ -79,11 +83,13 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 - Deployed Site: `https://the-axiom-atlas.ckstks246335.chatgpt.site` — version 110, full recovery flow passed 2026-09-11.
 - Additional browser smoke: wrong H target feedback, duplicate clue deduplication, hint, Restart, reload, and keyboard map-target activation, 2026-09-11.
 - Persistent screenshot set: `docs/climate-detective/evidence/` (10 PNGs plus `browser-console.json`; local capture flow completed with `errors: []`).
+- M26 baseline evidence: source/data inspection completed; implementation and V2 playtest remain in progress.
 
 ## Known problems
 
 - The current atmospheric data is NASA POWER/MERRA-2 gridded analysis rather than a station observation or operational forecast; the UI labels this explicitly.
 - ERA5 is deferred because the CDS download path requires account-backed access in this environment.
+- The current contour renderer has not yet added representative contour labels or post-selection contour highlighting; these are M26 work items.
 
 ## Decisions needed
 
@@ -91,6 +97,6 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 
 ## Next three actions
 
-1. Reassess the broader M24 vertical-slice gate against the deployed Site, if required.
-2. Decide whether to begin Mission 02 only after that gate review.
-3. Preserve the current data provenance and recovery evidence as the baseline.
+1. Remove the duplicate visible H/L marker while preserving accessible hit targets.
+2. Add actual contour labels, pressure-reading tutorial and progressive Task 1 hints.
+3. Play and capture the complete V2 Mission 01 flow before any Mission 02 expansion.

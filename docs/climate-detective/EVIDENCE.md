@@ -64,8 +64,7 @@ Status: VERIFIED — Gameplay E2E / Fresh-player gate PASSES
 
 ## M27 causal storytelling map
 
-Status: IN PROGRESS — local implementation and visual inspection pass; deployed
-fresh-player gate pending.
+Status: VERIFIED — local browser E2E and deployed fresh-player gate pass.
 
 - Audit result: the former animated `climate-event-pulse` was a UI decoration
   without a legend or scientific meaning, so it was removed. Observation
@@ -88,14 +87,29 @@ fresh-player gate pending.
   data and the same causal story visuals alongside the Reveal record. The
   Reveal story trend remains anchored to 14–16 Jan 2018 while the map record
   correctly advances to 16 Jan.
+- Deployed Site version 117 was replayed in the authenticated Chrome Site tab
+  from the Atlas entry: real Pressure → Wind → Rainfall discovery, shuffled
+  Explain options, deliberate wrong-order feedback, remove/rebuild, causal
+  story completion, focus, Replay, field note, Forecast and Reveal all passed.
+- Version 117 contains exact source commit
+  `85cd9b311d5e75ce611fee884cbfa117b4c006a4`; deployment
+  `appgdep_6aa59b292c4c81919ae47dfffc921374` completed with status
+  `succeeded` at `https://the-axiom-atlas.ckstks246335.chatgpt.site`.
+- Deployed Reveal showed `16 Jan 2018`, `4.0°C`, `985 hPa`, `0.4 mm`, the
+  supported `14 Jan → 15 Jan → 16 Jan` pressure trend, the measured wind/rain
+  overlays, the Atlantic interpretation and the rainfall teaching inset.
+- The deployed map was visually inspected after Reveal in the authenticated
+  Chrome tab; the owner-only custom access policy remained one allowed user
+  (`Charles Tan`) with no groups. The headless harness remains a local test
+  because a separate unauthenticated browser context cannot enter this private
+  Site; deployed behavior was verified through the real authenticated browser.
 - Scientific boundary: pressure contours and low-centre trail are derived from
   NASA POWER/MERRA-2 `PS`; wind and rainfall are historical daily rows; the
   Atlantic path and vertical rainfall sequence are explicitly labelled derived
   or teaching-model interpretations. No synthetic front is rendered.
-- M27 persistent screenshots and deployed browser evidence are intentionally
-  not claimed yet. M27 remains FAIL/PENDING until a fresh deployed player
-  completes Observe → Investigate → Explain → Forecast → Reveal and the
-  screenshot/test paths are recorded here.
+- M27 persistent screenshots are in `evidence/m27-*.png`; the deployed browser
+  replay was inspected inline in the authenticated Site tab. M27 now passes the
+  requested causal-story acceptance gate.
 
 ## Persistent visual evidence
 
@@ -120,7 +134,7 @@ fresh-player gate pending.
 - End-of-year assessment: `evidence/year-end-assessment-desktop.png`.
 - Browser console ledger: `evidence/browser-console.json` (`errors: []`).
 
-Mission 01 recovery evidence remains recorded. M25 is `✅ VERIFIED`; M26 and
-M26.1 are `✅ VERIFIED` after the final deployed replay. The broader M24 release
+Mission 01 recovery evidence remains recorded. M25, M26, M26.1 and M27 are
+`✅ VERIFIED` after their respective deployed replays. The broader M24 release
 gate and future mission expansion remain separately tracked and intentionally
 frozen.

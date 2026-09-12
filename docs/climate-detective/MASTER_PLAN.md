@@ -270,7 +270,7 @@ verified with visible-element pointer interactions.
 - [x] Update `GAMEPLAY_RECOVERY.md`, `EVIDENCE.md` and `PROGRESS.md`.
 - [x] Restore M26 to VERIFIED only after the deployed fresh-player gate passes.
 
-### M27 — Causal Storytelling Map 🟨
+### M27 — Causal Storytelling Map ✅ VERIFIED
 
 Turn the first investigation explanation into a visual causal story. This
 milestone is intentionally scoped to Mission 01’s Atlantic depression so that
@@ -326,13 +326,13 @@ teaching-model interpretations visibly distinct.
   causal reveal, not only DOM existence or console silence.
 - [x] Run desktop and 390 × 844 visual inspection, including a reduced-motion
   check and focus/replay interaction.
-- [ ] Run the complete fresh-player deployed flow: Observe → Investigate →
+- [x] Run the complete fresh-player deployed flow: Observe → Investigate →
   Explain → Forecast → Reveal.
 - [x] Capture the causal-story states and record paths/results in
   `docs/climate-detective/evidence/` and `EVIDENCE.md`.
-- [ ] Run tests, lint, build and diff checks; publish the exact tested commit
+- [x] Run tests, lint, build and diff checks; publish the exact tested commit
   to the private Site.
-- [ ] Mark M27 VERIFIED only after the deployed fresh-player acceptance gate
+- [x] Mark M27 VERIFIED only after the deployed fresh-player acceptance gate
   passes. Otherwise report FAIL honestly and keep expansion frozen.
 
 ## Checkpoint rule

@@ -1,9 +1,9 @@
 # Climate Detective Progress
 
 Last updated: 2026-09-12
-Current milestone: M27 Causal Storytelling Map — IN PROGRESS
-Current blocker: deployed fresh-player M27 gate has not yet been rerun
-Next action: publish the tested M27 build, then replay every causal reveal and the Forecast → Reveal bridge on the private Site
+Current milestone: M27 Causal Storytelling Map — VERIFIED
+Current blocker: none for the M27 causal-story gate
+Next action: keep Mission 02 expansion frozen for the M07 stop-and-reassess; use the verified causal slice to decide the next scoped milestone
 
 ## Mission status
 
@@ -35,11 +35,11 @@ Next action: publish the tested M27 build, then replay every causal reveal and t
 - M25 Mission 01 gameplay recovery ✅
 - M26 Investigation gameplay & scientific visualisation V2 ✅
 - M26.1 Critical map interaction recovery ✅
-- M27 Causal storytelling map 🟨
+- M27 Causal storytelling map ✅
 
 ## Current work
 
-The vertical slice lives in `app/games/climate-detective/` and launches as a separate Climate Detective surface from the Atlas map. Existing 15-world registry and advanced-world infrastructure remain unchanged. M25 Mission 01 recovery and M26.1 visible-pointer recovery remain verified. M27 is now turning Mission 01’s explanation into a data/model-labelled causal map story; Mission 02 expansion remains frozen until the M27 fresh-player gate proves this still feels like a game rather than a dashboard.
+The vertical slice lives in `app/games/climate-detective/` and launches as a separate Climate Detective surface from the Atlas map. Existing 15-world registry and advanced-world infrastructure remain unchanged. M25 Mission 01 recovery, M26.1 visible-pointer recovery and M27 causal storytelling remain verified. Mission 02 expansion remains frozen for the required stop-and-reassess.
 
 ## Completed since last checkpoint
 
@@ -87,7 +87,8 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 - Added one-per-attempt semantic causal shuffling, deterministic prefix progression, targeted wrong-order feedback, formative field-note feedback and a visible Forecast bridge.
 - Added progressive story visuals: data-derived low and contours, daily pressure trend/low-centre trail, measured wind FROM/TO vectors, labelled Atlantic air-mass interpretation, and a clearly marked SVG/CSS teaching-model rainfall inset.
 - Added Story So Far, completed-link focus, Replay, Previous and Next controls; added reduced-motion protection for automatic replay and anchored the Explain story dates to 14–16 Jan 2018 during Reveal.
-- Local M27 Explain → Forecast → Reveal visual pass completed; deployed M27 replay and persistent evidence remain pending.
+- Local M27 Explain → Forecast → Reveal visual pass completed; deployed version 117 replay also passed with the same causal visuals beside the actual historical Reveal.
+- Published exact M27 commit `85cd9b311d5e75ce611fee884cbfa117b4c006a4` as private Site version 117; deployment `appgdep_6aa59b292c4c81919ae47dfffc921374` succeeded and owner-only access remained unchanged.
 - Started M27 after a local Explain audit: the former animated event pulse was an unexplained circle and has been removed; legitimate observation locations remain labelled in the map legend.
 - Added one-per-attempt semantic causal shuffling, deterministic prefix progression, targeted wrong-order feedback, formative field-note feedback and a visible Forecast bridge.
 - Added progressive story visuals: data-derived low and contours, daily pressure trend/low-centre trail, measured wind FROM/TO vectors, labelled Atlantic air-mass interpretation, and a clearly marked SVG/CSS teaching-model rainfall inset.
@@ -128,7 +129,7 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 - ERA5 is deferred because the CDS download path requires account-backed access in this environment.
 - The M26.1 interaction blocker is resolved and the deployed Gameplay E2E / Fresh-player gate is verified. The earlier `errors: []` result remains documented as a false positive because it proved console silence, not visible pointer success.
 - The broader M24 release gate, curriculum coverage and future mission expansion remain separately tracked and frozen.
-- M27 is not VERIFIED until a fresh deployed player can see each causal reveal, recover from wrong order, use focus/replay, and reach the historical Reveal with the same story visuals.
+- M27 verified gate: a fresh deployed player saw each causal reveal, recovered from wrong order, used focus/replay, completed the field note and reached the historical Reveal with the same story visuals.
 
 ## Decisions needed
 
@@ -136,6 +137,6 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 
 ## Next three actions
 
-1. Run M27 tests/lint/build and commit the causal-story checkpoint.
-2. Publish the exact commit and run the deployed M27 fresh-player E2E plus desktop/mobile screenshots.
-3. Keep Mission 02 expansion frozen until the M27 gate is honestly PASS/FAIL recorded.
+1. Run the M07 stop-and-reassess on the repaired vertical slice with a fresh player.
+2. Decide whether the broader M24 gate is ready for a separate QA pass.
+3. Keep Mission 02 expansion frozen until the core loop remains demonstrably game-like.

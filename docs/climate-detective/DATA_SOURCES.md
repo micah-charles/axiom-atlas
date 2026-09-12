@@ -12,7 +12,24 @@ The vertical slice uses downloaded, version-stamped static inputs so the hosted 
 | NASA POWER / NASA GMAO | POWER Monthly API | `https://power.larc.nasa.gov/api/temporal/monthly/point` | Public API; retain NASA POWER attribution | Same meteorological source; monthly and annual summaries from 1981 onward | monthly candidate-year comparison and annual context |
 | NASA POWER / NASA GMAO | POWER Climatology API | `https://power.larc.nasa.gov/api/temporal/climatology/point` | Public API; retain NASA POWER attribution | Pre-computed 20-year meteorological climatology, January 2001–December 2020 | monthly normals used for anomaly display |
 | NOAA NCEI | Daily Optimum Interpolation Sea Surface Temperature v2.1 | NOAA ERDDAP `SST_OI_DAILY_1981_PRESENT_ML` | NOAA public data; cite DOI / product page | 0.25° global daily SST, 1981–present | North Atlantic SST at a published grid point |
-| Natural Earth | 1:110m cultural/admin country boundaries | `https://github.com/nvkelso/natural-earth-vector` | Public domain | global simplified boundaries | map geometry only |
+| Natural Earth | 1:110m cultural/admin country boundaries, version 5.1.1 | `https://www.naturalearthdata.com/downloads/110m-cultural-vectors/` and the source repository at `https://github.com/nvkelso/natural-earth-vector` | Public domain | global simplified boundaries | Mission 01 regional geometry and M28 global geometry only |
+
+## M28 global circulation map
+
+`app/games/climate-detective/data/natural-earth-world.json` contains the
+complete 1:110m Natural Earth admin-0 country geometry, reduced to each
+feature's `ADMIN` name and geometry by the reproducible preparation script.
+It is used only for geographic context. It is not a climate or wind dataset.
+
+The M28 map uses an Equal Earth pseudocylindrical projection implemented in
+the Climate Detective module. Equal Earth keeps the world recognisable while
+avoiding the strong polar-area distortion of Web Mercator. The projection is a
+rendering choice for the teaching model; its latitude bands are still marked
+as approximate circulation zones rather than measured atmospheric boundaries.
+
+The M28 pressure belts, circulation cells, prevailing wind belts and Coriolis
+examples are explicit idealised teaching-model constants. They are not stored
+inside `year-2018.json` and are never labelled as historical observations.
 
 ## Why not use live ERA5 in the first build?
 

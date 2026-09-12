@@ -335,6 +335,80 @@ teaching-model interpretations visibly distinct.
 - [x] Mark M27 VERIFIED only after the deployed fresh-player acceptance gate
   passes. Otherwise report FAIL honestly and keep expansion frozen.
 
+### M28 — Global Atmospheric Circulation Interactive Reference 🟨 IN PROGRESS
+
+M28 is a reusable global-to-local teaching surface, not a static infographic
+or a second mission. It opens without resetting Mission 01, keeps the mission
+state intact while the player explores, and returns to the same map evidence.
+The teaching model and historical weather remain visibly separate.
+
+#### Discovery and architecture
+
+- [x] Re-read the M28 brief and inspect the M27 source, data, map, state and
+  deployed Site baseline.
+- [x] Confirm the current regional map cannot support a global circulation
+  reference without a separate world geometry file.
+- [x] Select Natural Earth 1:110m admin-0 country boundaries for the global
+  context and retain its public-domain provenance.
+- [x] Select and document Equal Earth as the world-map projection.
+- [ ] Add a reusable global circulation data model separate from historical
+  Mission 01 data.
+- [ ] Add unit tests for belt ordering, hemisphere deflection, wind naming and
+  Britain’s latitude band.
+
+#### Product entry and state preservation
+
+- [ ] Add a discoverable `GLOBAL WIND SYSTEMS` control from Mission 01 Explain.
+- [ ] Open from relevant pressure-gradient and wind-story context when the
+  player has reached those causal links.
+- [ ] Preserve date, phase, selected evidence, causal chain, written note,
+  forecast and story focus while the reference is open.
+- [ ] Close or return to mission without losing progress; highlight the
+  relevant historical wind evidence on return.
+
+#### Interactive guided lesson
+
+- [ ] Implement six guided stages: unequal heating, pressure belts, cells,
+  Earth’s rotation, prevailing winds, and why Britain gets Atlantic winds.
+- [ ] Render latitude reference lines at 90°, 60°, 30°, 0°, 30°S, 60°S and
+  90°S with non-colour labels.
+- [ ] Render idealised equatorial low/ITCZ, subtropical highs, subpolar lows
+  and polar highs with rising/sinking explanations.
+- [ ] Render Hadley, Ferrel and Polar cells as conceptual model overlays.
+- [ ] Add rotation OFF conceptual pressure-gradient view and rotation ON
+  deflection view.
+- [ ] Add NH right-deflection and SH left-deflection interactive demos.
+- [ ] Render NE/SE trade winds, both-hemisphere westerlies and polar easterlies
+  with explicit FROM → TO wording.
+- [ ] Let the player click a belt to inspect name, source direction, destination
+  direction, latitude range, pressure-belt connection and cell association.
+- [ ] Let the player highlight Britain at approximately 50–60°N and show the
+  North Atlantic → Britain context.
+
+#### Explore, challenge and historical bridge
+
+- [ ] Add Explore mode for controlled free toggling after Guided completion.
+- [ ] Add a short optional Predict the Wind challenge.
+- [ ] Add the “Why not straight?” comparison: pressure-only, + Coriolis, and
+  optional friction/geostrophic explanation.
+- [ ] Transition from idealised global model to the real 15 Jan 2018 pressure,
+  wind and rainfall evidence without blending their legends.
+- [ ] Explain global mid-latitude westerly background versus the synoptic-scale
+  pressure pattern that sets the exact day’s wind.
+- [ ] Make clear that winds are named for where they come from.
+
+#### QA and deployment gate
+
+- [ ] Test contextual links from Explain and return-state preservation.
+- [ ] Test Guided and Explore modes, all interactive layers and the optional
+  challenge on desktop and 390 × 844 mobile.
+- [ ] Test keyboard focus, touch targets, screen-reader labels and reduced
+  motion.
+- [ ] Run scientific tests and a fresh-player comprehension check.
+- [ ] Capture screenshots and record evidence paths in `EVIDENCE.md`.
+- [ ] Publish the exact tested commit to the owner-private Site.
+- [ ] Mark M28 VERIFIED only after the deployed interactive test passes.
+
 ## Checkpoint rule
 
 At each meaningful milestone: run tests, run the build, inspect output, record evidence, update `PROGRESS.md`, and commit a focused checkpoint when repository workflow permits.

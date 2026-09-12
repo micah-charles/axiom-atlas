@@ -1,5 +1,8 @@
 {
   "source": "Natural Earth 1:110m admin-0 country boundaries",
-  "sourceUrl": "https://github.com/nvkelso/natural-earth-vector",
-  "note": "Run scripts/climate-detective/prepare-natural-earth.mjs to refresh the filtered geometry."
+  "sourceUrl": "https://www.naturalearthdata.com/downloads/110m-cultural-vectors/",
+  "repositoryUrl": "https://github.com/nvkelso/natural-earth-vector",
+  "version": "5.1.1",
+  "licence": "Public domain",
+  "note": "Run scripts/climate-detective/prepare-natural-earth.mjs to refresh the regional and global geometry."
 }

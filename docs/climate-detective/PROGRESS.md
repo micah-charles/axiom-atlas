@@ -1,9 +1,9 @@
 # Climate Detective Progress
 
 Last updated: 2026-09-12
-Current milestone: M27 Causal Storytelling Map — VERIFIED
-Current blocker: none for the M27 causal-story gate
-Next action: keep Mission 02 expansion frozen for the M07 stop-and-reassess; use the verified causal slice to decide the next scoped milestone
+Current milestone: M28 Global Atmospheric Circulation Interactive Reference — IN PROGRESS
+Current blocker: none; Mission 01 and M27 remain protected baselines
+Next action: implement the global-to-local teaching surface, then replay it as a fresh player before expanding scope
 
 ## Mission status
 
@@ -36,10 +36,18 @@ Next action: keep Mission 02 expansion frozen for the M07 stop-and-reassess; use
 - M26 Investigation gameplay & scientific visualisation V2 ✅
 - M26.1 Critical map interaction recovery ✅
 - M27 Causal storytelling map ✅
+- M28 Global atmospheric circulation interactive reference 🟨
 
 ## Current work
 
 The vertical slice lives in `app/games/climate-detective/` and launches as a separate Climate Detective surface from the Atlas map. Existing 15-world registry and advanced-world infrastructure remain unchanged. M25 Mission 01 recovery, M26.1 visible-pointer recovery and M27 causal storytelling remain verified. Mission 02 expansion remains frozen for the required stop-and-reassess.
+
+M28 is now scoped as a reusable reference opened from Mission 01. It will use
+Natural Earth global country geometry with an Equal Earth projection. Its
+idealised pressure belts, circulation cells and wind belts will be stored as a
+teaching model, separate from the NASA POWER/MERRA-2 historical weather data.
+The first implementation must preserve Mission 01 state while open and return
+to the same causal map evidence.
 
 ## Completed since last checkpoint
 
@@ -88,6 +96,16 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 - Added progressive story visuals: data-derived low and contours, daily pressure trend/low-centre trail, measured wind FROM/TO vectors, labelled Atlantic air-mass interpretation, and a clearly marked SVG/CSS teaching-model rainfall inset.
 - Added Story So Far, completed-link focus, Replay, Previous and Next controls; added reduced-motion protection for automatic replay and anchored the Explain story dates to 14–16 Jan 2018 during Reveal.
 - Local M27 Explain → Forecast → Reveal visual pass completed; deployed version 117 replay also passed with the same causal visuals beside the actual historical Reveal.
+- Read and accepted the M28 scope: interactive global atmospheric circulation,
+  progressive Guided/Explore modes, Coriolis demos, wind FROM convention,
+  Britain context, and a real 15 Jan 2018 bridge; the supplied mock-up remains
+  a design reference only.
+- Confirmed the current checkout has no global geometry asset. Extended the
+  existing Natural Earth preparation script to emit the complete 1:110m
+  admin-0 world geometry alongside the regional Mission 01 subset.
+- Selected Equal Earth for the teaching map to avoid Web Mercator’s misleading
+  polar distortion; the projection decision and source provenance remain
+  documented in the M28 plan and data-source notes.
 - Published exact M27 commit `85cd9b311d5e75ce611fee884cbfa117b4c006a4` as private Site version 117; deployment `appgdep_6aa59b292c4c81919ae47dfffc921374` succeeded and owner-only access remained unchanged.
 - Started M27 after a local Explain audit: the former animated event pulse was an unexplained circle and has been removed; legitimate observation locations remain labelled in the map legend.
 - Added one-per-attempt semantic causal shuffling, deterministic prefix progression, targeted wrong-order feedback, formative field-note feedback and a visible Forecast bridge.
@@ -105,6 +123,9 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 - `node scripts/climate-detective/capture-recovery-evidence.cjs`: complete local Mission 01 + full-year flow passed; `browser-console.json` reports `errors: []`.
 - `node scripts/climate-detective/verify-m27-story.cjs`: desktop causal-story, wrong-order repair, focus/replay, field note, Forecast → Reveal, 390 × 844 reduced-motion flow passed; 10 screenshots captured; `browser-console-m27.json` reports `errors: []`.
 - Deployed Chrome replay: version 116 reached Reveal with `16 Jan 2018`, actual `4.0°C / 985 hPa / 0.4 mm`, and `12/14`.
+- M28 pre-implementation baseline: working tree was clean before scope work;
+  M27 source remains unchanged apart from documentation/data-preparation
+  additions; full M28 UI and deployed QA are still pending.
 
 ## Evidence
 
@@ -130,6 +151,9 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 - The M26.1 interaction blocker is resolved and the deployed Gameplay E2E / Fresh-player gate is verified. The earlier `errors: []` result remains documented as a false positive because it proved console silence, not visible pointer success.
 - The broader M24 release gate, curriculum coverage and future mission expansion remain separately tracked and frozen.
 - M27 verified gate: a fresh deployed player saw each causal reveal, recovered from wrong order, used focus/replay, completed the field note and reached the historical Reveal with the same story visuals.
+- M28 is not yet verified. The world geometry file and interactive reference
+  are newly scoped; no production feature should claim global circulation until
+  its historical/model distinction and deployed replay are evidenced.
 
 ## Decisions needed
 
@@ -137,6 +161,6 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 
 ## Next three actions
 
-1. Run the M07 stop-and-reassess on the repaired vertical slice with a fresh player.
-2. Decide whether the broader M24 gate is ready for a separate QA pass.
-3. Keep Mission 02 expansion frozen until the core loop remains demonstrably game-like.
+1. Add the separate teaching-model data module and Equal Earth world map.
+2. Implement Guided/Explore circulation stages with explicit model/data labels.
+3. Run local and deployed M28 E2E/mobile/accessibility checks before marking any item VERIFIED.

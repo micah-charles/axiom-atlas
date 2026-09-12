@@ -52,3 +52,24 @@ The game samples a small number of fixed points from the source grid. It is not 
 ## Seasonal geometry
 
 Solar angle, approximate daylight and axial-tilt explanations are deterministic teaching calculations from latitude and calendar date. They are shown as modelled context, not as satellite measurements.
+
+## M28 global circulation model
+
+The M28 reference uses the standard idealised tri-cellular circulation model:
+Hadley 0–30°, Ferrel 30–60° and Polar 60–90° in each hemisphere. Its
+Equatorial Low / ITCZ, Subtropical High, Subpolar Low and Polar High labels
+describe broad climatological patterns. Real pressure belts migrate and vary
+with season, land-sea contrast and weather systems, so the displayed latitude
+lines are teaching approximations.
+
+In the Northern Hemisphere, moving air is deflected to the right of its path;
+in the Southern Hemisphere, it is deflected to the left. The reference uses
+this rule to explain the idealised trade-wind and westerly directions. Wind
+names follow the meteorological convention of where the air comes from, so a
+south-westerly wind travels broadly toward the north-east.
+
+The global model does not claim that the Ferrel cell directly makes every UK
+wind south-westerly. It supplies a mid-latitude westerly background. The exact
+15 Jan 2018 wind remains a weather-scale result of the historical pressure
+field, pressure gradient, Coriolis effect, friction and local conditions. The
+M28 bridge labels the global model and historical record as separate layers.

@@ -74,7 +74,7 @@ async function solveMissionOne(page) {
   await button(page, "Continue to task 2").click();
   await instrument(page, "Wind").click();
   await assertText(page, "FROM SW");
-  await assertText(page, "arrow points TO opposite");
+  await assertText(page, "arrow TO");
   await screenshot(page, "mission-01-wind-desktop.png");
   await page.locator('.climate-map-target.wind[aria-label*="Aberdeen"]').click();
   await assertText(page, "Task 2 needs the Wind instrument and London's point vector.");

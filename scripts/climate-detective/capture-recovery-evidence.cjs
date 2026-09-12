@@ -74,11 +74,17 @@ async function solveMissionOne(page) {
   await button(page, "Continue to task 2").click();
   await instrument(page, "Wind").click();
   await screenshot(page, "mission-01-wind-desktop.png");
+  await page.locator('.climate-map-target.wind[aria-label*="Aberdeen"]').click();
+  await assertText(page, "Task 2 needs the Wind instrument and London's point vector.");
   await page.locator(".climate-map-target.wind.selected").click();
+  await assertText(page, "Wind clue pinned");
   await button(page, "Continue to task 3").click();
   await instrument(page, "Rainfall").click();
   await screenshot(page, "mission-01-rainfall-desktop.png");
+  await page.locator('.climate-map-target.rain[aria-label*="Aberdeen"]').click();
+  await assertText(page, "Task 3 needs the Rainfall instrument and London's point signal.");
   await page.locator(".climate-map-target.rain.selected").click();
+  await assertText(page, "Rainfall clue pinned");
   await button(page, "Open causal explanation").click();
   await button(page, "Build causal explanation").click();
   await screenshot(page, "mission-01-explain-incomplete-desktop.png");

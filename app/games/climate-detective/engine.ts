@@ -352,6 +352,43 @@ export function conceptsFromText(text: string): ConceptId[] {
   return (Object.keys(conceptPatterns) as ConceptId[]).filter(concept => conceptPatterns[concept].test(text));
 }
 
+/**
+ * Stable, seedable Fisher–Yates shuffle for causal cards. The UI supplies a
+ * fresh attempt seed; tests can use fixed seeds without depending on DOM order.
+ */
+export function shuffleCausalIds(ids: string[], seed = 1): string[] {
+  const shuffled = [...ids];
+  let state = (Math.abs(Math.trunc(seed)) || 1) >>> 0;
+  const nextRandom = () => {
+    state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+    return state;
+  };
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const swapIndex = nextRandom() % (index + 1);
+    [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+  }
+  if (shuffled.length > 1 && shuffled.every((id, index) => id === ids[index])) {
+    [shuffled[0], shuffled[1]] = [shuffled[1], shuffled[0]];
+  }
+  return shuffled;
+}
+
+export function causalPrefixLength(mission: ClimateMission, chain: string[]): number {
+  let prefix = 0;
+  while (prefix < chain.length && chain[prefix] === mission.chain[prefix]?.id) prefix += 1;
+  return prefix;
+}
+
+export function causalOrderFeedback(mission: ClimateMission, chain: string[]): string {
+  const firstWrongIndex = chain.findIndex((step, index) => step !== mission.chain[index]?.id);
+  if (firstWrongIndex < 0) return "The causal links are in a supported order.";
+  const placed = mission.chain.find(step => step.id === chain[firstWrongIndex]);
+  const expected = mission.chain[firstWrongIndex];
+  if (placed?.id === "rising-condensation") return "Rain is evidence, but think about the order: does rainfall make moist air rise, or does rising moist air eventually help produce rainfall?";
+  if (placed?.id === "moist-air-arrives" && expected?.id === "pressure-gradient") return "What transports the air toward Britain? Build the pressure-gradient wind step before the maritime-air step.";
+  return `This link may be real, but the next supported step is ${expected?.short ?? "another process"}. Tap the misplaced link to remove it and repair the story.`;
+}
+
 export function explanationLockReasons(mission: ClimateMission, chain: string[], answer: string, guidedTasksComplete = true): string[] {
   const reasons: string[] = [];
   if (!guidedTasksComplete) reasons.push("Finish all three map tasks and pin their discoveries in the field notebook.");

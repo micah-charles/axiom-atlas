@@ -270,6 +270,71 @@ verified with visible-element pointer interactions.
 - [x] Update `GAMEPLAY_RECOVERY.md`, `EVIDENCE.md` and `PROGRESS.md`.
 - [x] Restore M26 to VERIFIED only after the deployed fresh-player gate passes.
 
+### M27 — Causal Storytelling Map 🟨
+
+Turn the first investigation explanation into a visual causal story. This
+milestone is intentionally scoped to Mission 01’s Atlantic depression so that
+the player can watch evidence accumulate rather than read a passive dashboard.
+The story must keep measured/reanalysis data, derived calculations and
+teaching-model interpretations visibly distinct.
+
+#### Discovery and audit
+
+- [x] Reopen the current deployed build and replay Mission 01 through Explain.
+- [x] Inventory every map symbol and remove or explain any unexplained circle,
+  duplicate centre or decorative pulse.
+- [x] Verify every pressure, wind, rainfall and air-mass visual against the
+  stored data/provenance; do not invent a front or an atmospheric observation.
+- [x] Record the actual data/model boundary in `EVIDENCE.md`.
+
+#### Causal interaction
+
+- [x] Shuffle causal options once per Explain attempt using semantic IDs; keep
+  the order stable during that attempt.
+- [x] Preserve deterministic correct-order scoring and prevent the original
+  top-to-bottom shortcut.
+- [x] Make each correct link progressively reveal its corresponding map story:
+  Atlantic low, daily pressure change, pressure gradient and measured wind,
+  Atlantic source interpretation, then rainfall/rising-air explanation.
+- [x] Add meaningful wrong-order feedback and removable links without
+  discarding the player’s useful work.
+- [x] Add formative field-note feedback that points to missing concepts without
+  becoming an LLM authority on the data.
+
+#### Map story and replay
+
+- [x] Highlight actual low-pressure contours and clearly explain that values
+  decrease toward the low centre.
+- [x] Show the supported 14 → 15 → 16 Jan daily pressure trend and derived
+  low-centre movement, anchored to the investigation date in Reveal too.
+- [x] Render measured wind vectors with explicit FROM versus arrow TO labels.
+- [x] Show the Atlantic air path as a labelled teaching interpretation, not as
+  an observed air-mass measurement.
+- [x] Add the SVG/CSS conceptual vertical inset: moist air rises → cools →
+  condenses → rain; label it as a teaching model.
+- [x] Add Story So Far, completed-link focus, Replay, Previous and Next controls.
+- [x] Respect `prefers-reduced-motion` while keeping manual replay controls.
+- [x] Keep the same causal visuals available during Reveal alongside the actual
+  next-day record.
+- [x] Keep the Forecast bridge explicit: explanation first, prediction second.
+
+#### QA, evidence and acceptance gate
+
+- [x] Add unit/engine tests for seeded shuffle, semantic ID coverage, causal
+  prefix progression and targeted wrong-order feedback.
+- [x] Add a realistic browser E2E that uses the player path and checks every
+  causal reveal, not only DOM existence or console silence.
+- [x] Run desktop and 390 × 844 visual inspection, including a reduced-motion
+  check and focus/replay interaction.
+- [ ] Run the complete fresh-player deployed flow: Observe → Investigate →
+  Explain → Forecast → Reveal.
+- [x] Capture the causal-story states and record paths/results in
+  `docs/climate-detective/evidence/` and `EVIDENCE.md`.
+- [ ] Run tests, lint, build and diff checks; publish the exact tested commit
+  to the private Site.
+- [ ] Mark M27 VERIFIED only after the deployed fresh-player acceptance gate
+  passes. Otherwise report FAIL honestly and keep expansion frozen.
+
 ## Checkpoint rule
 
 At each meaningful milestone: run tests, run the build, inspect output, record evidence, update `PROGRESS.md`, and commit a focused checkpoint when repository workflow permits.

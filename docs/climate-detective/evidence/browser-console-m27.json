@@ -1,0 +1,25 @@
+{
+  "baseUrl": "http://localhost:3001/",
+  "desktopViewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "mobileViewport": {
+    "width": 390,
+    "height": 844
+  },
+  "reducedMotion": true,
+  "errors": [],
+  "screenshots": [
+    "m27-story-00-shuffled.png",
+    "m27-story-01-low.png",
+    "m27-story-02-pressure-trend.png",
+    "m27-story-03-wind-gradient.png",
+    "m27-story-04-atlantic-air.png",
+    "m27-story-05-rain-process.png",
+    "m27-story-forecast-bridge.png",
+    "m27-story-mobile-reduced-motion.png",
+    "m27-story-reveal.png",
+    "m27-story-wrong-order.png"
+  ]
+}

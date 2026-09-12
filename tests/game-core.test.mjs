@@ -15,7 +15,7 @@ import { angleFromToken, arithmeticChain, expectedValueFromFact, functionTrace, 
 import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, ADVANCED_ENGINE_MANIFEST, ADVANCED_GOAL_TYPES, ADVANCED_INSTRUMENTS, ADVANCED_LEVEL_CATALOG, accumulateFlow, advancedActRule, advancedActUnlocked, advancedGoalSatisfied, advancedNotation, advancedSeedProfile, applyMatrix, closedPath, complexMultiply, constraintProgress, curl, dailyAdvancedExpedition, determinant, divergence, discreteSpectrum, evaluateConstraint, generateAdvancedExpedition, gaussianHeight, jacobian, lineIntegral, logisticMapStep, logisticTrajectory, lotkaVolterraStep, measurementInstrument, monteCarloEstimate, multiplyMatrix, polygonArea, polylineLength, seededChaosProfile, seededChaosTrajectory, seededCurveProfile, seededDynamicProfile, seededFieldProfile, seededFlowProfile, seededFlowReading, seededGraphEdges, seededGeometryTarget, seededGradientProfile, seededPopulationStep, seededProbabilityProfile, seededSignalDefaults, seededSignalProfile, seededSpringStep, seededTransformOutput, seededTransformProfile, seededVectorField, secantSlope, selectedPathWeight, shortestPath, springStep, surfaceFlux, surfaceFlux3D, tangentSlope, triangleArea, trapezoidIntegral, validateAdvancedLevelDefinition } from "../app/games/advanced-engines.ts";
 import { addResource, advectParticles, createReservoir, entityById, moveEntity, reservoirFilled, stepScene } from "../app/games/simulation-systems.ts";
 import { buildActualRevealBlocks, buildValleyRectangles, buildValleyTimeBlocks, estimateTargetCrossing, estimateValleyVolume, findActualTargetCrossing, resolveValleyOutcome, valleyActualVolume, valleyFlowRate, valleyRiverModel } from "../app/games/water-valley-engine.ts";
-import { CLIMATE_DATA, CLIMATE_MISSIONS, CLIMATE_YEAR, conceptsFromText, dayLengthHours, derivePressureCentres, evidenceValue, explanationLockReasons, locationById, pressureContourLabels, pressureContourLevels, pressureContourSegments, pressureHpa, scoreMission, seasonFor, solarAngle, windDirectionLabel } from "../app/games/climate-detective/engine.ts";
+import { CLIMATE_DATA, CLIMATE_MISSIONS, CLIMATE_YEAR, causalOrderFeedback, causalPrefixLength, conceptsFromText, dayLengthHours, derivePressureCentres, evidenceValue, explanationLockReasons, locationById, pressureContourLabels, pressureContourLevels, pressureContourSegments, pressureHpa, scoreMission, seasonFor, shuffleCausalIds, solarAngle, windDirectionLabel } from "../app/games/climate-detective/engine.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
   assert.equal(LEARNING_LAYERS.length, 5);
@@ -364,6 +364,19 @@ test("Climate Detective pressure field is real, gridded, and contourable", () =>
   assert.deepEqual(centres.map(centre => centre.kind), ["L", "H"]);
   assert.equal(new Set(centres.map(centre => `${centre.kind}:${centre.longitude}:${centre.latitude}`)).size, centres.length);
   assert.ok(centres.every(centre => Number.isFinite(centre.pressureKpa)));
+});
+
+test("Climate Detective causal cards shuffle without changing semantic IDs", () => {
+  const mission = CLIMATE_MISSIONS[0];
+  const ids = mission.chain.map(step => step.id);
+  const orders = [1, 2, 3, 4, 5].map(seed => shuffleCausalIds(ids, seed));
+  assert.ok(orders.every(order => order.length === ids.length));
+  assert.ok(orders.every(order => new Set(order).size === ids.length));
+  assert.ok(orders.every(order => order.some((id, index) => id !== ids[index])));
+  assert.ok(new Set(orders.map(order => order.join("|"))).size > 1);
+  assert.ok(orders.every(order => causalPrefixLength(mission, order) < ids.length));
+  assert.match(causalOrderFeedback(mission, ["rising-condensation"]), /rainfall|rising air/i);
+  assert.match(causalOrderFeedback(mission, ["low-pressure-centre", "falling-pressure", "pressure-gradient", "rising-condensation"]), /rainfall|rising air/i);
 });
 
 test("Climate Detective exposes exact explanation lock reasons", () => {

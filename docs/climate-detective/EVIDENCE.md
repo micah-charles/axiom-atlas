@@ -6,7 +6,7 @@
 | --- | --- | --- |
 | Climate data generation | pass | `app/games/climate-detective/data/year-2018.json` and `candidate-year-report.json` |
 | Candidate-year comparison | pass | `docs/climate-detective/CANDIDATE_YEAR_REPORT.md` |
-| Core tests | pass | `npm test` — 155 tests passed |
+| Core tests | pass | `npm test` — 156 tests passed |
 | Lint | pass | `npm run lint` |
 | Production build | pass | `npm test` build stage; Vinext build completed |
 | Rendered HTML smoke tests | pass | `npm test` — 2 tests passed |
@@ -61,6 +61,41 @@ Status: VERIFIED — Gameplay E2E / Fresh-player gate PASSES
 - App source checkpoint `ffdda035fe8aa3c8afde34871f4e1bc3dab42241` was published as private Site version 114; deployment `appgdep_6aa53d31c3308191a9934757577e4fd5` succeeded at `https://the-axiom-atlas.ckstks246335.chatgpt.site`.
 - Exact verified commit `b115812063c78d435defd043037df837574683f6` was published as private Site version 112; deployment `succeeded`, production URL remained `https://the-axiom-atlas.ckstks246335.chatgpt.site`, and owner-only custom access remained one allowed user with no groups.
 - Final app commit `a2716f522291005deedae24d50faa679d04ee184` was published as private Site version 116; deployment `appgdep_6aa586a993588191bcb11c64978c6a22` succeeded, production URL remained `https://the-axiom-atlas.ckstks246335.chatgpt.site`, and owner-only custom access remained one allowed user with no groups.
+
+## M27 causal storytelling map
+
+Status: IN PROGRESS — local implementation and visual inspection pass; deployed
+fresh-player gate pending.
+
+- Audit result: the former animated `climate-event-pulse` was a UI decoration
+  without a legend or scientific meaning, so it was removed. Observation
+  locations remain legitimate map symbols and are labelled in the legend.
+- The five causal links use semantic IDs and a seeded Fisher–Yates order per
+  Explain attempt. The order remains stable while the player builds the chain;
+  tests cover multiple seeds and reject the old full answer order.
+- Local Explain pass: step 1 reveals the field-derived Atlantic low and nearby
+  4 hPa contours; step 2 reveals 14/15/16 Jan London pressure samples and the
+  derived low-centre trail; step 3 keeps measured wind vectors visible with
+  explicit FROM/arrow TO wording; step 4 adds a labelled Atlantic air path as
+  a data-backed interpretation; step 5 adds measured rainfall plus the
+  SVG/CSS conceptual moist-air-rise → cooling → condensation → rain inset.
+- Local Explain pass also verified Story So Far 0/5 → 5/5, completed-link
+  focus, Replay, Previous/Next, wrong-order recovery, removable links, and
+  deterministic formative field-note feedback.
+- Local browser harness `verify-m27-story.cjs` passed the player path with
+  10 screenshots and `browser-console-m27.json` reporting `errors: []`.
+- Local Forecast → Reveal pass verified the bridge copy, historical next-day
+  data and the same causal story visuals alongside the Reveal record. The
+  Reveal story trend remains anchored to 14–16 Jan 2018 while the map record
+  correctly advances to 16 Jan.
+- Scientific boundary: pressure contours and low-centre trail are derived from
+  NASA POWER/MERRA-2 `PS`; wind and rainfall are historical daily rows; the
+  Atlantic path and vertical rainfall sequence are explicitly labelled derived
+  or teaching-model interpretations. No synthetic front is rendered.
+- M27 persistent screenshots and deployed browser evidence are intentionally
+  not claimed yet. M27 remains FAIL/PENDING until a fresh deployed player
+  completes Observe → Investigate → Explain → Forecast → Reveal and the
+  screenshot/test paths are recorded here.
 
 ## Persistent visual evidence
 

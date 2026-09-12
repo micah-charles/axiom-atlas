@@ -87,12 +87,14 @@ async function solveMissionOne(page) {
   await assertText(page, "Task 3 needs the Rainfall instrument and London's point signal.");
   await page.locator(".climate-map-target.rain.selected").click();
   await assertText(page, "Rainfall clue pinned");
+  await screenshot(page, "mission-01-clues-complete-desktop.png");
   await button(page, "Open causal explanation").click();
   await button(page, "Build causal explanation").click();
   await screenshot(page, "mission-01-explain-incomplete-desktop.png");
 
   await button(page, "Rising air cools, condenses").click();
   await assertText(page, "Order check");
+  await screenshot(page, "mission-01-explain-feedback-desktop.png");
   await button(page, "Rising air cools, condenses").click();
   for (const link of [
     "An Atlantic low affects Britain",
@@ -111,6 +113,8 @@ async function solveMissionOne(page) {
   await screenshot(page, "mission-01-prediction-desktop.png");
   await button(page, "Run +24 hours").click();
   await assertText(page, "WHAT ACTUALLY HAPPENED");
+  await assertText(page, "16 Jan 2018");
+  if (await page.locator(".climate-isobar").count() < 1) throw new Error("Reveal should show the next historical pressure field");
   await screenshot(page, "mission-01-reveal-desktop.png");
   await button(page, "Continue the year").click();
 }

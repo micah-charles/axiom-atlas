@@ -131,6 +131,9 @@ async function captureMobile(browser) {
   await button(page, "Climate Detective").click();
   await button(page, "Run to next clue").click();
   await instrument(page, "Pressure").click();
+  await assertText(page, "Find the pressure system");
+  const activeInstrument = page.locator(".climate-map-layer-controls button.active");
+  if ((await activeInstrument.textContent())?.trim() !== "Pressure") throw new Error("Mobile pressure evidence captured with the wrong active instrument");
   await assertText(page, "HOW TO READ PRESSURE");
   await screenshot(page, "mission-01-pressure-mobile.png", false);
   await page.close();

@@ -140,8 +140,9 @@ future mission expansion remains intentionally frozen after this checkpoint.
 
 ## M26 gate
 
-Status: IMPLEMENTED / LOCAL VERIFIED — DEPLOYMENT PENDING
+Status: VERIFIED
 
-The local implementation and evidence gates pass. Do not expand Mission 02
-until the exact verified source is published to the existing private Site and
-the deployed version is checked against the same smoke flow.
+The local implementation and evidence gates pass. Exact commit
+`b115812063c78d435defd043037df837574683f6` is published as private Site
+version 112 with a succeeded deployment. Mission 02 expansion remains frozen
+until the game-director review agrees that the core loop is still legible.

@@ -1,9 +1,9 @@
 # Climate Detective Progress
 
 Last updated: 2026-09-12
-Current milestone: M26 Investigation Gameplay & Scientific Visualisation V2 — IN PROGRESS
+Current milestone: M26 Investigation Gameplay & Scientific Visualisation V2 — VERIFIED
 Current blocker: None
-Next action: publish the exact verified commit to the existing private Site, then run the final deployed M26 smoke check
+Next action: keep Mission 02 expansion frozen and use the verified M26 slice for game-director review before planning the next milestone
 
 ## Mission status
 
@@ -33,7 +33,7 @@ Next action: publish the exact verified commit to the existing private Site, the
 - M23 Evidence 🟨
 - M24 Vertical-slice gate 🟨
 - M25 Mission 01 gameplay recovery ✅
-- M26 Investigation gameplay & scientific visualisation V2 🟨 (local QA passed; deployment gate pending)
+- M26 Investigation gameplay & scientific visualisation V2 ✅
 
 ## Current work
 
@@ -67,6 +67,7 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 - Replaced answer-following Task 1 copy with a progressive no-hint → Hint 4 ladder.
 - Completed fresh-player browser and visual QA: wrong H, four pressure hints, correct L, wrong Wind point, correct London wind, wrong Rainfall point, correct London rainfall, causal-order repair, blank-note lock, forecast and historical reveal.
 - Confirmed the no-hint Mission 01 path scores 11/14; the full local year reaches 3/3 cases, the end assessment, and 31 points with zero browser console errors.
+- Published the exact verified commit `b115812063c78d435defd043037df837574683f6` to the existing private Site as version 112; deployment status succeeded and the live URL remained `https://the-axiom-atlas.ckstks246335.chatgpt.site`.
 
 ## Tests
 
@@ -84,10 +85,10 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 - Evidence ledger: `docs/climate-detective/EVIDENCE.md`
 - Generated dataset: `app/games/climate-detective/data/year-2018.json`
 - Recovery contract and acceptance checklist: `docs/climate-detective/GAMEPLAY_RECOVERY.md`
-- Local browser captures: CUA inline desktop 1280×900 reveal and mobile 390×844 Task 1 pressure state, both 2026-09-11.
-- Deployed Site: `https://the-axiom-atlas.ckstks246335.chatgpt.site` — version 110, full recovery flow passed 2026-09-11.
+- Local browser captures: desktop fresh-player/V2 flow and mobile 390×844 Task 1 pressure state, 2026-09-12.
+- Deployed Site: `https://the-axiom-atlas.ckstks246335.chatgpt.site` — version 112, exact commit `b115812063c78d435defd043037df837574683f6`, deployment succeeded 2026-09-12; owner-only custom access preserved.
 - Additional browser smoke: wrong H target feedback, duplicate clue deduplication, hint, Restart, reload, and keyboard map-target activation, 2026-09-11.
-- Persistent screenshot set: `docs/climate-detective/evidence/` (10 PNGs plus `browser-console.json`; local capture flow completed with `errors: []`).
+- Persistent screenshot set: `docs/climate-detective/evidence/` (15 PNGs plus `browser-console.json`; local capture flow completed with `errors: []`).
 - M26 baseline evidence: source/data inspection completed; implementation and V2 playtest remain in progress.
 - M26 V2 evidence: `docs/climate-detective/evidence/` now contains fresh objective, pressure OFF/ON, Hint 4, selected-low, Wind, Rainfall, Explain, Forecast, Reveal, mobile and year-end screenshots; `browser-console.json` records `errors: []`.
 
@@ -95,7 +96,7 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 
 - The current atmospheric data is NASA POWER/MERRA-2 gridded analysis rather than a station observation or operational forecast; the UI labels this explicitly.
 - ERA5 is deferred because the CDS download path requires account-backed access in this environment.
-- M26 local gates pass; final deployed Site verification is still outstanding.
+- M26 local and deployed gates pass. The broader M24 release gate and curriculum coverage remain separately tracked.
 
 ## Decisions needed
 
@@ -103,6 +104,6 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 
 ## Next three actions
 
-1. Publish the exact verified source commit to the existing private Site.
-2. Run the deployed M26 smoke check and compare it with the local evidence.
-3. Mark M26 verified only if the deployed evidence and console checks also pass.
+1. Keep Mission 02 expansion frozen after the M07/M26 stop-and-reassess gate.
+2. Use the evidence ledger for game-director/geography QA review.
+3. Plan the next milestone only after the core loop remains legible in review.

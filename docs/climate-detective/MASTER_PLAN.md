@@ -206,7 +206,7 @@ in the codebase but are not being expanded in this milestone.
 - [x] Capture persistent screenshot files; the same recovery flow is verified against the deployed private Site.
 - [x] Mark M25 verified after the persistent evidence and deployed pass were recorded.
 
-### M26 — Investigation Gameplay & Scientific Visualisation V2 🟨
+### M26 — Investigation Gameplay & Scientific Visualisation V2 ✅
 
 Expansion remains frozen until Mission 01 teaches map reading rather than
 answer-following. This milestone preserves the Task 1 → Task 2 → Task 3
@@ -244,8 +244,8 @@ progressively guided.
 - [x] Run fresh-player QA and inspect all visible copy and controls.
 - [x] Update `PROGRESS.md`, `GAMEPLAY_RECOVERY.md` and evidence ledger with measured results.
 - [x] Commit each verified fix as a focused checkpoint.
-- [ ] Publish the exact verified source to the existing private Site.
-- [ ] Mark M26 verified only after scientific, gameplay, mobile and evidence gates pass.
+- [x] Publish the exact verified source to the existing private Site.
+- [x] Mark M26 verified only after scientific, gameplay, mobile and evidence gates pass.
 
 ## Checkpoint rule
 

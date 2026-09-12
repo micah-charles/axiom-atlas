@@ -47,6 +47,7 @@
 - Map recovery check passed: a wrong H remains unpinned; wrong Aberdeen selections in Wind and Rainfall show task-specific recovery messages before London pins the correct clues.
 - No-hint Mission 01 path passed: 11/14, complete causal chain, field note, forecast, +24-hour historical reveal. The full local year reached 3/3 cases and the end-of-year weather report with 31 points.
 - Desktop and mobile visual inspection passed for the fresh objective, Pressure OFF/ON, Hint 4, selected low, Wind, Rainfall, Explain, Forecast, Reveal, and 390 × 844 Pressure tutorial states.
+- Exact verified commit `b115812063c78d435defd043037df837574683f6` was published as private Site version 112; deployment `succeeded`, production URL remained `https://the-axiom-atlas.ckstks246335.chatgpt.site`, and owner-only custom access remained one allowed user with no groups.
 
 ## Persistent visual evidence
 
@@ -68,6 +69,6 @@
 - End-of-year assessment: `evidence/year-end-assessment-desktop.png`.
 - Browser console ledger: `evidence/browser-console.json` (`errors: []`).
 
-All Mission 01 recovery and M26 local V2 evidence requirements are recorded.
-M25 is `✅ VERIFIED`; M26 remains deployment-gated until the exact verified
-source is published and its private Site status is checked.
+All Mission 01 recovery and M26 V2 evidence requirements are recorded.
+M25 is `✅ VERIFIED`; M26 is `✅ VERIFIED`. The broader M24 release gate and
+future mission expansion remain separately tracked and intentionally frozen.

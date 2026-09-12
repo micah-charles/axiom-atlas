@@ -17,9 +17,9 @@ const instrument = (page, name) => page.getByRole("button", { name: new RegExp(`
 const screenshot = async (page, name, fullPage = true) => page.screenshot({ path: path.join(outputDir, name), fullPage });
 const assertText = async (page, text) => {
   const locator = page.getByText(text, { exact: false });
-  await locator.waitFor({ state: "visible", timeoutMs: 10000 });
   const count = await locator.count();
   if (!count) throw new Error(`Expected visible text: ${text}`);
+  await locator.first().waitFor({ state: "visible", timeout: 10000 });
 };
 
 async function solveMissionOne(page) {

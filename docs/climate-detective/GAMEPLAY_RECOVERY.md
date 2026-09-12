@@ -1,6 +1,6 @@
 # Climate Detective: Mission 01 Gameplay Recovery
 
-Last updated: 2026-09-11
+Last updated: 2026-09-12
 
 ## Recovery scope
 
@@ -70,6 +70,23 @@ teaching links. The pressure field, point wind and rainfall are evidence. The
 pressure-gradient, moist-air transport, rising-air and condensation links are
 the player's deterministic explanation, not additional measurements.
 
+## M26 V2 verification
+
+The pressure investigation now opens with `Find the pressure system` and lets
+the player read the field before the L answer is named. A contextual tutorial
+explains that the lines join places with equal surface pressure, and the four
+optional hints progress from comparing values to the L marker. Contour labels
+are generated from the stored field's actual 4 hPa levels. Selecting the real L
+adds a single selected SVG centre, explicit decrease-toward-centre feedback,
+and a highlight on the nearby derived contour segments. The HTML target layer
+remains available for keyboard/touch activation but is visually transparent,
+so it cannot duplicate the SVG markers.
+
+Local V2 browser and visual QA passed on 2026-09-12. The no-hint Mission 01
+path scored 11/14 and the full-year path reached the end-of-year assessment;
+wrong H, wrong Wind point and wrong Rainfall point recovery were also tested.
+The deployed Site check remains the final M26 gate.
+
 ## Mission 01 acceptance checklist
 
 - [x] A new player sees the mission objective and the current task within ten
@@ -120,3 +137,11 @@ runs, desktop/mobile visual inspection, and persistent evidence paths are all
 recorded in `PROGRESS.md`. Local and deployed recovery flows passed on
 2026-09-11. The full-year capture also reached the end-of-year assessment;
 future mission expansion remains intentionally frozen after this checkpoint.
+
+## M26 gate
+
+Status: IMPLEMENTED / LOCAL VERIFIED — DEPLOYMENT PENDING
+
+The local implementation and evidence gates pass. Do not expand Mission 02
+until the exact verified source is published to the existing private Site and
+the deployed version is checked against the same smoke flow.

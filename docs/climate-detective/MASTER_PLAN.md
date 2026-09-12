@@ -218,32 +218,32 @@ progressively guided.
 - [x] Verify pressure source, variable, units, timestamps, bounds and resolution.
 - [x] Verify contour generation and H/L detection against the stored field.
 - [x] Identify the visible duplicate H/L markers as SVG plus HTML-overlay rendering.
-- [ ] Add a regression test for one visual centre per detected H/L centre.
-- [ ] Render one visible H/L marker while retaining an accessible keyboard/touch hit target.
-- [ ] Add representative contour labels using actual generated levels only.
-- [ ] Improve pressure-layer hierarchy and label contours as derived surface-pressure data.
-- [ ] Add the short `HOW TO READ PRESSURE` contextual tutorial.
-- [ ] Replace the answer-revealing Task 1 copy with an investigation objective.
-- [ ] Implement the requested progressive no-hint → Hint 1 → Hint 4 ladder.
-- [ ] Remove pre-success answer glow; highlight the selected pressure structure only after success.
-- [ ] Show actual pressure decrease toward the selected centre in success feedback.
-- [ ] Verify wind source, units and FROM-direction rendering.
-- [ ] Verify rainfall source, daily accumulation units and spatial presentation.
-- [ ] Verify whether any front information is observed, inferred or omitted.
-- [ ] Confirm notebook entries are created by map discovery, not passive cards.
-- [ ] Recheck Mission 02 support level after Mission 01 tutorial changes.
-- [ ] Recheck causal-chain wording against the event evidence.
-- [ ] Recheck locked-state explanations and forecast dependency.
-- [ ] Add scientific regression tests for contour levels, extrema ties, units and mission values.
-- [ ] Add the V2 fresh-player E2E: wrong feature → hint → correct centre → selected highlight.
-- [ ] Add wind misinterpretation feedback and recovery to E2E coverage.
-- [ ] Add rainfall discovery and 3/3 notebook verification to E2E coverage.
-- [ ] Add blank-note lock, causal-order repair, forecast and historical reveal to E2E coverage.
-- [ ] Capture Pressure OFF/ON, labels, selected low, Wind, Rainfall, Explain, Forecast and Reveal.
-- [ ] Capture desktop and 390 × 844 mobile evidence.
-- [ ] Run fresh-player QA and inspect all visible copy and controls.
-- [ ] Update `PROGRESS.md`, `GAMEPLAY_RECOVERY.md` and evidence ledger with measured results.
-- [ ] Commit each verified fix as a focused checkpoint.
+- [x] Add a regression test for one visual centre per detected H/L centre.
+- [x] Render one visible H/L marker while retaining an accessible keyboard/touch hit target.
+- [x] Add representative contour labels using actual generated levels only.
+- [x] Improve pressure-layer hierarchy and label contours as derived surface-pressure data.
+- [x] Add the short `HOW TO READ PRESSURE` contextual tutorial.
+- [x] Replace the answer-revealing Task 1 copy with an investigation objective.
+- [x] Implement the requested progressive no-hint → Hint 1 → Hint 4 ladder.
+- [x] Remove pre-success answer glow; highlight the selected pressure structure only after success.
+- [x] Show actual pressure decrease toward the selected centre in success feedback.
+- [x] Verify wind source, units and FROM-direction rendering.
+- [x] Verify rainfall source, daily accumulation units and spatial presentation.
+- [x] Verify whether any front information is observed, inferred or omitted; no front observation is presented in this slice.
+- [x] Confirm notebook entries are created by map discovery, not passive cards.
+- [x] Recheck Mission 02 support level after Mission 01 tutorial changes; the existing passive mission path is unchanged.
+- [x] Recheck causal-chain wording against the event evidence.
+- [x] Recheck locked-state explanations and forecast dependency.
+- [x] Add scientific regression tests for contour levels, extrema ties, units and mission values.
+- [x] Add the V2 fresh-player E2E: wrong feature → hint → correct centre → selected highlight.
+- [x] Add wind direction-convention feedback and wrong-point recovery to E2E coverage.
+- [x] Add rainfall discovery and 3/3 notebook verification to E2E coverage.
+- [x] Add blank-note lock, causal-order repair, forecast and historical reveal to E2E coverage.
+- [x] Capture Pressure OFF/ON, labels, selected low, Wind, Rainfall, Explain, Forecast and Reveal.
+- [x] Capture desktop and 390 × 844 mobile evidence.
+- [x] Run fresh-player QA and inspect all visible copy and controls.
+- [x] Update `PROGRESS.md`, `GAMEPLAY_RECOVERY.md` and evidence ledger with measured results.
+- [x] Commit each verified fix as a focused checkpoint.
 - [ ] Publish the exact verified source to the existing private Site.
 - [ ] Mark M26 verified only after scientific, gameplay, mobile and evidence gates pass.
 

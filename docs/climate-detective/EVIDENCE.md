@@ -36,10 +36,27 @@
 - Restart/reload smoke: Restart year returns to 1 Jan with empty progress; reload returns safely to the Atlas entry surface.
 - Keyboard smoke: Tab reaches the instrument controls and Enter activates a focused map target; the target is exposed as an accessible button.
 
+## M26 investigation gameplay and scientific visualisation V2
+
+- Local fresh-player V2 browser run passed on 2026-09-12 against `http://localhost:3001/`; browser console ledger reports `errors: []`.
+- Task 1 begins with an investigation objective rather than naming the L; the deterministic hint ladder was verified in order: compare values → follow decreasing values → look west → L marker.
+- Pressure source check passed: 2,028 points on 15 Jan 2018, NASA POWER `PS`, MERRA-2 analysis, kPa source values displayed as hPa after explicit conversion. The game continues to label this as surface-pressure data, not sea-level pressure.
+- Contour check passed: levels are generated from the focused Britain / North Atlantic low-elevation field at a 4 hPa interval; labels are derived from actual marching-squares segments. The tested level sequence is 96.4–101.6 kPa in 0.4 kPa steps.
+- Duplicate-marker check passed: the rendered SVG contains exactly one L and one H centre; the separate HTML controls are transparent accessible hit targets and do not create a second visible marker.
+- Post-selection check passed: the selected L emits explicit `Pressure decreases toward 963 hPa` feedback and highlights the nearby derived contours only after the correct discovery.
+- Map recovery check passed: a wrong H remains unpinned; wrong Aberdeen selections in Wind and Rainfall show task-specific recovery messages before London pins the correct clues.
+- No-hint Mission 01 path passed: 11/14, complete causal chain, field note, forecast, +24-hour historical reveal. The full local year reached 3/3 cases and the end-of-year weather report with 31 points.
+- Desktop and mobile visual inspection passed for the fresh objective, Pressure OFF/ON, Hint 4, selected low, Wind, Rainfall, Explain, Forecast, Reveal, and 390 × 844 Pressure tutorial states.
+
 ## Persistent visual evidence
 
 - Capture harness: `scripts/climate-detective/capture-recovery-evidence.cjs`.
 - Desktop Pressure layer: `evidence/mission-01-pressure-desktop.png`.
+- Fresh-player objective: `evidence/mission-01-fresh-player-objective-desktop.png`.
+- Pressure OFF: `evidence/mission-01-pressure-off-desktop.png`.
+- Pressure ON with tutorial, labels and derived contour legend: `evidence/mission-01-pressure-on-desktop.png`.
+- Task 1 Hint 4: `evidence/mission-01-task1-hint4-desktop.png`.
+- Selected low-pressure centre and highlighted contours: `evidence/mission-01-pressure-low-selected-desktop.png`.
 - Desktop Wind layer: `evidence/mission-01-wind-desktop.png`.
 - Desktop Rainfall layer: `evidence/mission-01-rainfall-desktop.png`.
 - Incomplete Explain state: `evidence/mission-01-explain-incomplete-desktop.png`.
@@ -51,6 +68,6 @@
 - End-of-year assessment: `evidence/year-end-assessment-desktop.png`.
 - Browser console ledger: `evidence/browser-console.json` (`errors: []`).
 
-All Mission 01 recovery evidence requirements are now recorded. M25 can be
-marked `✅ VERIFIED`; M23/M24 remain separately tracked until their broader
-release gates are completed.
+All Mission 01 recovery and M26 local V2 evidence requirements are recorded.
+M25 is `✅ VERIFIED`; M26 remains deployment-gated until the exact verified
+source is published and its private Site status is checked.

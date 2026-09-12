@@ -3,7 +3,7 @@
 Last updated: 2026-09-12
 Current milestone: M26 Investigation Gameplay & Scientific Visualisation V2 — IN PROGRESS
 Current blocker: None
-Next action: remove duplicate H/L rendering, add pressure reading guidance, then rerun the fresh-player Mission 01 flow
+Next action: publish the exact verified commit to the existing private Site, then run the final deployed M26 smoke check
 
 ## Mission status
 
@@ -33,7 +33,7 @@ Next action: remove duplicate H/L rendering, add pressure reading guidance, then
 - M23 Evidence 🟨
 - M24 Vertical-slice gate 🟨
 - M25 Mission 01 gameplay recovery ✅
-- M26 Investigation gameplay & scientific visualisation V2 🟨
+- M26 Investigation gameplay & scientific visualisation V2 🟨 (local QA passed; deployment gate pending)
 
 ## Current work
 
@@ -62,6 +62,11 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 - Read the M26 V2 mission and added its granular implementation checklist before code changes.
 - Verified that the visible duplicate `L/H` markers come from one SVG centre plus one HTML hit-target overlay; the data engine itself returns one low and one high centre.
 - Verified that the stored 15 Jan 2018 pressure field contains 2,028 NASA POWER `PS` points and that the displayed 963 hPa / 1018 hPa values are derived from the field, not authored display values.
+- Removed the duplicate visible pressure markers while retaining transparent keyboard/touch hit targets.
+- Added field-derived 4 hPa contour levels and representative labels, plus post-discovery contour highlighting and a surface-pressure reading tutorial.
+- Replaced answer-following Task 1 copy with a progressive no-hint → Hint 4 ladder.
+- Completed fresh-player browser and visual QA: wrong H, four pressure hints, correct L, wrong Wind point, correct London wind, wrong Rainfall point, correct London rainfall, causal-order repair, blank-note lock, forecast and historical reveal.
+- Confirmed the no-hint Mission 01 path scores 11/14; the full local year reaches 3/3 cases, the end assessment, and 31 points with zero browser console errors.
 
 ## Tests
 
@@ -84,12 +89,13 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 - Additional browser smoke: wrong H target feedback, duplicate clue deduplication, hint, Restart, reload, and keyboard map-target activation, 2026-09-11.
 - Persistent screenshot set: `docs/climate-detective/evidence/` (10 PNGs plus `browser-console.json`; local capture flow completed with `errors: []`).
 - M26 baseline evidence: source/data inspection completed; implementation and V2 playtest remain in progress.
+- M26 V2 evidence: `docs/climate-detective/evidence/` now contains fresh objective, pressure OFF/ON, Hint 4, selected-low, Wind, Rainfall, Explain, Forecast, Reveal, mobile and year-end screenshots; `browser-console.json` records `errors: []`.
 
 ## Known problems
 
 - The current atmospheric data is NASA POWER/MERRA-2 gridded analysis rather than a station observation or operational forecast; the UI labels this explicitly.
 - ERA5 is deferred because the CDS download path requires account-backed access in this environment.
-- The current contour renderer has not yet added representative contour labels or post-selection contour highlighting; these are M26 work items.
+- M26 local gates pass; final deployed Site verification is still outstanding.
 
 ## Decisions needed
 
@@ -97,6 +103,6 @@ The vertical slice lives in `app/games/climate-detective/` and launches as a sep
 
 ## Next three actions
 
-1. Remove the duplicate visible H/L marker while preserving accessible hit targets.
-2. Add actual contour labels, pressure-reading tutorial and progressive Task 1 hints.
-3. Play and capture the complete V2 Mission 01 flow before any Mission 02 expansion.
+1. Publish the exact verified source commit to the existing private Site.
+2. Run the deployed M26 smoke check and compare it with the local evidence.
+3. Mark M26 verified only if the deployed evidence and console checks also pass.

@@ -5,7 +5,7 @@ import worldShapes from "./data/natural-earth-world.json";
 import { CLIMATE_DATA, locationById, pressureHpa, rowAt } from "./engine";
 import {
   CORIOLIS_EXAMPLES, GLOBAL_CELLS, GLOBAL_LATITUDE_BANDS, GLOBAL_PRESSURE_BELTS, GLOBAL_WIND_BELTS,
-  Hemisphere, PressureBelt, WindBelt, equalEarthPoint,
+  Hemisphere, PressureBelt, WindBelt, coriolisMotionLatitudes, equalEarthPoint,
 } from "./global-circulation";
 
 type WorldShape = { type: "Feature"; properties: { ADMIN?: string }; geometry: { type: "Polygon" | "MultiPolygon"; coordinates: number[][][] | number[][][][] } };
@@ -54,11 +54,13 @@ function CellLayer({ hemisphere }: { hemisphere: Hemisphere }) {
 
 function CoriolisMapArrow({ exampleId }: { exampleId: typeof CORIOLIS_EXAMPLES[number]["id"] }) {
   const example = CORIOLIS_EXAMPLES.find(item => item.id === exampleId) ?? CORIOLIS_EXAMPLES[0];
-  const north = example.hemisphere === "north";
-  const start = { x: 610, y: north ? 135 : 382 };
-  const end = { x: 610, y: north ? 88 : 429 };
-  const curve = example.result.includes("trade") ? (north ? -70 : 70) : (north ? 70 : -70);
-  return <g className="global-coriolis-map" aria-label={`${example.motion}; deflects ${example.deflection}`}><path className="global-coriolis-straight" d={`M${start.x},${start.y} L${end.x},${end.y}`} /><path className="global-coriolis-curve" d={`M${start.x},${start.y} Q${start.x + curve},${(start.y + end.y) / 2} ${end.x + curve * .55},${end.y}`} markerEnd="url(#global-arrow-gold)" /><text x={start.x + curve * .55 + 10} y={(start.y + end.y) / 2}>{example.deflection.toUpperCase()} → {example.result}</text></g>;
+  const { startLatitude, endLatitude } = coriolisMotionLatitudes(example.id);
+  const start = { x: 610, y: latitudeY(startLatitude) };
+  const end = { x: 610, y: latitudeY(endLatitude) };
+  const movingDown = end.y > start.y;
+  const screenRight = movingDown ? example.deflection === "right" : example.deflection !== "right";
+  const curve = screenRight ? 70 : -70;
+  return <g className="global-coriolis-map" aria-label={`${example.motion}; deflects ${example.deflection}; ${startLatitude}° to ${endLatitude}°`}><path className="global-coriolis-straight" d={`M${start.x},${start.y} L${end.x},${end.y}`} /><path className="global-coriolis-curve" d={`M${start.x},${start.y} Q${start.x + curve},${(start.y + end.y) / 2} ${end.x + curve * .55},${end.y}`} markerEnd="url(#global-arrow-gold)" /><text x={start.x + curve * .55 + 10} y={(start.y + end.y) / 2}>{example.deflection.toUpperCase()} → {example.result}</text></g>;
 }
 
 function GlobalMap({ stage, mode, layers, selectedBeltId, selectedPressureId, coriolisExampleId, onSelectBelt, onSelectPressure, onShowBritain }: { stage: CirculationStage; mode: LessonMode; layers: ExploreLayers; selectedBeltId: string | null; selectedPressureId: string | null; coriolisExampleId: typeof CORIOLIS_EXAMPLES[number]["id"]; onSelectBelt: (belt: WindBelt) => void; onSelectPressure: (belt: PressureBelt) => void; onShowBritain: () => void }) {
@@ -84,7 +86,14 @@ function GlobalMap({ stage, mode, layers, selectedBeltId, selectedPressureId, co
 
 function CoriolisDemo({ exampleId, rotationOn, onExample, onToggleRotation }: { exampleId: typeof CORIOLIS_EXAMPLES[number]["id"]; rotationOn: boolean; onExample: (id: typeof CORIOLIS_EXAMPLES[number]["id"]) => void; onToggleRotation: () => void }) {
   const example = CORIOLIS_EXAMPLES.find(item => item.id === exampleId) ?? CORIOLIS_EXAMPLES[0];
-  return <div className="global-coriolis-demo"><div className="global-demo-heading"><span>INTERACTIVE CORIOLIS DEMO</span><b>{rotationOn ? "EARTH ROTATION ON" : "EARTH ROTATION OFF"}</b></div><div className="global-demo-controls"><button className={!rotationOn ? "active" : ""} onClick={() => { if (rotationOn) onToggleRotation(); }}>Rotation OFF</button><button className={rotationOn ? "active" : ""} onClick={() => { if (!rotationOn) onToggleRotation(); }}>Rotation ON</button></div><div className="global-coriolis-examples">{CORIOLIS_EXAMPLES.map(item => <button key={item.id} className={item.id === exampleId ? "active" : ""} onClick={() => onExample(item.id)}>{item.hemisphere === "north" ? "NH" : "SH"} · {item.id.includes("equatorward") ? "toward equator" : "toward pole"}</button>)}</div><div className="global-demo-track"><svg viewBox="0 0 280 105" role="img" aria-label={`${example.motion}; ${rotationOn ? `deflects ${example.deflection}` : "travels in a straight conceptual path"}`}><defs><marker id="demo-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill={rotationOn ? "#ffd36b" : "#7edbd4"} /></marker></defs><path className="demo-straight" d="M140 85 L140 20" markerEnd="url(#demo-arrow)" /><path className={`demo-curve ${rotationOn ? "on" : "off"}`} d={rotationOn ? `M140 85 Q${example.deflection === "right" ? 198 : 82} 52 174 20` : "M140 85 L140 20"} markerEnd="url(#demo-arrow)" /></svg><div><b>{rotationOn ? `Deflects ${example.deflection}` : "Conceptual pressure-gradient path"}</b><p>{rotationOn ? `In the ${example.hemisphere === "north" ? "Northern" : "Southern"} Hemisphere, this motion bends to the ${example.deflection}. The resulting ${example.result} is a broad pattern, not a daily forecast.` : "A simple teaching view that ignores Earth’s rotation. Pressure differences can start motion, but this is not the complete real-world path."}</p></div></div></div>;
+  const { startLatitude, endLatitude } = coriolisMotionLatitudes(example.id);
+  const movingDown = endLatitude < startLatitude;
+  const startY = movingDown ? 20 : 85;
+  const endY = movingDown ? 85 : 20;
+  const screenRight = movingDown ? example.deflection === "right" : example.deflection !== "right";
+  const demoCurve = screenRight ? 58 : -58;
+  const route = `${Math.abs(startLatitude)}°${startLatitude >= 0 ? "N" : "S"} → ${endLatitude === 0 ? "equator" : `${Math.abs(endLatitude)}°${endLatitude >= 0 ? "N" : "S"}`}`;
+  return <div className="global-coriolis-demo"><div className="global-demo-heading"><span>INTERACTIVE CORIOLIS DEMO</span><b>{rotationOn ? "EARTH ROTATION ON" : "EARTH ROTATION OFF"}</b></div><div className="global-demo-controls"><button className={!rotationOn ? "active" : ""} onClick={() => { if (rotationOn) onToggleRotation(); }}>Rotation OFF</button><button className={rotationOn ? "active" : ""} onClick={() => { if (!rotationOn) onToggleRotation(); }}>Rotation ON</button></div><div className="global-coriolis-examples">{CORIOLIS_EXAMPLES.map(item => <button key={item.id} className={item.id === exampleId ? "active" : ""} onClick={() => onExample(item.id)}>{item.hemisphere === "north" ? "NH" : "SH"} · {item.id.includes("equatorward") ? "toward equator" : "toward pole"}</button>)}</div><div className="global-demo-track"><svg viewBox="0 0 280 105" role="img" aria-label={`${example.motion}; ${route}; ${rotationOn ? `deflects ${example.deflection}` : "travels in a straight conceptual path"}`}><defs><marker id="demo-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill={rotationOn ? "#ffd36b" : "#7edbd4"} /></marker></defs><path className="demo-straight" d={`M140 ${startY} L140 ${endY}`} markerEnd="url(#demo-arrow)" /><path className={`demo-curve ${rotationOn ? "on" : "off"}`} d={rotationOn ? `M140 ${startY} Q${140 + demoCurve} 52 174 ${endY}` : `M140 ${startY} L140 ${endY}`} markerEnd="url(#demo-arrow)" /></svg><div><b>{route} · {rotationOn ? `Deflects ${example.deflection}` : "Conceptual pressure-gradient path"}</b><p>{rotationOn ? `In the ${example.hemisphere === "north" ? "Northern" : "Southern"} Hemisphere, this motion bends to the ${example.deflection}. The resulting ${example.result} is a broad pattern, not a daily forecast.` : "A simple teaching view that ignores Earth’s rotation. Pressure differences can start motion, but this is not the complete real-world path."}</p></div></div></div>;
 }
 
 function WindBeltDetail({ belt }: { belt: WindBelt }) {

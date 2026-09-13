@@ -12,7 +12,7 @@
 | Rendered HTML smoke tests | pass | `npm test` — 2 tests passed |
 | M26.1 rendered pointer/touch regression | pass | `verify-m26-1-pointer.cjs` — 10/10 checks passed |
 | M28 global circulation unit/model rules | pass | `tests/game-core.test.mjs` — deterministic geometry, pressure belts, cells, Coriolis and wind-belt assertions |
-| M28 local browser E2E | pass | `verify-m28-global-circulation.cjs` — desktop Guided/Explore + 390 × 844 mobile, 7 screenshots, `browser-console-m28.json` reports `errors: []` |
+| M28 local browser E2E | pass | `verify-m28-global-circulation.cjs` — desktop Guided/Explore + 390 × 844 mobile, 8 screenshots, four rendered Coriolis direction assertions, `browser-console-m28.json` reports `errors: []` |
 
 ## Data evidence
 
@@ -115,7 +115,7 @@ Status: VERIFIED — local browser E2E and deployed fresh-player gate pass.
 
 ## M28 global atmospheric circulation interactive reference
 
-Status: ✅ VERIFIED — local and deployed interactive replay pass
+Status: 🟦 IMPLEMENTED / NEEDS DEPLOYED QA — local correction passes; production version 119 has a visual direction regression
 
 - Local Mission 01 Explain opens the `🌍 Global wind systems` control beside
   the map zoom controls. The causal cards `Pressure differences strengthen the
@@ -142,7 +142,17 @@ Status: ✅ VERIFIED — local and deployed interactive replay pass
   viewport. CUA visual inspection confirmed the historical/model separation and
   readable mobile layout.
 - Persistent M28 screenshots are in `evidence/m28-global-*.png`; the browser
-  ledger is `evidence/browser-console-m28.json`.
+  ledger is `evidence/browser-console-m28.json`. The corrected selected-
+  equatorward screenshot is `evidence/m28-global-02-coriolis-nh-equatorward.png`.
+- A real-user replay of production version 119 exposed a false visual mapping:
+  the selected `NH · toward equator` copy said air moves south from the
+  subtropical belt, but the yellow SVG path travelled upward toward the
+  subpolar belt. The root cause was hard-coded map/demo screen coordinates,
+  compounded by a mirrored Southern Hemisphere curve sign.
+- The correction derives each example’s route from `30°N → 0°`, `30°N → 60°N`,
+  `30°S → 0°` or `30°S → 60°S`, then derives the screen-side deflection from
+  the hemisphere and motion direction. Local SVG endpoint assertions cover all
+  four examples; corrected production QA is still required.
 - Deployed version 119 replayed in the authenticated Chrome Site tab on
   2026-09-13. Starting from the Atlas entry, the visible global launch control
   opened the reference; Guided stages 1–6, the Northern westerlies card,
@@ -153,10 +163,11 @@ Status: ✅ VERIFIED — local and deployed interactive replay pass
   wind from SW?` link opened the reference at the Coriolis stage; closing it
   preserved `STORY SO FAR · 1/5` and showed `GLOBAL CONTEXT RETURNED` with
   `Historical FROM SW wind highlighted`.
-- The final M28 source commit was `ef28acb827e930fe8191390046a2ceab97fc7ac9`,
+- The previous M28 source commit was `ef28acb827e930fe8191390046a2ceab97fc7ac9`,
   published as private Site version 119; deployment
   `appgdep_6aa6f961c6248191acb535718e8b18ca` succeeded at
-  `https://the-axiom-atlas.ckstks246335.chatgpt.site`.
+  `https://the-axiom-atlas.ckstks246335.chatgpt.site`, but this version is
+  superseded pending the corrected arrow-direction replay.
 
 ## Persistent visual evidence
 

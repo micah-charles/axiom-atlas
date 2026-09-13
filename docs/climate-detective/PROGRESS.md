@@ -1,9 +1,9 @@
 # Climate Detective Progress
 
 Last updated: 2026-09-13
-Current milestone: M28 Global Atmospheric Circulation Interactive Reference — VERIFIED
-Current blocker: none; Mission 01 and M27 remain protected baselines
-Next action: keep Mission 02 expansion frozen and reassess the next curriculum milestone separately
+Current milestone: M28 Global Atmospheric Circulation Interactive Reference — IMPLEMENTED / NEEDS DEPLOYED QA
+Current blocker: production Site version 119 renders the selected NH equatorward Coriolis arrow in the wrong screen direction; local fix is ready
+Next action: deploy the corrected source, replay the production arrow and contextual-link paths, then restore VERIFIED only if the visual gate passes
 
 ## Mission status
 
@@ -36,7 +36,7 @@ Next action: keep Mission 02 expansion frozen and reassess the next curriculum m
 - M26 Investigation gameplay & scientific visualisation V2 ✅
 - M26.1 Critical map interaction recovery ✅
 - M27 Causal storytelling map ✅
-- M28 Global atmospheric circulation interactive reference ✅
+- M28 Global atmospheric circulation interactive reference 🟦
 
 ## Current work
 
@@ -47,9 +47,14 @@ Natural Earth global country geometry with an Equal Earth projection. Its
 idealised pressure belts, circulation cells and wind belts will be stored as a
 teaching model, separate from the NASA POWER/MERRA-2 historical weather data.
 The first implementation preserves Mission 01 state while open and returns to
-the same causal map evidence. The local implementation and M28 browser harness
-passed first; the deployed interactive replay has now also passed and M28 is
-verified. No new mission expansion was started.
+the same causal map evidence. A real-user replay found that production version
+119 rendered the selected `NH · toward equator` Coriolis arrow upward, even
+though its copy correctly described motion from 30°N toward the equator. The
+root cause was hard-coded SVG y-coordinates (and a mirrored Southern Hemisphere
+curve rule), not the climate model. The local fix derives endpoints from the
+selected latitudes, adds a visible route label, and passes geometry assertions
+for all four examples. No new mission expansion was started while deployed QA
+is pending.
 
 ## Completed since last checkpoint
 
@@ -119,7 +124,7 @@ verified. No new mission expansion was started.
   closing the reference preserves Explain progress and highlights the real
   historical FROM SW wind evidence.
 - Added M28 unit coverage and `verify-m28-global-circulation.cjs`; local
-  desktop + 390 × 844 browser replay passed with seven screenshots and zero
+  desktop + 390 × 844 browser replay passed with eight screenshots and zero
   console/page errors.
 - Published the exact tested M28 app commit `ef28acb827e930fe8191390046a2ceab97fc7ac9`
   as private Site version 119; the deployment succeeded at
@@ -129,6 +134,16 @@ verified. No new mission expansion was started.
   bridge, Explore mode, Mission 01 visible L/Wind/Rainfall targets, Explain
   contextual link, and return-state highlight all passed in the authenticated
   Chrome Site tab.
+- Recorded a real-user M28 regression: on production version 119, selecting
+  `NH · toward equator` showed the map arrow travelling upward from the
+  subtropical belt toward the subpolar belt. This was a visual direction bug;
+  the intended scientific statement remained `30°N → equator`.
+- Fixed the Coriolis map and demo arrows to use latitude-derived endpoints and
+  hemisphere-aware screen deflection. Added four deterministic latitude-route
+  unit assertions and rendered SVG endpoint assertions to the browser harness.
+- Local corrected replay passed with the new
+  `evidence/m28-global-02-coriolis-nh-equatorward.png`; corrected production
+  replay is pending.
 - Published exact M27 commit `85cd9b311d5e75ce611fee884cbfa117b4c006a4` as private Site version 117; deployment `appgdep_6aa59b292c4c81919ae47dfffc921374` succeeded and owner-only access remained unchanged.
 - Started M27 after a local Explain audit: the former animated event pulse was an unexplained circle and has been removed; legitimate observation locations remain labelled in the map legend.
 - Added one-per-attempt semantic causal shuffling, deterministic prefix progression, targeted wrong-order feedback, formative field-note feedback and a visible Forecast bridge.
@@ -150,12 +165,14 @@ verified. No new mission expansion was started.
 - `node scripts/climate-detective/verify-m28-global-circulation.cjs`: local
   desktop Guided/Explore, Coriolis demo, wind-belt selection, historical
   bridge, Explain return-state, keyboard Enter/Escape, reduced-motion media,
-  390 × 844 mobile flow passed; seven M28 PNGs captured;
+  390 × 844 mobile flow passed; eight M28 PNGs captured; the harness now
+  checks all four rendered Coriolis motion directions;
   `browser-console-m28.json` reports `errors: []`.
 - Deployed Chrome replay: version 116 reached Reveal with `16 Jan 2018`, actual `4.0°C / 985 hPa / 0.4 mm`, and `12/14`.
-- M28 verification checkpoint: local core tests, lint, build, manual CUA
-  inspection, keyboard/reduced-motion checks, local browser harness, and the
-  deployed fresh-player replay all pass. The M28 gate is verified.
+- M28 local checkpoint: core tests, lint, build, keyboard/reduced-motion checks,
+  local browser harness, and corrected Coriolis visual inspection all pass.
+  The prior deployed version 119 replay passed interaction coverage but failed
+  this newly observed visual-direction gate; corrected deployed QA is pending.
 
 ## Evidence
 
@@ -171,7 +188,8 @@ verified. No new mission expansion was started.
 - Additional browser smoke: wrong H target feedback, duplicate clue deduplication, hint, Restart, reload, and keyboard map-target activation, 2026-09-11.
 - Persistent screenshot set: `docs/climate-detective/evidence/` (17 PNGs plus `browser-console.json`; latest local capture completed with `errors: []`).
 - M28 local screenshots: `evidence/m28-global-01-stage-heating.png`,
-  `m28-global-02-coriolis.png`, `m28-global-03-westerlies.png`,
+  `m28-global-02-coriolis-nh-equatorward.png`, `m28-global-02-coriolis.png`,
+  `m28-global-03-westerlies.png`,
   `m28-global-04-historical-bridge.png`, `m28-global-05-context-return.png`,
   `m28-global-06-explore.png`, and `evidence/m28-global-07-mobile.png`;
   console ledger is `evidence/browser-console-m28.json` with `errors: []`.
@@ -186,11 +204,12 @@ verified. No new mission expansion was started.
 - The M26.1 interaction blocker is resolved and the deployed Gameplay E2E / Fresh-player gate is verified. The earlier `errors: []` result remains documented as a false positive because it proved console silence, not visible pointer success.
 - The broader M24 release gate, curriculum coverage and future mission expansion remain separately tracked and frozen.
 - M27 verified gate: a fresh deployed player saw each causal reveal, recovered from wrong order, used focus/replay, completed the field note and reached the historical Reveal with the same story visuals.
-- M28 is verified locally and in the deployed private Site. The reference uses
-  an intentionally idealised, static circulation teaching model; it does not
-  claim to be a daily observed global wind analysis, and friction/geostrophic
-  dynamics are named as weather-scale factors rather than animated as a full
-  solver.
+- M28 remains locally corrected but is not yet re-verified in the deployed
+  private Site. Production version 119 has the documented Coriolis arrow
+  direction regression. The reference uses an intentionally idealised, static
+  circulation teaching model; it does not claim to be a daily observed global
+  wind analysis, and friction/geostrophic dynamics are named as weather-scale
+  factors rather than animated as a full solver.
 
 ## Decisions needed
 

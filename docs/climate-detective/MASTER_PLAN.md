@@ -335,7 +335,7 @@ teaching-model interpretations visibly distinct.
 - [x] Mark M27 VERIFIED only after the deployed fresh-player acceptance gate
   passes. Otherwise report FAIL honestly and keep expansion frozen.
 
-### M28 — Global Atmospheric Circulation Interactive Reference ✅ VERIFIED
+### M28 — Global Atmospheric Circulation Interactive Reference 🟦 IMPLEMENTED / NEEDS DEPLOYED QA
 
 M28 is a reusable global-to-local teaching surface, not a static infographic
 or a second mission. It opens without resetting Mission 01, keeps the mission
@@ -378,6 +378,9 @@ The teaching model and historical weather remain visibly separate.
 - [x] Add rotation OFF conceptual pressure-gradient view and rotation ON
   deflection view.
 - [x] Add NH right-deflection and SH left-deflection interactive demos.
+- [x] Derive Coriolis example endpoints from their latitude bands instead of
+  hard-coded screen coordinates; keep visual motion aligned with the selected
+  equatorward/poleward example in both hemispheres.
 - [x] Render NE/SE trade winds, both-hemisphere westerlies and polar easterlies
   with explicit FROM → TO wording.
 - [x] Let the player click a belt to inspect name, source direction, destination
@@ -406,9 +409,11 @@ The teaching model and historical weather remain visibly separate.
 - [x] Test keyboard focus, touch targets, screen-reader labels and reduced
   motion.
 - [x] Run scientific tests and a local fresh-player comprehension path.
+- [x] Add SVG geometry regression checks for all four Coriolis motion examples.
 - [x] Capture screenshots and record evidence paths in `EVIDENCE.md`.
-- [x] Publish the exact tested commit to the owner-private Site.
-- [x] Mark M28 VERIFIED only after the deployed interactive test passes.
+- [ ] Publish the corrected exact tested commit to the owner-private Site.
+- [ ] Replay the corrected production build and mark M28 VERIFIED only after
+  the deployed arrow-direction test passes.
 
 ## Checkpoint rule
 

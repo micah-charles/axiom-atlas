@@ -27,6 +27,17 @@ async function assertCount(page, selector, expected, description) {
   if (actual !== expected) throw new Error(`${description}: expected ${expected}, got ${actual}`);
 }
 
+async function assertCoriolisArrowDirection(page, exampleLabel, movesDown, description) {
+  await exactButton(page, exampleLabel).click();
+  const points = await page.locator(".global-coriolis-curve").evaluate(element => {
+    const path = element;
+    const start = path.getPointAtLength(0);
+    const end = path.getPointAtLength(path.getTotalLength());
+    return { startY: start.y, endY: end.y };
+  });
+  if ((points.endY > points.startY) !== movesDown) throw new Error(`${description}: unexpected SVG direction ${JSON.stringify(points)}`);
+}
+
 async function pointerClick(page, locator, description) {
   const box = await locator.boundingBox();
   if (!box) throw new Error(`Expected a visible pointer target: ${description}`);
@@ -73,7 +84,12 @@ async function runGuidedLesson(page) {
   await exactButton(page, "Rotation OFF").click();
   await assertText(page, "Conceptual pressure-gradient path");
   await exactButton(page, "Rotation ON").click();
+  await assertCoriolisArrowDirection(page, "NH · toward equator", true, "Northern equatorward Coriolis arrow");
+  await screenshot(page, "m28-global-02-coriolis-nh-equatorward.png");
+  await assertCoriolisArrowDirection(page, "SH · toward equator", false, "Southern equatorward Coriolis arrow");
+  await assertCoriolisArrowDirection(page, "SH · toward pole", true, "Southern poleward Coriolis arrow");
   await exactButton(page, "NH · toward pole").click();
+  await assertCoriolisArrowDirection(page, "NH · toward pole", false, "Northern poleward Coriolis arrow");
   await assertText(page, "Deflects right");
   await exactButton(page, "Westward component").click();
   await exactButton(page, "Check").click();

@@ -1,6 +1,7 @@
 export type Hemisphere = "north" | "south";
 export type PressureKind = "H" | "L";
 export type WindBeltId = "north-polar-easterlies" | "north-westerlies" | "north-trade-winds" | "south-trade-winds" | "south-westerlies" | "south-polar-easterlies";
+export type CoriolisExampleId = "north-equatorward" | "north-poleward" | "south-equatorward" | "south-poleward";
 
 export type LatitudeBand = {
   latitude: number;
@@ -85,6 +86,15 @@ export const CORIOLIS_EXAMPLES = [
   { id: "south-equatorward", hemisphere: "south" as Hemisphere, motion: "Air moves north toward the equator", deflection: "left", resultingComponent: "westward", result: "south-east trade winds" },
   { id: "south-poleward", hemisphere: "south" as Hemisphere, motion: "Air moves south toward the pole", deflection: "left", resultingComponent: "eastward", result: "westerly component" },
 ] as const;
+
+export function coriolisMotionLatitudes(exampleId: CoriolisExampleId): { startLatitude: number; endLatitude: number } {
+  const north = exampleId.startsWith("north");
+  const towardPole = exampleId.endsWith("poleward");
+  return {
+    startLatitude: north ? 30 : -30,
+    endLatitude: towardPole ? (north ? 60 : -60) : 0,
+  };
+}
 
 export function coriolisDeflection(hemisphere: Hemisphere): "right" | "left" {
   return hemisphere === "north" ? "right" : "left";

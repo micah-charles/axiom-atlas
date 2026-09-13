@@ -1,9 +1,9 @@
 # Climate Detective Progress
 
 Last updated: 2026-09-13
-Current milestone: M28 Global Atmospheric Circulation Interactive Reference — VERIFIED
+Current milestone: M28 Global Atmospheric Circulation Interactive Reference — clarity patch in QA
 Current blocker: none; Mission 01 and M27 remain protected baselines
-Next action: keep Mission 02 expansion frozen and reassess the next curriculum milestone separately
+Next action: deploy and fresh-player verify the wind-belt arrow reading guide
 
 ## Mission status
 
@@ -127,6 +127,10 @@ No new mission expansion was started.
 - Added M28 unit coverage and `verify-m28-global-circulation.cjs`; local
   desktop + 390 × 844 browser replay passed with eight screenshots and zero
   console/page errors.
+- Added an explicit M28 stage-5 reading guide: the curved yellow arrow is one
+  selected pressure-gradient teaching example, while horizontal arrows are
+  the broad surface wind belts; the copy states that corresponding branches
+  exist in both hemispheres. The browser harness asserts these labels.
 - Published the exact tested M28 app commit `ef28acb827e930fe8191390046a2ceab97fc7ac9`
   as private Site version 119; the deployment succeeded at
   `https://the-axiom-atlas.ckstks246335.chatgpt.site`.
@@ -177,7 +181,8 @@ No new mission expansion was started.
   desktop Guided/Explore, Coriolis demo, wind-belt selection, historical
   bridge, Explain return-state, keyboard Enter/Escape, reduced-motion media,
   390 × 844 mobile flow passed; eight M28 PNGs captured; the harness now
-  checks all four rendered Coriolis motion directions;
+  checks all four rendered Coriolis motion directions and the wind-belt
+  arrow-reading guide;
   `browser-console-m28.json` reports `errors: []`.
 - Deployed Site version 120: production CUA replay and live SVG inspection
   passed all four Coriolis routes and the Mission 01 contextual-link return

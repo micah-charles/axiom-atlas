@@ -12,7 +12,7 @@
 | Rendered HTML smoke tests | pass | `npm test` — 2 tests passed |
 | M26.1 rendered pointer/touch regression | pass | `verify-m26-1-pointer.cjs` — 10/10 checks passed |
 | M28 global circulation unit/model rules | pass | `tests/game-core.test.mjs` — deterministic geometry, pressure belts, cells, Coriolis and wind-belt assertions |
-| M28 local browser E2E | pass | `verify-m28-global-circulation.cjs` — desktop Guided/Explore + 390 × 844 mobile, 8 screenshots, four rendered Coriolis direction assertions, `browser-console-m28.json` reports `errors: []` |
+| M28 local browser E2E | pass | `verify-m28-global-circulation.cjs` — desktop Guided/Explore + 390 × 844 mobile, 8 screenshots, four rendered Coriolis direction assertions and wind-belt arrow-reading assertions, `browser-console-m28.json` reports `errors: []` |
 
 ## Data evidence
 
@@ -124,6 +124,10 @@ Status: ✅ VERIFIED — local correction and deployed version 120 replay pass
 - Guided lesson passes through six stages: unequal heating, pressure belts,
   three cells, Coriolis deflection, prevailing wind belts, and Britain’s
   Northern mid-latitude westerly context.
+- Stage 5 explicitly separates the curved yellow selected H → L
+  pressure-gradient teaching path from the horizontal arrows representing a
+  broad latitude-zone wind belt, and states that corresponding branches exist
+  in both hemispheres.
 - The map uses generated Natural Earth 1:110m world geometry with the
   documented Equal Earth teaching projection. Country boundaries are geographic
   context; pressure belts, cells, Coriolis arrows and wind belts are labelled as

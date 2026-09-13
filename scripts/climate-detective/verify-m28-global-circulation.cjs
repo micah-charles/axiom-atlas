@@ -98,6 +98,9 @@ async function runGuidedLesson(page) {
 
   await exactButton(page, "Next →").click();
   await assertText(page, "Wind belts emerge from the pattern");
+  await assertText(page, "HOW TO READ THE ARROWS");
+  await assertText(page, "Horizontal arrows");
+  await assertText(page, "Both hemispheres have corresponding branches.");
   await assertCount(page, '[aria-label="Northern Mid-latitude Westerlies, from west, toward east, 30–60°N"]', 5, "Northern westerly belt arrows");
   const westerly = page.getByRole("button", { name: "Northern Mid-latitude Westerlies, from west, toward east, 30–60°N", exact: true }).first();
   await pointerClick(page, westerly, "Northern mid-latitude westerly arrow");

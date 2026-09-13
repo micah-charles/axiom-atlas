@@ -385,6 +385,11 @@ The teaching model and historical weather remain visibly separate.
   with explicit FROM → TO wording.
 - [x] Let the player click a belt to inspect name, source direction, destination
   direction, latitude range, pressure-belt connection and cell association.
+- [x] Distinguish the selected curved H → L pressure-gradient teaching path
+  from the horizontal arrows that represent broad surface wind belts.
+- [x] State explicitly that corresponding wind-belt branches exist in both
+  hemispheres; the highlighted curved path is only the currently selected
+  Coriolis example.
 - [x] Let the player highlight Britain at approximately 50–60°N and show the
   North Atlantic → Britain context.
 
@@ -411,6 +416,8 @@ The teaching model and historical weather remain visibly separate.
 - [x] Run scientific tests and a local fresh-player comprehension path.
 - [x] Add SVG geometry regression checks for all four Coriolis motion examples.
 - [x] Capture screenshots and record evidence paths in `EVIDENCE.md`.
+- [x] Add browser assertions for the wind-belt arrow reading guide and its
+  selected-path versus belt distinction.
 - [x] Publish the corrected exact tested commit to the owner-private Site.
 - [x] Replay the corrected production build and mark M28 VERIFIED only after
   the deployed arrow-direction test passes.

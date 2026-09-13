@@ -12,7 +12,7 @@
 | Rendered HTML smoke tests | pass | `npm test` — 2 tests passed |
 | M26.1 rendered pointer/touch regression | pass | `verify-m26-1-pointer.cjs` — 10/10 checks passed |
 | M28 global circulation unit/model rules | pass | `tests/game-core.test.mjs` — deterministic geometry, pressure belts, cells, Coriolis and wind-belt assertions |
-| M28 local browser E2E | pass | `verify-m28-global-circulation.cjs` — desktop Guided/Explore + 390 × 844 mobile, 8 screenshots, four rendered Coriolis direction assertions and wind-belt arrow-reading assertions, `browser-console-m28.json` reports `errors: []` |
+| M28 local browser E2E | pass | `verify-m28-global-circulation.cjs` — desktop Guided/Explore + 390 × 844 mobile, 9 screenshots, four rendered Coriolis direction assertions, wind-belt arrow-reading assertions and NH winter/summer interaction assertions, `browser-console-m28.json` reports `errors: []` |
 
 ## Data evidence
 
@@ -190,6 +190,15 @@ Status: ✅ VERIFIED — local arrow-semantics correction and deployed version 1
   `Horizontal arrows`, and `Both hemispheres have corresponding branches.`
   The stage-5 map and lesson copy distinguish the single selected curved H → L
   teaching path from the horizontal prevailing-wind-belt arrows.
+- Source commit `f1e5beaf9bffa490341c1f16b71b00db9b0b6879` adds the labelled
+  NH winter/summer context toggle and the small illustrative seasonal movement
+  of the model’s pressure, cell and wind-belt layers. It was published as
+  private Site version 122; deployment
+  `appgdep_6aa725333b5c81919c22ac77831ca93d` succeeded at the same URL.
+- A fresh production v122 replay confirmed the default `NH winter` state and
+  the `NH summer` state after selecting `Summer · Jun–Aug`; both the map
+  geometry and explanatory copy changed, while the UI continued to state that
+  the exact UK wind is set by weather-scale pressure patterns.
 
 ## Persistent visual evidence
 

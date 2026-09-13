@@ -131,6 +131,10 @@ No new mission expansion was started.
   selected pressure-gradient teaching example, while horizontal arrows are
   the broad surface wind belts; the copy states that corresponding branches
   exist in both hemispheres. The browser harness asserts these labels.
+- Added an NH winter/summer context control. It illustrates a small broad
+  seasonal migration of the idealised pressure, cell and wind-belt layers,
+  labels the shift as a teaching model, and keeps daily UK wind tied to the
+  weather-scale pressure pattern.
 - Published the exact tested M28 app commit `ef28acb827e930fe8191390046a2ceab97fc7ac9`
   as private Site version 119; the deployment succeeded at
   `https://the-axiom-atlas.ckstks246335.chatgpt.site`.
@@ -187,7 +191,7 @@ No new mission expansion was started.
 - `node scripts/climate-detective/verify-m28-global-circulation.cjs`: local
   desktop Guided/Explore, Coriolis demo, wind-belt selection, historical
   bridge, Explain return-state, keyboard Enter/Escape, reduced-motion media,
-  390 × 844 mobile flow passed; eight M28 PNGs captured; the harness now
+  390 × 844 mobile flow passed; nine M28 PNGs captured; the harness now
   checks all four rendered Coriolis motion directions and the wind-belt
   arrow-reading guide;
   `browser-console-m28.json` reports `errors: []`.
@@ -197,6 +201,9 @@ No new mission expansion was started.
 - Deployed Site version 121: fresh Climate Detective entry and stage-5 visual
   copy check passed; the new wind-belt reading guide was present and no
   production page error was observed.
+- Deployed Site version 122: fresh Climate Detective entry, stage-5 NH winter
+  state, and NH summer toggle/visual copy check passed; no production page
+  error was observed.
 - Deployed Chrome replay: version 116 reached Reveal with `16 Jan 2018`, actual `4.0°C / 985 hPa / 0.4 mm`, and `12/14`.
 - M28 verification checkpoint: core tests, lint, build,
   keyboard/reduced-motion checks, local browser harness, corrected local visual

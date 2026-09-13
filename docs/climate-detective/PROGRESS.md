@@ -1,9 +1,9 @@
 # Climate Detective Progress
 
 Last updated: 2026-09-13
-Current milestone: M28 Global Atmospheric Circulation Interactive Reference — clarity patch in QA
+Current milestone: M28 Global Atmospheric Circulation Interactive Reference — VERIFIED
 Current blocker: none; Mission 01 and M27 remain protected baselines
-Next action: deploy and fresh-player verify the wind-belt arrow reading guide
+Next action: keep Mission 02 expansion frozen and reassess the next curriculum milestone separately
 
 ## Mission status
 
@@ -159,6 +159,13 @@ No new mission expansion was started.
   with SVG y increasing from `155.79` to `260`. The other routes also matched
   their selected hemisphere and pole/equator direction. Mission 01 contextual
   return-state was preserved after closing the reference.
+- Published the tested arrow-semantics clarity patch `fc83387ff8145dd626d5583a6bada0a674ee2e19`
+  as private Site version 121; deployment
+  `appgdep_6aa7216c2b188191801de866aee7bdc8` succeeded at the existing Site URL.
+- Fresh production v121 replay reached stage 5 and visibly confirmed the
+  `HOW TO READ THE ARROWS` guide, including the distinction between the
+  selected curved H → L teaching path and horizontal wind-belt arrows and the
+  statement that corresponding branches exist in both hemispheres.
 - Published exact M27 commit `85cd9b311d5e75ce611fee884cbfa117b4c006a4` as private Site version 117; deployment `appgdep_6aa59b292c4c81919ae47dfffc921374` succeeded and owner-only access remained unchanged.
 - Started M27 after a local Explain audit: the former animated event pulse was an unexplained circle and has been removed; legitimate observation locations remain labelled in the map legend.
 - Added one-per-attempt semantic causal shuffling, deterministic prefix progression, targeted wrong-order feedback, formative field-note feedback and a visible Forecast bridge.
@@ -187,6 +194,9 @@ No new mission expansion was started.
 - Deployed Site version 120: production CUA replay and live SVG inspection
   passed all four Coriolis routes and the Mission 01 contextual-link return
   path; no production console/page error was observed.
+- Deployed Site version 121: fresh Climate Detective entry and stage-5 visual
+  copy check passed; the new wind-belt reading guide was present and no
+  production page error was observed.
 - Deployed Chrome replay: version 116 reached Reveal with `16 Jan 2018`, actual `4.0°C / 985 hPa / 0.4 mm`, and `12/14`.
 - M28 verification checkpoint: core tests, lint, build,
   keyboard/reduced-motion checks, local browser harness, corrected local visual

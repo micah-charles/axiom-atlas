@@ -115,7 +115,7 @@ Status: VERIFIED — local browser E2E and deployed fresh-player gate pass.
 
 ## M28 global atmospheric circulation interactive reference
 
-Status: ✅ VERIFIED — local correction and deployed version 120 replay pass
+Status: ✅ VERIFIED — local arrow-semantics correction and deployed version 121 replay pass
 
 - Local Mission 01 Explain opens the `🌍 Global wind systems` control beside
   the map zoom controls. The causal cards `Pressure differences strengthen the
@@ -180,6 +180,16 @@ Status: ✅ VERIFIED — local correction and deployed version 120 replay pass
   `155.79 → 260` (down), NH poleward `155.79 → 68.72` (up), SH equatorward
   `364.21 → 260` (up), and SH poleward `364.21 → 451.28` (down). The
   production contextual-link replay also preserved Mission 01 state on return.
+- Source commit `fc83387ff8145dd626d5583a6bada0a674ee2e19` adds the explicit
+  selected-path versus wind-belt reading guide and browser assertions. It was
+  published as private Site version 121; deployment
+  `appgdep_6aa7216c2b188191801de866aee7bdc8` succeeded at
+  `https://the-axiom-atlas.ckstks246335.chatgpt.site`.
+- A fresh production v121 Climate Detective entry opened Global Wind Systems,
+  reached stage 5, and visibly contained `HOW TO READ THE ARROWS`,
+  `Horizontal arrows`, and `Both hemispheres have corresponding branches.`
+  The stage-5 map and lesson copy distinguish the single selected curved H → L
+  teaching path from the horizontal prevailing-wind-belt arrows.
 
 ## Persistent visual evidence
 

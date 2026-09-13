@@ -1,4 +1,5 @@
 export type Hemisphere = "north" | "south";
+export type GlobalSeason = "baseline" | "nh-winter" | "nh-summer";
 export type PressureKind = "H" | "L";
 export type WindBeltId = "north-polar-easterlies" | "north-westerlies" | "north-trade-winds" | "south-trade-winds" | "south-westerlies" | "south-polar-easterlies";
 export type CoriolisExampleId = "north-equatorward" | "north-poleward" | "south-equatorward" | "south-poleward";
@@ -41,6 +42,24 @@ export type WindBelt = {
   cell: "Hadley Cell" | "Ferrel Cell" | "Polar Cell";
   note: string;
 };
+
+export const GLOBAL_SEASON_CONTEXT: Record<GlobalSeason, { label: string; shortLabel: string; shiftDescription: string }> = {
+  baseline: { label: "CLIMATE-MODEL MEAN", shortLabel: "Mean", shiftDescription: "Canonical teaching-model positions." },
+  "nh-winter": { label: "NORTHERN HEMISPHERE WINTER · DEC–FEB", shortLabel: "NH winter", shiftDescription: "Broad heating and circulation zones are illustrated a little farther south." },
+  "nh-summer": { label: "NORTHERN HEMISPHERE SUMMER · JUN–AUG", shortLabel: "NH summer", shiftDescription: "Broad heating and circulation zones are illustrated a little farther north." },
+};
+
+/**
+ * A deliberately small, labelled teaching shift. It shows the seasonal
+ * migration of broad circulation zones; it is not a daily pressure analysis.
+ */
+export function seasonalLatitude(latitude: number, season: GlobalSeason = "baseline"): number {
+  if (season === "baseline") return latitude;
+  const shift = season === "nh-winter" ? -5 : 5;
+  const equatorialShift = season === "nh-winter" ? -3 : 3;
+  const next = latitude + (Math.abs(latitude) < 5 ? equatorialShift : shift);
+  return Math.max(-90, Math.min(90, next));
+}
 
 export const GLOBAL_LATITUDE_BANDS: LatitudeBand[] = [
   { latitude: 90, label: "90°N · North Pole", shortLabel: "90°N" },

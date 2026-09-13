@@ -16,7 +16,7 @@ import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, ADVANCED_ENGINE_MANIFEST, ADVANCED_GO
 import { addResource, advectParticles, createReservoir, entityById, moveEntity, reservoirFilled, stepScene } from "../app/games/simulation-systems.ts";
 import { buildActualRevealBlocks, buildValleyRectangles, buildValleyTimeBlocks, estimateTargetCrossing, estimateValleyVolume, findActualTargetCrossing, resolveValleyOutcome, valleyActualVolume, valleyFlowRate, valleyRiverModel } from "../app/games/water-valley-engine.ts";
 import { CLIMATE_DATA, CLIMATE_MISSIONS, CLIMATE_YEAR, causalOrderFeedback, causalPrefixLength, conceptsFromText, dayLengthHours, derivePressureCentres, evidenceValue, explanationLockReasons, locationById, pressureContourLabels, pressureContourLevels, pressureContourSegments, pressureHpa, scoreMission, seasonFor, shuffleCausalIds, solarAngle, windDirectionLabel } from "../app/games/climate-detective/engine.ts";
-import { CORIOLIS_EXAMPLES, GLOBAL_CELLS, GLOBAL_LATITUDE_BANDS, GLOBAL_PRESSURE_BELTS, GLOBAL_WIND_BELTS, atmosphericCellForLatitude, coriolisDeflection, coriolisMotionLatitudes, equalEarthPoint, isBritainMidLatitude, windBeltForLatitude } from "../app/games/climate-detective/global-circulation.ts";
+import { CORIOLIS_EXAMPLES, GLOBAL_CELLS, GLOBAL_LATITUDE_BANDS, GLOBAL_PRESSURE_BELTS, GLOBAL_SEASON_CONTEXT, GLOBAL_WIND_BELTS, atmosphericCellForLatitude, coriolisDeflection, coriolisMotionLatitudes, equalEarthPoint, isBritainMidLatitude, seasonalLatitude, windBeltForLatitude } from "../app/games/climate-detective/global-circulation.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
   assert.equal(LEARNING_LAYERS.length, 5);
@@ -415,6 +415,10 @@ test("M28 global circulation model stays separate, ordered, and deterministic", 
   assert.deepEqual(coriolisMotionLatitudes("north-poleward"), { startLatitude: 30, endLatitude: 60 });
   assert.deepEqual(coriolisMotionLatitudes("south-equatorward"), { startLatitude: -30, endLatitude: 0 });
   assert.deepEqual(coriolisMotionLatitudes("south-poleward"), { startLatitude: -30, endLatitude: -60 });
+  assert.equal(GLOBAL_SEASON_CONTEXT["nh-winter"].shortLabel, "NH winter");
+  assert.equal(seasonalLatitude(30, "nh-winter"), 25);
+  assert.equal(seasonalLatitude(-30, "nh-winter"), -35);
+  assert.equal(seasonalLatitude(0, "nh-summer"), 3);
   for (const [longitude, latitude] of [[-180, 90], [0, 0], [180, -90]]) {
     const point = equalEarthPoint(longitude, latitude, 1200, 520);
     assert.ok(point.x >= 24 && point.x <= 1176 && point.y >= 24 && point.y <= 496);

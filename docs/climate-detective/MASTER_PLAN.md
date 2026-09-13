@@ -390,6 +390,11 @@ The teaching model and historical weather remain visibly separate.
 - [x] State explicitly that corresponding wind-belt branches exist in both
   hemispheres; the highlighted curved path is only the currently selected
   Coriolis example.
+- [x] Add an NH winter/summer context toggle that illustrates broad seasonal
+  migration of the pressure, cell and wind-belt teaching layers.
+- [x] Explain that seasonal migration changes the background odds and jet/storm
+  track position, while the exact UK wind still comes from daily weather-scale
+  pressure patterns.
 - [x] Let the player highlight Britain at approximately 50–60°N and show the
   North Atlantic → Britain context.
 

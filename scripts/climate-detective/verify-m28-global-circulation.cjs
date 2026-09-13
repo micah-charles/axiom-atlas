@@ -101,6 +101,13 @@ async function runGuidedLesson(page) {
   await assertText(page, "HOW TO READ THE ARROWS");
   await assertText(page, "Horizontal arrows");
   await assertText(page, "Both hemispheres have corresponding branches.");
+  await assertText(page, "SEASONAL CONTEXT · NORTHERN HEMISPHERE");
+  await exactButton(page, "Summer · Jun–Aug").click();
+  await assertText(page, "NH summer");
+  await assertText(page, "farther north");
+  await screenshot(page, "m28-global-03-westerlies-summer.png");
+  await exactButton(page, "Winter · Dec–Feb").click();
+  await assertText(page, "NH winter");
   await assertCount(page, '[aria-label="Northern Mid-latitude Westerlies, from west, toward east, 30–60°N"]', 5, "Northern westerly belt arrows");
   const westerly = page.getByRole("button", { name: "Northern Mid-latitude Westerlies, from west, toward east, 30–60°N", exact: true }).first();
   await pointerClick(page, westerly, "Northern mid-latitude westerly arrow");

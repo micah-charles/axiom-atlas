@@ -602,6 +602,14 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 .global-map-reading-guide p { margin:0; }
 .global-map-reading-guide strong { color:#fff0b8; }
 .global-map-reading-guide small { grid-column:1/-1; color:#718b8a; font-size:.5rem; }
+.global-seasonal-context { margin-top:13px; padding:10px; border:1px solid rgba(126,219,212,.24); background:rgba(126,219,212,.045); }
+.global-seasonal-heading { display:flex; justify-content:space-between; gap:8px; color:#7edbd4; font:800 .42rem var(--mono); letter-spacing:.1em; }
+.global-seasonal-heading b { color:#ffd36b; font-size:.45rem; }
+.global-seasonal-buttons { display:grid; grid-template-columns:1fr 1fr; gap:4px; margin-top:8px; }
+.global-seasonal-buttons button { padding:7px 5px; border:1px solid rgba(126,219,212,.2); background:rgba(126,219,212,.04); color:#91aaa8; font:700 .44rem var(--mono); cursor:pointer; }
+.global-seasonal-buttons button.active { border-color:#ffd36b; background:rgba(255,211,107,.1); color:#fff0b8; }
+.global-seasonal-context p { margin:8px 0 0; color:#afc2be; font-size:.58rem; line-height:1.4; }
+.global-seasonal-context>small { display:block; margin-top:6px; color:#718b8a; font-size:.49rem; line-height:1.35; }
 .global-lesson-card { min-width:0; padding:18px; border:1px solid rgba(126,219,212,.24); background:linear-gradient(180deg,rgba(15,39,44,.92),rgba(8,22,27,.98)); }
 .global-lesson-eyebrow { display:block; color:#ffd36b; font:800 .5rem var(--mono); letter-spacing:.13em; }
 .global-lesson-card h3 { margin:10px 0 9px; color:#f3fbf5; font:500 1.7rem/.98 var(--serif); letter-spacing:-.04em; }
@@ -645,7 +653,7 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 .global-belt-detail>p strong { color:#7edbd4; }.global-belt-detail>p span { padding:0 5px; color:#ffd36b; }
 .global-belt-facts { display:grid; grid-template-columns:1fr; gap:5px; }
 .global-belt-facts span { display:block; padding:6px; background:rgba(0,8,11,.25); }
-.global-belt-facts small { display:block; color:#789293; font:800 .39rem var(--mono); letter-spacing:.1em; }.global-belt-facts b { display:block; margin-top:3px; color:#c9dfd9; font:700 .5rem var(--mono); }
+.global-belt-facts small { display:block; color:#789293; font:800 .39rem var(--mono); letter-spacing:.1em; }.global-belt-facts b { display:block; margin-top:3px; color:#c9dfd9; font:700 .5rem var(--mono); }.global-belt-facts em { display:block; margin-top:3px; color:#ffd36b; font:600 .43rem var(--mono); font-style:normal; }
 .global-belt-note { display:block; margin-top:8px; color:#9db2b0; font-size:.57rem; line-height:1.35; }
 .global-historical-bridge { margin-top:14px; padding:12px; border:1px solid rgba(126,219,212,.28); background:linear-gradient(145deg,rgba(126,219,212,.08),rgba(255,211,107,.045)); }
 .global-bridge-heading b { display:block; margin-top:5px; color:#f2faf4; font:600 .98rem var(--serif); }

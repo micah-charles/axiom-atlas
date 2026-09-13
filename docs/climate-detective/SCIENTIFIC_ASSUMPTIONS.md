@@ -62,6 +62,16 @@ describe broad climatological patterns. Real pressure belts migrate and vary
 with season, land-sea contrast and weather systems, so the displayed latitude
 lines are teaching approximations.
 
+The M28 seasonal context toggle is an explicitly labelled illustration of that
+idea, not a source-data claim: the `NH winter` view shifts the broad teaching
+layers a small amount south and the `NH summer` view shifts them a small amount
+north (with a smaller equatorial shift). The implementation uses approximately
+5° for non-equatorial bands and 3° for the equatorial band so the player can
+see the relationship. Real ITCZ, pressure-belt, jet and storm-track positions
+do not all move by the same amount or at the same time; land-sea contrast,
+NAO and individual weather systems matter. The exact UK wind therefore remains
+anchored to the historical weather-scale pressure field, not to this toggle.
+
 In the Northern Hemisphere, moving air is deflected to the right of its path;
 in the Southern Hemisphere, it is deflected to the left. The reference uses
 this rule to explain the idealised trade-wind and westerly directions. Wind

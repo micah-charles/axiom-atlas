@@ -241,7 +241,7 @@ No new mission expansion was started.
 - The M26.1 interaction blocker is resolved and the deployed Gameplay E2E / Fresh-player gate is verified. The earlier `errors: []` result remains documented as a false positive because it proved console silence, not visible pointer success.
 - The broader M24 release gate, curriculum coverage and future mission expansion remain separately tracked and frozen.
 - M27 verified gate: a fresh deployed player saw each causal reveal, recovered from wrong order, used focus/replay, completed the field note and reached the historical Reveal with the same story visuals.
-- M28 is verified locally and in deployed private Site version 120. The
+- M28 is verified locally and in deployed private Site version 122. The
   reference uses an intentionally idealised, static circulation teaching model;
   it does not claim to be a daily observed global wind analysis, and
   friction/geostrophic dynamics are named as weather-scale factors rather than

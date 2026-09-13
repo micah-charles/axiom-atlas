@@ -115,7 +115,7 @@ Status: VERIFIED — local browser E2E and deployed fresh-player gate pass.
 
 ## M28 global atmospheric circulation interactive reference
 
-Status: ✅ VERIFIED — local arrow-semantics correction and deployed version 121 replay pass
+Status: ✅ VERIFIED — local arrow-semantics and seasonal-context correction and deployed version 122 replay pass
 
 - Local Mission 01 Explain opens the `🌍 Global wind systems` control beside
   the map zoom controls. The causal cards `Pressure differences strengthen the

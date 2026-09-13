@@ -351,61 +351,62 @@ The teaching model and historical weather remain visibly separate.
 - [x] Select Natural Earth 1:110m admin-0 country boundaries for the global
   context and retain its public-domain provenance.
 - [x] Select and document Equal Earth as the world-map projection.
-- [ ] Add a reusable global circulation data model separate from historical
+- [x] Add a reusable global circulation data model separate from historical
   Mission 01 data.
-- [ ] Add unit tests for belt ordering, hemisphere deflection, wind naming and
+- [x] Add unit tests for belt ordering, hemisphere deflection, wind naming and
   Britain’s latitude band.
 
 #### Product entry and state preservation
 
-- [ ] Add a discoverable `GLOBAL WIND SYSTEMS` control from Mission 01 Explain.
-- [ ] Open from relevant pressure-gradient and wind-story context when the
+- [x] Add a discoverable `GLOBAL WIND SYSTEMS` control from Mission 01 Explain.
+- [x] Open from relevant pressure-gradient and wind-story context when the
   player has reached those causal links.
-- [ ] Preserve date, phase, selected evidence, causal chain, written note,
+- [x] Preserve date, phase, selected evidence, causal chain, written note,
   forecast and story focus while the reference is open.
-- [ ] Close or return to mission without losing progress; highlight the
+- [x] Close or return to mission without losing progress; highlight the
   relevant historical wind evidence on return.
 
 #### Interactive guided lesson
 
-- [ ] Implement six guided stages: unequal heating, pressure belts, cells,
+- [x] Implement six guided stages: unequal heating, pressure belts, cells,
   Earth’s rotation, prevailing winds, and why Britain gets Atlantic winds.
-- [ ] Render latitude reference lines at 90°, 60°, 30°, 0°, 30°S, 60°S and
+- [x] Render latitude reference lines at 90°, 60°, 30°, 0°, 30°S, 60°S and
   90°S with non-colour labels.
-- [ ] Render idealised equatorial low/ITCZ, subtropical highs, subpolar lows
+- [x] Render idealised equatorial low/ITCZ, subtropical highs, subpolar lows
   and polar highs with rising/sinking explanations.
-- [ ] Render Hadley, Ferrel and Polar cells as conceptual model overlays.
-- [ ] Add rotation OFF conceptual pressure-gradient view and rotation ON
+- [x] Render Hadley, Ferrel and Polar cells as conceptual model overlays.
+- [x] Add rotation OFF conceptual pressure-gradient view and rotation ON
   deflection view.
-- [ ] Add NH right-deflection and SH left-deflection interactive demos.
-- [ ] Render NE/SE trade winds, both-hemisphere westerlies and polar easterlies
+- [x] Add NH right-deflection and SH left-deflection interactive demos.
+- [x] Render NE/SE trade winds, both-hemisphere westerlies and polar easterlies
   with explicit FROM → TO wording.
-- [ ] Let the player click a belt to inspect name, source direction, destination
+- [x] Let the player click a belt to inspect name, source direction, destination
   direction, latitude range, pressure-belt connection and cell association.
-- [ ] Let the player highlight Britain at approximately 50–60°N and show the
+- [x] Let the player highlight Britain at approximately 50–60°N and show the
   North Atlantic → Britain context.
 
 #### Explore, challenge and historical bridge
 
-- [ ] Add Explore mode for controlled free toggling after Guided completion.
-- [ ] Add a short optional Predict the Wind challenge.
-- [ ] Add the “Why not straight?” comparison: pressure-only, + Coriolis, and
-  optional friction/geostrophic explanation.
-- [ ] Transition from idealised global model to the real 15 Jan 2018 pressure,
+- [x] Add Explore mode for controlled free toggling after Guided completion.
+- [x] Add a short optional Predict the Wind challenge.
+- [x] Add the “Why not straight?” comparison: pressure-only and + Coriolis;
+  friction/geostrophic effects remain an explicitly named weather-scale factor
+  in the historical bridge rather than a separate animation.
+- [x] Transition from idealised global model to the real 15 Jan 2018 pressure,
   wind and rainfall evidence without blending their legends.
-- [ ] Explain global mid-latitude westerly background versus the synoptic-scale
+- [x] Explain global mid-latitude westerly background versus the synoptic-scale
   pressure pattern that sets the exact day’s wind.
-- [ ] Make clear that winds are named for where they come from.
+- [x] Make clear that winds are named for where they come from.
 
 #### QA and deployment gate
 
-- [ ] Test contextual links from Explain and return-state preservation.
-- [ ] Test Guided and Explore modes, all interactive layers and the optional
+- [x] Test contextual links from Explain and return-state preservation.
+- [x] Test Guided and Explore modes, all interactive layers and the optional
   challenge on desktop and 390 × 844 mobile.
-- [ ] Test keyboard focus, touch targets, screen-reader labels and reduced
+- [x] Test keyboard focus, touch targets, screen-reader labels and reduced
   motion.
-- [ ] Run scientific tests and a fresh-player comprehension check.
-- [ ] Capture screenshots and record evidence paths in `EVIDENCE.md`.
+- [x] Run scientific tests and a local fresh-player comprehension path.
+- [x] Capture screenshots and record evidence paths in `EVIDENCE.md`.
 - [ ] Publish the exact tested commit to the owner-private Site.
 - [ ] Mark M28 VERIFIED only after the deployed interactive test passes.
 

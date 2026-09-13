@@ -6,11 +6,13 @@
 | --- | --- | --- |
 | Climate data generation | pass | `app/games/climate-detective/data/year-2018.json` and `candidate-year-report.json` |
 | Candidate-year comparison | pass | `docs/climate-detective/CANDIDATE_YEAR_REPORT.md` |
-| Core tests | pass | `npm test` — 156 tests passed |
+| Core tests | pass | `npm run test:core` — 157 tests passed |
 | Lint | pass | `npm run lint` |
 | Production build | pass | `npm test` build stage; Vinext build completed |
 | Rendered HTML smoke tests | pass | `npm test` — 2 tests passed |
 | M26.1 rendered pointer/touch regression | pass | `verify-m26-1-pointer.cjs` — 10/10 checks passed |
+| M28 global circulation unit/model rules | pass | `tests/game-core.test.mjs` — deterministic geometry, pressure belts, cells, Coriolis and wind-belt assertions |
+| M28 local browser E2E | pass | `verify-m28-global-circulation.cjs` — desktop Guided/Explore + 390 × 844 mobile, 7 screenshots, `browser-console-m28.json` reports `errors: []` |
 
 ## Data evidence
 
@@ -110,6 +112,39 @@ Status: VERIFIED — local browser E2E and deployed fresh-player gate pass.
 - M27 persistent screenshots are in `evidence/m27-*.png`; the deployed browser
   replay was inspected inline in the authenticated Site tab. M27 now passes the
   requested causal-story acceptance gate.
+
+## M28 global atmospheric circulation interactive reference
+
+Status: 🟦 IMPLEMENTED / NEEDS DEPLOYED QA
+
+- Local Mission 01 Explain opens the `🌍 Global wind systems` control beside
+  the map zoom controls. The causal cards `Pressure differences strengthen the
+  wind` and `Moist maritime air arrives` also expose a contextual `Why is the
+  wind from SW?` link.
+- Guided lesson passes through six stages: unequal heating, pressure belts,
+  three cells, Coriolis deflection, prevailing wind belts, and Britain’s
+  Northern mid-latitude westerly context.
+- The map uses generated Natural Earth 1:110m world geometry with the
+  documented Equal Earth teaching projection. Country boundaries are geographic
+  context; pressure belts, cells, Coriolis arrows and wind belts are labelled as
+  an idealised climate model.
+- The wind-belt inspection card explicitly reports `FROM west → TO east`,
+  `30–60°N`, `Subtropical High → Subpolar Low`, and `Ferrel Cell` for the
+  Northern mid-latitude westerlies.
+- The stage-6 bridge shows the real Mission 01 record for 15 Jan 2018:
+  NASA POWER PS-derived `989 hPa`, historical `FROM SW` at `9.3 m/s`,
+  `7.1 mm/day`, and NOAA OISST North Atlantic `10.9°C`. The bridge explains
+  that the global model is background context while the weather-scale pressure
+  field sets the exact day’s flow.
+- Local browser replay passed contextual-link return-state preservation at
+  `STORY SO FAR · 4/5`, Guided and Explore toggles, the optional wind challenge,
+  keyboard Enter/Escape, reduced-motion media, and the 390 × 844 mobile
+  viewport. CUA visual inspection confirmed the historical/model separation and
+  readable mobile layout.
+- Persistent M28 screenshots are in `evidence/m28-global-*.png`; the browser
+  ledger is `evidence/browser-console-m28.json`.
+- Deployed Site replay and keyboard/reduced-motion audit remain required before
+  M28 can be marked VERIFIED.
 
 ## Persistent visual evidence
 

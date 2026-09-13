@@ -1,0 +1,21 @@
+{
+  "baseUrl": "http://localhost:3001/",
+  "desktopViewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "mobileViewport": {
+    "width": 390,
+    "height": 844
+  },
+  "errors": [],
+  "screenshots": [
+    "m28-global-01-stage-heating.png",
+    "m28-global-02-coriolis.png",
+    "m28-global-03-westerlies.png",
+    "m28-global-04-historical-bridge.png",
+    "m28-global-05-context-return.png",
+    "m28-global-06-explore.png",
+    "m28-global-07-mobile.png"
+  ]
+}

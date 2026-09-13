@@ -16,6 +16,7 @@ import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, ADVANCED_ENGINE_MANIFEST, ADVANCED_GO
 import { addResource, advectParticles, createReservoir, entityById, moveEntity, reservoirFilled, stepScene } from "../app/games/simulation-systems.ts";
 import { buildActualRevealBlocks, buildValleyRectangles, buildValleyTimeBlocks, estimateTargetCrossing, estimateValleyVolume, findActualTargetCrossing, resolveValleyOutcome, valleyActualVolume, valleyFlowRate, valleyRiverModel } from "../app/games/water-valley-engine.ts";
 import { CLIMATE_DATA, CLIMATE_MISSIONS, CLIMATE_YEAR, causalOrderFeedback, causalPrefixLength, conceptsFromText, dayLengthHours, derivePressureCentres, evidenceValue, explanationLockReasons, locationById, pressureContourLabels, pressureContourLevels, pressureContourSegments, pressureHpa, scoreMission, seasonFor, shuffleCausalIds, solarAngle, windDirectionLabel } from "../app/games/climate-detective/engine.ts";
+import { CORIOLIS_EXAMPLES, GLOBAL_CELLS, GLOBAL_LATITUDE_BANDS, GLOBAL_PRESSURE_BELTS, GLOBAL_WIND_BELTS, atmosphericCellForLatitude, coriolisDeflection, equalEarthPoint, isBritainMidLatitude, windBeltForLatitude } from "../app/games/climate-detective/global-circulation.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
   assert.equal(LEARNING_LAYERS.length, 5);
@@ -387,6 +388,33 @@ test("Climate Detective exposes exact explanation lock reasons", () => {
   assert.ok(blank.some(reason => /field note/i.test(reason)));
   const ready = explanationLockReasons(mission, mission.chain.map(step => step.id), "Falling pressure brings maritime Atlantic air upward; rising air condenses and brings rain.", true);
   assert.deepEqual(ready, []);
+});
+
+test("M28 global circulation model stays separate, ordered, and deterministic", () => {
+  const world = JSON.parse(readFileSync(new URL("../app/games/climate-detective/data/natural-earth-world.json", import.meta.url), "utf8"));
+  assert.ok(world.features.length >= 170);
+  assert.ok(world.features.some(feature => feature.properties.ADMIN === "United Kingdom"));
+  assert.deepEqual(GLOBAL_LATITUDE_BANDS.map(band => band.latitude), [90, 60, 30, 0, -30, -60, -90]);
+  assert.deepEqual(GLOBAL_PRESSURE_BELTS.map(belt => belt.centreLatitude), [75, 60, 30, 0, -30, -60, -75]);
+  assert.equal(GLOBAL_CELLS.length, 6);
+  assert.equal(coriolisDeflection("north"), "right");
+  assert.equal(coriolisDeflection("south"), "left");
+  assert.equal(windBeltForLatitude(20)?.id, "north-trade-winds");
+  assert.equal(windBeltForLatitude(45)?.id, "north-westerlies");
+  assert.equal(windBeltForLatitude(-20)?.id, "south-trade-winds");
+  assert.equal(windBeltForLatitude(-45)?.id, "south-westerlies");
+  assert.equal(windBeltForLatitude(75)?.id, "north-polar-easterlies");
+  assert.equal(atmosphericCellForLatitude(55)?.name, "Ferrel Cell");
+  assert.equal(atmosphericCellForLatitude(-75)?.name, "Polar Cell");
+  assert.equal(isBritainMidLatitude(55), true);
+  assert.equal(isBritainMidLatitude(45), false);
+  assert.equal(GLOBAL_WIND_BELTS.find(belt => belt.id === "north-westerlies")?.fromDirection, "west");
+  assert.equal(GLOBAL_WIND_BELTS.find(belt => belt.id === "north-trade-winds")?.toDirection, "south-west");
+  assert.equal(CORIOLIS_EXAMPLES.find(example => example.id === "south-equatorward")?.deflection, "left");
+  for (const [longitude, latitude] of [[-180, 90], [0, 0], [180, -90]]) {
+    const point = equalEarthPoint(longitude, latitude, 1200, 520);
+    assert.ok(point.x >= 24 && point.x <= 1176 && point.y >= 24 && point.y <= 496);
+  }
 });
 
 for (const world of FAMILY_WORLD_IDS) {

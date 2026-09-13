@@ -1,9 +1,9 @@
 # Climate Detective Progress
 
-Last updated: 2026-09-12
+Last updated: 2026-09-13
 Current milestone: M28 Global Atmospheric Circulation Interactive Reference — IN PROGRESS
-Current blocker: none; Mission 01 and M27 remain protected baselines
-Next action: implement the global-to-local teaching surface, then replay it as a fresh player before expanding scope
+Current blocker: deployed M28 replay is still pending; Mission 01 and M27 remain protected baselines
+Next action: publish the exact tested M28 commit, then replay the private Site in the authenticated browser
 
 ## Mission status
 
@@ -47,7 +47,9 @@ Natural Earth global country geometry with an Equal Earth projection. Its
 idealised pressure belts, circulation cells and wind belts will be stored as a
 teaching model, separate from the NASA POWER/MERRA-2 historical weather data.
 The first implementation must preserve Mission 01 state while open and return
-to the same causal map evidence.
+to the same causal map evidence. The local implementation is now complete and
+has passed the M28 browser harness; deployment and authenticated fresh-player
+verification remain open.
 
 ## Completed since last checkpoint
 
@@ -106,6 +108,19 @@ to the same causal map evidence.
 - Selected Equal Earth for the teaching map to avoid Web Mercator’s misleading
   polar distortion; the projection decision and source provenance remain
   documented in the M28 plan and data-source notes.
+- Added `global-circulation.ts` as a separate deterministic teaching model for
+  latitude bands, idealised pressure belts, Hadley/Ferrel/Polar cells, Coriolis
+  deflection examples, and wind belts with explicit FROM → TO conventions.
+- Added `GlobalWindSystems.tsx` with a six-stage Guided lesson, controlled
+  Explore mode, Coriolis OFF/ON demo, optional Predict the Wind challenge,
+  clickable wind-belt cards, Britain/North Atlantic context, and a historical
+  15 Jan 2018 bridge that keeps model and daily weather provenance separate.
+- Added the Mission 01 map launch control and causal-story contextual links;
+  closing the reference preserves Explain progress and highlights the real
+  historical FROM SW wind evidence.
+- Added M28 unit coverage and `verify-m28-global-circulation.cjs`; local
+  desktop + 390 × 844 browser replay passed with seven screenshots and zero
+  console/page errors.
 - Published exact M27 commit `85cd9b311d5e75ce611fee884cbfa117b4c006a4` as private Site version 117; deployment `appgdep_6aa59b292c4c81919ae47dfffc921374` succeeded and owner-only access remained unchanged.
 - Started M27 after a local Explain audit: the former animated event pulse was an unexplained circle and has been removed; legitimate observation locations remain labelled in the map legend.
 - Added one-per-attempt semantic causal shuffling, deterministic prefix progression, targeted wrong-order feedback, formative field-note feedback and a visible Forecast bridge.
@@ -115,17 +130,25 @@ to the same causal map evidence.
 
 ## Tests
 
-- `npm test`: 156 tests passed, including Climate Detective data/rules, causal-story shuffle/prefix feedback, recovery-lock, and wrong/excessive/hint scoring tests.
+- `npm run test:core`: 157 tests passed, including M28 geometry/model rules,
+  Climate Detective data/rules, causal-story shuffle/prefix feedback,
+  recovery-lock, and wrong/excessive/hint scoring tests.
 - `npm run lint`: passed.
 - `npm test` build stage: Vinext build completed; only a non-fatal >500 kB chunk warning remains.
 - `npm test` rendered HTML stage: 2 tests passed.
 - `node scripts/climate-detective/verify-m26-1-pointer.cjs`: 10/10 rendered-pointer, keyboard and touch checks passed locally.
 - `node scripts/climate-detective/capture-recovery-evidence.cjs`: complete local Mission 01 + full-year flow passed; `browser-console.json` reports `errors: []`.
 - `node scripts/climate-detective/verify-m27-story.cjs`: desktop causal-story, wrong-order repair, focus/replay, field note, Forecast → Reveal, 390 × 844 reduced-motion flow passed; 10 screenshots captured; `browser-console-m27.json` reports `errors: []`.
+- `node scripts/climate-detective/verify-m28-global-circulation.cjs`: local
+  desktop Guided/Explore, Coriolis demo, wind-belt selection, historical
+  bridge, Explain return-state, keyboard Enter/Escape, reduced-motion media,
+  390 × 844 mobile flow passed; seven M28 PNGs captured;
+  `browser-console-m28.json` reports `errors: []`.
 - Deployed Chrome replay: version 116 reached Reveal with `16 Jan 2018`, actual `4.0°C / 985 hPa / 0.4 mm`, and `12/14`.
-- M28 pre-implementation baseline: working tree was clean before scope work;
-  M27 source remains unchanged apart from documentation/data-preparation
-  additions; full M28 UI and deployed QA are still pending.
+- M28 implementation checkpoint: local core tests, lint, build, manual CUA
+  inspection, keyboard/reduced-motion checks, and the browser harness all pass.
+  The M28 source is not yet published; deployed interactive replay and final
+  fresh-player gate are still pending.
 
 ## Evidence
 
@@ -140,6 +163,11 @@ to the same causal map evidence.
 - Deployed Site: `https://the-axiom-atlas.ckstks246335.chatgpt.site` — version 116, exact app commit `a2716f522291005deedae24d50faa679d04ee184`, deployment `appgdep_6aa586a993588191bcb11c64978c6a22` succeeded 2026-09-12; owner-only custom access preserved.
 - Additional browser smoke: wrong H target feedback, duplicate clue deduplication, hint, Restart, reload, and keyboard map-target activation, 2026-09-11.
 - Persistent screenshot set: `docs/climate-detective/evidence/` (17 PNGs plus `browser-console.json`; latest local capture completed with `errors: []`).
+- M28 local screenshots: `evidence/m28-global-01-stage-heating.png`,
+  `m28-global-02-coriolis.png`, `m28-global-03-westerlies.png`,
+  `m28-global-04-historical-bridge.png`, `m28-global-05-context-return.png`,
+  `m28-global-06-explore.png`, and `evidence/m28-global-07-mobile.png`;
+  console ledger is `evidence/browser-console-m28.json` with `errors: []`.
 - M26 V2 evidence: `docs/climate-detective/evidence/` contains fresh objective, Pressure OFF/ON, Hint 4, selected-low, clues-complete, Wind, Rainfall, Explain incomplete/feedback, Forecast locked/unlocked, Prediction, Reveal, mobile and year-end screenshots; `browser-console.json` records `errors: []`.
 - M26.1 pointer evidence: `verify-m26-1-pointer.cjs` records 10/10 local checks; deployed replay recorded visible-coordinate results for L circle, L text, 963 hPa label, marker edge, H, London, contour, Wind, Rain, keyboard, Task 1–3 and Reveal.
 - App source checkpoint `ffdda035fe8aa3c8afde34871f4e1bc3dab42241` was published as private Site version 114; deployment succeeded at `https://the-axiom-atlas.ckstks246335.chatgpt.site`.
@@ -151,9 +179,9 @@ to the same causal map evidence.
 - The M26.1 interaction blocker is resolved and the deployed Gameplay E2E / Fresh-player gate is verified. The earlier `errors: []` result remains documented as a false positive because it proved console silence, not visible pointer success.
 - The broader M24 release gate, curriculum coverage and future mission expansion remain separately tracked and frozen.
 - M27 verified gate: a fresh deployed player saw each causal reveal, recovered from wrong order, used focus/replay, completed the field note and reached the historical Reveal with the same story visuals.
-- M28 is not yet verified. The world geometry file and interactive reference
-  are newly scoped; no production feature should claim global circulation until
-  its historical/model distinction and deployed replay are evidenced.
+- M28 is not yet verified. Local implementation and evidence pass, but the
+  exact commit still needs to be published and replayed in the authenticated
+  private Site before production can claim the reference is verified.
 
 ## Decisions needed
 
@@ -161,6 +189,6 @@ to the same causal map evidence.
 
 ## Next three actions
 
-1. Add the separate teaching-model data module and Equal Earth world map.
-2. Implement Guided/Explore circulation stages with explicit model/data labels.
-3. Run local and deployed M28 E2E/mobile/accessibility checks before marking any item VERIFIED.
+1. Commit the local M28 implementation and evidence checkpoint.
+2. Publish the exact commit to the existing owner-private Site.
+3. Replay M28 in the authenticated deployed browser, including keyboard/mobile checks, before marking it VERIFIED.

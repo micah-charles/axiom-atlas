@@ -115,7 +115,7 @@ Status: VERIFIED — local browser E2E and deployed fresh-player gate pass.
 
 ## M28 global atmospheric circulation interactive reference
 
-Status: 🟦 IMPLEMENTED / NEEDS DEPLOYED QA — local correction passes; production version 119 has a visual direction regression
+Status: ✅ VERIFIED — local correction and deployed version 120 replay pass
 
 - Local Mission 01 Explain opens the `🌍 Global wind systems` control beside
   the map zoom controls. The causal cards `Pressure differences strengthen the
@@ -152,7 +152,7 @@ Status: 🟦 IMPLEMENTED / NEEDS DEPLOYED QA — local correction passes; produc
 - The correction derives each example’s route from `30°N → 0°`, `30°N → 60°N`,
   `30°S → 0°` or `30°S → 60°S`, then derives the screen-side deflection from
   the hemisphere and motion direction. Local SVG endpoint assertions cover all
-  four examples; corrected production QA is still required.
+  four examples.
 - Deployed version 119 replayed in the authenticated Chrome Site tab on
   2026-09-13. Starting from the Atlas entry, the visible global launch control
   opened the reference; Guided stages 1–6, the Northern westerlies card,
@@ -167,7 +167,15 @@ Status: 🟦 IMPLEMENTED / NEEDS DEPLOYED QA — local correction passes; produc
   published as private Site version 119; deployment
   `appgdep_6aa6f961c6248191acb535718e8b18ca` succeeded at
   `https://the-axiom-atlas.ckstks246335.chatgpt.site`, but this version is
-  superseded pending the corrected arrow-direction replay.
+  superseded because its selected `NH · toward equator` arrow travelled
+  upward.
+- Corrected source commit `5d5d6829ea7f89611c5e6cca989375e775faa45d` was
+  published as private Site version 120. Deployment
+  `appgdep_6aa7187e0968819198e5a19a1629b622` succeeded at the same URL.
+- Production version 120 live SVG checks confirmed all routes: NH equatorward
+  `155.79 → 260` (down), NH poleward `155.79 → 68.72` (up), SH equatorward
+  `364.21 → 260` (up), and SH poleward `364.21 → 451.28` (down). The
+  production contextual-link replay also preserved Mission 01 state on return.
 
 ## Persistent visual evidence
 

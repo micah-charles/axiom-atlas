@@ -1,9 +1,9 @@
 # Climate Detective Progress
 
 Last updated: 2026-09-13
-Current milestone: M28 Global Atmospheric Circulation Interactive Reference — IMPLEMENTED / NEEDS DEPLOYED QA
-Current blocker: production Site version 119 renders the selected NH equatorward Coriolis arrow in the wrong screen direction; local fix is ready
-Next action: deploy the corrected source, replay the production arrow and contextual-link paths, then restore VERIFIED only if the visual gate passes
+Current milestone: M28 Global Atmospheric Circulation Interactive Reference — VERIFIED
+Current blocker: none; Mission 01 and M27 remain protected baselines
+Next action: keep Mission 02 expansion frozen and reassess the next curriculum milestone separately
 
 ## Mission status
 
@@ -36,7 +36,7 @@ Next action: deploy the corrected source, replay the production arrow and contex
 - M26 Investigation gameplay & scientific visualisation V2 ✅
 - M26.1 Critical map interaction recovery ✅
 - M27 Causal storytelling map ✅
-- M28 Global atmospheric circulation interactive reference 🟦
+- M28 Global atmospheric circulation interactive reference ✅
 
 ## Current work
 
@@ -51,10 +51,11 @@ the same causal map evidence. A real-user replay found that production version
 119 rendered the selected `NH · toward equator` Coriolis arrow upward, even
 though its copy correctly described motion from 30°N toward the equator. The
 root cause was hard-coded SVG y-coordinates (and a mirrored Southern Hemisphere
-curve rule), not the climate model. The local fix derives endpoints from the
-selected latitudes, adds a visible route label, and passes geometry assertions
-for all four examples. No new mission expansion was started while deployed QA
-is pending.
+curve rule), not the climate model. The corrected implementation derives
+endpoints from the selected latitudes, adds a visible route label, and passes
+geometry assertions for all four examples. Production version 120 has now
+passed the same four live SVG direction checks and the contextual-link replay.
+No new mission expansion was started.
 
 ## Completed since last checkpoint
 
@@ -143,7 +144,17 @@ is pending.
   unit assertions and rendered SVG endpoint assertions to the browser harness.
 - Local corrected replay passed with the new
   `evidence/m28-global-02-coriolis-nh-equatorward.png`; corrected production
-  replay is pending.
+  replay passed in Site version 120.
+- Published exact corrected app source commit
+  `5d5d6829ea7f89611c5e6cca989375e775faa45d` as private Site version 120;
+  deployment `appgdep_6aa7187e0968819198e5a19a1629b622` succeeded at
+  `https://the-axiom-atlas.ckstks246335.chatgpt.site`.
+- Replayed production version 120 from a fresh Climate Detective entry:
+  opened Global Wind Systems, reached the Coriolis stage, inspected all four
+  example routes, and confirmed `NH · toward equator` renders `30°N → equator`
+  with SVG y increasing from `155.79` to `260`. The other routes also matched
+  their selected hemisphere and pole/equator direction. Mission 01 contextual
+  return-state was preserved after closing the reference.
 - Published exact M27 commit `85cd9b311d5e75ce611fee884cbfa117b4c006a4` as private Site version 117; deployment `appgdep_6aa59b292c4c81919ae47dfffc921374` succeeded and owner-only access remained unchanged.
 - Started M27 after a local Explain audit: the former animated event pulse was an unexplained circle and has been removed; legitimate observation locations remain labelled in the map legend.
 - Added one-per-attempt semantic causal shuffling, deterministic prefix progression, targeted wrong-order feedback, formative field-note feedback and a visible Forecast bridge.
@@ -168,11 +179,15 @@ is pending.
   390 × 844 mobile flow passed; eight M28 PNGs captured; the harness now
   checks all four rendered Coriolis motion directions;
   `browser-console-m28.json` reports `errors: []`.
+- Deployed Site version 120: production CUA replay and live SVG inspection
+  passed all four Coriolis routes and the Mission 01 contextual-link return
+  path; no production console/page error was observed.
 - Deployed Chrome replay: version 116 reached Reveal with `16 Jan 2018`, actual `4.0°C / 985 hPa / 0.4 mm`, and `12/14`.
-- M28 local checkpoint: core tests, lint, build, keyboard/reduced-motion checks,
-  local browser harness, and corrected Coriolis visual inspection all pass.
-  The prior deployed version 119 replay passed interaction coverage but failed
-  this newly observed visual-direction gate; corrected deployed QA is pending.
+- M28 verification checkpoint: core tests, lint, build,
+  keyboard/reduced-motion checks, local browser harness, corrected local visual
+  inspection, and the deployed version 120 fresh-player replay all pass. The
+  prior deployed version 119 replay passed interaction coverage but failed the
+  newly observed visual-direction gate; version 120 fixes and verifies it.
 
 ## Evidence
 
@@ -204,12 +219,12 @@ is pending.
 - The M26.1 interaction blocker is resolved and the deployed Gameplay E2E / Fresh-player gate is verified. The earlier `errors: []` result remains documented as a false positive because it proved console silence, not visible pointer success.
 - The broader M24 release gate, curriculum coverage and future mission expansion remain separately tracked and frozen.
 - M27 verified gate: a fresh deployed player saw each causal reveal, recovered from wrong order, used focus/replay, completed the field note and reached the historical Reveal with the same story visuals.
-- M28 remains locally corrected but is not yet re-verified in the deployed
-  private Site. Production version 119 has the documented Coriolis arrow
-  direction regression. The reference uses an intentionally idealised, static
-  circulation teaching model; it does not claim to be a daily observed global
-  wind analysis, and friction/geostrophic dynamics are named as weather-scale
-  factors rather than animated as a full solver.
+- M28 is verified locally and in deployed private Site version 120. The
+  reference uses an intentionally idealised, static circulation teaching model;
+  it does not claim to be a daily observed global wind analysis, and
+  friction/geostrophic dynamics are named as weather-scale factors rather than
+  animated as a full solver. Production version 119 remains recorded as the
+  superseded arrow-direction regression.
 
 ## Decisions needed
 

@@ -335,7 +335,7 @@ teaching-model interpretations visibly distinct.
 - [x] Mark M27 VERIFIED only after the deployed fresh-player acceptance gate
   passes. Otherwise report FAIL honestly and keep expansion frozen.
 
-### M28 — Global Atmospheric Circulation Interactive Reference 🟨 IN PROGRESS
+### M28 — Global Atmospheric Circulation Interactive Reference ✅ VERIFIED
 
 M28 is a reusable global-to-local teaching surface, not a static infographic
 or a second mission. It opens without resetting Mission 01, keeps the mission
@@ -407,8 +407,8 @@ The teaching model and historical weather remain visibly separate.
   motion.
 - [x] Run scientific tests and a local fresh-player comprehension path.
 - [x] Capture screenshots and record evidence paths in `EVIDENCE.md`.
-- [ ] Publish the exact tested commit to the owner-private Site.
-- [ ] Mark M28 VERIFIED only after the deployed interactive test passes.
+- [x] Publish the exact tested commit to the owner-private Site.
+- [x] Mark M28 VERIFIED only after the deployed interactive test passes.
 
 ## Checkpoint rule
 

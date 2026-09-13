@@ -115,7 +115,7 @@ Status: VERIFIED — local browser E2E and deployed fresh-player gate pass.
 
 ## M28 global atmospheric circulation interactive reference
 
-Status: 🟦 IMPLEMENTED / NEEDS DEPLOYED QA
+Status: ✅ VERIFIED — local and deployed interactive replay pass
 
 - Local Mission 01 Explain opens the `🌍 Global wind systems` control beside
   the map zoom controls. The causal cards `Pressure differences strengthen the
@@ -143,8 +143,20 @@ Status: 🟦 IMPLEMENTED / NEEDS DEPLOYED QA
   readable mobile layout.
 - Persistent M28 screenshots are in `evidence/m28-global-*.png`; the browser
   ledger is `evidence/browser-console-m28.json`.
-- Deployed Site replay and keyboard/reduced-motion audit remain required before
-  M28 can be marked VERIFIED.
+- Deployed version 119 replayed in the authenticated Chrome Site tab on
+  2026-09-13. Starting from the Atlas entry, the visible global launch control
+  opened the reference; Guided stages 1–6, the Northern westerlies card,
+  historical `FROM SW` bridge, Explore mode and Return all produced the
+  expected visible states.
+- The same deployed fresh-player replay continued through Mission 01’s visible
+  Pressure → Wind → Rainfall targets into Explain. The contextual `Why is the
+  wind from SW?` link opened the reference at the Coriolis stage; closing it
+  preserved `STORY SO FAR · 1/5` and showed `GLOBAL CONTEXT RETURNED` with
+  `Historical FROM SW wind highlighted`.
+- The final M28 source commit was `ef28acb827e930fe8191390046a2ceab97fc7ac9`,
+  published as private Site version 119; deployment
+  `appgdep_6aa6f961c6248191acb535718e8b18ca` succeeded at
+  `https://the-axiom-atlas.ckstks246335.chatgpt.site`.
 
 ## Persistent visual evidence
 

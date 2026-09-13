@@ -1,9 +1,9 @@
 # Climate Detective Progress
 
 Last updated: 2026-09-13
-Current milestone: M28 Global Atmospheric Circulation Interactive Reference — IN PROGRESS
-Current blocker: deployed M28 replay is still pending; Mission 01 and M27 remain protected baselines
-Next action: publish the exact tested M28 commit, then replay the private Site in the authenticated browser
+Current milestone: M28 Global Atmospheric Circulation Interactive Reference — VERIFIED
+Current blocker: none; Mission 01 and M27 remain protected baselines
+Next action: keep Mission 02 expansion frozen and reassess the next curriculum milestone separately
 
 ## Mission status
 
@@ -36,7 +36,7 @@ Next action: publish the exact tested M28 commit, then replay the private Site i
 - M26 Investigation gameplay & scientific visualisation V2 ✅
 - M26.1 Critical map interaction recovery ✅
 - M27 Causal storytelling map ✅
-- M28 Global atmospheric circulation interactive reference 🟨
+- M28 Global atmospheric circulation interactive reference ✅
 
 ## Current work
 
@@ -46,10 +46,10 @@ M28 is now scoped as a reusable reference opened from Mission 01. It will use
 Natural Earth global country geometry with an Equal Earth projection. Its
 idealised pressure belts, circulation cells and wind belts will be stored as a
 teaching model, separate from the NASA POWER/MERRA-2 historical weather data.
-The first implementation must preserve Mission 01 state while open and return
-to the same causal map evidence. The local implementation is now complete and
-has passed the M28 browser harness; deployment and authenticated fresh-player
-verification remain open.
+The first implementation preserves Mission 01 state while open and returns to
+the same causal map evidence. The local implementation and M28 browser harness
+passed first; the deployed interactive replay has now also passed and M28 is
+verified. No new mission expansion was started.
 
 ## Completed since last checkpoint
 
@@ -121,6 +121,14 @@ verification remain open.
 - Added M28 unit coverage and `verify-m28-global-circulation.cjs`; local
   desktop + 390 × 844 browser replay passed with seven screenshots and zero
   console/page errors.
+- Published the exact tested M28 app commit `ef28acb827e930fe8191390046a2ceab97fc7ac9`
+  as private Site version 119; the deployment succeeded at
+  `https://the-axiom-atlas.ckstks246335.chatgpt.site`.
+- Replayed production version 119 from a fresh Atlas entry: the global launch
+  control, all six Guided stages, Northern westerly belt card, historical
+  bridge, Explore mode, Mission 01 visible L/Wind/Rainfall targets, Explain
+  contextual link, and return-state highlight all passed in the authenticated
+  Chrome Site tab.
 - Published exact M27 commit `85cd9b311d5e75ce611fee884cbfa117b4c006a4` as private Site version 117; deployment `appgdep_6aa59b292c4c81919ae47dfffc921374` succeeded and owner-only access remained unchanged.
 - Started M27 after a local Explain audit: the former animated event pulse was an unexplained circle and has been removed; legitimate observation locations remain labelled in the map legend.
 - Added one-per-attempt semantic causal shuffling, deterministic prefix progression, targeted wrong-order feedback, formative field-note feedback and a visible Forecast bridge.
@@ -145,10 +153,9 @@ verification remain open.
   390 × 844 mobile flow passed; seven M28 PNGs captured;
   `browser-console-m28.json` reports `errors: []`.
 - Deployed Chrome replay: version 116 reached Reveal with `16 Jan 2018`, actual `4.0°C / 985 hPa / 0.4 mm`, and `12/14`.
-- M28 implementation checkpoint: local core tests, lint, build, manual CUA
-  inspection, keyboard/reduced-motion checks, and the browser harness all pass.
-  The M28 source is not yet published; deployed interactive replay and final
-  fresh-player gate are still pending.
+- M28 verification checkpoint: local core tests, lint, build, manual CUA
+  inspection, keyboard/reduced-motion checks, local browser harness, and the
+  deployed fresh-player replay all pass. The M28 gate is verified.
 
 ## Evidence
 
@@ -179,9 +186,11 @@ verification remain open.
 - The M26.1 interaction blocker is resolved and the deployed Gameplay E2E / Fresh-player gate is verified. The earlier `errors: []` result remains documented as a false positive because it proved console silence, not visible pointer success.
 - The broader M24 release gate, curriculum coverage and future mission expansion remain separately tracked and frozen.
 - M27 verified gate: a fresh deployed player saw each causal reveal, recovered from wrong order, used focus/replay, completed the field note and reached the historical Reveal with the same story visuals.
-- M28 is not yet verified. Local implementation and evidence pass, but the
-  exact commit still needs to be published and replayed in the authenticated
-  private Site before production can claim the reference is verified.
+- M28 is verified locally and in the deployed private Site. The reference uses
+  an intentionally idealised, static circulation teaching model; it does not
+  claim to be a daily observed global wind analysis, and friction/geostrophic
+  dynamics are named as weather-scale factors rather than animated as a full
+  solver.
 
 ## Decisions needed
 
@@ -189,6 +198,6 @@ verification remain open.
 
 ## Next three actions
 
-1. Commit the local M28 implementation and evidence checkpoint.
-2. Publish the exact commit to the existing owner-private Site.
-3. Replay M28 in the authenticated deployed browser, including keyboard/mobile checks, before marking it VERIFIED.
+1. Keep the M07 stop-and-reassess rule active before adding further missions.
+2. Review the deployed M28 reference with a real learner or teacher.
+3. Choose the next curriculum milestone only after that gameplay review.

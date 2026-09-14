@@ -75,12 +75,19 @@ titles and sans/mono for controls and metadata.
 - [x] Build `/geography/climate-detective` landing page.
 - [x] Add `/geography/climate-detective/investigation` entry route.
 
-### M04 — Validation and hosting 🟨
+### M04 — Validation and hosting ✅
 
 - [x] Run lint, core tests, production build and render tests.
 - [x] Browser-check `/`, `/math-logic`, `/geography`, landing and investigation.
 - [x] Check desktop and narrow/mobile layouts for clipping, orientation and route ownership.
-- [ ] Push exact validated source, save and deploy a private Site version.
+- [x] Push exact validated source, save and deploy a private Site version.
+
+## Release evidence
+
+- Validated source checkpoint: `d7995b27f3e486597ff8489616ab47233084262a`.
+- Private Site version 123 deployed successfully.
+- Production route smoke checks passed for the platform entrance, Math realm,
+  Geography realm, Climate Detective landing, and investigation route.
 
 ## Guardrails
 

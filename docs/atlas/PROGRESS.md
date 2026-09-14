@@ -1,9 +1,10 @@
 # Axiom Atlas Realm Architecture Progress
 
 Last updated: 2026-09-14
-Current milestone: M04 validation and private Site release — IN PROGRESS
+Current milestone: Architecture slice released — COMPLETE
 Current blocker: None
-Next action: Publish the validated route slice to the existing private Site.
+Next action: Continue Climate Detective gameplay QA from the existing
+investigation engine, beginning with the fresh-player / M07 gate.
 
 ## Mission status
 
@@ -11,7 +12,7 @@ Next action: Publish the validated route slice to the existing private Site.
 - M01 Platform entrance and shared navigation ✅
 - M02 Math & Logic realm ✅
 - M03 Geography realm and Climate landing ✅
-- M04 Validation and hosting 🟨
+- M04 Validation and hosting ✅
 
 ## Decisions
 
@@ -38,7 +39,23 @@ Evidence:
   and preservation of the existing investigation surface.
 - Investigation route metadata now identifies the page as
   `Climate Detective · Investigation · Axiom Atlas`.
+- Production smoke checks passed for all five route surfaces on the existing
+  private Site: https://the-axiom-atlas.ckstks246335.chatgpt.site
+- Private Site version 123 deployed successfully from commit
+  `d7995b27f3e486597ff8489616ab47233084262a`.
 
 The existing Climate Detective evidence remains valid and is not replaced by
-this navigation work. Deployment evidence will be added after the private Site
-version succeeds.
+this navigation work.
+
+Known problems:
+
+- The new platform/realm artwork is intentionally CSS-driven and reuses the
+  existing atlas asset language; it is not a pixel-perfect copy of the
+  storyboard.
+- Future Geography modules are present as non-clickable placeholders only.
+
+Next three actions:
+
+1. Run a fresh-player gameplay pass through the first Climate Detective case.
+2. Re-audit pressure/wind/seasonal teaching copy against the sourced data.
+3. Only then expand the Geography mission catalogue.

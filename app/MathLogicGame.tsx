@@ -1,6 +1,7 @@
 "use client";
 
 import React, { PointerEvent as ReactPointerEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { AtlasHeader } from "./components/atlas/AtlasHeader";
 import {
   BUBBLE_LEVELS, BubbleState, DEFAULT_PROGRESS, HistoryState, Progress, QUADRATIC_LEVELS,
   QuadraticLevel, QuadraticState, TREE_LEVELS, TreeState, WorldId, beginTreeStep,
@@ -8,7 +9,7 @@ import {
   formatQuadratic, quadraticMatches, quadraticY, redo, starsFor, treeChoose, treeTraverse, undo,
 } from "./lib/game-core";
 import {
-  CAMPAIGN_LEVEL_COUNT, GeneratedLevelBase, LEARNING_LAYERS, LearningLayerId,
+  GeneratedLevelBase, LEARNING_LAYERS, LearningLayerId,
   generateEndlessLevel,
 } from "./lib/campaign";
 import { FAMILY_LEVELS, FamilyLevel, FamilyWorldId, generateFamilyEndless } from "./games/family-generator";
@@ -17,9 +18,8 @@ import { angleFromToken, arithmeticChain, expectedValueFromFact, functionTrace, 
 import { ADVANCED_ACTS, ADVANCED_CAMPAIGN, AdvancedLevelDefinition, SeededFlowMode, SeededTransformMode, accumulateFlow, advancedActRule, advancedActUnlocked, advancedGoalSatisfied, advancedNotation, applyMatrix, closedPath, complexMultiply, curl, dailyAdvancedExpedition, determinant, divergence, discreteSpectrum, generateAdvancedExpedition, gaussianHeight, jacobian, lineIntegral, logisticTrajectory, lotkaVolterraStep, monteCarloEstimate, multiplyMatrix, polygonArea, polylineLength, seededChaosProfile, seededChaosTrajectory, seededCurveProfile, seededDynamicProfile, seededFieldProfile, seededFlowProfile, seededFlowReading, seededGraphEdges, seededGeometryTarget, seededGradientProfile, seededPopulationStep, seededProbabilityProfile, seededSignalDefaults, seededSignalProfile, seededSpringStep, seededTransformOutput, seededTransformProfile, seededVectorField, selectedPathWeight, shortestPath, springStep, surfaceFlux3D, tangentSlope, triangleArea, trapezoidIntegral } from "./games/advanced-engines";
 import { FAMILY_WORLD_IDS, WORLD_IDS, WORLD_META } from "./games/world-registry";
 import { WaterValleyGame } from "./games/WaterValleyGame";
-import ClimateDetectiveGame from "./games/climate-detective/ClimateDetectiveGame";
 
-type Screen = "map" | WorldId | "advanced" | "climate";
+type Screen = "map" | WorldId | "advanced";
 type Toast = { kind: "success" | "warn" | "info"; text: string } | null;
 
 function loadProgress(): Progress {
@@ -102,9 +102,10 @@ function CompletionOverlay({ title, copy, stars, onNext, onMap, onReplay, nextLa
 function WorldMap({ progress, onEnter }: { progress: Progress; onEnter: (world: Screen) => void }) {
   const worlds = WORLD_IDS.map(id => [id, WORLD_META[id]] as const);
   const levelIds = Object.fromEntries(WORLD_IDS.map(id => [id, id === "bubble" ? BUBBLE_LEVELS.map(x => x.id) : id === "tree" ? TREE_LEVELS.map(x => x.id) : id === "parabola" ? QUADRATIC_LEVELS.map(x => x.id) : FAMILY_LEVELS[id as FamilyWorldId].map(x => x.id)])) as Record<WorldId, string[]>;
-  return <main className="map-screen">
-    <section className="map-hero">
-      <div><span className="overline">The Axiom Atlas</span><h1>Think with your hands.</h1><p>Fifteen worlds. {CAMPAIGN_LEVEL_COUNT} campaign missions. Infinite generated expeditions.</p></div>
+  return <main className="map-screen math-realm-map">
+    <AtlasHeader active="math" />
+    <section className="map-hero math-realm-hero">
+      <div><span className="overline">Subject realm · Math & Logic</span><h1>Think with your hands.</h1><p>Explore interactive worlds from numbers to optimisation. Build intuition through play, experiment and discovery.</p></div>
       <div className="atlas-mark" aria-hidden="true"><span>AX</span><i /></div>
     </section>
     <section className="realm-grid" aria-label="Game worlds">
@@ -121,7 +122,6 @@ function WorldMap({ progress, onEnter }: { progress: Progress; onEnter: (world: 
       })}
     </section>
     <button className="advanced-launch" onClick={() => onEnter("advanced")}><span>∞</span><div><b>Advanced Worlds</b><small>Calculus, fields, dynamics, signals, matrices, and complex planes</small></div><i>{progress.dailyChallenge?.key === new Date().toISOString().slice(0, 10) ? `Daily complete · ${progress.dailyStreak} day streak · Enter lab →` : "Enter simulation lab →"}</i></button>
-    <button className="climate-launch" onClick={() => onEnter("climate")}><span>☁</span><div><b>Climate Detective</b><small>Investigate one real UK year through evidence, forecasts, and reveal</small></div><i>Enter field notebook →</i></button>
     <div className="map-footer"><span>Direct manipulation</span><i /> <span>Deterministic worlds</span><i /> <span>Your reasoning, replayed</span></div>
   </main>;
 }
@@ -810,7 +810,6 @@ export default function MathLogicGame() {
     {screen === "bubble" && <BubbleVillage {...props} />}{screen === "tree" && <TreeGarden {...props} />}{screen === "parabola" && <ParabolaValley {...props} />}
     {screen !== "map" && FAMILY_WORLD_IDS.includes(screen as FamilyWorldId) && <FamilyWorld {...props} world={screen as FamilyWorldId} />}
     {screen === "advanced" && <AdvancedWorld {...props} />}
-    {screen === "climate" && <ClimateDetectiveGame onBack={() => setScreen("map")} />}
     <button className="settings-button" onClick={() => setSettings(true)} aria-label="Open settings">⚙</button>
     {settings && <Settings progress={progress} update={patch => setProgress(p => ({ ...p, ...patch }))} close={() => setSettings(false)} />}
     {toast && <div className={`toast ${toast.kind}`}>{toast.text}</div>}

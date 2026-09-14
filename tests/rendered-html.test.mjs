@@ -2,31 +2,57 @@ import assert from "node:assert/strict";
 import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
-async function render() {
+async function render(path = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
   const { default: worker } = await import(workerUrl.href);
-  return worker.fetch(new Request("http://localhost/", { headers: { accept: "text/html" } }), {
+  return worker.fetch(new Request(`http://localhost${path}`, { headers: { accept: "text/html" } }), {
     ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) },
   }, { waitUntil() {}, passThroughOnException() {} });
 }
 
-test("server-renders the complete Axiom Atlas shell", async () => {
+test("server-renders the Axiom Atlas platform entrance", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   const html = await response.text();
-  assert.match(html, /<title>The Axiom Atlas/);
-  assert.match(html, /Think with your hands\./);
-  assert.match(html, /Core Interaction Lab/);
-  assert.match(html, /Bubble Village/);
-  assert.match(html, /Tree Garden/);
-  assert.match(html, /Parabola Valley/);
-  assert.match(html, /Fifteen worlds/);
-  assert.match(html, /600[\s\S]*campaign missions/);
-  assert.match(html, /Advanced Worlds/);
-  for (const world of ["Arithmetic Forge", "Fraction Harbor", "Equation Citadel", "Geometry Kingdom", "Probability Port", "Logic Forest", "Pattern Observatory", "Coordinate Expedition", "Graph Laboratory", "Function Factory", "Optimisation Valley"]) assert.match(html, new RegExp(world));
+  assert.match(html, /<title>Axiom Atlas/);
+  assert.match(html, /Explore\.[\s\S]*Discover\.[\s\S]*Understand\./);
+  assert.match(html, /Math &amp; Logic|Math & Logic/);
+  assert.match(html, /Geography/);
+  assert.match(html, /An interactive atlas of ideas/);
+  assert.doesNotMatch(html, /<MathLogicGame|Core Interaction Lab/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
+});
+
+test("server-renders the Math realm without Climate Detective", async () => {
+  const response = await render("/math-logic");
+  const html = await response.text();
+  assert.equal(response.status, 200);
+  assert.match(html, /Subject realm · Math &amp; Logic|Subject realm · Math & Logic/);
+  assert.match(html, /Core Interaction Lab/);
+  assert.match(html, /Advanced Worlds/);
+  assert.match(html, /Optimisation Valley/);
+  assert.doesNotMatch(html, /Climate Detective/);
+});
+
+test("server-renders Geography and Climate Detective route shells", async () => {
+  const [geography, landing, investigation] = await Promise.all([
+    render("/geography"),
+    render("/geography/climate-detective"),
+    render("/geography/climate-detective/investigation"),
+  ]);
+  const geographyHtml = await geography.text();
+  const landingHtml = await landing.text();
+  const investigationHtml = await investigation.text();
+  assert.match(geographyHtml, /Geography Atlas/);
+  assert.match(geographyHtml, /Climate Detective/i);
+  assert.match(geographyHtml, /Coming later/);
+  assert.match(landingHtml, /Investigate\. Analyse\. Explain\./);
+  assert.match(landingHtml, /Begin investigation/);
+  assert.match(landingHtml, /NASA POWER/);
+  assert.match(investigationHtml, /North Atlantic investigation surface/);
+  assert.match(investigationHtml, /Axiom Atlas · Geography · Climate Detective · Investigation/);
 });
 
 test("ships finished metadata, PWA manifest, and separated game engines", async () => {
@@ -37,7 +63,8 @@ test("ships finished metadata, PWA manifest, and separated game engines", async 
     readFile(new URL("../package.json", import.meta.url), "utf8"),
     readFile(new URL("../app/lib/game-core.ts", import.meta.url), "utf8"),
   ]);
-  assert.match(page, /<MathLogicGame/);
+  assert.doesNotMatch(page, /<MathLogicGame/);
+  assert.match(page, /SubjectRealmCard/);
   assert.match(layout, /The Axiom Atlas/);
   assert.match(layout, /manifest:\s*"\/manifest\.webmanifest"/);
   assert.match(manifest, /"display": "standalone"/);

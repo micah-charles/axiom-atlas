@@ -1,12 +1,16 @@
 # Axiom Atlas
 
-**Explore. Discover. Think. Master.**
+**Explore. Discover. Understand.**
 
-Axiom Atlas is a mathematics and logic adventure game. It turns mathematical rules into tactile puzzles, so players learn by experimenting, making decisions, noticing patterns, and building intuition.
+Axiom Atlas is an interactive learning universe where ideas become places to explore. It currently brings together two learning realms: Math & Logic and Geography. Learners investigate systems, manipulate models, notice patterns, and build explanations they can test.
 
 Learning mathematics should feel like a meaningful adventure rather than completing homework. Every puzzle is designed to strengthen reasoning, perseverance, curiosity, and creativity.
 
-## Current experience
+## Current learning realms
+
+### Math & Logic
+
+The Math & Logic realm contains the 15 playable worlds below, plus Advanced Worlds for calculus, fields, dynamics, signals, matrices, and complex planes. Mathematical rules become tactile puzzles so learners build intuition through experimenting and making decisions.
 
 The Atlas contains 15 playable worlds:
 
@@ -71,6 +75,10 @@ The catalog currently covers 22 mathematical concepts, including Water Valley in
 
 That produces 110 advanced campaign records. Acts are generated from the catalog, passed into the selected world, persisted as mastery records, and unlocked sequentially per concept. **New expedition** generates a deterministic seeded variant and routes it through the correct dedicated simulation. **Daily challenge** derives a shared UTC-day seed, so the same day produces the same mission for every player. The existing GM01–GM15 campaign remains separate, with its own 600 deterministic missions and five learning layers.
 
+### Geography
+
+The Geography realm currently features **Climate Detective**, a data-driven investigation of one historical UK year. Learners use real weather and climate records, pressure systems, wind, rainfall, maps and evidence to investigate change, build a causal explanation, forecast the next 24 hours, and compare their reasoning with reality. The game keeps historical data, derived analysis, and teaching-model explanations visibly distinct. More Geography modules are planned, but are not presented as active features yet.
+
 ## Planned modes
 
 Planned platform features include:
@@ -116,7 +124,12 @@ Open the local address printed by the development server. Progress and settings 
 
 ```text
 app/
-  MathLogicGame.tsx       # world map, campaign UI, and play surfaces
+  page.tsx                # Axiom Atlas platform entrance
+  math-logic/page.tsx     # Math & Logic realm route
+  geography/page.tsx      # Geography realm route
+  geography/climate-detective/ # Climate Detective landing and investigation routes
+  components/atlas/       # shared platform header, breadcrumbs and realm cards
+  MathLogicGame.tsx       # Math campaign UI and play surfaces
   globals.css              # visual system and responsive layouts
   lib/game-core.ts         # pure puzzle state machines
   lib/campaign.ts          # learning layers and seeded level generation

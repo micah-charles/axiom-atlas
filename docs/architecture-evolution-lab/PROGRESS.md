@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-16
-Current milestone: Gate A — M06 implementation correction accepted by committed-source review v3; full verification pending
-Current blocker: No remaining M06 source-level blocker. Runtime evidence debt remains for 390px completion, standalone keyboard-only completion, touch, reduced-motion and screen-reader evidence.
-Next action: Begin the M07 storyboard loop while keeping M06 full-verification evidence tracked and preventing M06 from being marked VERIFIED prematurely.
+Current milestone: M07 storyboard loop — source lock and ChatGPT artifact requested; M06 implementation accepted, full verification pending
+Current blocker: No remaining M06 source-level blocker. M07 storyboard artifact and independent contract review are in progress. M06 runtime evidence debt remains for 390px completion, standalone keyboard-only completion, touch, reduced-motion and screen-reader evidence.
+Next action: Receive and independently review `M07-five-second-tomcat-storyboard-v1.md`; do not implement until its source, gameplay and acceptance contract passes.
 
 ## Mission status
 
@@ -12,6 +12,7 @@ Legend: ⬜ NOT STARTED · 🟨 IN PROGRESS · 🟦 IMPLEMENTED / NEEDS QA · �
 - Gate 0 — Bible import, repository fit, orchestration protocol: ✅ VERIFIED
 - Gate A — Vertical Slice A (M01–M06): 🟨 IN PROGRESS (M01–M06 implemented/needs QA; runtime evidence open)
 - M06 — Fifty Connections or Five Hundred?: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (v3 committed-source review PASS; five runtime/accessibility evidence items remain open)
+- M07 — The 5-Second Tomcat: 🟨 IN PROGRESS (source reviewed; storyboard requested)
 - Gate B — Vertical Slice B (M14–M16): ⬜ NOT STARTED
 - Gate C — Deployment evolution (M46–M53): ⬜ NOT STARTED
 - Gate D — Control-loop scaling (M62–M65): ⬜ NOT STARTED
@@ -269,6 +270,13 @@ runtime mobile/accessibility evidence remains open.
   and closed M06-F01/F02/F03. It explicitly keeps M06 at
   CONDITIONAL PASS / NOT VERIFIED until the five runtime/accessibility
   evidence items are recorded. Later storyboard/design work is unlocked.
+- Read and source-locked M07 against `ccc115a/se` section `1.3.md` at blob
+  `86f1816c44781a7e1f4efe72dac3b4f5114e5049`. Recorded the CPU/memory/I/O
+  diagnostic scope and the M08–M12 deferral boundary in
+  `reviews/source-review-m07.md`.
+- Prepared and sent the storyboard-only request
+  `prompts/M07-five-second-tomcat-storyboard-v1.md` to the selected ChatGPT
+  conversation. No M07 code has been implemented.
 
 ## Tests
 
@@ -423,6 +431,10 @@ implementation review is accepted.
   `reviews/M06-implementation-review-v2.md`
 - M06 implementation review v3:
   `reviews/M06-implementation-review-v3.md`
+- M07 source review:
+  `reviews/source-review-m07.md`
+- M07 storyboard prompt:
+  `prompts/M07-five-second-tomcat-storyboard-v1.md`
 
 ## Known problems
 
@@ -467,18 +479,22 @@ implementation review is accepted.
   accepted the pushed correction and closed all source-level findings. M06 is
   now 🟦 IMPLEMENTED / FULL VERIFICATION PENDING until the five runtime
   evidence debts are closed.
+- M07 is source-locked but not accepted: the ChatGPT storyboard is an
+  untrusted draft until its source trace, neutral opening, deterministic
+  evidence/diagnosis loop, M08–M12 boundary, stable-ID registry and acceptance
+  tests pass independent review.
 
 ## Decisions needed
 
-- M06 implementation progression is unlocked by v3. M07 storyboard work may
-  begin, while M06 must not be marked VERIFIED until its five runtime evidence
+- M06 implementation progression is unlocked by v3. M07 storyboard work has
+  begun, while M06 must not be marked VERIFIED until its five runtime evidence
   items are recorded. Implementation must stop if the slice feels like a
   dashboard rather than an investigation game.
 
 ## Next three actions
 
-1. Request M07 — the next storyboard-only artifact from the selected ChatGPT
-   conversation, keeping M06's source boundary and evidence-first loop intact.
+1. Receive and review the requested M07 storyboard artifact against
+   `reviews/source-review-m07.md` and the review protocol.
 2. Close M06 390px, keyboard-only, touch, reduced-motion and screen-reader
    evidence; keep M01–M05 QA debt visible.
 3. Keep M06 out of VERIFIED until every required runtime capture is committed.

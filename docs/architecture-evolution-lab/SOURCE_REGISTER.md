@@ -47,3 +47,4 @@ Imported Bible SHA-256:
 | M04 | 1.2 | `1.2.md` — `00756d5a3a4054cd9592e19199c10626cdce993a` | ✅ | `reviews/source-review-m01-m06.md` |
 | M05 | 1.2 | `1.2.md` — `00756d5a3a4054cd9592e19199c10626cdce993a` | ✅ | `reviews/source-review-m01-m06.md` |
 | M06 | 1.2 | `1.2.md` — `00756d5a3a4054cd9592e19199c10626cdce993a` | ✅ | `reviews/source-review-m01-m06.md` |
+| M07 | 1.3 | `1.3.md` — `86f1816c44781a7e1f4efe72dac3b4f5114e5049` | ✅ | `reviews/source-review-m07.md` |

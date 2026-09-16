@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-16
-Current milestone: Gate A — M05 bounded review corrections implemented; awaiting committed-source re-review; full verification conditional
-Current blocker: M01/M02/M03/M04/M05 still need real 390px mobile viewport evidence, with reduced-motion, screen-reader and explicit keyboard/touch evidence also open. M05 still needs the post-fix committed-source review.
-Next action: Commit/push the bounded M05 corrections, request ChatGPT's re-review of that commit, then close mobile/accessibility evidence without marking M05 VERIFIED prematurely.
+Current milestone: Gate A — M05 implementation correctness PASS; gameplay PASS; full verification conditional
+Current blocker: M01/M02/M03/M04/M05 still need real 390px mobile viewport evidence, with reduced-motion, screen-reader and explicit keyboard/touch evidence also open. M05 is not VERIFIED until those runtime captures are recorded.
+Next action: Close the outstanding mobile/accessibility evidence for M05 and the earlier missions; do not expand to M06 until the vertical-slice QA gate is satisfied.
 
 ## Mission status
 
@@ -44,7 +44,10 @@ that M05 regressions were absent. The latter claim was checked against the
 actual `2e48a25` tree: M05 regressions were already present, and an additional
 completion/prediction/efficiency invariant test plus a stronger rendered-route
 leakage assertion have now been added. The fresh-player copy has been
-neutralised. Mobile/accessibility and post-fix independent review remain open.
+neutralised. ChatGPT's post-fix committed-source review now rates M05
+implementation correctness PASS and genuinely playable PASS; full verification
+is CONDITIONAL PASS solely because the runtime mobile/accessibility evidence is
+still open.
 
 ## Completed since last checkpoint
 
@@ -205,6 +208,10 @@ neutralised. Mobile/accessibility and post-fix independent review remain open.
 - Neutralised the M05 fresh-player intervention wording and added a rendered
   initial-route assertion rejecting natural-language timeout/retry leakage.
   Added the post-review M05 invariant regression. `npm test` remains green.
+- Downloaded ChatGPT's post-fix M05 review to
+  `reviews/M05-implementation-review-v2.md`. It closes M05-F01 and M05-F02,
+  confirms storyboard v1.2 implementation satisfaction, and keeps only the
+  explicit runtime evidence debt open.
 
 ## Tests
 
@@ -237,6 +244,10 @@ fixes:
   leakage assertion, M05 prediction/completion/efficiency invariants, lint,
   177 core tests, build, and 9 rendered-route tests. Awaiting ChatGPT's
   committed-source re-review of the new commit.
+- ChatGPT's committed-source M05 review v2 — implementation correctness PASS,
+  genuinely playable PASS, full verification CONDITIONAL PASS; M05-F01 and
+  M05-F02 CLOSED. Remaining evidence debt is 390px, keyboard-only, touch,
+  reduced-motion and screen-reader runtime capture.
 - keyboard-only and reduced-motion runs — M01 and reduced-motion/screen-reader evidence pending
 
 Required before M01 verification:
@@ -268,6 +279,8 @@ implementation review is accepted.
 - ChatGPT post-fix review SHA-256: `07772ce7b82797e26a75e7ffb84893e900c2668ea212d054b174392aeb3d50f9`
 - ChatGPT M05 implementation review: `reviews/M05-implementation-review-v1.md`
 - ChatGPT M05 review SHA-256: `cbaf3053bbe9c4479dc5c27407ed1e8546009afba640d11afeb1cb5a3330735f`
+- ChatGPT M05 post-fix implementation review: `reviews/M05-implementation-review-v2.md`
+- ChatGPT M05 post-fix review SHA-256: `cbf19d4219c5b40e086875171bb974dfb5f3559c1769525c89dae3d3fde06387`
 - M02 storyboard v1: `artifacts/chatgpt/M02-follow-one-request-storyboard-v1.md`
 - M02 storyboard v1 SHA-256: `c5fe7bce6e020260317ec4bbce35395b7d9f7cea993654ceaa1b9c8532a60074`
 - M02 accepted storyboard v1.1: `artifacts/chatgpt/M02-follow-one-request-storyboard-v1.1.md`
@@ -361,8 +374,8 @@ implementation review is accepted.
   the remaining deterministic evidence are complete.
 - M05 v1 and v1.1 are retained as storyboard revision history; v1.2 is the
   accepted implementation contract. M05 is now 🟦 IMPLEMENTED / NEEDS QA:
-  desktop clean path and replay passed, while mobile/accessibility and
-  independent committed-source review remain open.
+  desktop clean path and replay passed, implementation correctness is PASS,
+  while mobile/accessibility runtime evidence remains open.
 
 ## Decisions needed
 
@@ -372,7 +385,7 @@ implementation review is accepted.
 
 ## Next three actions
 
-1. Request ChatGPT's independent committed-source review of M05.
-2. Capture M05 390px, keyboard, touch, reduced-motion and screen-reader
+1. Capture M05 390px, keyboard, touch, reduced-motion and screen-reader
    evidence; keep M01–M04 QA debt visible.
-3. Reassess M05 as a game before requesting M06 storyboard work.
+2. Reassess M05 as a game before requesting M06 storyboard work.
+3. Keep M05 🟦 until every required runtime capture is committed.

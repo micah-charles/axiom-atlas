@@ -70,8 +70,10 @@ ChatGPT's first committed-source review is recorded in
   `2e48a25`, contrary to the review's F02 summary.
 
 Local verification after the correction: `npm test` PASS, including 177 core
-tests and 9 rendered-route tests. A post-fix committed-source review is still
-required before implementation correctness can be called PASS.
+tests and 9 rendered-route tests. ChatGPT's post-fix committed-source review is
+recorded in `../reviews/M05-implementation-review-v2.md`: implementation
+correctness PASS and gameplay PASS. Full verification remains CONDITIONAL
+because the runtime evidence listed below is still open.
 
 ## Evidence still open
 
@@ -82,7 +84,8 @@ The following are not marked VERIFIED yet:
 - touch-specific trace;
 - reduced-motion capture;
 - screen-reader announcement transcript;
-- independent committed-source implementation review.
+- independent committed-source implementation review — PASS for correctness;
+  runtime evidence debt remains open.
 
 ## Related automated checks
 

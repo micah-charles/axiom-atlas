@@ -248,7 +248,9 @@ fixes:
   genuinely playable PASS, full verification CONDITIONAL PASS; M05-F01 and
   M05-F02 CLOSED. Remaining evidence debt is 390px, keyboard-only, touch,
   reduced-motion and screen-reader runtime capture.
-- keyboard-only and reduced-motion runs — M01 and reduced-motion/screen-reader evidence pending
+- 390px M05 responsive captures — PASS for initial, gate-open and dependency-map recovery states; full mobile completion remains open
+- M05 keyboard trace — PASS for the core investigation path; standalone full keyboard-only completion remains open
+- M05 touch, reduced-motion and screen-reader runtime captures remain pending
 
 Required before M01 verification:
 
@@ -337,14 +339,18 @@ implementation review is accepted.
   `app/computer-science/architecture-lab/m05/page.tsx`
 - M05 gameplay QA:
   `evidence/M05-playtest-qa.md`
+- M05 runtime QA report:
+  `../../.gstack/qa-reports/m05-2026-09-16/qa-report-m05-2026-09-16.md`
+- M05 390px evidence:
+  `../../.gstack/qa-reports/m05-2026-09-16/screenshots/`
 
 ## Known problems
 
 - The Bible names a primary source path but does not include the source text in
   this repository; the first slice is verified against the live public source,
   while later missions still need section-by-section verification.
-- M01–M04 routes and isolated architecture simulation engines now exist;
-  M04 is implemented/needs QA; M05–M06 remain deliberately not implemented.
+- M01–M05 routes and isolated architecture simulation engines now exist;
+  M01–M05 are implemented/needs QA; M06 remains deliberately not implemented.
 - The Bible's 79 mission summaries are not yet full mission contracts.
 - M01 v1, v1.1 and v2 are retained as revision history; v1.2 is retained as a
   rejected artifact because its downloaded content failed the gate. M01 v1.3
@@ -358,9 +364,9 @@ implementation review is accepted.
   because the fixes were not committed when ChatGPT inspected the branch. v3
   is the accepted committed-source implementation PASS; full verification
   remains conditional until M02-V01/V02/V03 are captured.
-- A real 390px browser viewport is not currently available through the local
-  headless helper; the CUA desktop browser remains available for interaction
-  and visual inspection.
+- The gstack browser captured M05 at a real 390px viewport. The CUA desktop
+  browser remains available for interaction and visual inspection; full
+  mobile completion and accessibility preference captures are still open.
 - The downloaded Markdown is a Pandoc-normalised artifact (65,424 bytes);
   the original prompt and source remain separately versioned.
 - M03 v1 and v1.1 are retained as rejected storyboard revisions; v1.2 is the
@@ -385,7 +391,7 @@ implementation review is accepted.
 
 ## Next three actions
 
-1. Capture M05 390px, keyboard, touch, reduced-motion and screen-reader
-   evidence; keep M01–M04 QA debt visible.
+1. Close M05 standalone keyboard-only, touch, reduced-motion, screen-reader
+   and full-mobile-completion evidence; keep M01–M04 QA debt visible.
 2. Reassess M05 as a game before requesting M06 storyboard work.
 3. Keep M05 🟦 until every required runtime capture is committed.

@@ -50,10 +50,36 @@ From the completed state, `REPLAY M05` returned to the initial route with:
   score are legible in the existing Architecture Evolution Lab visual system.
 - Keyboard-safe causal reorder controls: exercised via semantic button labels;
   no drag interaction is required by the implementation.
-- Tap-safe controls: interaction is button/radio/checkbox based; no hover-only
-  dependency is present in the route code.
-- Reduced motion: route has a scoped `prefers-reduced-motion` rule and no
-  required result depends on animation.
+- Tap-safe controls: the route uses button/radio/checkbox controls and has no
+  hover-only dependency in the route code. A device-level touch trace is still
+  open.
+- Reduced motion: the route has a scoped `prefers-reduced-motion` rule and no
+  required result depends on animation; a browser preference capture is still
+  open.
+
+## Responsive evidence captured
+
+The gstack browser captured the route at a real `390 × 844` viewport after
+waiting for the client to hydrate:
+
+- fresh route: `../../../.gstack/qa-reports/m05-2026-09-16/screenshots/m05-390-initial.png`
+- evidence gate open after E01–E06: `../../../.gstack/qa-reports/m05-2026-09-16/screenshots/m05-390-gate-open-v3.png`
+- dependency-map recovery state after an intentionally incorrect placement:
+  `../../../.gstack/qa-reports/m05-2026-09-16/screenshots/m05-390-recovery.png`
+
+The 390px captures show the stacked mobile layout, readable objective and
+controls, and a recoverable dependency-map state. No console errors were
+reported during this capture. The full end-to-end mobile completion is not
+claimed from these partial captures.
+
+## Keyboard evidence captured
+
+The desktop CUA trace exercised the fresh route with keyboard navigation for
+the investigation gate, dependency classification, diagnosis proof and causal
+reordering. Semantic labels and the keyboard-safe Up/Down controls were
+reachable. The later prediction/result path was completed in the same route,
+but not as a standalone keyboard-only run; that independent evidence remains
+open.
 
 ## Post-review correction pass
 
@@ -79,13 +105,14 @@ because the runtime evidence listed below is still open.
 
 The following are not marked VERIFIED yet:
 
-- real 390px viewport capture, including one recovery path;
-- standalone keyboard-only trace from fresh route;
+- standalone keyboard-only completion from fresh route;
 - touch-specific trace;
 - reduced-motion capture;
 - screen-reader announcement transcript;
-- independent committed-source implementation review — PASS for correctness;
-  runtime evidence debt remains open.
+- full end-to-end 390px completion (partial captures are recorded above).
+
+Independent committed-source implementation review is PASS for correctness and
+playability; runtime evidence debt remains open.
 
 ## Related automated checks
 

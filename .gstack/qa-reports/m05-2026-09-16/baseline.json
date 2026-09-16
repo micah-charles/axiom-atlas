@@ -1,0 +1,23 @@
+{
+  "date": "2026-09-16",
+  "route": "/computer-science/architecture-lab/m05",
+  "url": "http://localhost:3001/computer-science/architecture-lab/m05",
+  "branch": "feature/architecture-evolution-lab",
+  "commitUnderTest": "95715d5",
+  "scope": "M05 The Network Is Now Part of the System",
+  "viewport": "390x844",
+  "screenshots": [
+    "screenshots/m05-390-initial.png",
+    "screenshots/m05-390-gate-open-v3.png",
+    "screenshots/m05-390-recovery.png"
+  ],
+  "consoleErrors": 0,
+  "status": "DONE_WITH_CONCERNS",
+  "openEvidence": [
+    "standalone full keyboard-only completion",
+    "device-level touch trace",
+    "prefers-reduced-motion runtime capture",
+    "screen-reader announcement transcript",
+    "full end-to-end completion at 390x844"
+  ]
+}

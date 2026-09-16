@@ -18,6 +18,7 @@ import { buildActualRevealBlocks, buildValleyRectangles, buildValleyTimeBlocks, 
 import { CLIMATE_DATA, CLIMATE_MISSIONS, CLIMATE_YEAR, causalOrderFeedback, causalPrefixLength, conceptsFromText, dayLengthHours, derivePressureCentres, evidenceValue, explanationLockReasons, locationById, pressureContourLabels, pressureContourLevels, pressureContourSegments, pressureHpa, scoreMission, seasonFor, shuffleCausalIds, solarAngle, windDirectionLabel } from "../app/games/climate-detective/engine.ts";
 import { CORIOLIS_EXAMPLES, GLOBAL_CELLS, GLOBAL_LATITUDE_BANDS, GLOBAL_PRESSURE_BELTS, GLOBAL_SEASON_CONTEXT, GLOBAL_WIND_BELTS, atmosphericCellForLatitude, coriolisDeflection, coriolisMotionLatitudes, equalEarthPoint, isBritainMidLatitude, seasonalLatitude, windBeltForLatitude } from "../app/games/climate-detective/global-circulation.ts";
 import { M01_EVIDENCE, M01_TRACE, approachResult, canUnlockApproaches, scoreExplanation } from "../app/games/architecture-lab/engine.ts";
+import { M02_EVIDENCE, M02_EXPERIMENTS, M02_EXPLANATION_OPTIONS, M02_STAGE_ORDER, M02_TIMINGS, canUnlockM02Evidence, explanationIsComplete, experimentResult, predictionIsCorrect, scoreM02, timingTotal, validateM02Route } from "../app/games/architecture-lab/m02-engine.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
   assert.equal(LEARNING_LAYERS.length, 5);
@@ -310,6 +311,56 @@ test("Architecture Lab M01 scoring rewards fit plus observed failure domain", ()
   assert.ok(missingFit.total < 100);
   assert.ok(strong.total > weak.total);
   assert.equal(weak.reliability, 0);
+});
+
+test("Architecture Lab M02 keeps the slow-site evidence gate deterministic", () => {
+  assert.equal(M02_EVIDENCE.length, 5);
+  assert.deepEqual(M02_STAGE_ORDER, ["DNS_RESOLUTION", "HTTP_CONNECTION", "TOMCAT_PROCESSING", "JDBC_MYSQL_QUERY", "RESPONSE"]);
+  assert.equal(canUnlockM02Evidence(["E01"]), false);
+  assert.equal(canUnlockM02Evidence(["E01", "E02"]), false);
+  assert.equal(canUnlockM02Evidence(["E01", "E02", "E03"]), true);
+  assert.equal(canUnlockM02Evidence(["E01", "E02", "E03", "E03"]), true);
+  assert.equal(canUnlockM02Evidence(["E01", "E03", "E04"]), false);
+});
+
+test("Architecture Lab M02 orders the request and exposes fixed teaching timings", () => {
+  assert.equal(validateM02Route(M02_STAGE_ORDER), true);
+  assert.equal(validateM02Route(["HTTP_CONNECTION", ...M02_STAGE_ORDER.slice(0, 4)]), false);
+  assert.equal(timingTotal("healthy"), 250);
+  assert.equal(timingTotal("incident_baseline"), 650);
+  assert.equal(timingTotal("dns_delay_control"), 1050);
+  assert.equal(timingTotal("server_delay_control"), 650);
+  assert.equal(M02_TIMINGS.incident_baseline.DNS_RESOLUTION, 420);
+  assert.equal(M02_TIMINGS.incident_baseline.TOMCAT_PROCESSING, 90);
+});
+
+test("Architecture Lab M02 controlled experiments distinguish DNS from server delay", () => {
+  const dns = experimentResult("X01_DNS_DELAY_CONTROL");
+  const server = experimentResult("X02_SERVER_DELAY_CONTROL");
+  assert.equal(dns.values.DNS_RESOLUTION, 820);
+  assert.equal(dns.values.TOMCAT_PROCESSING, dns.comparisonValues.TOMCAT_PROCESSING);
+  assert.equal(server.values.TOMCAT_PROCESSING, 490);
+  assert.equal(server.values.DNS_RESOLUTION, server.comparisonValues.DNS_RESOLUTION);
+  assert.equal(dns.total, 1050);
+  assert.equal(server.total, 650);
+  assert.equal(predictionIsCorrect("X01_DNS_DELAY_CONTROL", M02_EXPERIMENTS.X01_DNS_DELAY_CONTROL.correctPrediction), true);
+  assert.equal(predictionIsCorrect("X01_DNS_DELAY_CONTROL", "TOMCAT_RISES_WITH_TOTAL"), false);
+  assert.equal(predictionIsCorrect("X02_SERVER_DELAY_CONTROL", M02_EXPERIMENTS.X02_SERVER_DELAY_CONTROL.correctPrediction), true);
+});
+
+test("Architecture Lab M02 requires the causal distinction and scores recovery", () => {
+  assert.equal(M02_EXPLANATION_OPTIONS.length, 6);
+  assert.equal(explanationIsComplete(M02_EXPLANATION_OPTIONS.map(option => option.id)), true);
+  const perfect = scoreM02({
+    inspected: ["E01", "E02", "E04"], routeRepairs: 0, firstDiagnosis: "DNS_RESOLUTION", finalDiagnosis: "DNS_RESOLUTION",
+    predictionMistakes: 0, experimentsRun: 2, explanation: M02_EXPLANATION_OPTIONS.map(option => option.id),
+  });
+  assert.equal(perfect.total, 100);
+  const recovered = scoreM02({
+    inspected: ["E01", "E02", "E03", "E04"], routeRepairs: 1, firstDiagnosis: "TOMCAT_PROCESSING", finalDiagnosis: "DNS_RESOLUTION",
+    predictionMistakes: 1, experimentsRun: 1, explanation: ["DNS_BEFORE_HTTP", "INCIDENT_DNS_DIAGNOSIS"],
+  });
+  assert.ok(recovered.total < 100 && recovered.total > 0);
 });
 
 test("Climate Detective uses deterministic concepts, seasonal geometry, and evidence units", () => {

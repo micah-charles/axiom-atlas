@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-16
-Current milestone: Gate A — M02 storyboard accepted; M02 implementation in progress
-Current blocker: M01 full verification still awaits a real 390px mobile viewport run/capture, keyboard-only pass, and reduced-motion pass.
-Next action: Implement the accepted M02 latency-diagnosis contract while keeping M01 accessibility QA open; do not mark M01 or M02 VERIFIED prematurely.
+Current milestone: Gate A — M02 implementation complete; gameplay/accessibility QA pending
+Current blocker: M01 and M02 still need real 390px mobile viewport evidence; M01 also needs keyboard/reduced-motion evidence, while M02 needs reduced-motion and screen-reader evidence.
+Next action: Capture M02 mobile/reduced-motion/accessibility evidence, request ChatGPT's independent M02 implementation review, then address any bounded findings.
 
 ## Mission status
 
@@ -101,6 +101,18 @@ to begin while those M01 evidence items remain open.
   fixed teaching-simulation timings, deterministic experiments, evidence-backed
   diagnosis, M03 deferral, 30 acceptance tests, and accessibility requirements
   are present.
+- Implemented M02 as an isolated `/computer-science/architecture-lab/m02`
+  route with a pure deterministic engine, evidence gate, ordered request
+  journey, baseline measurements, diagnosis-before-experiment gate, DNS/server
+  controlled experiments, causal explanation, scoring and replay.
+- Added a M01 completion link into M02 without changing the M01 mission state.
+- Browser QA found and fixed a blank predict-state transition when no control
+  had been selected yet.
+- Browser QA found and fixed perfect-path scoring so two first-try controlled
+  predictions still earn full prediction credit.
+- Recorded M02 desktop and keyboard smoke results in
+  `evidence/M02-playtest-qa.md`; mobile, reduced-motion and screen-reader
+  evidence remain open.
 
 ## Tests
 
@@ -108,13 +120,14 @@ Architecture Evolution Lab implementation changes were rerun after the review
 fixes:
 
 - `npm run lint` — PASS
-- `npm run test:core` — PASS, 160 tests
+- `npm run test:core` — PASS, 164 tests including M02 engine coverage
 - `npm run build` — PASS; route emitted at `/computer-science/architecture-lab`
-- `npm test` — PASS, 160 core tests + build + 5 rendered-route tests
+- `npm test` — PASS after M02 route addition: 164 core tests + build + 6 rendered-route tests
 - fresh-player browser playtest — corrected desktop flow PASS; mobile pending
 - desktop and mobile evidence capture — desktop visual inspection PASS; mobile
   pending
-- keyboard-only and reduced-motion runs — pending
+- M02 keyboard activation smoke — PASS, clean path reached 100/100
+- keyboard-only and reduced-motion runs — M01 and reduced-motion/screen-reader evidence pending
 
 Required before M01 verification:
 
@@ -124,8 +137,13 @@ Required before M01 verification:
 - reduced-motion completion
 - final regression suite and rendered-route checks
 
-M02 may proceed to storyboard review in parallel with the open M01 evidence
-items; M01 must not be marked VERIFIED until those checks are recorded.
+M02 implementation and review may proceed in parallel with the open M01
+evidence items; neither mission must be marked VERIFIED until its checks are
+recorded.
+
+M02 implementation remains 🟦 IMPLEMENTED / NEEDS QA until its mobile,
+reduced-motion and screen-reader evidence is recorded and its independent
+implementation review is accepted.
 
 ## Evidence
 
@@ -143,21 +161,23 @@ items; M01 must not be marked VERIFIED until those checks are recorded.
 - M02 accepted storyboard v1.1: `artifacts/chatgpt/M02-follow-one-request-storyboard-v1.1.md`
 - M02 accepted storyboard v1.1 SHA-256: `bd7c39068186d19474afde3488dd965d8bdfe3eff56d5ca29a4e6dfa4f521c23`
 - M02 storyboard review: `reviews/M02-storyboard-review-v1.1.md`
+- M02 gameplay QA: `evidence/M02-playtest-qa.md`
 
 ## Known problems
 
 - The Bible names a primary source path but does not include the source text in
   this repository; the first slice is verified against the live public source,
   while later missions still need section-by-section verification.
-- M01 route and isolated architecture simulation engine now exist; M02–M06 are
-  deliberately not implemented.
+- M01 and M02 routes and isolated architecture simulation engines now exist;
+  M03–M06 are deliberately not implemented.
 - The Bible's 79 mission summaries are not yet full mission contracts.
 - M01 v1, v1.1 and v2 are retained as revision history; v1.2 is retained as a
   rejected artifact because its downloaded content failed the gate. M01 v1.3
   is accepted and M01 is implemented; v2 confirms the implementation PASS but
   M01 still needs mobile/accessibility evidence before verification.
 - M02 v1 is retained as a rejected storyboard revision. M02 v1.1 is the
-  accepted implementation contract; no M02 application code exists yet.
+  accepted implementation contract; M02 application code exists and is
+  implemented/needs QA, but it is not yet VERIFIED.
 - A real 390px browser viewport is not currently available through the local
   headless helper; the CUA desktop browser remains available for interaction
   and visual inspection.
@@ -172,9 +192,9 @@ items; M01 must not be marked VERIFIED until those checks are recorded.
 
 ## Next three actions
 
-1. Implement M02's accepted latency-diagnosis storyboard and its deterministic
-   state/scoring engine.
-2. Run M02 tests, build, fresh-player QA, mobile, keyboard and reduced-motion
-   evidence while keeping M01's open QA task visible.
-3. Request ChatGPT's independent M02 implementation review; request M03 only
-   after the M02 implementation gate is acceptable.
+1. Capture M02's real 390px mobile, reduced-motion and screen-reader evidence;
+   keep M01's outstanding QA task visible.
+2. Send the M02 implementation packet to the selected ChatGPT conversation for
+   independent review and download the review artifact.
+3. Apply any bounded M02 review corrections, then request M03 storyboard only
+   after M02's implementation gate is acceptable.

@@ -66,6 +66,18 @@ test("server-renders the Architecture Evolution Lab M01 shell", async () => {
   assert.match(html, /Atlas Market is fictional/i);
 });
 
+test("server-renders the Architecture Evolution Lab M02 shell", async () => {
+  const response = await render("/computer-science/architecture-lab/m02");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /M02 — FOLLOW ONE REQUEST|M02/);
+  assert.match(html, /The page feels slow/);
+  assert.match(html, /650 ms/);
+  assert.match(html, /LAB TIMING/);
+  assert.match(html, /Atlas Market is fictional/i);
+  assert.match(html, /request resolves a domain/i);
+});
+
 test("ships finished metadata, PWA manifest, and separated game engines", async () => {
   const [page, layout, manifest, packageJson, core] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),

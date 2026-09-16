@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-16
-Current milestone: Gate A — M03 implementation correctness PASS; full QA pending
+Current milestone: Gate A — M04 storyboard accepted; M03 full QA pending
 Current blocker: M01/M02/M03 still need real 390px mobile viewport evidence, with reduced-motion, screen-reader and explicit keyboard/touch evidence also open. M03 implementation correctness and gameplay review are closed.
-Next action: Request M04 storyboard only from ChatGPT; keep M03 full-verification debt visible and do not mark it VERIFIED.
+Next action: Implement M04 from the accepted storyboard contract; keep M03 full-verification debt visible and do not mark it VERIFIED.
 
 ## Mission status
 
@@ -31,7 +31,9 @@ verification CONDITIONAL PASS; it explicitly allows the M02 storyboard loop
 to begin while those M01 evidence items remain open. M03 storyboard v1 was
 rejected for an unseen-evidence classification path; v1.1 closed that issue
 but omitted the new test ID from its machine-readable registry. v1.2 is now
-accepted after both checks passed.
+accepted after both checks passed. M04 storyboard v1 was rejected for a
+duplicate `M04-T026` registry entry; v1.1 is now accepted after the bounded
+registry correction and full contract review.
 
 ## Completed since last checkpoint
 
@@ -164,6 +166,14 @@ accepted after both checks passed.
   re-review v2 returned implementation correctness PASS, genuinely playable
   PASS, and full verification CONDITIONAL PASS; M03-F01/F02 are CLOSED and
   M04 storyboard work is unlocked.
+- Requested M04 — Disk Full at 02:00 as a storyboard-only artifact. v1 was
+  rejected because the machine-readable `test_ids` registry duplicated
+  `M04-T026`.
+- Downloaded M04 v1.1 after a bounded ChatGPT revision; accepted it after
+  checking source traceability, answer-leakage boundaries, the E01–E05 plus
+  comparator evidence gate, deterministic shared-versus-isolated disk results,
+  prediction-before-reveal, recovery/scoring, replay/accessibility criteria,
+  M05/M06 deferral, and exact stable-ID registry equality.
 
 ## Tests
 
@@ -180,6 +190,9 @@ fixes:
 - M02 keyboard activation smoke — PASS, clean path reached 100/100
 - M02 post-review regression — PASS: E04 diagnosis gate, HTTP-before-DNS local
   feedback, wrong-final diagnosis recovery, and clean two-control 100/100 path
+- M04 storyboard contract validation — PASS: 35 detailed acceptance IDs and 35
+  registry IDs, each unique and set-equal; scoring categories sum to 100; source
+  blob and scope boundary match the source register
 - keyboard-only and reduced-motion runs — M01 and reduced-motion/screen-reader evidence pending
 
 Required before M01 verification:
@@ -233,6 +246,12 @@ implementation review is accepted.
   `reviews/M03-implementation-review-v2.md`
 - M03 implementation review v2 external artifact SHA-256:
   `a2ba6bb7220b768fa3e132033282334c1f4dd1a594abf3f8f69f199fe6dd87c3`
+- M04 accepted storyboard v1.1:
+  `artifacts/chatgpt/M04-disk-full-at-0200-storyboard-v1.1.md`
+- M04 accepted storyboard v1.1 SHA-256:
+  `1e71c61018e082472c2d15b1a45e2ee5fedbcc42daf781c99e70f6de885bb3d8`
+- M04 storyboard review:
+  `reviews/M04-storyboard-review-v1.1.md`
 
 ## Known problems
 
@@ -264,6 +283,9 @@ implementation review is accepted.
   accepted implementation contract.
 - M03 implementation correctness is PASS after committed-source review v2;
   M03 remains 🟦 NEEDS QA until the accessibility/mobile evidence is closed.
+- M04 storyboard is accepted but M04 application code does not exist yet; M04
+  must not be called implemented or verified until its deterministic runtime,
+  evidence captures, tests, and committed-source review are complete.
 
 ## Decisions needed
 
@@ -273,9 +295,8 @@ implementation review is accepted.
 
 ## Next three actions
 
-1. Request M04 storyboard only from the selected ChatGPT conversation; do not
-   request M04 code yet.
+1. Implement M04 from the accepted storyboard; do not request M05/M06 content.
 2. Capture M03 mobile, reduced-motion, screen-reader and explicit keyboard/
    touch evidence; keep M01/M02 QA debt visible.
-3. Review/download the M04 storyboard and accept it only after its exact
-   source boundary, evidence gate and deterministic gameplay contract pass.
+3. Add M04 automated coverage, run the full suite, and request a committed-
+   source implementation review before calling M04 implemented.

@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-17
-Current milestone: M07 bounded corrections complete — committed-source re-review pending
+Current milestone: M07 implementation correctness accepted — full verification pending
 Current blocker: M06 and M07 runtime evidence debt remains for 390px completion, standalone keyboard-only completion, touch, reduced-motion and screen-reader evidence.
-Next action: Commit/push the M07 bounded corrections, request ChatGPT's committed-source re-review, and do not start M08 until the review passes.
+Next action: Keep M07/M06 out of VERIFIED until runtime evidence is captured; next storyboard loop is M08 only after explicit continuation.
 
 ## Mission status
 
@@ -12,7 +12,7 @@ Legend: ⬜ NOT STARTED · 🟨 IN PROGRESS · 🟦 IMPLEMENTED / NEEDS QA · �
 - Gate 0 — Bible import, repository fit, orchestration protocol: ✅ VERIFIED
 - Gate A — Vertical Slice A (M01–M06): 🟨 IN PROGRESS (M01–M06 implemented/needs QA; runtime evidence open)
 - M06 — Fifty Connections or Five Hundred?: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (v3 committed-source review PASS; five runtime/accessibility evidence items remain open)
-- M07 — The 5-Second Tomcat: 🟨 IN PROGRESS (bounded corrections implemented and desktop re-QA passed; committed-source re-review and runtime/accessibility evidence pending)
+- M07 — The 5-Second Tomcat: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (v2 committed-source review PASS; five runtime/accessibility evidence items remain open)
 - Gate B — Vertical Slice B (M14–M16): ⬜ NOT STARTED
 - Gate C — Deployment evolution (M46–M53): ⬜ NOT STARTED
 - Gate D — Control-loop scaling (M62–M65): ⬜ NOT STARTED
@@ -312,6 +312,11 @@ runtime mobile/accessibility evidence remains open.
 - Replayed the corrected route in the browser: clean path reached 100/100;
   wrong diagnosis reached the new frozen-hypothesis/final-diagnosis revision
   control. Evidence is recorded in `evidence/M07-playtest-qa.md`.
+- Requested ChatGPT's committed-source re-review of pushed `e8fb33a` and
+  received v2: implementation correctness PASS, playable loop PASS,
+  deterministic/replay PASS; M07-F01 and M07-F02 CLOSED. Full verification
+  remains CONDITIONAL because the five runtime/accessibility evidence items
+  are still open. The local capture is `reviews/M07-implementation-review-v2.md`.
 
 ## Tests
 
@@ -357,6 +362,9 @@ fixes:
   build, 11 rendered-route tests, proof-card loophole regressions, final
   diagnosis consistency regressions, corrected clean 100/100 browser path,
   and wrong-diagnosis final-revision control
+- M07 committed-source re-review v2 — PASS for implementation correctness,
+  playable loop and deterministic/replay invariants; full verification remains
+  conditional and M07 remains out of VERIFIED
 - M04 implementation verification so far — PASS: lint, 173 core tests, build,
   full `npm test` (173 core + build + 8 rendered-route tests), rendered M04
   route, clean desktop 100/100 path, wrong-path 99/100 recovery, replay reset
@@ -493,6 +501,8 @@ implementation review is accepted.
   `artifacts/chatgpt/M07-five-second-tomcat-storyboard-v1.md`
 - M07 committed-source implementation review v1:
   `reviews/M07-implementation-review-v1.md`
+- M07 committed-source implementation review v2:
+  `reviews/M07-implementation-review-v2.md`
 
 ## Known problems
 
@@ -538,25 +548,21 @@ implementation review is accepted.
   now 🟦 IMPLEMENTED / FULL VERIFICATION PENDING until the five runtime
   evidence debts are closed.
 - M07 implementation review v1 is retained as a revision-required checkpoint;
-  bounded code corrections are now local and desktop-retested, but the
-  correction commit still needs to be pushed and re-reviewed. M07 must remain
-  out of VERIFIED until the source re-review and five runtime/accessibility
-  evidence items are complete.
+  v2 accepts the pushed bounded corrections. M07 must remain out of VERIFIED
+  until the five runtime/accessibility evidence items are complete.
 
 ## Decisions needed
 
 - M06 implementation progression is unlocked by v3. M07 implementation
-  progression is unlocked by the accepted storyboard, but M07 must not unlock
-  M08 until the bounded correction is committed and ChatGPT's re-review passes.
-  M06 and M07 must not be marked VERIFIED until their five runtime evidence
-  items are recorded. Implementation must stop if the slice feels like a
-  dashboard rather than an investigation game.
+  correctness is accepted by v2, but M06 and M07 must not be marked VERIFIED
+  until their five runtime evidence items are recorded. Implementation must
+  stop if the slice feels like a dashboard rather than an investigation game.
 
 ## Next three actions
 
-1. Commit and push the M07 bounded corrections on
-   `feature/architecture-evolution-lab`.
-2. Ask the selected ChatGPT conversation to re-review the pushed M07 commit;
-   close any bounded finding before starting M08.
-3. Capture M07/M06 mobile and accessibility evidence; keep both missions out
+1. Capture M07/M06 mobile and accessibility evidence; keep both missions out
    of VERIFIED until their five required runtime captures are committed.
+2. If continuing storyboard expansion, source-lock M08 and request a
+   storyboard-only artifact from the selected ChatGPT conversation.
+3. Independently review and accept/reject M08 before any implementation; keep
+   all M08 code on this feature branch and leave main untouched.

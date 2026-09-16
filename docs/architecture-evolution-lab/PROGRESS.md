@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-16
-Current milestone: Gate A — M05 implementation correctness PASS; gameplay PASS; full verification conditional
-Current blocker: M01/M02/M03/M04/M05 still need real 390px mobile viewport evidence, with reduced-motion, screen-reader and explicit keyboard/touch evidence also open. M05 is not VERIFIED until those runtime captures are recorded.
-Next action: Close the outstanding mobile/accessibility evidence for M05 and the earlier missions; do not expand to M06 until the vertical-slice QA gate is satisfied.
+Current milestone: Gate A — M05 implementation correctness PASS; gameplay PASS; full verification conditional; M06 storyboard unlocked
+Current blocker: M01/M02/M03/M04/M05 still have runtime evidence debt. M05 remains IMPLEMENTED / NEEDS QA until full 390px completion, standalone keyboard-only completion, touch, reduced-motion and screen-reader evidence are recorded.
+Next action: Request and review the M06 storyboard while keeping M05 evidence closure tracked in parallel.
 
 ## Mission status
 
@@ -47,7 +47,9 @@ leakage assertion have now been added. The fresh-player copy has been
 neutralised. ChatGPT's post-fix committed-source review now rates M05
 implementation correctness PASS and genuinely playable PASS; full verification
 is CONDITIONAL PASS solely because the runtime mobile/accessibility evidence is
-still open.
+still open. The v3 review of pushed commit `44fc4f5` confirms no new
+implementation finding, preserves the five evidence debts, and explicitly
+unlocks the M06 storyboard loop without marking M05 VERIFIED.
 
 ## Completed since last checkpoint
 
@@ -212,6 +214,11 @@ still open.
   `reviews/M05-implementation-review-v2.md`. It closes M05-F01 and M05-F02,
   confirms storyboard v1.2 implementation satisfaction, and keeps only the
   explicit runtime evidence debt open.
+- Captured ChatGPT's v3 committed-source review at `44fc4f5`: implementation
+  correctness PASS, genuinely playable PASS, full verification CONDITIONAL
+  PASS, and M06 storyboard work unlocked. Chrome blocked the raw artifact
+  download endpoint, so the visible artifact preview was reconstructed at
+  `reviews/M05-implementation-review-v3.md` without claiming a raw download.
 
 ## Tests
 

@@ -63,6 +63,12 @@ The v2 committed-source review itself is preserved at
 `reviews/M06-implementation-review-v2.md`; it remains a revision-required
 checkpoint because it reviewed commit `a3d2029` before this bounded correction.
 
+The v3 committed-source re-review of pushed commit `c1f2645` is preserved at
+`reviews/M06-implementation-review-v3.md`. It rates implementation correctness
+and the playable loop PASS, closes M06-F01/F02/F03, and keeps only the five
+runtime/accessibility evidence debts open. M06 therefore remains
+full-verification-pending rather than VERIFIED.
+
 The browser run above verified the important regression: wrong complete
 hypotheses can reach reveal and reconcile, while the final score reflects their
 accuracy. Radio inputs now also expose explicit `value` attributes.

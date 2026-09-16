@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-16
-Current milestone: Gate A — M06 third bounded revision after committed-source review v2; desktop gameplay PASS, full verification conditional
-Current blocker: M06 review v2 found a missing baseline reconciliation step and a trade-off radio value mismatch. Both are corrected locally; the checkpoint still needs commit/push and v3 committed-source review. Runtime evidence debt remains for 390px completion, standalone keyboard-only completion, touch, reduced-motion and screen-reader evidence.
-Next action: Record and push the bounded M06 correction checkpoint, request ChatGPT v3 re-review, and keep mobile/accessibility evidence closure tracked in parallel.
+Current milestone: Gate A — M06 implementation correction accepted by committed-source review v3; full verification pending
+Current blocker: No remaining M06 source-level blocker. Runtime evidence debt remains for 390px completion, standalone keyboard-only completion, touch, reduced-motion and screen-reader evidence.
+Next action: Begin the M07 storyboard loop while keeping M06 full-verification evidence tracked and preventing M06 from being marked VERIFIED prematurely.
 
 ## Mission status
 
@@ -11,7 +11,7 @@ Legend: ⬜ NOT STARTED · 🟨 IN PROGRESS · 🟦 IMPLEMENTED / NEEDS QA · �
 
 - Gate 0 — Bible import, repository fit, orchestration protocol: ✅ VERIFIED
 - Gate A — Vertical Slice A (M01–M06): 🟨 IN PROGRESS (M01–M06 implemented/needs QA; runtime evidence open)
-- M06 — Fifty Connections or Five Hundred?: 🟨 IN PROGRESS (v2 baseline-reconciliation and radio-value findings corrected locally; needs committed-source re-review and runtime evidence)
+- M06 — Fifty Connections or Five Hundred?: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (v3 committed-source review PASS; five runtime/accessibility evidence items remain open)
 - Gate B — Vertical Slice B (M14–M16): ⬜ NOT STARTED
 - Gate C — Deployment evolution (M46–M53): ⬜ NOT STARTED
 - Gate D — Control-loop scaling (M62–M65): ⬜ NOT STARTED
@@ -264,6 +264,11 @@ runtime mobile/accessibility evidence remains open.
   value mismatch. The local capture is
   `reviews/M06-implementation-review-v2.md`; it is retained as a pre-fix
   checkpoint and does not unlock the next storyboard loop.
+- ChatGPT's committed-source review v3 for pushed `c1f2645` returned
+  implementation correctness PASS, playable-loop PASS, exact clean 100/100,
+  and closed M06-F01/F02/F03. It explicitly keeps M06 at
+  CONDITIONAL PASS / NOT VERIFIED until the five runtime/accessibility
+  evidence items are recorded. Later storyboard/design work is unlocked.
 
 ## Tests
 
@@ -295,6 +300,9 @@ fixes:
   wrong-hypothesis baseline reveal plus baseline reconciliation, candidate
   reconciliation, explicit radio values, score reduction for prediction
   mismatches, and replay reset
+- M06 committed-source review v3 — PASS for implementation correctness and
+  playable loop; full verification remains conditional because 390px,
+  keyboard-only, touch, reduced-motion and screen-reader evidence are open
 - M04 implementation verification so far — PASS: lint, 173 core tests, build,
   full `npm test` (173 core + build + 8 rendered-route tests), rendered M04
   route, clean desktop 100/100 path, wrong-path 99/100 recovery, replay reset
@@ -413,6 +421,8 @@ implementation review is accepted.
   `reviews/M06-implementation-review-v1.md`
 - M06 implementation review v2:
   `reviews/M06-implementation-review-v2.md`
+- M06 implementation review v3:
+  `reviews/M06-implementation-review-v3.md`
 
 ## Known problems
 
@@ -453,22 +463,22 @@ implementation review is accepted.
   accepted implementation contract. M05 is now 🟦 IMPLEMENTED / NEEDS QA:
   desktop clean path and replay passed, implementation correctness is PASS,
   while mobile/accessibility runtime evidence remains open.
-- M06 v2 review is retained as a revision-required pre-fix checkpoint. The
-  local working tree now includes baseline reconciliation and explicit
-  trade-off radio values, but M06 remains 🟨 IN PROGRESS until the correction
-  is pushed, re-reviewed and all runtime evidence debts are closed.
+- M06 v2 review is retained as a revision-required pre-fix checkpoint; v3
+  accepted the pushed correction and closed all source-level findings. M06 is
+  now 🟦 IMPLEMENTED / FULL VERIFICATION PENDING until the five runtime
+  evidence debts are closed.
 
 ## Decisions needed
 
-- No new product decision. M07 remains locked until the corrected M06 commit is
-  independently re-reviewed. Implementation must stop if the slice feels like
-  a dashboard rather than an investigation game.
+- M06 implementation progression is unlocked by v3. M07 storyboard work may
+  begin, while M06 must not be marked VERIFIED until its five runtime evidence
+  items are recorded. Implementation must stop if the slice feels like a
+  dashboard rather than an investigation game.
 
 ## Next three actions
 
-1. Commit and push the bounded M06 correction, then request ChatGPT's
-   committed-source re-review.
+1. Request M07 — the next storyboard-only artifact from the selected ChatGPT
+   conversation, keeping M06's source boundary and evidence-first loop intact.
 2. Close M06 390px, keyboard-only, touch, reduced-motion and screen-reader
    evidence; keep M01–M05 QA debt visible.
-3. Keep M06 out of VERIFIED until the re-review and every required runtime
-   capture are committed.
+3. Keep M06 out of VERIFIED until every required runtime capture is committed.

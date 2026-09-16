@@ -1,0 +1,71 @@
+# M04 Playtest QA — Disk Full at 02:00
+
+Date: 2026-09-16
+Route: /computer-science/architecture-lab/m04
+Environment: local Chrome via CUA, desktop viewport
+Mission status: 🟦 IMPLEMENTED / NEEDS QA
+
+## Desktop clean path — PASS
+
+Fresh route state showed:
+
+- fictional 02:00 incident;
+- seller image-write failure and application-log-write failure;
+- neutral evidence cards;
+- diagnosis locked until E01–E05 plus a comparator;
+- no initial SHARED_DISK_CAPACITY, MySQL-filled-disk, or Web/DB-isolation answer text.
+
+Completed interaction:
+
+1. inspected all seven evidence cards;
+2. mapped DB/log/image to the shared disk and CPU/request path to the negative-control zone;
+3. cited E02 plus E03/E04 and committed shared-disk diagnosis;
+4. reordered the five causal claims and attached E01–E05;
+5. committed five predictions while the result remained hidden;
+6. ran the shared-versus-isolated controlled comparison;
+7. reconciled blocked shared writes, available isolated writes, and finite boundaries;
+8. selected Web/DB isolation with mechanism justification;
+9. selected the Web-to-DB network dependency trade-off;
+10. reached MISSION COMPLETE with 100/100.
+
+AX accessibility-state inspection confirmed the complete screen exposed:
+
+INVESTIGATION 15/15 · DIAGNOSIS 15/15 · RESOURCE MAP 10/10 · CAUSAL CHAIN 15/15 · PREDICTION 10/10 · EXPERIMENT 10/10 · INTERVENTION 15/15 · TRADE-OFF 5/5 · EFFICIENCY 5/5 · LAB SCORE 100/100.
+
+Visual inspection: PASS. The completion screen keeps the causal conclusion,
+finite-capacity boundary, Web-local image placement and network-dependency
+stop boundary visible. A clean-path completion screenshot was captured during
+the CUA playtest.
+
+## Wrong-path recovery — PASS
+
+Replayed M04, selected CPU capacity, cited E02/E03/E04, and committed. The
+mission stayed in the diagnosis phase and returned local evidence-based
+feedback rather than revealing the entire answer or dead-ending.
+
+After revising to shared-disk diagnosis, the same run completed with 99/100
+and EFFICIENCY 4/5. Inspected evidence and progress were preserved.
+
+## Replay reset — PASS
+
+Replay returned to the initial incident/evidence state with empty inspection
+progress, hidden result and no score.
+
+## Automated verification
+
+- npm run lint — PASS
+- npm run test:core — PASS, 173 tests
+- npm run build — PASS; /computer-science/architecture-lab/m04 emitted
+- npm test — PASS after the final feedback/resource-map/trade-off correction;
+  173 core tests + production build + 8 rendered-route tests
+
+## Open evidence debt
+
+The following remain open before M04 can become VERIFIED:
+
+- real 390 × 844 viewport clean and recovery captures;
+- explicit keyboard-only completion log/capture;
+- touch-path completion capture;
+- reduced-motion completion capture;
+- screen-reader announcement transcript;
+- independent committed-source implementation review.

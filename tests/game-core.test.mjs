@@ -20,6 +20,7 @@ import { CORIOLIS_EXAMPLES, GLOBAL_CELLS, GLOBAL_LATITUDE_BANDS, GLOBAL_PRESSURE
 import { M01_EVIDENCE, M01_TRACE, approachResult, canUnlockApproaches, scoreExplanation } from "../app/games/architecture-lab/engine.ts";
 import { M02_EVIDENCE, M02_EXPERIMENTS, M02_EXPLANATION_OPTIONS, M02_STAGE_ORDER, M02_TIMINGS, canCommitM02Diagnosis, canSubmitM02FinalDiagnosis, canUnlockM02Evidence, explanationIsComplete, explanationMatchesM02Diagnosis, experimentResult, m02RouteFeedback, predictionIsCorrect, scoreM02, timingTotal, validateM02Route } from "../app/games/architecture-lab/m02-engine.ts";
 import { M03_EVIDENCE, M03_EXPLANATION_CONCEPTS, M03_EXPLANATION_LINKS, M03_INITIAL_MAP, M03_PREDICTIONS, M03_RESULTS, canCommitM03Map, canCommitM03Predictions, canCompleteM03, canMutateM03Classification, canUnlockM03Evidence, correctM03Map, correctM03ResultMatches, explanationLinksCorrect, explanationOrderCorrect, scoreM03, predictionIsCorrectM03 } from "../app/games/architecture-lab/m03-engine.ts";
+import { M04_CAUSAL_CLAIMS, M04_EVIDENCE, M04_INITIAL_RESOURCE_MAP, M04_PREDICTIONS, M04_RESULT_CHECKS, canCommitM04Predictions, canCommitM04ResourceMap, canUnlockM04Evidence, causalLinksCorrectM04, causalOrderCorrectM04, correctM04ResourceMap, diagnosisProofIsEnough, interventionJustificationCorrectM04, resultChecksCorrectM04, scoreM04 } from "../app/games/architecture-lab/m04-engine.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
   assert.equal(LEARNING_LAYERS.length, 5);
@@ -433,6 +434,64 @@ test("Architecture Lab M03 requires a consistent causal explanation and scores r
   assert.equal(scoreM03({ ...interpretationBase, matches, classificationRepairs: 2 }).efficiency, 3);
   assert.equal(scoreM03({ ...interpretationBase, matches, classificationRepairs: 3 }).efficiency, 2);
   assert.equal(scoreM03({ ...interpretationBase, matches, classificationRepairs: 99 }).efficiency, 2);
+});
+
+test("Architecture Lab M04 keeps the evidence gate and resource proof deterministic", () => {
+  assert.equal(M04_EVIDENCE.length, 7);
+  assert.equal(canUnlockM04Evidence(["E01", "E02", "E03", "E04", "E05"]), false);
+  assert.equal(canUnlockM04Evidence(["E01", "E02", "E03", "E04", "E05", "E06"]), true);
+  assert.equal(canUnlockM04Evidence(["E01", "E02", "E03", "E04", "E05", "E06", "E06"]), true);
+  const correctMap = {
+    ...M04_INITIAL_RESOURCE_MAP,
+    MYSQL_PERSISTENT_DATA: "SHARED_LOCAL_DISK",
+    TOMCAT_LOG_WRITE: "SHARED_LOCAL_DISK",
+    SELLER_IMAGE_WRITE: "SHARED_LOCAL_DISK",
+    CPU_COMPARATOR: "NOT_SHOWN_TO_CONSUME_THIS_DISK",
+    REQUEST_PATH_COMPARATOR: "NOT_SHOWN_TO_CONSUME_THIS_DISK",
+  };
+  assert.equal(canCommitM04ResourceMap(correctMap), true);
+  assert.equal(correctM04ResourceMap(correctMap), true);
+  assert.equal(correctM04ResourceMap({ ...correctMap, SELLER_IMAGE_WRITE: "NOT_SHOWN_TO_CONSUME_THIS_DISK" }), false);
+  assert.equal(diagnosisProofIsEnough("SHARED_DISK_CAPACITY", ["E02", "E03", "E04"]), true);
+  assert.equal(diagnosisProofIsEnough("SHARED_DISK_CAPACITY", ["E02", "E03"]), false);
+  assert.equal(diagnosisProofIsEnough("CPU_CAPACITY", ["E02", "E03", "E04"]), false);
+});
+
+test("Architecture Lab M04 requires prediction before reveal and reconciles measured results", () => {
+  assert.equal(M04_PREDICTIONS.length, 5);
+  const predictions = { A_DB_WRITE: "BLOCKED", A_LOG_WRITE: "BLOCKED", A_IMAGE_WRITE: "BLOCKED", B_WRITES_AVAILABLE: "AVAILABLE", B_SAME_BOUNDARY: "SEPARATE" };
+  assert.equal(canCommitM04Predictions({ A_DB_WRITE: "BLOCKED" }), false);
+  assert.equal(canCommitM04Predictions(predictions), true);
+  assert.equal(M04_RESULT_CHECKS.length, 3);
+  assert.equal(resultChecksCorrectM04({ SHARED_WRITES_BLOCKED: "CONFIRMED", ISOLATED_WRITES_AVAILABLE: "CONFIRMED", FINITE_BOUNDARY: "CONFIRMED" }), true);
+  assert.equal(resultChecksCorrectM04({ SHARED_WRITES_BLOCKED: "NOT_CONFIRMED", ISOLATED_WRITES_AVAILABLE: "CONFIRMED", FINITE_BOUNDARY: "CONFIRMED" }), false);
+});
+
+test("Architecture Lab M04 requires the causal chain, proportionate intervention, and exact scoring tiers", () => {
+  const map = {
+    ...M04_INITIAL_RESOURCE_MAP,
+    MYSQL_PERSISTENT_DATA: "SHARED_LOCAL_DISK",
+    TOMCAT_LOG_WRITE: "SHARED_LOCAL_DISK",
+    SELLER_IMAGE_WRITE: "SHARED_LOCAL_DISK",
+    CPU_COMPARATOR: "NOT_SHOWN_TO_CONSUME_THIS_DISK",
+    REQUEST_PATH_COMPARATOR: "NOT_SHOWN_TO_CONSUME_THIS_DISK",
+  };
+  const predictions = { A_DB_WRITE: "BLOCKED", A_LOG_WRITE: "BLOCKED", A_IMAGE_WRITE: "BLOCKED", B_WRITES_AVAILABLE: "AVAILABLE", B_SAME_BOUNDARY: "SEPARATE" };
+  const checks = { SHARED_WRITES_BLOCKED: "CONFIRMED", ISOLATED_WRITES_AVAILABLE: "CONFIRMED", FINITE_BOUNDARY: "CONFIRMED" };
+  const order = M04_CAUSAL_CLAIMS.map(item => item.id);
+  const links = { E01: "CATALOGUE_GROWS", E02: "SHARED_DISK_REACHES_CAPACITY", E03: "PERSISTENT_DB_DATA_GROWS", E04: "TOMCAT_LOG_AND_IMAGE_WRITES_CANNOT_OBTAIN_SPACE", E05: "TOMCAT_LOG_AND_IMAGE_WRITES_CANNOT_OBTAIN_SPACE" };
+  assert.equal(causalOrderCorrectM04(order), true);
+  assert.equal(causalLinksCorrectM04(links), true);
+  assert.equal(interventionJustificationCorrectM04("WEB_DB_ISOLATION", ["PROVEN_SHARED_DISK", "SEPARATE_RESOURCE_DOMAINS", "FINITE_DOMAINS"]), true);
+  assert.equal(interventionJustificationCorrectM04("BIGGER_SINGLE_HOST_DISK", ["PROVEN_SHARED_DISK", "SEPARATE_RESOURCE_DOMAINS", "FINITE_DOMAINS"]), false);
+  const base = { inspected: ["E01", "E02", "E03", "E04", "E05", "E06"], map, diagnosis: "SHARED_DISK_CAPACITY", proof: ["E02", "E03", "E04"], predictions, checks, causalOrder: order, causalLinks: links, intervention: "WEB_DB_ISOLATION", justifications: ["PROVEN_SHARED_DISK", "SEPARATE_RESOURCE_DOMAINS", "FINITE_DOMAINS"], tradeoff: true };
+  assert.equal(scoreM04({ ...base, recoveryCycles: 0 }).total, 100);
+  assert.equal(scoreM04({ ...base, intervention: "BIGGER_SINGLE_HOST_DISK", recoveryCycles: 2 }).intervention, 6);
+  assert.equal(scoreM04({ ...base, recoveryCycles: 0 }).efficiency, 5);
+  assert.equal(scoreM04({ ...base, recoveryCycles: 1 }).efficiency, 4);
+  assert.equal(scoreM04({ ...base, recoveryCycles: 2 }).efficiency, 3);
+  assert.equal(scoreM04({ ...base, recoveryCycles: 3 }).efficiency, 2);
+  assert.equal(scoreM04({ ...base, recoveryCycles: 99 }).efficiency, 2);
 });
 
 test("Climate Detective uses deterministic concepts, seasonal geometry, and evidence units", () => {

@@ -89,6 +89,17 @@ test("server-renders the Architecture Evolution Lab M03 shell", async () => {
   assert.match(html, /HOST 01/);
 });
 
+test("server-renders the Architecture Evolution Lab M04 shell without answer leakage", async () => {
+  const response = await render("/computer-science/architecture-lab/m04");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /M04 — DISK FULL AT 02:00|M04/);
+  assert.match(html, /Two failures\. One question\.|failed writes/i);
+  assert.match(html, /DIAGNOSIS LOCKED/);
+  assert.match(html, /Atlas Market is fictional/i);
+  assert.doesNotMatch(html, /SHARED_DISK_CAPACITY|MySQL filled the disk|Isolate Web and DB/);
+});
+
 test("ships finished metadata, PWA manifest, and separated game engines", async () => {
   const [page, layout, manifest, packageJson, core] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),

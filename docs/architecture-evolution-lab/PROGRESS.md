@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-16
-Current milestone: Gate A — M04 storyboard accepted; M03 full QA pending
+Current milestone: Gate A — M04 implementation checkpoint ready; committed-source review pending
 Current blocker: M01/M02/M03 still need real 390px mobile viewport evidence, with reduced-motion, screen-reader and explicit keyboard/touch evidence also open. M03 implementation correctness and gameplay review are closed.
-Next action: Implement M04 from the accepted storyboard contract; keep M03 full-verification debt visible and do not mark it VERIFIED.
+Next action: Commit/push M04, request committed-source review, and close mobile/accessibility evidence debt before verification.
 
 ## Mission status
 
@@ -174,6 +174,17 @@ registry correction and full contract review.
   comparator evidence gate, deterministic shared-versus-isolated disk results,
   prediction-before-reveal, recovery/scoring, replay/accessibility criteria,
   M05/M06 deferral, and exact stable-ID registry equality.
+- Implemented M04 as an isolated `/computer-science/architecture-lab/m04`
+  route with a pure deterministic engine, seven-card evidence gate, neutral
+  resource-boundary board, recoverable diagnosis, causal builder,
+  prediction-before-reveal, shared-versus-isolated experiment, intervention
+  trade-off and exact 100-point scoring.
+- Added M04 engine, rendered-route and scoring regressions; full desktop CUA
+  playtest completed a clean `100/100` path and a wrong-diagnosis recovery path
+  completing at `99/100`.
+- Recorded M04 desktop gameplay evidence in
+  `evidence/M04-playtest-qa.md`; mobile, reduced-motion, screen-reader and
+  explicit keyboard/touch captures remain open before verification.
 
 ## Tests
 
@@ -193,6 +204,9 @@ fixes:
 - M04 storyboard contract validation — PASS: 35 detailed acceptance IDs and 35
   registry IDs, each unique and set-equal; scoring categories sum to 100; source
   blob and scope boundary match the source register
+- M04 implementation verification so far — PASS: lint, 173 core tests, build,
+  full `npm test` (173 core + build + 8 rendered-route tests), rendered M04
+  route, clean desktop 100/100 path, wrong-path 99/100 recovery, replay reset
 - keyboard-only and reduced-motion runs — M01 and reduced-motion/screen-reader evidence pending
 
 Required before M01 verification:
@@ -252,15 +266,16 @@ implementation review is accepted.
   `1e71c61018e082472c2d15b1a45e2ee5fedbcc42daf781c99e70f6de885bb3d8`
 - M04 storyboard review:
   `reviews/M04-storyboard-review-v1.1.md`
+- M04 desktop gameplay QA:
+  `evidence/M04-playtest-qa.md`
 
 ## Known problems
 
 - The Bible names a primary source path but does not include the source text in
   this repository; the first slice is verified against the live public source,
   while later missions still need section-by-section verification.
-- M01 and M02 routes and isolated architecture simulation engines now exist;
-  M03 is storyboard-accepted but not yet implemented; M04–M06 are
-  deliberately not implemented.
+- M01–M04 routes and isolated architecture simulation engines now exist;
+  M04 is implemented/needs QA; M05–M06 remain deliberately not implemented.
 - The Bible's 79 mission summaries are not yet full mission contracts.
 - M01 v1, v1.1 and v2 are retained as revision history; v1.2 is retained as a
   rejected artifact because its downloaded content failed the gate. M01 v1.3
@@ -283,8 +298,8 @@ implementation review is accepted.
   accepted implementation contract.
 - M03 implementation correctness is PASS after committed-source review v2;
   M03 remains 🟦 NEEDS QA until the accessibility/mobile evidence is closed.
-- M04 storyboard is accepted but M04 application code does not exist yet; M04
-  must not be called implemented or verified until its deterministic runtime,
+- M04 storyboard is accepted and M04 implementation is now 🟦 IMPLEMENTED /
+  NEEDS QA; it must not be called verified until its deterministic runtime,
   evidence captures, tests, and committed-source review are complete.
 
 ## Decisions needed
@@ -295,8 +310,8 @@ implementation review is accepted.
 
 ## Next three actions
 
-1. Implement M04 from the accepted storyboard; do not request M05/M06 content.
-2. Capture M03 mobile, reduced-motion, screen-reader and explicit keyboard/
-   touch evidence; keep M01/M02 QA debt visible.
-3. Add M04 automated coverage, run the full suite, and request a committed-
-   source implementation review before calling M04 implemented.
+1. Commit and push the M04 implementation checkpoint on the feature branch.
+2. Request ChatGPT's committed-source M04 implementation review; fix only
+   bounded review findings before considering M04 for verification.
+3. Capture M04 390px, reduced-motion, screen-reader and explicit keyboard/touch
+   evidence; keep M01–M03 QA debt visible.

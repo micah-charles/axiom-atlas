@@ -2,14 +2,14 @@
 
 Last updated: 2026-09-16
 Current milestone: Gate 0 — design and provenance lock
-Current blocker: Exact primary-source sections for Missions 1–6 still need verification.
-Next action: Verify source sections, then prepare the Mission 1 storyboard prompt.
+Current blocker: None for source verification; M01 storyboard prompt still needs approval before sending.
+Next action: Show the exact Mission 1 storyboard prompt and confirm the target ChatGPT conversation.
 
 ## Mission status
 
 Legend: ⬜ NOT STARTED · 🟨 IN PROGRESS · 🟦 IMPLEMENTED / NEEDS QA · ✅ VERIFIED · ⛔ BLOCKED
 
-- Gate 0 — Bible import, repository fit, orchestration protocol: 🟨 IN PROGRESS
+- Gate 0 — Bible import, repository fit, orchestration protocol: ✅ VERIFIED
 - Gate A — Vertical Slice A (M01–M06): ⬜ NOT STARTED
 - Gate B — Vertical Slice B (M14–M16): ⬜ NOT STARTED
 - Gate C — Deployment evolution (M46–M53): ⬜ NOT STARTED
@@ -35,6 +35,10 @@ message so the first prompt and target conversation can be reviewed.
 - Imported the Bible to `docs/architecture-evolution-lab/`.
 - Created the orchestration plan, mission matrix, source register, and review
   protocol.
+- Read the exact public source sections `1.1.md` and `1.2.md` for M01–M06 and
+  recorded their GitHub blob SHAs and adaptation boundaries.
+- Passed the M01–M06 source-provenance review; storyboard generation remains a
+  separate gate.
 
 ## Tests
 
@@ -59,7 +63,8 @@ Required before the first implementation checkpoint:
 ## Known problems
 
 - The Bible names a primary source path but does not include the source text in
-  this repository; exact source-section verification is still outstanding.
+  this repository; the first slice is verified against the live public source,
+  while later missions still need section-by-section verification.
 - No `/computer-science/architecture-lab` route or architecture simulation
   engine exists yet.
 - The Bible's 79 mission summaries are not yet full mission contracts.
@@ -68,8 +73,6 @@ Required before the first implementation checkpoint:
 
 ## Decisions needed
 
-- Confirm the source sections/licence and attribution format before content
-  generation.
 - Confirm the first ChatGPT prompt and the user-selected target conversation
   before sending it.
 - Confirm whether the first checkpoint should be committed directly to `main`
@@ -77,6 +80,6 @@ Required before the first implementation checkpoint:
 
 ## Next three actions
 
-1. Verify the primary source for Missions 1–6 and record the evidence.
-2. Show the exact Mission 1 ChatGPT storyboard prompt for confirmation.
-3. Capture, review, and version the first Mission 1 storyboard artifact.
+1. Show the exact Mission 1 ChatGPT storyboard prompt for confirmation.
+2. Capture and review the first Mission 1 storyboard artifact.
+3. Challenge or accept M01, then checkpoint the accepted artifact before M02.

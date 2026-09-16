@@ -21,8 +21,8 @@ Imported Bible SHA-256:
 - Licence: the public repository advertises an MIT licence; confirm the exact
   licence file and any subdirectory-specific notices before redistributing
   source excerpts or assets.
-- Current verification: repository identity confirmed; exact source files for
-  Missions 1–6 not yet re-read and recorded.
+- Exact source files for the first slice have now been re-read and recorded in
+  `reviews/source-review-m01-m06.md`.
 
 ## Source-to-game rules
 
@@ -41,9 +41,9 @@ Imported Bible SHA-256:
 
 | Mission | Bible source | Exact primary-source files/sections | Status | Evidence |
 |---|---|---|---|---|
-| M01 | 1.1 | Pending | ⬜ | — |
-| M02 | 1.1 | Pending | ⬜ | — |
-| M03 | 1.1 | Pending | ⬜ | — |
-| M04 | 1.2 | Pending | ⬜ | — |
-| M05 | 1.2 | Pending | ⬜ | — |
-| M06 | 1.2 | Pending | ⬜ | — |
+| M01 | 1.1 | `1.1.md` — `9ddbabbd0fe6693b7c8c60479f0c2f37803233fd` | ✅ | `reviews/source-review-m01-m06.md` |
+| M02 | 1.1 | `1.1.md` — `9ddbabbd0fe6693b7c8c60479f0c2f37803233fd` | ✅ | `reviews/source-review-m01-m06.md` |
+| M03 | 1.1 | `1.1.md` — `9ddbabbd0fe6693b7c8c60479f0c2f37803233fd` | ✅ | `reviews/source-review-m01-m06.md` |
+| M04 | 1.2 | `1.2.md` — `00756d5a3a4054cd9592e19199c10626cdce993a` | ✅ | `reviews/source-review-m01-m06.md` |
+| M05 | 1.2 | `1.2.md` — `00756d5a3a4054cd9592e19199c10626cdce993a` | ✅ | `reviews/source-review-m01-m06.md` |
+| M06 | 1.2 | `1.2.md` — `00756d5a3a4054cd9592e19199c10626cdce993a` | ✅ | `reviews/source-review-m01-m06.md` |

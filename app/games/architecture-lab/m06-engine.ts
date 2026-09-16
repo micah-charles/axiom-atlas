@@ -87,7 +87,7 @@ export const M06_RESULT_CHECKS: readonly { id: M06ResultCheckId; label: string }
   { id: "DB_CONTENTION", label: "The DB contention queue matches the predicted direction." },
   { id: "DB_CPU", label: "DB CPU pressure matches the predicted direction." },
   { id: "THROUGHPUT", label: "Throughput matches the predicted direction." },
-  { id: "P95", label: "p95 latency and errors match the candidate's trade-off." },
+  { id: "P95", label: "p95 latency and errors match this run's trade-off." },
   { id: "ERRORS", label: "The error result matches the predicted direction." },
 ];
 
@@ -143,6 +143,22 @@ export function resultChecksCorrectM06(checks: Partial<Record<M06ResultCheckId, 
   return M06_RESULT_CHECKS.every(item => checks[item.id] === "CONFIRMED");
 }
 
+function resultChecksMatchExpectedM06(
+  predictions: Partial<Record<M06PredictionId, M06PredictionChoice>>,
+  expected: Readonly<Record<M06PredictionId, M06Qualitative>>,
+  checks: Partial<Record<M06ResultCheckId, M06ResultChoice>>,
+) {
+  const expectedChecks: Record<M06ResultCheckId, M06ResultChoice> = {
+    APP_WAIT: predictions.APP_WAIT === expected.APP_WAIT ? "CONFIRMED" : "NOT_CONFIRMED",
+    DB_CONTENTION: predictions.DB_CONTENTION === expected.DB_CONTENTION ? "CONFIRMED" : "NOT_CONFIRMED",
+    DB_CPU: predictions.DB_CPU === expected.DB_CPU ? "CONFIRMED" : "NOT_CONFIRMED",
+    THROUGHPUT: predictions.THROUGHPUT === expected.THROUGHPUT ? "CONFIRMED" : "NOT_CONFIRMED",
+    P95: predictions.DB_CONTENTION === expected.DB_CONTENTION && predictions.ERRORS === expected.ERRORS ? "CONFIRMED" : "NOT_CONFIRMED",
+    ERRORS: predictions.ERRORS === expected.ERRORS ? "CONFIRMED" : "NOT_CONFIRMED",
+  };
+  return M06_RESULT_CHECKS.every(item => checks[item.id] === expectedChecks[item.id]);
+}
+
 export function directionalValueForResultM06(result: { appWait: number; dbContention: number; dbCpu: number; throughput: number; errors: number }, id: M06PredictionId): M06Qualitative {
   if (id === "APP_WAIT") return result.appWait >= 10 ? "HIGH" : result.appWait === 0 ? "NONE" : "LOW";
   if (id === "DB_CONTENTION") return result.dbContention >= 20 ? "HIGH" : "LOW";
@@ -164,17 +180,13 @@ export function candidatePredictionScoreM06(candidate: M06Candidate, predictions
   return predictionAccuracyScoreM06(predictions, Object.fromEntries(M06_BASELINE_PREDICTIONS.map(item => [item.id, directionalValue(candidate, item.id)])) as Record<M06PredictionId, M06Qualitative>);
 }
 
+export function baselineResultChecksMatchPredictionsM06(predictions: Partial<Record<M06PredictionId, M06PredictionChoice>>, checks: Partial<Record<M06ResultCheckId, M06ResultChoice>>) {
+  return resultChecksMatchExpectedM06(predictions, M06_BASELINE_DIRECTIONAL_VALUES, checks);
+}
+
 export function resultChecksMatchPredictionsM06(candidate: M06Candidate, predictions: Partial<Record<M06PredictionId, M06PredictionChoice>>, checks: Partial<Record<M06ResultCheckId, M06ResultChoice>>) {
   const expected = Object.fromEntries(M06_BASELINE_PREDICTIONS.map(item => [item.id, directionalValue(candidate, item.id)])) as Record<M06PredictionId, M06Qualitative>;
-  const expectedChecks: Record<M06ResultCheckId, M06ResultChoice> = {
-    APP_WAIT: predictions.APP_WAIT === expected.APP_WAIT ? "CONFIRMED" : "NOT_CONFIRMED",
-    DB_CONTENTION: predictions.DB_CONTENTION === expected.DB_CONTENTION ? "CONFIRMED" : "NOT_CONFIRMED",
-    DB_CPU: predictions.DB_CPU === expected.DB_CPU ? "CONFIRMED" : "NOT_CONFIRMED",
-    THROUGHPUT: predictions.THROUGHPUT === expected.THROUGHPUT ? "CONFIRMED" : "NOT_CONFIRMED",
-    P95: predictions.DB_CONTENTION === expected.DB_CONTENTION && predictions.ERRORS === expected.ERRORS ? "CONFIRMED" : "NOT_CONFIRMED",
-    ERRORS: predictions.ERRORS === expected.ERRORS ? "CONFIRMED" : "NOT_CONFIRMED",
-  };
-  return M06_RESULT_CHECKS.every(item => checks[item.id] === expectedChecks[item.id]);
+  return resultChecksMatchExpectedM06(predictions, expected, checks);
 }
 
 export function scoreM06({
@@ -209,12 +221,13 @@ export function scoreM06({
 export const M06_REQUIRED_CANDIDATES: readonly M06Candidate[] = ["SMALL_POOL", "FIT_POOL", "LARGE_POOL"];
 
 export function canCompleteM06({
-  inspected, diagnosis, proof, baselinePredictions, candidatePredictions, runs, reconciled, causalOrder, causalLinks, tradeoff,
+  inspected, diagnosis, proof, baselinePredictions, baselineReconciled, candidatePredictions, runs, reconciled, causalOrder, causalLinks, tradeoff,
 }: {
   inspected: M06EvidenceId[];
   diagnosis: M06Diagnosis | null;
   proof: M06EvidenceId[];
   baselinePredictions: Partial<Record<M06PredictionId, M06PredictionChoice>>;
+  baselineReconciled: boolean;
   candidatePredictions: Partial<Record<M06Candidate, Partial<Record<M06PredictionId, M06PredictionChoice>>>>;
   runs: M06Candidate[];
   reconciled: Partial<Record<M06Candidate, boolean>>;
@@ -225,6 +238,7 @@ export function canCompleteM06({
   return canUnlockM06Evidence(inspected)
     && diagnosisProofIsEnoughM06(diagnosis, proof, inspected)
     && predictionsCompleteM06(baselinePredictions)
+    && baselineReconciled
     && M06_REQUIRED_CANDIDATES.every(candidate => runs.includes(candidate) && predictionsCompleteM06(candidatePredictions[candidate] ?? {}) && reconciled[candidate])
     && causalOrderCorrectM06(causalOrder)
     && causalLinksCorrectM06(causalLinks)

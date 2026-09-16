@@ -22,7 +22,7 @@ import { M02_EVIDENCE, M02_EXPERIMENTS, M02_EXPLANATION_OPTIONS, M02_STAGE_ORDER
 import { M03_EVIDENCE, M03_EXPLANATION_CONCEPTS, M03_EXPLANATION_LINKS, M03_INITIAL_MAP, M03_PREDICTIONS, M03_RESULTS, canCommitM03Map, canCommitM03Predictions, canCompleteM03, canMutateM03Classification, canUnlockM03Evidence, correctM03Map, correctM03ResultMatches, explanationLinksCorrect, explanationOrderCorrect, scoreM03, predictionIsCorrectM03 } from "../app/games/architecture-lab/m03-engine.ts";
 import { M04_CAUSAL_CLAIMS, M04_EVIDENCE, M04_INITIAL_RESOURCE_MAP, M04_PREDICTIONS, M04_RESULT_CHECKS, canCommitM04Predictions, canCommitM04ResourceMap, canUnlockM04Evidence, causalLinksCorrectM04, causalOrderCorrectM04, correctM04ResourceMap, diagnosisProofIsEnough, interventionJustificationCorrectM04, resultChecksCorrectM04, scoreM04 } from "../app/games/architecture-lab/m04-engine.ts";
 import { M05_INITIAL_DEPENDENCY_MAP, M05_PREDICTIONS, M05_REQUIRED_CAUSAL_ORDER, canCommitM05Predictions, canCompleteM05, canUnlockM05Evidence, causalLinksCorrectM05, causalOrderCorrectM05, correctM05DependencyMap, diagnosisProofIsEnoughM05, m05ProofEvidenceEnough, policyJustificationCorrectM05, predictionsCorrectM05, resultChecksCorrectM05, scoreM05 } from "../app/games/architecture-lab/m05-engine.ts";
-import { M06_BASELINE_PREDICTIONS, M06_CHANGED_PREDICTIONS, M06_REQUIRED_CANDIDATES, M06_REQUIRED_CAUSAL_ORDER, M06_REQUIRED_LINKS, M06_RESULT_CHECKS, canCompleteM06, canUnlockM06Evidence, candidatePredictionsCorrectM06, causalLinksCorrectM06, causalOrderCorrectM06, diagnosisProofIsEnoughM06, m06ProofEvidenceEnough, predictionsCompleteM06, resultChecksCorrectM06, resultChecksMatchPredictionsM06, scoreM06 } from "../app/games/architecture-lab/m06-engine.ts";
+import { M06_BASELINE_PREDICTIONS, M06_CHANGED_PREDICTIONS, M06_REQUIRED_CANDIDATES, M06_REQUIRED_CAUSAL_ORDER, M06_REQUIRED_LINKS, M06_RESULT_CHECKS, baselineResultChecksMatchPredictionsM06, canCompleteM06, canUnlockM06Evidence, candidatePredictionsCorrectM06, causalLinksCorrectM06, causalOrderCorrectM06, diagnosisProofIsEnoughM06, m06ProofEvidenceEnough, predictionsCompleteM06, resultChecksCorrectM06, resultChecksMatchPredictionsM06, scoreM06 } from "../app/games/architecture-lab/m06-engine.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
   assert.equal(LEARNING_LAYERS.length, 5);
@@ -299,7 +299,8 @@ test("M06 keeps predictions, experiments, causal links and score deterministic",
   assert.equal(resultChecksCorrectM06(checks), true);
   assert.equal(causalOrderCorrectM06([...M06_REQUIRED_CAUSAL_ORDER]), true);
   assert.equal(causalLinksCorrectM06(M06_REQUIRED_LINKS), true);
-  assert.equal(canCompleteM06({ inspected, diagnosis: "CONNECTION_ADMISSION_MISMATCH", proof: ["E01", "E02", "E03", "E05"], baselinePredictions, candidatePredictions, runs: [...M06_REQUIRED_CANDIDATES], reconciled, causalOrder: [...M06_REQUIRED_CAUSAL_ORDER], causalLinks: M06_REQUIRED_LINKS, tradeoff: "FIT_IS_MODEL_BOUND" }), true);
+  assert.equal(canCompleteM06({ inspected, diagnosis: "CONNECTION_ADMISSION_MISMATCH", proof: ["E01", "E02", "E03", "E05"], baselinePredictions, baselineReconciled: false, candidatePredictions, runs: [...M06_REQUIRED_CANDIDATES], reconciled, causalOrder: [...M06_REQUIRED_CAUSAL_ORDER], causalLinks: M06_REQUIRED_LINKS, tradeoff: "FIT_IS_MODEL_BOUND" }), false);
+  assert.equal(canCompleteM06({ inspected, diagnosis: "CONNECTION_ADMISSION_MISMATCH", proof: ["E01", "E02", "E03", "E05"], baselinePredictions, baselineReconciled: true, candidatePredictions, runs: [...M06_REQUIRED_CANDIDATES], reconciled, causalOrder: [...M06_REQUIRED_CAUSAL_ORDER], causalLinks: M06_REQUIRED_LINKS, tradeoff: "FIT_IS_MODEL_BOUND" }), true);
   assert.deepEqual(scoreM06({ inspected, diagnosis: "CONNECTION_ADMISSION_MISMATCH", proof: ["E01", "E02", "E03", "E05"], baselinePredictions, candidatePredictions, runs: [...M06_REQUIRED_CANDIDATES], reconciled, causalOrder: [...M06_REQUIRED_CAUSAL_ORDER], causalLinks: M06_REQUIRED_LINKS, tradeoff: "FIT_IS_MODEL_BOUND", recoveryCycles: 0 }), { investigation: 15, diagnosis: 15, baseline: 10, controlledChange: 10, changedPrediction: 10, reconciliation: 15, causal: 15, boundary: 5, efficiency: 5, total: 100 });
 });
 
@@ -310,8 +311,11 @@ test("M06 lets a complete wrong hypothesis reach reveal and scores the reconcili
   const confirmed = Object.fromEntries(M06_RESULT_CHECKS.map(item => [item.id, "CONFIRMED"]));
   const reconciled = Object.fromEntries(M06_REQUIRED_CANDIDATES.map(candidate => [candidate, true]));
   assert.equal(predictionsCompleteM06(wrongPredictions), true);
+  assert.equal(baselineResultChecksMatchPredictionsM06(wrongPredictions, confirmed), false);
+  const baselineChecks = { APP_WAIT: "NOT_CONFIRMED", DB_CONTENTION: "CONFIRMED", DB_CPU: "NOT_CONFIRMED", THROUGHPUT: "NOT_CONFIRMED", P95: "NOT_CONFIRMED", ERRORS: "NOT_CONFIRMED" };
+  assert.equal(baselineResultChecksMatchPredictionsM06(wrongPredictions, baselineChecks), true);
   assert.equal(resultChecksMatchPredictionsM06("FIT_POOL", wrongPredictions, confirmed), false);
-  assert.equal(canCompleteM06({ inspected, diagnosis: "CONNECTION_ADMISSION_MISMATCH", proof: ["E01", "E02", "E03", "E05"], baselinePredictions: wrongPredictions, candidatePredictions: wrongCandidatePredictions, runs: [...M06_REQUIRED_CANDIDATES], reconciled, causalOrder: [...M06_REQUIRED_CAUSAL_ORDER], causalLinks: M06_REQUIRED_LINKS, tradeoff: "FIT_IS_MODEL_BOUND" }), true);
+  assert.equal(canCompleteM06({ inspected, diagnosis: "CONNECTION_ADMISSION_MISMATCH", proof: ["E01", "E02", "E03", "E05"], baselinePredictions: wrongPredictions, baselineReconciled: true, candidatePredictions: wrongCandidatePredictions, runs: [...M06_REQUIRED_CANDIDATES], reconciled, causalOrder: [...M06_REQUIRED_CAUSAL_ORDER], causalLinks: M06_REQUIRED_LINKS, tradeoff: "FIT_IS_MODEL_BOUND" }), true);
   const score = scoreM06({ inspected, diagnosis: "CONNECTION_ADMISSION_MISMATCH", proof: ["E01", "E02", "E03", "E05"], baselinePredictions: wrongPredictions, candidatePredictions: wrongCandidatePredictions, runs: [...M06_REQUIRED_CANDIDATES], reconciled, causalOrder: [...M06_REQUIRED_CAUSAL_ORDER], causalLinks: M06_REQUIRED_LINKS, tradeoff: "FIT_IS_MODEL_BOUND", recoveryCycles: 0 });
   assert.ok(score.baseline < 10);
   assert.ok(score.changedPrediction < 10);

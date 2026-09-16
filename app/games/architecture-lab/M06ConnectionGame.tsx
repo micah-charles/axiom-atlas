@@ -6,6 +6,7 @@ import Link from "next/link";
 import {
   M06_BASELINE_PREDICTIONS,
   M06_BASELINE_RESULT,
+  baselineResultChecksMatchPredictionsM06,
   M06_CAUSAL_CLAIMS,
   M06_CHANGED_PREDICTIONS,
   M06_EVIDENCE,
@@ -100,6 +101,8 @@ export default function M06ConnectionGame() {
   const [diagnosis, setDiagnosis] = useState<M06Diagnosis | null>(null);
   const [proof, setProof] = useState<M06EvidenceId[]>([]);
   const [baselinePredictions, setBaselinePredictions] = useState<Partial<Record<M06PredictionId, M06PredictionChoice>>>({});
+  const [baselineResultChecks, setBaselineResultChecks] = useState<Partial<Record<M06ResultCheckId, M06ResultChoice>>>({});
+  const [baselineReconciled, setBaselineReconciled] = useState(false);
   const [selectedCandidate, setSelectedCandidate] = useState<M06Candidate | null>(null);
   const [candidatePredictions, setCandidatePredictions] = useState<Partial<Record<M06Candidate, Partial<Record<M06PredictionId, M06PredictionChoice>>>> >({});
   const [runs, setRuns] = useState<M06Candidate[]>([]);
@@ -156,8 +159,26 @@ export default function M06ConnectionGame() {
       setFeedback("Choose a direction for all five baseline measures before running the experiment. Your hypothesis will be checked against the revealed record afterward.");
       return;
     }
+    setBaselineResultChecks({});
+    setBaselineReconciled(false);
     setFeedback("");
     setPhase("reveal-baseline");
+  }
+
+  function setBaselineCheck(id: M06ResultCheckId, value: M06ResultChoice) {
+    setBaselineResultChecks(current => ({ ...current, [id]: value }));
+    setFeedback("");
+  }
+
+  function commitBaselineReconciliation() {
+    if (!baselineResultChecksMatchPredictionsM06(baselinePredictions, baselineResultChecks)) {
+      setRecoveryCycles(current => current + 1);
+      setFeedback("Mark each baseline metric Confirmed when the record supports your prediction, or Not confirmed when it does not. Reconcile every metric before continuing.");
+      return;
+    }
+    setBaselineReconciled(true);
+    setFeedback("");
+    setPhase("configure");
   }
 
   function chooseCandidate(candidate: M06Candidate) {
@@ -213,7 +234,7 @@ export default function M06ConnectionGame() {
   }
 
   function commitExplanation() {
-    if (!canCompleteM06({ inspected, diagnosis, proof, baselinePredictions, candidatePredictions, runs, reconciled, causalOrder, causalLinks, tradeoff })) {
+    if (!canCompleteM06({ inspected, diagnosis, proof, baselinePredictions, baselineReconciled, candidatePredictions, runs, reconciled, causalOrder, causalLinks, tradeoff })) {
       setRecoveryCycles(current => current + 1);
       setFeedback("Complete the seven-link chain, attach E01–E06, and state that FIT is best only in this fixed teaching model.");
       return;
@@ -228,6 +249,8 @@ export default function M06ConnectionGame() {
     setDiagnosis(null);
     setProof([]);
     setBaselinePredictions({});
+    setBaselineResultChecks({});
+    setBaselineReconciled(false);
     setSelectedCandidate(null);
     setCandidatePredictions({});
     setRuns([]);
@@ -257,7 +280,7 @@ export default function M06ConnectionGame() {
 
         {phase === "predict-baseline" && <section className="arch-panel arch-m06-stage"><div className="arch-panel-head"><div><span className="arch-overline">03 · PREDICT BASELINE</span><h3>Predict before the 50-connection baseline runs.</h3></div><b>RESULT HIDDEN</b></div><p className="arch-m04-panel-copy">Use the seven cards to predict direction, not false precision. The baseline result will appear only after all five predictions are committed; they will be compared with the record afterward.</p><div className="arch-m06-prediction-grid">{M06_BASELINE_PREDICTIONS.map(item => <PredictionCard key={item.id} label={item.label} prompt={item.prompt} value={baselinePredictions[item.id]} onChange={value => { setBaselinePredictions(current => ({ ...current, [item.id]: value })); setFeedback(""); }} />)}</div>{feedback && <Feedback title="Baseline prediction needs revision">{feedback}</Feedback>}<button type="button" className="arch-primary-button" onClick={commitBaselinePrediction}>Commit baseline predictions <span>→</span></button></section>}
 
-        {phase === "reveal-baseline" && <section className="arch-panel arch-m06-stage"><div className="arch-panel-head"><div><span className="arch-overline">04 · REVEAL BASELINE</span><h3>The baseline gives you a reference point.</h3></div><b>TEACHING SIMULATION</b></div><p className="arch-m04-panel-copy">This is the fixed reference run. It does not reveal which candidate is best.</p><ResultTable baseline /><div className="arch-m06-note">Fixed workload: 240 requests · 12 seconds · offered demand 20 req/s · seed 20260916 · all values are teaching simulation.</div><button type="button" className="arch-primary-button" onClick={() => setPhase("configure")}>Choose one pool candidate <span>→</span></button></section>}
+        {phase === "reveal-baseline" && <section className="arch-panel arch-m06-stage"><div className="arch-panel-head"><div><span className="arch-overline">04 · REVEAL BASELINE</span><h3>Reconcile the baseline with your hypothesis.</h3></div><b>TEACHING SIMULATION</b></div><p className="arch-m04-panel-copy">The record is visible now. Mark each check as Confirmed or Not confirmed; the baseline prediction remains the hypothesis you made before the reveal.</p><ResultTable baseline /><div className="arch-m06-note">Fixed workload: 240 requests · 12 seconds · offered demand 20 req/s · seed 20260916 · all values are teaching simulation.</div><div className="arch-m06-check-grid">{M06_RESULT_CHECKS.map(check => <fieldset key={check.id}><legend>{check.label}</legend>{(["CONFIRMED", "NOT_CONFIRMED"] as const).map(option => <label key={option} className={baselineResultChecks[check.id] === option ? "selected" : ""}><input type="radio" value={option} name={`baseline-${check.id}`} checked={baselineResultChecks[check.id] === option} onChange={() => setBaselineCheck(check.id, option)} />{option === "CONFIRMED" ? "Confirmed" : "Not confirmed"}</label>)}</fieldset>)}</div>{feedback && <Feedback title="Baseline needs reconciliation">{feedback}</Feedback>}<button type="button" className="arch-primary-button" onClick={commitBaselineReconciliation}>Continue to pool candidates <span>→</span></button></section>}
 
         {phase === "configure" && <section className="arch-panel arch-m06-stage"><div className="arch-panel-head"><div><span className="arch-overline">05 · CHANGE ONE CONFIGURATION</span><h3>Choose a candidate to test.</h3></div><b>{runs.length}/3 RUN</b></div><p className="arch-m04-panel-copy">Only the application pool changes. Workload, DB ceiling, topology and M05 policy remain fixed. Run all three candidates before explaining the trade-off.</p><div className="arch-m05-policy-grid">{M06_REQUIRED_CANDIDATES.map(candidate => <button type="button" key={candidate} className={`arch-m05-policy ${runs.includes(candidate) ? "selected" : ""}`} onClick={() => chooseCandidate(candidate)} aria-pressed={runs.includes(candidate)}><b><CandidateLabel candidate={candidate} /></b><span>{runs.includes(candidate) ? "Already run · replay it if your reconciliation changed." : "Select this one, predict five directions, then reveal the result."}</span></button>)}</div><div className="arch-m06-note">The 500-connection source example is a ceiling, not a target utilisation. A teaching model can have a smaller useful concurrency region.</div></section>}
 
@@ -267,7 +290,7 @@ export default function M06ConnectionGame() {
 
         {phase === "reveal-change" && selectedCandidate && <section className="arch-panel arch-m06-stage"><div className="arch-panel-head"><div><span className="arch-overline">08 · REVEAL · {selectedCandidate}</span><h3>Compare prediction with the record.</h3></div><b>RESULT REVEALED</b></div><ResultTable candidate={selectedCandidate} /><div className="arch-m06-note">Every metric is `TEACHING_SIMULATION`. The source examples 50 and 500 are not recommendations.</div><div className="arch-m06-check-grid">{M06_RESULT_CHECKS.map(check => <fieldset key={check.id}><legend>{check.label}</legend>{(["CONFIRMED", "NOT_CONFIRMED"] as const).map(option => <label key={option} className={resultChecks[selectedCandidate]?.[check.id] === option ? "selected" : ""}><input type="radio" value={option} name={`${selectedCandidate}-${check.id}`} checked={resultChecks[selectedCandidate]?.[check.id] === option} onChange={() => setCheck(check.id, option)} />{option === "CONFIRMED" ? "Confirmed" : "Not confirmed"}</label>)}</fieldset>)}</div>{feedback && <Feedback title="Result needs reconciliation">{feedback}</Feedback>}<button type="button" className="arch-primary-button" onClick={commitReconciliation}>{runs.length < 3 ? "Choose another candidate" : "Build the causal explanation"} <span>→</span></button></section>}
 
-        {phase === "explain" && <section className="arch-panel arch-m06-stage"><div className="arch-panel-head"><div><span className="arch-overline">09 · EXPLAIN</span><h3>Build the causal model.</h3></div><b>7 LINKS + BOUNDARY</b></div><p className="arch-m04-panel-copy">Order the claims, attach the evidence that supports the causal links, and state the limit of the result.</p><div className="arch-m04-causal-list">{causalOrder.map((id, index) => { const claim = M06_CAUSAL_CLAIMS.find(item => item.id === id)!; return <div className="arch-m04-causal-row" key={id}><span>{index + 1}</span><b>{claim.label}</b><button type="button" onClick={() => moveCausal(index, -1)} disabled={index === 0} aria-label={`Move claim ${index + 1} up`}>↑</button><button type="button" onClick={() => moveCausal(index, 1)} disabled={index === causalOrder.length - 1} aria-label={`Move claim ${index + 1} down`}>↓</button></div>; })}</div><div className="arch-m04-link-builder"><span className="arch-overline">ATTACH EVIDENCE</span>{(Object.keys(M06_REQUIRED_LINKS) as (keyof typeof M06_REQUIRED_LINKS)[]).map(id => <label key={id}>{id} supports<select aria-label={`Evidence link for ${id}`} value={causalLinks[id] ?? ""} onChange={event => { setCausalLinks(current => ({ ...current, [id]: event.target.value as M06CausalId })); setFeedback(""); }}><option value="">Choose claim</option>{M06_CAUSAL_CLAIMS.map(claim => <option key={claim.id} value={claim.id}>{claim.label}</option>)}</select></label>)}</div><div className="arch-m06-tradeoff"><span className="arch-overline">TRADE-OFF BOUNDARY</span>{(["FIT_IS_MODEL_BOUND", "SIXTY_IS_ALWAYS_OPTIMAL", "CONSUME_ALL_DB_CAPACITY"] as const).map(option => <label key={option} className={tradeoff === option ? "selected" : ""}><input type="radio" name="m06-tradeoff" checked={tradeoff === option} onChange={() => setTradeoff(option)} />{option === "FIT_IS_MODEL_BOUND" ? "60 is the best fit in this fixed teaching model; it is not universal advice." : option === "SIXTY_IS_ALWAYS_OPTIMAL" ? "60 connections is always optimal." : "The application should consume all 500 DB connections."}</label>)}</div>{feedback && <Feedback title="Causal model needs revision">{feedback}</Feedback>}<button type="button" className="arch-primary-button" onClick={commitExplanation}>Commit explanation <span>→</span></button></section>}
+        {phase === "explain" && <section className="arch-panel arch-m06-stage"><div className="arch-panel-head"><div><span className="arch-overline">09 · EXPLAIN</span><h3>Build the causal model.</h3></div><b>7 LINKS + BOUNDARY</b></div><p className="arch-m04-panel-copy">Order the claims, attach the evidence that supports the causal links, and state the limit of the result.</p><div className="arch-m04-causal-list">{causalOrder.map((id, index) => { const claim = M06_CAUSAL_CLAIMS.find(item => item.id === id)!; return <div className="arch-m04-causal-row" key={id}><span>{index + 1}</span><b>{claim.label}</b><button type="button" onClick={() => moveCausal(index, -1)} disabled={index === 0} aria-label={`Move claim ${index + 1} up`}>↑</button><button type="button" onClick={() => moveCausal(index, 1)} disabled={index === causalOrder.length - 1} aria-label={`Move claim ${index + 1} down`}>↓</button></div>; })}</div><div className="arch-m04-link-builder"><span className="arch-overline">ATTACH EVIDENCE</span>{(Object.keys(M06_REQUIRED_LINKS) as (keyof typeof M06_REQUIRED_LINKS)[]).map(id => <label key={id}>{id} supports<select aria-label={`Evidence link for ${id}`} value={causalLinks[id] ?? ""} onChange={event => { setCausalLinks(current => ({ ...current, [id]: event.target.value as M06CausalId })); setFeedback(""); }}><option value="">Choose claim</option>{M06_CAUSAL_CLAIMS.map(claim => <option key={claim.id} value={claim.id}>{claim.label}</option>)}</select></label>)}</div><div className="arch-m06-tradeoff"><span className="arch-overline">TRADE-OFF BOUNDARY</span>{(["FIT_IS_MODEL_BOUND", "SIXTY_IS_ALWAYS_OPTIMAL", "CONSUME_ALL_DB_CAPACITY"] as const).map(option => <label key={option} className={tradeoff === option ? "selected" : ""}><input type="radio" value={option} name="m06-tradeoff" checked={tradeoff === option} onChange={() => setTradeoff(option)} />{option === "FIT_IS_MODEL_BOUND" ? "60 is the best fit in this fixed teaching model; it is not universal advice." : option === "SIXTY_IS_ALWAYS_OPTIMAL" ? "60 connections is always optimal." : "The application should consume all 500 DB connections."}</label>)}</div>{feedback && <Feedback title="Causal model needs revision">{feedback}</Feedback>}<button type="button" className="arch-primary-button" onClick={commitExplanation}>Commit explanation <span>→</span></button></section>}
 
         {phase === "complete" && <section className="arch-panel arch-m06-stage"><span className="arch-overline">M06 · COMPLETE</span><h3>The useful region is a system property, not the largest setting.</h3><p>The application pool controls admission, but the DB has a finite useful concurrency region. Too small queues at the app; too large shifts contention into the DB. FIT wins this fixed model, not every production system.</p><div className="arch-m06-final"><span>CONTROLLED CONCLUSION</span><b>More connections can move the bottleneck instead of removing it.</b><small>Source examples are not recommendations. All workload and metric values are teaching simulation.</small></div><div className="arch-score-grid arch-m05-score-grid"><div className="arch-metric"><small>INVESTIGATION</small><strong>{score.investigation}/15</strong></div><div className="arch-metric"><small>DIAGNOSIS</small><strong>{score.diagnosis}/15</strong></div><div className="arch-metric"><small>BASELINE</small><strong>{score.baseline}/10</strong></div><div className="arch-metric"><small>CONTROLLED CHANGE</small><strong>{score.controlledChange}/10</strong></div><div className="arch-metric"><small>PREDICTIONS</small><strong>{score.changedPrediction}/10</strong></div><div className="arch-metric"><small>RECONCILIATION</small><strong>{score.reconciliation}/15</strong></div><div className="arch-metric"><small>CAUSAL MODEL</small><strong>{score.causal}/15</strong></div><div className="arch-metric"><small>BOUNDARY</small><strong>{score.boundary}/5</strong></div><div className="arch-metric"><small>EFFICIENCY</small><strong>{score.efficiency}/5</strong></div></div><div className="arch-total-score"><span>LAB SCORE</span><strong>{score.total}/100</strong><small>Clean path · three candidates reconciled · M06-T050 remains a neutral next-incident hook.</small></div><div className="arch-complete-actions"><button type="button" className="arch-primary-button" onClick={replay}>Replay M06 <span>↻</span></button><Link className="arch-secondary-button" href="/computer-science/architecture-lab/m05">Return to M05 <span>↗</span></Link></div></section>}
       </section>

@@ -22,7 +22,9 @@ Result: **PASS for the revised desktop gameplay loop; full verification remains 
   `hidden_result_tables_before_commit=0` before the baseline prediction commit.
 - A complete but deliberately wrong baseline hypothesis (`LOW` for all five
   measures) was accepted, reached the baseline reveal, and exposed the fixed
-  result instead of disclosing the answer before the run.
+  result instead of disclosing the answer before the run. Each baseline check
+  was then reconciled deterministically: `Not confirmed`, `Confirmed`, `Not
+  confirmed`, `Not confirmed`, `Not confirmed`, `Not confirmed`.
 - A complete but deliberately wrong SMALL hypothesis (`LOW` for all five
   measures) was accepted, ran, reached the result reveal, and was reconciled
   with `Not confirmed` for the mismatched measures and `Confirmed` for the
@@ -42,16 +44,24 @@ Result: **PASS for the revised desktop gameplay loop; full verification remains 
 
 ## Revision checks after ChatGPT committed-source review
 
-ChatGPT's review of pushed commit `39f358e` returned two bounded blockers:
+ChatGPT's review of pushed commit `39f358e` returned two bounded blockers;
+the committed-source re-review of `a3d2029` identified the missing baseline
+reconciliation and trade-off radio-value mismatch. The current bounded pass
+closes those findings locally:
 
 - Fresh-player conclusion leakage.
 - Prediction correctness used as the reveal gate.
 
-Both are corrected in the working tree: the opening is neutral, the rendered
-HTML test rejects the former conclusion wording, prediction commits require
-completeness only, and result reconciliation now compares the frozen
-pre-reveal hypothesis with the revealed candidate record. `Not confirmed` is a
-valid learning outcome rather than a failed transition.
+The opening is neutral, the rendered HTML test rejects the former conclusion
+wording, prediction commits require completeness only, and result
+reconciliation compares the frozen pre-reveal hypothesis with the revealed
+record for both baseline and candidates. `Not confirmed` is a valid learning
+outcome rather than a failed transition. Trade-off radios now expose explicit
+values as well.
+
+The v2 committed-source review itself is preserved at
+`reviews/M06-implementation-review-v2.md`; it remains a revision-required
+checkpoint because it reviewed commit `a3d2029` before this bounded correction.
 
 The browser run above verified the important regression: wrong complete
 hypotheses can reach reveal and reconcile, while the final score reflects their

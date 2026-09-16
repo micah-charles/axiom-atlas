@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-16
-Current milestone: Gate A — M06 revision pass after committed-source review; desktop gameplay PASS, full verification conditional
-Current blocker: M06 review v1 found and the working tree corrected two bounded issues: fresh-player conclusion leakage and prediction correctness used as a reveal gate. Runtime evidence debt remains for 390px completion, standalone keyboard-only completion, touch, reduced-motion and screen-reader evidence.
-Next action: Record the bounded M06 correction checkpoint, request ChatGPT re-review of the new commit, and keep mobile/accessibility evidence closure tracked in parallel.
+Current milestone: Gate A — M06 third bounded revision after committed-source review v2; desktop gameplay PASS, full verification conditional
+Current blocker: M06 review v2 found a missing baseline reconciliation step and a trade-off radio value mismatch. Both are corrected locally; the checkpoint still needs commit/push and v3 committed-source review. Runtime evidence debt remains for 390px completion, standalone keyboard-only completion, touch, reduced-motion and screen-reader evidence.
+Next action: Record and push the bounded M06 correction checkpoint, request ChatGPT v3 re-review, and keep mobile/accessibility evidence closure tracked in parallel.
 
 ## Mission status
 
@@ -11,7 +11,7 @@ Legend: ⬜ NOT STARTED · 🟨 IN PROGRESS · 🟦 IMPLEMENTED / NEEDS QA · �
 
 - Gate 0 — Bible import, repository fit, orchestration protocol: ✅ VERIFIED
 - Gate A — Vertical Slice A (M01–M06): 🟨 IN PROGRESS (M01–M06 implemented/needs QA; runtime evidence open)
-- M06 — Fifty Connections or Five Hundred?: 🟨 IN PROGRESS (review blockers corrected locally; needs committed-source re-review and runtime evidence)
+- M06 — Fifty Connections or Five Hundred?: 🟨 IN PROGRESS (v2 baseline-reconciliation and radio-value findings corrected locally; needs committed-source re-review and runtime evidence)
 - Gate B — Vertical Slice B (M14–M16): ⬜ NOT STARTED
 - Gate C — Deployment evolution (M46–M53): ⬜ NOT STARTED
 - Gate D — Control-loop scaling (M62–M65): ⬜ NOT STARTED
@@ -243,6 +243,14 @@ runtime mobile/accessibility evidence remains open.
 - Completed the desktop fresh-player M06 flow and recorded it in
   `evidence/M06-playtest-qa.md`; mobile, keyboard, touch, reduced-motion and
   screen-reader evidence remain open.
+- Added the missing baseline reveal → Confirmed/Not confirmed reconciliation
+  step, deterministic baseline reconciliation predicate, completion guard and
+  regression coverage. A deliberately wrong baseline hypothesis now reaches
+  reveal, reconciles as a mixed result, and cannot complete without that
+  reconciliation state.
+- Added explicit `value` attributes to the M06 trade-off radios and changed the
+  shared p95 reconciliation label from candidate-specific wording to
+  run-specific wording.
 - ChatGPT's committed-source review v1 for commit `39f358e` returned
   `REVISION REQUIRED` with two bounded findings: fresh-player conclusion
   leakage and prediction correctness gating the reveal. The working tree now
@@ -250,6 +258,12 @@ runtime mobile/accessibility evidence remains open.
   accepts complete wrong hypotheses through reveal, reconciles mismatches, and
   scores prediction accuracy from the committed hypothesis. The local review
   capture is `reviews/M06-implementation-review-v1.md`.
+- ChatGPT's committed-source review v2 for `a3d2029` confirmed F01 closed and
+  candidate prediction reconciliation correct, but returned REVISION REQUIRED
+  for the missing baseline reconciliation and low-severity trade-off radio
+  value mismatch. The local capture is
+  `reviews/M06-implementation-review-v2.md`; it is retained as a pre-fix
+  checkpoint and does not unlock the next storyboard loop.
 
 ## Tests
 
@@ -276,10 +290,11 @@ fixes:
   tests, build, rendered route leakage test, desktop fresh-player
   three-candidate flow, wrong-path recovery, prediction-before-reveal and
   replay reset
-- M06 bounded correction pass — PASS locally: lint, 180 core tests, build,
-  10 rendered-route tests, neutral fresh HTML, complete wrong-hypothesis
-  baseline/candidate reveal, deterministic reconciliation, score reduction for
-  prediction mismatches, and replay reset
+- M06 bounded correction pass after review v2 — PASS locally: lint, 180 core
+  tests, build, 10 rendered-route tests, neutral fresh HTML, complete
+  wrong-hypothesis baseline reveal plus baseline reconciliation, candidate
+  reconciliation, explicit radio values, score reduction for prediction
+  mismatches, and replay reset
 - M04 implementation verification so far — PASS: lint, 173 core tests, build,
   full `npm test` (173 core + build + 8 rendered-route tests), rendered M04
   route, clean desktop 100/100 path, wrong-path 99/100 recovery, replay reset
@@ -392,6 +407,12 @@ implementation review is accepted.
   `../../.gstack/qa-reports/m05-2026-09-16/qa-report-m05-2026-09-16.md`
 - M05 390px evidence:
   `../../.gstack/qa-reports/m05-2026-09-16/screenshots/`
+- M06 gameplay QA:
+  `evidence/M06-playtest-qa.md`
+- M06 implementation review v1:
+  `reviews/M06-implementation-review-v1.md`
+- M06 implementation review v2:
+  `reviews/M06-implementation-review-v2.md`
 
 ## Known problems
 
@@ -432,6 +453,10 @@ implementation review is accepted.
   accepted implementation contract. M05 is now 🟦 IMPLEMENTED / NEEDS QA:
   desktop clean path and replay passed, implementation correctness is PASS,
   while mobile/accessibility runtime evidence remains open.
+- M06 v2 review is retained as a revision-required pre-fix checkpoint. The
+  local working tree now includes baseline reconciliation and explicit
+  trade-off radio values, but M06 remains 🟨 IN PROGRESS until the correction
+  is pushed, re-reviewed and all runtime evidence debts are closed.
 
 ## Decisions needed
 

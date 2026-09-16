@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-16
-Current milestone: Gate A — M01 implemented; mobile visual QA pending
-Current blocker: A real 390px mobile viewport capture is still needed before M01 can be VERIFIED.
-Next action: Capture mobile M01 evidence, then decide whether the core loop is ready for M02.
+Current milestone: Gate A — M01 implementation review fixes complete; mobile/accessibility QA pending
+Current blocker: A real 390px mobile viewport run/capture, keyboard-only pass, and reduced-motion pass are still needed before M01 can be VERIFIED.
+Next action: Re-run the fresh-player flow after the review fixes, capture mobile/accessibility evidence, then request M02 only after M01 passes the gate.
 
 ## Mission status
 
@@ -23,8 +23,9 @@ repository has been compared with its proposed Axiom Atlas integration. M01
 has now completed the bounded storyboard revision loop: v1 was conditionally
 passed, v1.1 was challenged for consistency, v1.2 still contained the legacy
 evidence field in the downloaded artifact, and v1.3 was reissued and accepted.
-Implementation remains intentionally limited to M01 until the fresh-player
-gate passes, including a real mobile viewport inspection.
+ChatGPT's independent implementation review found five bounded M01 fixes;
+those fixes are now implemented. M01 remains intentionally in NEEDS QA until
+the fresh-player, mobile, keyboard and reduced-motion gates pass.
 
 ## Completed since last checkpoint
 
@@ -72,20 +73,37 @@ gate passes, including a real mobile viewport inspection.
   topology before investigation; the initial canvas is now truly empty.
 - Added `evidence/M01-fresh-player-qa.md`; desktop interaction passes, mobile
   viewport capture remains open.
+- Sent the implemented M01 slice to the selected ChatGPT conversation for an
+  independent implementation review and downloaded
+  `reviews/M01-implementation-review-v1.md`.
+- Accepted the review findings as bounded M01 corrections: deterministic order
+  write and confirmation path, required/scored central fit claim, delayed E04
+  failure-fate reveal, post-discovery Single-Node Monolith naming, and a
+  completion hook that acknowledges the experiment already run.
+- Added regression coverage for the nine-step product-plus-order trace and the
+  causal-builder scoring loophole.
 
 ## Tests
 
-No code changes have been made for Architecture Evolution Lab yet. Existing
-repository tests were not rerun during this documentation-only checkpoint.
+Architecture Evolution Lab implementation changes were rerun after the review
+fixes:
+
+- `npm run lint` — PASS
+- `npm run test:core` — PASS, 160 tests
+- `npm run build` — PASS; route emitted at `/computer-science/architecture-lab`
+- `npm test` — PASS, 160 core tests + build + 5 rendered-route tests
+- fresh-player browser playtest — corrected desktop flow PASS; mobile pending
+- desktop and mobile evidence capture — desktop visual inspection PASS; mobile
+  pending
+- keyboard-only and reduced-motion runs — pending
 
 Required before M01 verification:
 
-- `npm run lint`
-- `npm test`
-- fresh-player browser playtest of the first vertical slice — desktop PASS,
-  mobile pending
-- desktop and mobile evidence capture — desktop visual inspection PASS, mobile
-  pending
+- fresh-player post-fix browser playtest
+- real 390px mobile viewport capture and interaction pass
+- keyboard-only completion
+- reduced-motion completion
+- final regression suite and rendered-route checks
 
 ## Evidence
 
@@ -94,6 +112,8 @@ Required before M01 verification:
 - Imported Bible SHA-256: `dab15f2302d80e61ffb493fca1d81c6e8e87ebb1a3fa4e022d98edafc03d016a`
 - Current repository remote: `https://github.com/micah-charles/axiom-atlas.git`
 - Current base commit before this checkpoint: `f81fa0a` (`release: prepare v0.3.0 geography`)
+- ChatGPT implementation review: `reviews/M01-implementation-review-v1.md`
+- ChatGPT review SHA-256: `d843eef8504cfeee7a40eca7b200ccfdc83e6afdde13cd71d693ff05b8c5e6d1`
 
 ## Known problems
 
@@ -105,8 +125,12 @@ Required before M01 verification:
 - The Bible's 79 mission summaries are not yet full mission contracts.
 - M01 v1 and v1.1 are retained as revision history; v1.2 is retained as a
   rejected artifact because its downloaded content failed the gate. M01 v1.3
-  is accepted and M01 is implemented; M01 still needs mobile visual evidence
-  before verification.
+  is accepted and M01 is implemented; the implementation review is retained
+  as a revision record and M01 still needs mobile/accessibility evidence before
+  verification.
+- A real 390px browser viewport is not currently available through the local
+  headless helper; the CUA desktop browser remains available for interaction
+  and visual inspection.
 - The downloaded Markdown is a Pandoc-normalised artifact (65,424 bytes);
   the original prompt and source remain separately versioned.
 
@@ -118,7 +142,8 @@ Required before M01 verification:
 
 ## Next three actions
 
-1. Capture M01 at a real mobile viewport and record the evidence.
-2. Reassess the desktop/mobile loop as a game before expanding scope.
+1. Re-run the corrected M01 fresh-player flow, including order write and fit
+   claim.
+2. Capture M01 mobile, keyboard and reduced-motion evidence.
 3. If the gate passes, request only M02's storyboard from the selected ChatGPT
    conversation.

@@ -297,14 +297,17 @@ test("Architecture Lab M01 prevents unresolved previews from claiming a request"
   assert.equal(approachResult("C").status, "PREVIEW_BLOCKED_OVERBUILT_AND_UNRESOLVED");
   assert.equal(approachResult("C").requestMs, null);
   assert.equal(approachResult("D").status, "FUNCTIONAL_REQUIREMENT_MISSING");
-  assert.equal(M01_TRACE.length, 6);
-  assert.equal(M01_TRACE.at(-1)?.event, "Response");
+  assert.equal(M01_TRACE.length, 9);
+  assert.equal(M01_TRACE.find(step => step.event === "JDBC order write")?.target, "MySQL");
+  assert.equal(M01_TRACE.at(-1)?.event, "Order confirmation");
 });
 
 test("Architecture Lab M01 scoring rewards fit plus observed failure domain", () => {
-  const strong = scoreExplanation(["E01", "E03", "E04", "risk"], true);
+  const strong = scoreExplanation(["E01", "E03", "fit", "E04", "risk"], true);
+  const missingFit = scoreExplanation(["E01", "E03", "E04", "risk"], true);
   const weak = scoreExplanation(["E01"], false);
   assert.equal(strong.total, 100);
+  assert.ok(missingFit.total < 100);
   assert.ok(strong.total > weak.total);
   assert.equal(weak.reliability, 0);
 });

@@ -27,7 +27,7 @@ export const M01_EVIDENCE = [
     id: "E04" as const,
     label: "Local state requirements",
     observation: "The first release also needs product images and a browsing Session.",
-    interpretation: "Local disk, local data and in-memory Session can be co-located now, but create shared failure fate.",
+    interpretation: "Local disk, local data and in-memory Session can be co-located for the first release, creating several local assumptions in the design.",
     source: "Source-backed local assumptions from section 1.1.",
   },
 ] as const;
@@ -36,9 +36,12 @@ export const M01_TRACE = [
   { event: "DNS lookup", detail: "The shop domain resolves to the one available host address.", target: "DNS" },
   { event: "HTTP request", detail: "The browser sends the product request to Tomcat.", target: "Tomcat" },
   { event: "Application processing", detail: "Tomcat handles the request and keeps the browsing Session in memory.", target: "Tomcat" },
-  { event: "JDBC product read", detail: "Tomcat reads product and order data from local MySQL.", target: "MySQL" },
+  { event: "JDBC product read", detail: "Tomcat reads product data from local MySQL.", target: "MySQL" },
   { event: "Local image read", detail: "The product image comes from the host's local disk.", target: "Images" },
   { event: "Response", detail: "The product page returns to the customer browser.", target: "Browser" },
+  { event: "Order submit", detail: "The customer submits an order through the same HTTP application path.", target: "Tomcat" },
+  { event: "JDBC order write", detail: "Tomcat writes the order to local MySQL.", target: "MySQL" },
+  { event: "Order confirmation", detail: "The shop returns a deterministic order confirmation to the browser.", target: "Browser" },
 ] as const;
 
 export const TARGET_NODES = [
@@ -103,13 +106,15 @@ export function approachResult(approach: ApproachId) {
 }
 
 export function scoreExplanation(selectedEvidence: string[], acknowledgedFailureDomain: boolean) {
-  const fit = selectedEvidence.includes("E01") && selectedEvidence.includes("E03");
+  const fitEvidence = selectedEvidence.includes("E01") && selectedEvidence.includes("E03");
+  const fitClaim = selectedEvidence.includes("fit");
   const state = selectedEvidence.includes("E04");
-  const diagnosis = fit ? 25 : selectedEvidence.includes("E01") ? 15 : 0;
-  const proportionality = fit ? 25 : 10;
-  const reliability = acknowledgedFailureDomain ? 20 : 0;
-  const explanation = fit && state && acknowledgedFailureDomain ? 20 : fit && acknowledgedFailureDomain ? 16 : 8;
-  const efficiency = selectedEvidence.length <= 4 ? 10 : 7;
+  const tradeoff = state && selectedEvidence.includes("risk") && acknowledgedFailureDomain;
+  const diagnosis = fitEvidence ? 25 : selectedEvidence.includes("E01") ? 15 : 0;
+  const proportionality = fitEvidence && fitClaim ? 25 : fitEvidence ? 12 : 10;
+  const reliability = tradeoff ? 20 : acknowledgedFailureDomain ? 10 : 0;
+  const explanation = fitEvidence && fitClaim && tradeoff ? 20 : fitEvidence && fitClaim ? 12 : 8;
+  const efficiency = selectedEvidence.length <= 5 ? 10 : 7;
   return {
     diagnosis,
     proportionality,

@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-16
-Current milestone: Gate A — M04 implementation correctness PASS; full verification conditional
+Current milestone: Gate A — M05 storyboard contract ACCEPTED; M04 implementation correctness PASS; full verification conditional
 Current blocker: M01/M02/M03/M04 still need real 390px mobile viewport evidence, with reduced-motion, screen-reader and explicit keyboard/touch evidence also open. M04 implementation review v2 closed the bounded proof-state gap but did not close runtime evidence debt.
-Next action: Record the M04 v2 review, then request the M05 storyboard-only artifact while keeping M04 QA debt visible.
+Next action: Implement M05 from the accepted v1.2 storyboard while keeping the inherited QA debt visible.
 
 ## Mission status
 
@@ -33,7 +33,11 @@ rejected for an unseen-evidence classification path; v1.1 closed that issue
 but omitted the new test ID from its machine-readable registry. v1.2 is now
 accepted after both checks passed. M04 storyboard v1 was rejected for a
 duplicate `M04-T026` registry entry; v1.1 is now accepted after the bounded
-registry correction and full contract review.
+registry correction and full contract review. M05 storyboard v1 was held for
+a duplicate evidence-capture item and consistency audit; v1.1 closed those
+issues, then v1.2 closed a four-versus-five prediction-scoring contradiction.
+M05 v1.2 is now accepted for implementation planning; no M05 code has been
+written yet.
 
 ## Completed since last checkpoint
 
@@ -282,6 +286,16 @@ implementation review is accepted.
   `reviews/M04-implementation-review-v2.md`
 - M04 implementation review v2 SHA-256:
   `a3b8f404f9430efeb883c8326df28b3fb6a72898e11934e590a8c39fad0b58e6`
+- M05 storyboard v1:
+  `artifacts/chatgpt/M05-network-now-part-of-system-storyboard-v1.md`
+- M05 storyboard v1.1:
+  `artifacts/chatgpt/M05-network-now-part-of-system-storyboard-v1.1.md`
+- M05 accepted storyboard v1.2:
+  `artifacts/chatgpt/M05-network-now-part-of-system-storyboard-v1.2.md`
+- M05 accepted storyboard v1.2 SHA-256:
+  `e56ab13a9d93313f2cff5be5d484957664c5a2fe990f1e996cc073993184fe02`
+- M05 storyboard review:
+  `reviews/M05-storyboard-review-v1.2.md`
 
 ## Known problems
 
@@ -317,6 +331,9 @@ implementation review is accepted.
   real 390px, keyboard, touch, reduced-motion and screen-reader evidence is
   still open; it must not be called verified until those runtime captures and
   the remaining deterministic evidence are complete.
+- M05 v1 and v1.1 are retained as storyboard revision history; v1.2 is the
+  accepted implementation contract. M05 remains 🟨 IN PROGRESS because no
+  application code has been implemented yet.
 
 ## Decisions needed
 
@@ -326,7 +343,9 @@ implementation review is accepted.
 
 ## Next three actions
 
-1. Commit and push the M04 v2 review record and progress update.
-2. Request ChatGPT's M05 storyboard-only artifact; keep M04 QA debt visible.
-3. Capture M04 390px, reduced-motion, screen-reader and explicit keyboard/touch
-   evidence; keep M01–M03 QA debt visible.
+1. Implement the M05 pure engine and isolated route from the accepted v1.2
+   storyboard.
+2. Run unit/build/rendered-route checks and the deterministic M05 clean and
+   recovery paths.
+3. Capture M05 desktop, 390px, keyboard, touch, reduced-motion and
+   screen-reader evidence; keep M01–M04 QA debt visible.

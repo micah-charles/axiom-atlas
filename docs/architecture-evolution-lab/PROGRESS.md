@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-16
-Current milestone: Gate A — M03 storyboard accepted; implementation next
+Current milestone: Gate A — M03 implementation correctness PASS; full QA pending
 Current blocker: M01 and M02 still need real 390px mobile viewport evidence; M01 also needs keyboard/reduced-motion evidence, while M02 needs reduced-motion and screen-reader evidence. M02 remains NEEDS QA for full verification.
-Next action: Implement M03 only from the accepted v1.2 storyboard, then run deterministic tests, build, browser playtest, and independent implementation review.
+Next action: Request independent M03 implementation review from ChatGPT, then close mobile, reduced-motion, screen-reader and explicit keyboard evidence gates.
 
 ## Mission status
 
@@ -144,6 +144,15 @@ accepted after both checks passed.
 - Requested and accepted M03 v1.2 after verifying the registry includes
   `M03-T005A`, the old gate is absent, and M04–M06/future-solution content
   remains deferred from the player-facing mission.
+- Implemented the M03 route, pure engine, all-five evidence gate, neutral
+  dependency board, prediction-before-reveal flow, deterministic host-boundary
+  results, recoverable map revision, causal explanation builder, scoring and
+  replay reset.
+- Added M03 engine and rendered-route regressions; desktop browser QA completed
+  both a clean `100/100` path and a wrong-map recovery path.
+- Recorded M03 browser QA in `evidence/M03-playtest-qa.md`; desktop gameplay
+  passes, while mobile/reduced-motion/screen-reader/explicit keyboard captures
+  remain open before verification.
 
 ## Tests
 
@@ -204,6 +213,7 @@ implementation review is accepted.
 - M03 accepted storyboard v1.2: `artifacts/chatgpt/M03-find-three-local-assumptions-storyboard-v1.2.md`
 - M03 accepted storyboard v1.2 SHA-256: `052e534ace978c296fbad8e57dab9239909d971da9b4fd4bfc7f49d7d100af4c`
 - M03 storyboard review and bounded revisions: `reviews/M03-storyboard-review-v1.md`
+- M03 gameplay QA: `evidence/M03-playtest-qa.md`
 
 ## Known problems
 
@@ -233,6 +243,8 @@ implementation review is accepted.
   the original prompt and source remain separately versioned.
 - M03 v1 and v1.1 are retained as rejected storyboard revisions; v1.2 is the
   accepted implementation contract.
+- M03 implementation correctness is currently PASS; M03 remains 🟦 NEEDS QA
+  until the accessibility and mobile evidence listed in its QA record exists.
 
 ## Decisions needed
 
@@ -242,9 +254,8 @@ implementation review is accepted.
 
 ## Next three actions
 
-1. Implement M03 only from the accepted v1.2 storyboard and preserve the
-   M03-T005A no-unseen-evidence gate.
-2. Run M03 unit/render tests and a desktop fresh-player browser flow before
-   requesting implementation review.
-3. Keep M01/M02 mobile, reduced-motion and screen-reader debt visible; do not
-   mark M03 VERIFIED until its evidence captures exist.
+1. Request independent M03 implementation review from the selected ChatGPT
+   conversation against commit-ready source.
+2. Capture M03 mobile, reduced-motion, screen-reader and explicit keyboard
+   evidence; keep M01/M02 QA debt visible.
+3. Mark M03 VERIFIED only after those checks and the review are recorded.

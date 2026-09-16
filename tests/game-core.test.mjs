@@ -19,6 +19,7 @@ import { CLIMATE_DATA, CLIMATE_MISSIONS, CLIMATE_YEAR, causalOrderFeedback, caus
 import { CORIOLIS_EXAMPLES, GLOBAL_CELLS, GLOBAL_LATITUDE_BANDS, GLOBAL_PRESSURE_BELTS, GLOBAL_SEASON_CONTEXT, GLOBAL_WIND_BELTS, atmosphericCellForLatitude, coriolisDeflection, coriolisMotionLatitudes, equalEarthPoint, isBritainMidLatitude, seasonalLatitude, windBeltForLatitude } from "../app/games/climate-detective/global-circulation.ts";
 import { M01_EVIDENCE, M01_TRACE, approachResult, canUnlockApproaches, scoreExplanation } from "../app/games/architecture-lab/engine.ts";
 import { M02_EVIDENCE, M02_EXPERIMENTS, M02_EXPLANATION_OPTIONS, M02_STAGE_ORDER, M02_TIMINGS, canCommitM02Diagnosis, canSubmitM02FinalDiagnosis, canUnlockM02Evidence, explanationIsComplete, explanationMatchesM02Diagnosis, experimentResult, m02RouteFeedback, predictionIsCorrect, scoreM02, timingTotal, validateM02Route } from "../app/games/architecture-lab/m02-engine.ts";
+import { M03_EVIDENCE, M03_EXPLANATION_CONCEPTS, M03_EXPLANATION_LINKS, M03_INITIAL_MAP, M03_PREDICTIONS, M03_RESULTS, canCommitM03Map, canCommitM03Predictions, canCompleteM03, canMutateM03Classification, canUnlockM03Evidence, correctM03Map, correctM03ResultMatches, explanationLinksCorrect, explanationOrderCorrect, scoreM03, predictionIsCorrectM03 } from "../app/games/architecture-lab/m03-engine.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
   assert.equal(LEARNING_LAYERS.length, 5);
@@ -387,6 +388,43 @@ test("Architecture Lab M02 requires the causal distinction and scores recovery",
     predictionMistakes: 0, experimentsRun: 2, explanation: M02_EXPLANATION_OPTIONS.map(option => option.id),
   });
   assert.equal(contradictoryFinal.diagnosis, 0);
+});
+
+test("Architecture Lab M03 requires all five evidence cards before classification", () => {
+  assert.equal(M03_EVIDENCE.length, 5);
+  assert.equal(canUnlockM03Evidence(["E01", "E03", "E04", "E05"]), false);
+  assert.equal(canUnlockM03Evidence(["E01", "E02", "E03", "E04", "E05"]), true);
+  assert.equal(canMutateM03Classification(["E01", "E03", "E04", "E05"], "E02"), false);
+  const completeEvidence = ["E01", "E02", "E03", "E04", "E05"];
+  assert.equal(canMutateM03Classification(completeEvidence, "E02"), true);
+  assert.equal(canCommitM03Map(completeEvidence, { ...M03_INITIAL_MAP, E01: "BOUND_TO_HOST_01", E02: "BOUND_TO_HOST_01", E03: "BOUND_TO_HOST_01", E04: "NOT_PROVEN_LOCAL" }), true);
+});
+
+test("Architecture Lab M03 keeps the host-boundary experiment deterministic", () => {
+  const map = { ...M03_INITIAL_MAP, E01: "BOUND_TO_HOST_01", E02: "BOUND_TO_HOST_01", E03: "BOUND_TO_HOST_01", E04: "NOT_PROVEN_LOCAL" };
+  assert.equal(correctM03Map(map), true);
+  assert.equal(correctM03Map({ ...map, E04: "BOUND_TO_HOST_01" }), false);
+  assert.deepEqual(M03_RESULTS.map(result => result.evidence), ["E01", "E02", "E03", "E04"]);
+  assert.equal(correctM03ResultMatches({ DB: "E01", IMAGES: "E02", SESSION: "E03", DNS: "E04" }), true);
+  assert.equal(correctM03ResultMatches({ DB: "E02", IMAGES: "E01", SESSION: "E03", DNS: "E04" }), false);
+  assert.equal(M03_PREDICTIONS.length, 3);
+  assert.equal(predictionIsCorrectM03("P01", "TARGET_NO_LONGER_MEANS_HOST_01"), true);
+  assert.equal(predictionIsCorrectM03("P01", "WORKS_UNCHANGED"), false);
+  assert.equal(canCommitM03Predictions({ P01: "TARGET_NO_LONGER_MEANS_HOST_01", P02: "HOST_02_DOES_NOT_HAVE_OBSERVED_HOST_01_FILE", P03: "EXISTING_HOST_01_PROCESS_MEMORY_IS_NOT_PRESENT_ON_HOST_02" }), true);
+});
+
+test("Architecture Lab M03 requires a consistent causal explanation and scores recovery", () => {
+  const map = { ...M03_INITIAL_MAP, E01: "BOUND_TO_HOST_01", E02: "BOUND_TO_HOST_01", E03: "BOUND_TO_HOST_01", E04: "NOT_PROVEN_LOCAL" };
+  const predictions = { P01: "TARGET_NO_LONGER_MEANS_HOST_01", P02: "HOST_02_DOES_NOT_HAVE_OBSERVED_HOST_01_FILE", P03: "EXISTING_HOST_01_PROCESS_MEMORY_IS_NOT_PRESENT_ON_HOST_02" };
+  const matches = { DB: "E01", IMAGES: "E02", SESSION: "E03", DNS: "E04" };
+  const order = M03_EXPLANATION_CONCEPTS.map(item => item.id);
+  const links = { E01: "DB_LOCALHOST", E02: "IMAGE_LOCAL_DISK", E03: "SESSION_PROCESS_MEMORY", X01: "BOUNDARY_CHANGE_EXPOSES_COUPLING" };
+  assert.equal(explanationOrderCorrect(order), true);
+  assert.equal(explanationLinksCorrect(links), true);
+  assert.equal(canCompleteM03({ inspected: ["E01", "E02", "E03", "E04", "E05"], map, predictions, matches, explanationOrder: order, explanationLinks: links }), true);
+  assert.equal(M03_EXPLANATION_LINKS.length, 4);
+  assert.equal(scoreM03({ inspected: ["E01", "E02", "E03", "E04", "E05"], map, predictions, matches, explanationOrder: order, explanationLinks: links, classificationRepairs: 0 }).total, 100);
+  assert.ok(scoreM03({ inspected: ["E01", "E02", "E03", "E04", "E05"], map: { ...map, E03: "NOT_PROVEN_LOCAL" }, predictions, matches, explanationOrder: order, explanationLinks: links, classificationRepairs: 1 }).total < 100);
 });
 
 test("Climate Detective uses deterministic concepts, seasonal geometry, and evidence units", () => {

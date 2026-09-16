@@ -78,6 +78,17 @@ test("server-renders the Architecture Evolution Lab M02 shell", async () => {
   assert.match(html, /request resolves a domain/i);
 });
 
+test("server-renders the Architecture Evolution Lab M03 shell", async () => {
+  const response = await render("/computer-science/architecture-lab/m03");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /M03 — FIND THE THREE LOCAL ASSUMPTIONS|M03/);
+  assert.match(html, /The shop works\. Is it portable\?/);
+  assert.match(html, /INSPECT ALL FIVE BEFORE CLASSIFICATION/);
+  assert.match(html, /Atlas Market is fictional/i);
+  assert.match(html, /HOST 01/);
+});
+
 test("ships finished metadata, PWA manifest, and separated game engines", async () => {
   const [page, layout, manifest, packageJson, core] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),

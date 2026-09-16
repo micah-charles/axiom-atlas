@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-17
-Current milestone: M08 storyboard requested — source locked, implementation not started
+Current milestone: M08 storyboard v1 rejected — bounded consistency revision required
 Current blocker: M06 and M07 runtime evidence debt remains for 390px completion, standalone keyboard-only completion, touch, reduced-motion and screen-reader evidence.
-Next action: Receive and independently review M08 storyboard; do not implement M08 until the contract passes source, consistency and fresh-player gates.
+Next action: Challenge ChatGPT on M08-F01 evidence-gate consistency and M08-F02 final-diagnosis consistency; do not implement M08 until v2 passes.
 
 ## Mission status
 
@@ -559,6 +559,17 @@ implementation review is accepted.
 - Prepared `prompts/M08-cpu-bottleneck-storyboard-v1.md` and requested a
   storyboard-only artifact from the selected ChatGPT conversation. No M08
   code has been implemented.
+- Received ChatGPT's M08 storyboard artifact after one bounded neutral-hook
+  revision. The signed download endpoint was blocked by Chrome, so the local
+  file is explicitly a visible-contract review capture rather than a raw
+  download. The artifact reported 45 contiguous IDs, exact registry equality,
+  deterministic intervention results, a 100-point score and replay reset.
+- Independently rejected M08 storyboard v1 for two consistency blockers:
+  M08-F01 makes the E07 I/O card optional while M08-T005 and the intended
+  cross-family evidence gate require I/O evidence; M08-F02 allows a wrong
+  frozen diagnosis to complete beside the canonical CPU causal chain because
+  no final-diagnosis/revision state is defined. The review is recorded in
+  `reviews/M08-storyboard-review-v1.md`; no M08 code has been implemented.
 
 ## Decisions needed
 
@@ -573,6 +584,6 @@ implementation review is accepted.
    of VERIFIED until their five required runtime captures are committed.
 2. Receive and independently review the M08 storyboard for source fidelity,
    neutral opening, deterministic experiment, wrong-path recovery and registry
-   consistency.
-3. Accept or challenge M08 before any implementation; keep all M08 code on
-   this feature branch and leave main untouched.
+   consistency. (Completed: v1 rejected for M08-F01/F02.)
+3. Request and review M08 v2; keep all M08 code on this feature branch and
+   leave main untouched until both blockers close.

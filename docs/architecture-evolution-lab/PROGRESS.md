@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-17
-Current milestone: M07 implementation correctness accepted — full verification pending
+Current milestone: M08 storyboard requested — source locked, implementation not started
 Current blocker: M06 and M07 runtime evidence debt remains for 390px completion, standalone keyboard-only completion, touch, reduced-motion and screen-reader evidence.
-Next action: Keep M07/M06 out of VERIFIED until runtime evidence is captured; next storyboard loop is M08 only after explicit continuation.
+Next action: Receive and independently review M08 storyboard; do not implement M08 until the contract passes source, consistency and fresh-player gates.
 
 ## Mission status
 
@@ -13,6 +13,7 @@ Legend: ⬜ NOT STARTED · 🟨 IN PROGRESS · 🟦 IMPLEMENTED / NEEDS QA · �
 - Gate A — Vertical Slice A (M01–M06): 🟨 IN PROGRESS (M01–M06 implemented/needs QA; runtime evidence open)
 - M06 — Fifty Connections or Five Hundred?: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (v3 committed-source review PASS; five runtime/accessibility evidence items remain open)
 - M07 — The 5-Second Tomcat: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (v2 committed-source review PASS; five runtime/accessibility evidence items remain open)
+- M08 — CPU Bottleneck: 🟨 IN PROGRESS (primary source locked; storyboard artifact requested; no implementation)
 - Gate B — Vertical Slice B (M14–M16): ⬜ NOT STARTED
 - Gate C — Deployment evolution (M46–M53): ⬜ NOT STARTED
 - Gate D — Control-loop scaling (M62–M65): ⬜ NOT STARTED
@@ -551,6 +552,14 @@ implementation review is accepted.
   v2 accepts the pushed bounded corrections. M07 must remain out of VERIFIED
   until the five runtime/accessibility evidence items are complete.
 
+- Read and source-locked M08 against the same pinned `1.3.md` blob at
+  `86f1816c44781a7e1f4efe72dac3b4f5114e5049`. Recorded the CPU-specific
+  evidence contract and the M09–M13 deferral boundary in
+  `reviews/source-review-m08.md`.
+- Prepared `prompts/M08-cpu-bottleneck-storyboard-v1.md` and requested a
+  storyboard-only artifact from the selected ChatGPT conversation. No M08
+  code has been implemented.
+
 ## Decisions needed
 
 - M06 implementation progression is unlocked by v3. M07 implementation
@@ -562,7 +571,8 @@ implementation review is accepted.
 
 1. Capture M07/M06 mobile and accessibility evidence; keep both missions out
    of VERIFIED until their five required runtime captures are committed.
-2. If continuing storyboard expansion, source-lock M08 and request a
-   storyboard-only artifact from the selected ChatGPT conversation.
-3. Independently review and accept/reject M08 before any implementation; keep
-   all M08 code on this feature branch and leave main untouched.
+2. Receive and independently review the M08 storyboard for source fidelity,
+   neutral opening, deterministic experiment, wrong-path recovery and registry
+   consistency.
+3. Accept or challenge M08 before any implementation; keep all M08 code on
+   this feature branch and leave main untouched.

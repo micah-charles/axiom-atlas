@@ -117,10 +117,10 @@ test("server-renders the Architecture Evolution Lab M06 shell without answer lea
   assert.equal(response.status, 200);
   const html = await response.text();
   assert.match(html, /M06 — FIFTY CONNECTIONS OR FIVE HUNDRED|M06/);
-  assert.match(html, /Fifty is not five hundred|The biggest limit is not always the useful limit/i);
+  assert.match(html, /Two limits\. One investigation|The useful region is not the biggest number/i);
   assert.match(html, /RESULTS LOCKED|E01–E07 REQUIRED/);
   assert.match(html, /Atlas Market is fictional/i);
-  assert.doesNotMatch(html, /CONNECTION_ADMISSION_MISMATCH|FIT_POOL|More connections can move the bottleneck/i);
+  assert.doesNotMatch(html, /CONNECTION_ADMISSION_MISMATCH|FIT_POOL|admission mismatch|more connections can make the system worse|More connections can move the bottleneck/i);
 });
 
 test("ships finished metadata, PWA manifest, and separated game engines", async () => {

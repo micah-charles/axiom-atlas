@@ -74,6 +74,14 @@ export const M06_RESULTS: Record<M06Candidate, {
 
 export const M06_BASELINE_RESULT = { pool: 50, appWait: 5, dbContention: 1, dbCpu: 72, throughput: 17, p95: 230, errors: 0 } as const;
 
+export const M06_BASELINE_DIRECTIONAL_VALUES: Readonly<Record<M06PredictionId, M06Qualitative>> = {
+  APP_WAIT: "MEDIUM",
+  DB_CONTENTION: "LOW",
+  DB_CPU: "MEDIUM",
+  THROUGHPUT: "MEDIUM",
+  ERRORS: "NONE",
+};
+
 export const M06_RESULT_CHECKS: readonly { id: M06ResultCheckId; label: string }[] = [
   { id: "APP_WAIT", label: "The app-pool queue matches the predicted direction." },
   { id: "DB_CONTENTION", label: "The DB contention queue matches the predicted direction." },
@@ -111,8 +119,12 @@ export function diagnosisProofIsEnoughM06(diagnosis: M06Diagnosis | null, proof:
   return diagnosis === "CONNECTION_ADMISSION_MISMATCH" && m06ProofEvidenceEnough(proof, inspected);
 }
 
+export function predictionsCompleteM06(predictions: Partial<Record<M06PredictionId, M06PredictionChoice>>) {
+  return M06_BASELINE_PREDICTIONS.every(item => predictions[item.id] !== undefined);
+}
+
 export function baselinePredictionsCorrectM06(predictions: Partial<Record<M06PredictionId, M06PredictionChoice>>) {
-  return M06_BASELINE_PREDICTIONS.every(item => predictions[item.id] === item.correct);
+  return M06_BASELINE_PREDICTIONS.every(item => predictions[item.id] === M06_BASELINE_DIRECTIONAL_VALUES[item.id]);
 }
 
 export function candidatePredictionsCorrectM06(candidate: M06Candidate, predictions: Partial<Record<M06PredictionId, M06PredictionChoice>>) {
@@ -131,13 +143,38 @@ export function resultChecksCorrectM06(checks: Partial<Record<M06ResultCheckId, 
   return M06_RESULT_CHECKS.every(item => checks[item.id] === "CONFIRMED");
 }
 
-export function directionalValue(candidate: M06Candidate, id: M06PredictionId): M06Qualitative {
-  const result = M06_RESULTS[candidate];
+export function directionalValueForResultM06(result: { appWait: number; dbContention: number; dbCpu: number; throughput: number; errors: number }, id: M06PredictionId): M06Qualitative {
   if (id === "APP_WAIT") return result.appWait >= 10 ? "HIGH" : result.appWait === 0 ? "NONE" : "LOW";
   if (id === "DB_CONTENTION") return result.dbContention >= 20 ? "HIGH" : "LOW";
   if (id === "DB_CPU") return result.dbCpu >= 90 ? "HIGH" : "MEDIUM";
   if (id === "THROUGHPUT") return result.throughput >= 18 ? "HIGH" : result.throughput <= 10 ? "LOW" : "MEDIUM";
   return result.errors > 0 ? "HIGH" : "NONE";
+}
+
+export function directionalValue(candidate: M06Candidate, id: M06PredictionId): M06Qualitative {
+  return directionalValueForResultM06(M06_RESULTS[candidate], id);
+}
+
+export function predictionAccuracyScoreM06(predictions: Partial<Record<M06PredictionId, M06PredictionChoice>>, expected: Readonly<Record<M06PredictionId, M06Qualitative>>) {
+  const correct = M06_BASELINE_PREDICTIONS.reduce((total, item) => total + (predictions[item.id] === expected[item.id] ? 1 : 0), 0);
+  return Math.round((correct / M06_BASELINE_PREDICTIONS.length) * 10);
+}
+
+export function candidatePredictionScoreM06(candidate: M06Candidate, predictions: Partial<Record<M06PredictionId, M06PredictionChoice>>) {
+  return predictionAccuracyScoreM06(predictions, Object.fromEntries(M06_BASELINE_PREDICTIONS.map(item => [item.id, directionalValue(candidate, item.id)])) as Record<M06PredictionId, M06Qualitative>);
+}
+
+export function resultChecksMatchPredictionsM06(candidate: M06Candidate, predictions: Partial<Record<M06PredictionId, M06PredictionChoice>>, checks: Partial<Record<M06ResultCheckId, M06ResultChoice>>) {
+  const expected = Object.fromEntries(M06_BASELINE_PREDICTIONS.map(item => [item.id, directionalValue(candidate, item.id)])) as Record<M06PredictionId, M06Qualitative>;
+  const expectedChecks: Record<M06ResultCheckId, M06ResultChoice> = {
+    APP_WAIT: predictions.APP_WAIT === expected.APP_WAIT ? "CONFIRMED" : "NOT_CONFIRMED",
+    DB_CONTENTION: predictions.DB_CONTENTION === expected.DB_CONTENTION ? "CONFIRMED" : "NOT_CONFIRMED",
+    DB_CPU: predictions.DB_CPU === expected.DB_CPU ? "CONFIRMED" : "NOT_CONFIRMED",
+    THROUGHPUT: predictions.THROUGHPUT === expected.THROUGHPUT ? "CONFIRMED" : "NOT_CONFIRMED",
+    P95: predictions.DB_CONTENTION === expected.DB_CONTENTION && predictions.ERRORS === expected.ERRORS ? "CONFIRMED" : "NOT_CONFIRMED",
+    ERRORS: predictions.ERRORS === expected.ERRORS ? "CONFIRMED" : "NOT_CONFIRMED",
+  };
+  return M06_RESULT_CHECKS.every(item => checks[item.id] === expectedChecks[item.id]);
 }
 
 export function scoreM06({
@@ -157,10 +194,10 @@ export function scoreM06({
 }) {
   const investigation = canUnlockM06Evidence(inspected) ? 15 : 0;
   const diagnosisScore = diagnosis === "CONNECTION_ADMISSION_MISMATCH" ? 10 + (m06ProofEvidenceEnough(proof, inspected) ? 5 : 0) : 0;
-  const baseline = baselinePredictionsCorrectM06(baselinePredictions) ? 10 : 0;
+  const baseline = predictionAccuracyScoreM06(baselinePredictions, M06_BASELINE_DIRECTIONAL_VALUES);
   const allRuns = M06_REQUIRED_CANDIDATES.every(candidate => runs.includes(candidate));
   const controlledChange = allRuns ? 10 : 0;
-  const changedPrediction = M06_REQUIRED_CANDIDATES.every(candidate => candidatePredictionsCorrectM06(candidate, candidatePredictions[candidate] ?? {})) ? 10 : 0;
+  const changedPrediction = Math.round(M06_REQUIRED_CANDIDATES.reduce((total, candidate) => total + candidatePredictionScoreM06(candidate, candidatePredictions[candidate] ?? {}), 0) / M06_REQUIRED_CANDIDATES.length);
   const reconciliation = M06_REQUIRED_CANDIDATES.every(candidate => reconciled[candidate]) ? 15 : 0;
   const causal = (causalOrderCorrectM06(causalOrder) ? 10 : 0) + (causalLinksCorrectM06(causalLinks) ? 5 : 0);
   const boundary = tradeoff === "FIT_IS_MODEL_BOUND" ? 5 : 0;
@@ -187,8 +224,8 @@ export function canCompleteM06({
 }) {
   return canUnlockM06Evidence(inspected)
     && diagnosisProofIsEnoughM06(diagnosis, proof, inspected)
-    && baselinePredictionsCorrectM06(baselinePredictions)
-    && M06_REQUIRED_CANDIDATES.every(candidate => runs.includes(candidate) && candidatePredictionsCorrectM06(candidate, candidatePredictions[candidate] ?? {}) && reconciled[candidate])
+    && predictionsCompleteM06(baselinePredictions)
+    && M06_REQUIRED_CANDIDATES.every(candidate => runs.includes(candidate) && predictionsCompleteM06(candidatePredictions[candidate] ?? {}) && reconciled[candidate])
     && causalOrderCorrectM06(causalOrder)
     && causalLinksCorrectM06(causalLinks)
     && tradeoff === "FIT_IS_MODEL_BOUND";

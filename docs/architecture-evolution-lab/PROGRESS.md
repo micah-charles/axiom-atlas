@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-16
-Current milestone: Gate A — M03 implementation correctness PASS; full QA pending
-Current blocker: M01 and M02 still need real 390px mobile viewport evidence; M01 also needs keyboard/reduced-motion evidence, while M02 needs reduced-motion and screen-reader evidence. M02 remains NEEDS QA for full verification.
-Next action: Request independent M03 implementation review from ChatGPT, then close mobile, reduced-motion, screen-reader and explicit keyboard evidence gates.
+Current milestone: Gate A — M03 bounded scoring fix awaiting committed-source re-review
+Current blocker: M03-F01/F02 were found by independent review and are fixed locally but not yet re-reviewed; M01/M02/M03 still need real 390px mobile viewport evidence, with reduced-motion, screen-reader and explicit keyboard/touch evidence also open.
+Next action: Commit/push the M03 scoring correction and request ChatGPT's committed-source re-review before M04 storyboard work.
 
 ## Mission status
 
@@ -153,6 +153,13 @@ accepted after both checks passed.
 - Recorded M03 browser QA in `evidence/M03-playtest-qa.md`; desktop gameplay
   passes, while mobile/reduced-motion/screen-reader/explicit keyboard captures
   remain open before verification.
+- Received ChatGPT M03 implementation review v1. It returned
+  `REVISION REQUIRED` for two bounded scoring mismatches (M03-F01 DNS was
+  incorrectly scored as a fourth interpretation row; M03-F02 3+ repairs did
+  not reach the contracted 2-point tier). No broader gameplay defect was
+  found.
+- Corrected both scoring formulas and added direct regression coverage for
+  local-match weighting and efficiency tiers; full suite remains green.
 
 ## Tests
 
@@ -214,6 +221,10 @@ implementation review is accepted.
 - M03 accepted storyboard v1.2 SHA-256: `052e534ace978c296fbad8e57dab9239909d971da9b4fd4bfc7f49d7d100af4c`
 - M03 storyboard review and bounded revisions: `reviews/M03-storyboard-review-v1.md`
 - M03 gameplay QA: `evidence/M03-playtest-qa.md`
+- M03 implementation review v1:
+  `reviews/M03-implementation-review-v1.md`
+- M03 implementation review v1 external artifact SHA-256:
+  `bd3a10e887d02b9d180d404bfd5d50d355707fbd294f91be2fab26dd4f606d32`
 
 ## Known problems
 
@@ -243,8 +254,9 @@ implementation review is accepted.
   the original prompt and source remain separately versioned.
 - M03 v1 and v1.1 are retained as rejected storyboard revisions; v1.2 is the
   accepted implementation contract.
-- M03 implementation correctness is currently PASS; M03 remains 🟦 NEEDS QA
-  until the accessibility and mobile evidence listed in its QA record exists.
+- M03 implementation correctness is pending re-review after the M03-F01/F02
+  scoring correction; M03 remains 🟦 NEEDS QA until correctness and the
+  accessibility/mobile evidence are both closed.
 
 ## Decisions needed
 

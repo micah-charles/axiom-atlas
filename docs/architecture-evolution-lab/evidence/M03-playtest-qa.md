@@ -48,3 +48,8 @@ M03 desktop gameplay and deterministic contract: **PASS**.
 M03 full verification: **CONDITIONAL PASS / NEEDS QA** until the mobile,
 reduced-motion, screen-reader and explicit keyboard evidence captures are
 recorded.
+
+The independent implementation review initially found two bounded scoring
+formula mismatches (M03-F01/F02). Those formulas are now corrected in the
+follow-up delta; the committed delta still requires re-review before marking
+implementation correctness PASS.

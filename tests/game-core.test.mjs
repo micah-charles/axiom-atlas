@@ -425,6 +425,14 @@ test("Architecture Lab M03 requires a consistent causal explanation and scores r
   assert.equal(M03_EXPLANATION_LINKS.length, 4);
   assert.equal(scoreM03({ inspected: ["E01", "E02", "E03", "E04", "E05"], map, predictions, matches, explanationOrder: order, explanationLinks: links, classificationRepairs: 0 }).total, 100);
   assert.ok(scoreM03({ inspected: ["E01", "E02", "E03", "E04", "E05"], map: { ...map, E03: "NOT_PROVEN_LOCAL" }, predictions, matches, explanationOrder: order, explanationLinks: links, classificationRepairs: 1 }).total < 100);
+  const interpretationBase = { inspected: ["E01", "E02", "E03", "E04", "E05"], map, predictions, explanationOrder: order, explanationLinks: links, classificationRepairs: 0 };
+  assert.equal(scoreM03({ ...interpretationBase, matches: { DB: "E01", IMAGES: "E02", SESSION: "E03", DNS: "E99" } }).experiment, 15);
+  assert.equal(scoreM03({ ...interpretationBase, matches: { DB: "E01", IMAGES: "E02", SESSION: "E99", DNS: "E04" } }).experiment, 10);
+  assert.equal(scoreM03({ ...interpretationBase, matches: { DB: "E01", IMAGES: "E02", SESSION: "E03", DNS: "E04" }, classificationRepairs: 0 }).efficiency, 5);
+  assert.equal(scoreM03({ ...interpretationBase, matches, classificationRepairs: 1 }).efficiency, 4);
+  assert.equal(scoreM03({ ...interpretationBase, matches, classificationRepairs: 2 }).efficiency, 3);
+  assert.equal(scoreM03({ ...interpretationBase, matches, classificationRepairs: 3 }).efficiency, 2);
+  assert.equal(scoreM03({ ...interpretationBase, matches, classificationRepairs: 99 }).efficiency, 2);
 });
 
 test("Climate Detective uses deterministic concepts, seasonal geometry, and evidence units", () => {

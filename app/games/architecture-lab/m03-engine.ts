@@ -228,11 +228,10 @@ export function scoreM03({
     const choice = predictions[item.id];
     return total + (choice === item.correct ? 5 : choice ? 3 : 0);
   }, 0);
-  const experiment = M03_RESULTS.filter(result => matches[result.id] === result.evidence).length * 3.75;
+  const experiment = (["DB", "IMAGES", "SESSION"] as const).filter(id => matches[id] === M03_RESULTS.find(result => result.id === id)?.evidence).length * 5;
   const causal = (explanationOrderCorrect(explanationOrder) ? 12 : Math.min(12, explanationOrder.filter((id, index) => id === M03_EXPLANATION_CONCEPTS[index]?.id).length * 2))
     + (explanationLinksCorrect(explanationLinks) ? 8 : M03_EXPLANATION_LINKS.filter(link => explanationLinks[link.id] === link.target).length * 2);
-  const efficiency = classificationRepairs === 0 ? 5 : classificationRepairs === 1 ? 4 : 3;
+  const efficiency = classificationRepairs === 0 ? 5 : classificationRepairs === 1 ? 4 : classificationRepairs === 2 ? 3 : 2;
   const total = investigation + classification + prediction + experiment + causal + efficiency;
   return { investigation, classification, prediction, experiment, causal, efficiency, total };
 }
-

@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-16
-Current milestone: Gate A — M02 implementation correctness PASS; M03 storyboard unlocked
+Current milestone: Gate A — M03 storyboard accepted; implementation next
 Current blocker: M01 and M02 still need real 390px mobile viewport evidence; M01 also needs keyboard/reduced-motion evidence, while M02 needs reduced-motion and screen-reader evidence. M02 remains NEEDS QA for full verification.
-Next action: Request M03 storyboard from ChatGPT, keep M03 storyboard-only, and review the downloaded artifact against the locked source contract before implementation.
+Next action: Implement M03 only from the accepted v1.2 storyboard, then run deterministic tests, build, browser playtest, and independent implementation review.
 
 ## Mission status
 
@@ -28,7 +28,10 @@ those fixes are now implemented. M01 remains intentionally in NEEDS QA until
 the fresh-player, mobile, keyboard and reduced-motion gates pass. ChatGPT's
 post-fix implementation review now rates the implementation PASS and the full
 verification CONDITIONAL PASS; it explicitly allows the M02 storyboard loop
-to begin while those M01 evidence items remain open.
+to begin while those M01 evidence items remain open. M03 storyboard v1 was
+rejected for an unseen-evidence classification path; v1.1 closed that issue
+but omitted the new test ID from its machine-readable registry. v1.2 is now
+accepted after both checks passed.
 
 ## Completed since last checkpoint
 
@@ -132,6 +135,15 @@ to begin while those M01 evidence items remain open.
   source review. ChatGPT inspected the actual commit and returned `PASS` for
   implementation correctness: M02-F01/F02/F03 are CLOSED, no new blocker was
   found, and M03 storyboard design is now safe to request.
+- Requested M03 — Find the Three Local Assumptions as a storyboard-only
+  artifact. Rejected v1 because the minimum-four gate allowed an uninspected
+  E01/E02 card to be classified by guessing.
+- Requested and reviewed M03 v1.1. Confirmed the all-five evidence gate and
+  `M03-T005A` missing-card lock, then found the new stable ID missing from the
+  machine-readable `test_ids` registry.
+- Requested and accepted M03 v1.2 after verifying the registry includes
+  `M03-T005A`, the old gate is absent, and M04–M06/future-solution content
+  remains deferred from the player-facing mission.
 
 ## Tests
 
@@ -189,6 +201,9 @@ implementation review is accepted.
 - M02 implementation review v3: `reviews/M02-implementation-review-v3.md`
 - M02 implementation review v3 external artifact SHA-256: `6170a54cd19593016bdd327c3abe5bfa287eb4a75ae6970880f891d34983a2d4`
 - M02 gameplay QA: `evidence/M02-playtest-qa.md`
+- M03 accepted storyboard v1.2: `artifacts/chatgpt/M03-find-three-local-assumptions-storyboard-v1.2.md`
+- M03 accepted storyboard v1.2 SHA-256: `052e534ace978c296fbad8e57dab9239909d971da9b4fd4bfc7f49d7d100af4c`
+- M03 storyboard review and bounded revisions: `reviews/M03-storyboard-review-v1.md`
 
 ## Known problems
 
@@ -196,7 +211,8 @@ implementation review is accepted.
   this repository; the first slice is verified against the live public source,
   while later missions still need section-by-section verification.
 - M01 and M02 routes and isolated architecture simulation engines now exist;
-  M03–M06 are deliberately not implemented.
+  M03 is storyboard-accepted but not yet implemented; M04–M06 are
+  deliberately not implemented.
 - The Bible's 79 mission summaries are not yet full mission contracts.
 - M01 v1, v1.1 and v2 are retained as revision history; v1.2 is retained as a
   rejected artifact because its downloaded content failed the gate. M01 v1.3
@@ -215,6 +231,8 @@ implementation review is accepted.
   and visual inspection.
 - The downloaded Markdown is a Pandoc-normalised artifact (65,424 bytes);
   the original prompt and source remain separately versioned.
+- M03 v1 and v1.1 are retained as rejected storyboard revisions; v1.2 is the
+  accepted implementation contract.
 
 ## Decisions needed
 
@@ -224,9 +242,9 @@ implementation review is accepted.
 
 ## Next three actions
 
-1. Request M03 storyboard only from the selected ChatGPT conversation; do not
-   request M03 code yet.
-2. Capture M02's real 390px mobile, reduced-motion and screen-reader evidence;
-   keep M01's outstanding QA task visible.
-3. Review/download the M03 storyboard, record its SHA and acceptance decision,
-   then implement M03 only if its storyboard gate passes.
+1. Implement M03 only from the accepted v1.2 storyboard and preserve the
+   M03-T005A no-unseen-evidence gate.
+2. Run M03 unit/render tests and a desktop fresh-player browser flow before
+   requesting implementation review.
+3. Keep M01/M02 mobile, reduced-motion and screen-reader debt visible; do not
+   mark M03 VERIFIED until its evidence captures exist.

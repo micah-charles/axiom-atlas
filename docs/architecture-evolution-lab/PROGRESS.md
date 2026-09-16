@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-16
-Current milestone: Gate A — M03 bounded scoring fix awaiting committed-source re-review
-Current blocker: M03-F01/F02 were found by independent review and are fixed locally but not yet re-reviewed; M01/M02/M03 still need real 390px mobile viewport evidence, with reduced-motion, screen-reader and explicit keyboard/touch evidence also open.
-Next action: Commit/push the M03 scoring correction and request ChatGPT's committed-source re-review before M04 storyboard work.
+Current milestone: Gate A — M03 implementation correctness PASS; full QA pending
+Current blocker: M01/M02/M03 still need real 390px mobile viewport evidence, with reduced-motion, screen-reader and explicit keyboard/touch evidence also open. M03 implementation correctness and gameplay review are closed.
+Next action: Request M04 storyboard only from ChatGPT; keep M03 full-verification debt visible and do not mark it VERIFIED.
 
 ## Mission status
 
@@ -160,6 +160,10 @@ accepted after both checks passed.
   found.
 - Corrected both scoring formulas and added direct regression coverage for
   local-match weighting and efficiency tiers; full suite remains green.
+- Pushed the scoring correction as commit `3cc3dfb`. ChatGPT's committed-source
+  re-review v2 returned implementation correctness PASS, genuinely playable
+  PASS, and full verification CONDITIONAL PASS; M03-F01/F02 are CLOSED and
+  M04 storyboard work is unlocked.
 
 ## Tests
 
@@ -225,6 +229,10 @@ implementation review is accepted.
   `reviews/M03-implementation-review-v1.md`
 - M03 implementation review v1 external artifact SHA-256:
   `bd3a10e887d02b9d180d404bfd5d50d355707fbd294f91be2fab26dd4f606d32`
+- M03 implementation review v2:
+  `reviews/M03-implementation-review-v2.md`
+- M03 implementation review v2 external artifact SHA-256:
+  `a2ba6bb7220b768fa3e132033282334c1f4dd1a594abf3f8f69f199fe6dd87c3`
 
 ## Known problems
 
@@ -254,9 +262,8 @@ implementation review is accepted.
   the original prompt and source remain separately versioned.
 - M03 v1 and v1.1 are retained as rejected storyboard revisions; v1.2 is the
   accepted implementation contract.
-- M03 implementation correctness is pending re-review after the M03-F01/F02
-  scoring correction; M03 remains 🟦 NEEDS QA until correctness and the
-  accessibility/mobile evidence are both closed.
+- M03 implementation correctness is PASS after committed-source review v2;
+  M03 remains 🟦 NEEDS QA until the accessibility/mobile evidence is closed.
 
 ## Decisions needed
 
@@ -266,8 +273,9 @@ implementation review is accepted.
 
 ## Next three actions
 
-1. Request independent M03 implementation review from the selected ChatGPT
-   conversation against commit-ready source.
-2. Capture M03 mobile, reduced-motion, screen-reader and explicit keyboard
-   evidence; keep M01/M02 QA debt visible.
-3. Mark M03 VERIFIED only after those checks and the review are recorded.
+1. Request M04 storyboard only from the selected ChatGPT conversation; do not
+   request M04 code yet.
+2. Capture M03 mobile, reduced-motion, screen-reader and explicit keyboard/
+   touch evidence; keep M01/M02 QA debt visible.
+3. Review/download the M04 storyboard and accept it only after its exact
+   source boundary, evidence gate and deterministic gameplay contract pass.

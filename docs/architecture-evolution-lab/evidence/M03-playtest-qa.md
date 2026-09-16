@@ -50,6 +50,6 @@ reduced-motion, screen-reader and explicit keyboard evidence captures are
 recorded.
 
 The independent implementation review initially found two bounded scoring
-formula mismatches (M03-F01/F02). Those formulas are now corrected in the
-follow-up delta; the committed delta still requires re-review before marking
-implementation correctness PASS.
+formula mismatches (M03-F01/F02). Both are corrected in commit `3cc3dfb` and
+closed by committed-source review v2. Implementation correctness is now PASS;
+the mobile/accessibility evidence gates remain open.

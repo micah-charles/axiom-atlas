@@ -952,6 +952,9 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 .arch-m07-result-row span { color:#dff8ee; font:800 .58rem var(--mono); }
 .arch-m07-result-row span small { color:#8fa9aa; font-size:.45rem; }
 .arch-m07-result-row em { color:#fff0bd; font:800 .48rem var(--mono); font-style:normal; }
+.arch-m07-final-diagnosis { margin:18px 0; padding:14px; border:1px solid rgba(255,211,107,.25); background:rgba(255,211,107,.045); }
+.arch-m07-final-diagnosis p { max-width:720px; margin:8px 0 0; color:#a8c0bd; font-size:.63rem; line-height:1.45; }
+.arch-m07-final-diagnosis .arch-m04-diagnosis-grid { margin-bottom:0; }
 .arch-m07-explain-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
 .arch-m07-explain-actions .arch-secondary-button { display:inline-flex; align-items:center; justify-content:center; }
 @media(max-width:760px) { .arch-m07-result-heading { display:none; }.arch-m07-result-row { grid-template-columns:1fr 1fr; gap:5px; }.arch-m07-result-row b { grid-column:1/-1; }.arch-m07-result-row em { text-align:right; }.arch-m07-explain-actions { display:grid; }.arch-m07-explain-actions > * { width:100%; } }

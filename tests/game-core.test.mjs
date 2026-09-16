@@ -827,6 +827,9 @@ test("M07 requires cross-family evidence and accepts complete wrong diagnoses", 
   assert.equal(canUnlockM07Evidence(inspected), true);
   assert.equal(canUnlockM07Evidence(["E01", "E02", "E03", "E04", "E05"]), false);
   assert.equal(m07ProofEvidenceEnough("IO_WAIT_PRIMARY", ["E01", "E02", "E06"], inspected), true);
+  assert.equal(m07ProofEvidenceEnough("IO_WAIT_PRIMARY", ["E01", "E02", "E07"], inspected), false);
+  assert.equal(m07ProofEvidenceEnough("IO_WAIT_PRIMARY", ["E01", "E02", "E03"], inspected), true);
+  assert.equal(m07ProofEvidenceEnough("IO_WAIT_PRIMARY", ["E01", "E02", "E03"], ["E01", "E02", "E04", "E05", "E06"]), false);
   assert.equal(m07ProofEvidenceEnough("CPU_SATURATION_PRIMARY", ["E01", "E07"], inspected), false);
 });
 
@@ -842,7 +845,9 @@ test("M07 keeps prediction, missing evidence, reconciliation and clean score det
   assert.equal(causalLinksCorrectM07(M07_REQUIRED_LINKS), true);
   const score = scoreM07({ inspected, diagnosis: "CPU_SATURATION_PRIMARY", proof: ["E01", "E02", "E04"], run, predictions, reconciled: true, causalOrder: [...M07_REQUIRED_CAUSAL_ORDER], causalLinks: M07_REQUIRED_LINKS, alternatives: ["IO_WEAKENED"], statement: true, recoveryCycles: 0 });
   assert.deepEqual(score, { investigation: 15, diagnosis: 15, prediction: 15, runDiscipline: 10, reconciliation: 15, alternatives: 10, causal: 15, efficiency: 5, total: 100 });
-  assert.equal(canCompleteM07({ inspected, diagnosis: "CPU_SATURATION_PRIMARY", proof: ["E01", "E02", "E04"], run, predictions, reconciled: true, causalOrder: [...M07_REQUIRED_CAUSAL_ORDER], causalLinks: M07_REQUIRED_LINKS, alternatives: ["IO_WEAKENED"], statement: true }), true);
+  assert.equal(canCompleteM07({ inspected, diagnosis: "CPU_SATURATION_PRIMARY", finalDiagnosis: "CPU_SATURATION_PRIMARY", proof: ["E01", "E02", "E04"], run, predictions, reconciled: true, causalOrder: [...M07_REQUIRED_CAUSAL_ORDER], causalLinks: M07_REQUIRED_LINKS, alternatives: ["IO_WEAKENED"], statement: true }), true);
+  assert.equal(canCompleteM07({ inspected, diagnosis: "MEMORY_GC_PRIMARY", finalDiagnosis: "MEMORY_GC_PRIMARY", proof: ["E01", "E03", "E05"], run, predictions, reconciled: true, causalOrder: [...M07_REQUIRED_CAUSAL_ORDER], causalLinks: M07_REQUIRED_LINKS, alternatives: ["IO_WEAKENED"], statement: true }), false);
+  assert.equal(canCompleteM07({ inspected, diagnosis: "MEMORY_GC_PRIMARY", finalDiagnosis: "CPU_SATURATION_PRIMARY", proof: ["E01", "E03", "E05"], run, predictions, reconciled: true, causalOrder: [...M07_REQUIRED_CAUSAL_ORDER], causalLinks: M07_REQUIRED_LINKS, alternatives: ["IO_WEAKENED"], statement: true }), true);
   const gcPredictions = { FULL_GC_DELTA: "HIGH", GC_PAUSE: "HIGH", HEAP_PRE_GC: "HIGH", HEAP_POST_GC: "MEDIUM", RETENTION_TREND: "NOT_OBSERVED" };
   const gcChecks = { FULL_GC_DELTA: "CONFIRMED", GC_PAUSE: "CONFIRMED", HEAP_PRE_GC: "CONFIRMED", HEAP_POST_GC: "CONFIRMED", RETENTION_TREND: "MISSING_EVIDENCE" };
   assert.equal(predictionsCompleteM07("RUN_GC_RETENTION_SAMPLE", gcPredictions), true);

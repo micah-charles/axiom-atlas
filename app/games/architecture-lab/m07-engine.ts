@@ -85,7 +85,11 @@ export function canUnlockM07Evidence(inspected: M07EvidenceId[]) {
 export function m07ProofEvidenceEnough(diagnosis: M07Diagnosis | null, proof: M07EvidenceId[], inspected: M07EvidenceId[]) {
   if (!diagnosis || proof.length < 3) return false;
   const inspectedSet = new Set(inspected);
-  return proof.every(id => inspectedSet.has(id)) && proof.includes("E01") && proof.some(id => ["E02", "E03", "E04", "E05", "E06"].includes(id));
+  const resourceProofCount = new Set(proof.filter(id => ["E02", "E03", "E04", "E05", "E06"].includes(id))).size;
+  return new Set(proof).size >= 3
+    && proof.every(id => inspectedSet.has(id))
+    && proof.includes("E01")
+    && resourceProofCount >= 2;
 }
 
 export function predictionsCompleteM07(run: M07RunId, predictions: Partial<Record<M07RunFieldId, M07PredictionChoice>>) {
@@ -144,10 +148,11 @@ export function scoreM07({
 }
 
 export function canCompleteM07({
-  inspected, diagnosis, proof, run, predictions, reconciled, causalOrder, causalLinks, alternatives, statement,
+  inspected, diagnosis, finalDiagnosis, proof, run, predictions, reconciled, causalOrder, causalLinks, alternatives, statement,
 }: {
   inspected: M07EvidenceId[];
   diagnosis: M07Diagnosis | null;
+  finalDiagnosis: M07Diagnosis | null;
   proof: M07EvidenceId[];
   run: M07RunId | null;
   predictions: Partial<Record<M07RunFieldId, M07PredictionChoice>>;
@@ -159,6 +164,7 @@ export function canCompleteM07({
 }) {
   return canUnlockM07Evidence(inspected)
     && m07ProofEvidenceEnough(diagnosis, proof, inspected)
+    && finalDiagnosis === "CPU_SATURATION_PRIMARY"
     && Boolean(run && predictionsCompleteM07(run, predictions) && reconciled)
     && causalOrderCorrectM07(causalOrder)
     && causalLinksCorrectM07(causalLinks)

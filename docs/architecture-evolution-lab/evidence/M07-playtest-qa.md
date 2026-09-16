@@ -1,6 +1,6 @@
 # M07 Playtest QA
 
-Date: 2026-09-16
+Date: 2026-09-17
 Route: `/computer-science/architecture-lab/m07`
 Environment: local Vinext dev server at `http://localhost:3001`
 
@@ -46,6 +46,25 @@ Result: **PASS for the complete desktop gameplay loop; full verification remains
 - Completed at **100/100**: investigation 15, diagnosis 15, prediction 15,
   run discipline 10, reconciliation 15, alternatives 10, causal model 15,
   efficiency 5.
+
+## Post-review bounded-correction regression
+
+Result: **PASS for the corrected desktop state contract; full verification remains open**.
+
+- The clean path was replayed after the correction and completed at exactly
+  **100/100** with 5/5 efficiency.
+- A wrong `Memory / GC pressure is primary` diagnosis still reached the
+  explanation stage after a complete wrong prediction and correct
+  reconciliation.
+- The explanation stage visibly preserved the original choice as
+  `FROZEN INITIAL HYPOTHESIS` and exposed a separate final-diagnosis choice.
+  This is the new revision point required by M07-F02.
+- Engine regressions independently reject contradictory final diagnosis state
+  and accept a `CPU_SATURATION_PRIMARY` revision while retaining reduced
+  initial-diagnosis credit.
+- The proof-card loophole is covered by core regressions: E01 + E02 + E07 is
+  rejected, while E01 + two resource-specific cards is accepted only when all
+  proof cards were inspected.
 
 ## Visual inspection
 

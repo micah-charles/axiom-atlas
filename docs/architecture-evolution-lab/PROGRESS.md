@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
-Last updated: 2026-09-16
-Current milestone: M07 implementation complete — desktop gameplay QA passed; committed-source review pending
+Last updated: 2026-09-17
+Current milestone: M07 bounded corrections complete — committed-source re-review pending
 Current blocker: M06 and M07 runtime evidence debt remains for 390px completion, standalone keyboard-only completion, touch, reduced-motion and screen-reader evidence.
-Next action: Run the final local regression suite, commit/push M07 on the feature branch, then request ChatGPT's committed-source implementation review; do not start M08.
+Next action: Commit/push the M07 bounded corrections, request ChatGPT's committed-source re-review, and do not start M08 until the review passes.
 
 ## Mission status
 
@@ -12,7 +12,7 @@ Legend: ⬜ NOT STARTED · 🟨 IN PROGRESS · 🟦 IMPLEMENTED / NEEDS QA · �
 - Gate 0 — Bible import, repository fit, orchestration protocol: ✅ VERIFIED
 - Gate A — Vertical Slice A (M01–M06): 🟨 IN PROGRESS (M01–M06 implemented/needs QA; runtime evidence open)
 - M06 — Fifty Connections or Five Hundred?: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (v3 committed-source review PASS; five runtime/accessibility evidence items remain open)
-- M07 — The 5-Second Tomcat: 🟦 IMPLEMENTED / NEEDS QA (storyboard accepted; desktop loop passed; runtime/accessibility evidence and committed-source review pending)
+- M07 — The 5-Second Tomcat: 🟨 IN PROGRESS (bounded corrections implemented and desktop re-QA passed; committed-source re-review and runtime/accessibility evidence pending)
 - Gate B — Vertical Slice B (M14–M16): ⬜ NOT STARTED
 - Gate C — Deployment evolution (M46–M53): ⬜ NOT STARTED
 - Gate D — Control-loop scaling (M62–M65): ⬜ NOT STARTED
@@ -299,6 +299,19 @@ runtime mobile/accessibility evidence remains open.
   hidden before the diagnostic run, and replay reset to `0/6 REQUIRED`.
   Evidence is recorded in `evidence/M07-playtest-qa.md`; mobile and
   accessibility evidence remain open.
+- Received ChatGPT's M07 committed-source review v1 for `1098f65`. It returned
+  gameplay PASS but REVISION REQUIRED for M07-F01 (proof cardinality) and
+  M07-F02 (wrong frozen diagnosis could contradict the final causal claim).
+  The local capture is `reviews/M07-implementation-review-v1.md`; the signed
+  download endpoint was blocked by Chrome, so provenance is explicitly
+  recorded.
+- Applied bounded M07 corrections: proof now requires E01 plus two distinct
+  inspected resource cards; the explanation stage now carries a separate
+  `finalDiagnosis` and labels revisions after evidence. Added regressions for
+  both findings and retained the exact clean 100/100 path.
+- Replayed the corrected route in the browser: clean path reached 100/100;
+  wrong diagnosis reached the new frozen-hypothesis/final-diagnosis revision
+  control. Evidence is recorded in `evidence/M07-playtest-qa.md`.
 
 ## Tests
 
@@ -340,6 +353,10 @@ fixes:
 - M07 implementation checkpoint — PASS locally: lint, 183 core tests, build,
   11 rendered-route tests, desktop wrong-path recovery, reveal-gating,
   reconciliation rejection, clean 100/100 path and replay reset
+- M07 bounded-correction checkpoint — PASS locally: lint, 183 core tests,
+  build, 11 rendered-route tests, proof-card loophole regressions, final
+  diagnosis consistency regressions, corrected clean 100/100 browser path,
+  and wrong-diagnosis final-revision control
 - M04 implementation verification so far — PASS: lint, 173 core tests, build,
   full `npm test` (173 core + build + 8 rendered-route tests), rendered M04
   route, clean desktop 100/100 path, wrong-path 99/100 recovery, replay reset
@@ -474,6 +491,8 @@ implementation review is accepted.
   `reviews/M07-storyboard-review-v1.md`
 - M07 storyboard review capture:
   `artifacts/chatgpt/M07-five-second-tomcat-storyboard-v1.md`
+- M07 committed-source implementation review v1:
+  `reviews/M07-implementation-review-v1.md`
 
 ## Known problems
 
@@ -518,22 +537,26 @@ implementation review is accepted.
   accepted the pushed correction and closed all source-level findings. M06 is
   now 🟦 IMPLEMENTED / FULL VERIFICATION PENDING until the five runtime
   evidence debts are closed.
-- M07 storyboard is accepted for implementation planning, but M07 has no code,
-  runtime evidence or committed implementation review yet. The review capture
-  is not a byte-identical download because Chrome blocked the signed artifact
-  endpoint; keep this provenance limitation visible.
+- M07 implementation review v1 is retained as a revision-required checkpoint;
+  bounded code corrections are now local and desktop-retested, but the
+  correction commit still needs to be pushed and re-reviewed. M07 must remain
+  out of VERIFIED until the source re-review and five runtime/accessibility
+  evidence items are complete.
 
 ## Decisions needed
 
-- M06 implementation progression is unlocked by v3. M07 implementation is now
-  unlocked by the accepted storyboard, while M06 must not be marked VERIFIED
-  until its five runtime evidence items are recorded. Implementation must stop
-  if the slice feels like a dashboard rather than an investigation game.
+- M06 implementation progression is unlocked by v3. M07 implementation
+  progression is unlocked by the accepted storyboard, but M07 must not unlock
+  M08 until the bounded correction is committed and ChatGPT's re-review passes.
+  M06 and M07 must not be marked VERIFIED until their five runtime evidence
+  items are recorded. Implementation must stop if the slice feels like a
+  dashboard rather than an investigation game.
 
 ## Next three actions
 
-1. Implement the accepted M07 pure engine and isolated route.
-2. Add M07 engine/rendered-route regressions for the 45 acceptance IDs and
-   wrong-but-recoverable path.
-3. Run desktop first, then capture M07 mobile/accessibility evidence; keep M06
-   out of VERIFIED until its five required runtime captures are committed.
+1. Commit and push the M07 bounded corrections on
+   `feature/architecture-evolution-lab`.
+2. Ask the selected ChatGPT conversation to re-review the pushed M07 commit;
+   close any bounded finding before starting M08.
+3. Capture M07/M06 mobile and accessibility evidence; keep both missions out
+   of VERIFIED until their five required runtime captures are committed.

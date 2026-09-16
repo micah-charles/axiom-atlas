@@ -1,16 +1,16 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-16
-Current milestone: Gate A — M01 storyboard accepted; implementation pending
-Current blocker: None for the storyboard contract; implementation has not started.
-Next action: Implement the smallest M01 slice and run its fresh-player gate.
+Current milestone: Gate A — M01 implemented; mobile visual QA pending
+Current blocker: A real 390px mobile viewport capture is still needed before M01 can be VERIFIED.
+Next action: Capture mobile M01 evidence, then decide whether the core loop is ready for M02.
 
 ## Mission status
 
 Legend: ⬜ NOT STARTED · 🟨 IN PROGRESS · 🟦 IMPLEMENTED / NEEDS QA · ✅ VERIFIED · ⛔ BLOCKED
 
 - Gate 0 — Bible import, repository fit, orchestration protocol: ✅ VERIFIED
-- Gate A — Vertical Slice A (M01–M06): 🟨 IN PROGRESS (M01 storyboard accepted; implementation pending)
+- Gate A — Vertical Slice A (M01–M06): 🟨 IN PROGRESS (M01 🟦 IMPLEMENTED / NEEDS QA; M02–M06 not started)
 - Gate B — Vertical Slice B (M14–M16): ⬜ NOT STARTED
 - Gate C — Deployment evolution (M46–M53): ⬜ NOT STARTED
 - Gate D — Control-loop scaling (M62–M65): ⬜ NOT STARTED
@@ -24,7 +24,7 @@ has now completed the bounded storyboard revision loop: v1 was conditionally
 passed, v1.1 was challenged for consistency, v1.2 still contained the legacy
 evidence field in the downloaded artifact, and v1.3 was reissued and accepted.
 Implementation remains intentionally limited to M01 until the fresh-player
-gate passes.
+gate passes, including a real mobile viewport inspection.
 
 ## Completed since last checkpoint
 
@@ -61,18 +61,31 @@ gate passes.
   canonical evidence gate is present, `mandatory_any` is absent, and
   `M01-T010-MANAGED-PLATFORM-PREVIEW` is stable.
 - Recorded the accepted review in `reviews/M01-storyboard-review-v1.3.md`.
+- Added the isolated `/computer-science/architecture-lab` route and M01 engine:
+  evidence gate, proportionate/preview architecture choices, deterministic
+  request trace, host-failure reveal, causal explanation and lab scoring.
+- Added deterministic unit coverage for the M01 gate, preview semantics,
+  request trace and scoring.
+- Completed a Chrome fresh-player pass through the full M01 flow; the strong
+  explanation reached `100/100`.
+- Fixed a QA finding where the first implementation rendered the target
+  topology before investigation; the initial canvas is now truly empty.
+- Added `evidence/M01-fresh-player-qa.md`; desktop interaction passes, mobile
+  viewport capture remains open.
 
 ## Tests
 
 No code changes have been made for Architecture Evolution Lab yet. Existing
 repository tests were not rerun during this documentation-only checkpoint.
 
-Required before the first implementation checkpoint:
+Required before M01 verification:
 
 - `npm run lint`
 - `npm test`
-- fresh-player browser playtest of the first vertical slice
-- desktop and mobile evidence capture
+- fresh-player browser playtest of the first vertical slice — desktop PASS,
+  mobile pending
+- desktop and mobile evidence capture — desktop visual inspection PASS, mobile
+  pending
 
 ## Evidence
 
@@ -87,24 +100,25 @@ Required before the first implementation checkpoint:
 - The Bible names a primary source path but does not include the source text in
   this repository; the first slice is verified against the live public source,
   while later missions still need section-by-section verification.
-- No `/computer-science/architecture-lab` route or architecture simulation
-  engine exists yet.
+- M01 route and isolated architecture simulation engine now exist; M02–M06 are
+  deliberately not implemented.
 - The Bible's 79 mission summaries are not yet full mission contracts.
 - M01 v1 and v1.1 are retained as revision history; v1.2 is retained as a
   rejected artifact because its downloaded content failed the gate. M01 v1.3
-  is accepted for implementation; no mission is implemented yet.
+  is accepted and M01 is implemented; M01 still needs mobile visual evidence
+  before verification.
 - The downloaded Markdown is a Pandoc-normalised artifact (65,424 bytes);
   the original prompt and source remain separately versioned.
 
 ## Decisions needed
 
-- None for M01 storyboard acceptance. Implementation must preserve the v1.3
-  contract and stop for reassessment if the playable slice feels like a
+- None for the storyboard. The next decision is a gameplay reassessment after
+  mobile evidence; implementation must stop if the slice feels like a
   dashboard rather than an investigation game.
 
 ## Next three actions
 
-1. Checkpoint the accepted M01 storyboard and review on the feature branch.
-2. Implement the M01 mission data/state contract and smallest playable flow.
-3. Run tests, build, visual inspection, and the fresh-player gate before any
-   M02+ storyboard request.
+1. Capture M01 at a real mobile viewport and record the evidence.
+2. Reassess the desktop/mobile loop as a game before expanding scope.
+3. If the gate passes, request only M02's storyboard from the selected ChatGPT
+   conversation.

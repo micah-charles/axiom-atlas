@@ -17,6 +17,7 @@ import { addResource, advectParticles, createReservoir, entityById, moveEntity, 
 import { buildActualRevealBlocks, buildValleyRectangles, buildValleyTimeBlocks, estimateTargetCrossing, estimateValleyVolume, findActualTargetCrossing, resolveValleyOutcome, valleyActualVolume, valleyFlowRate, valleyRiverModel } from "../app/games/water-valley-engine.ts";
 import { CLIMATE_DATA, CLIMATE_MISSIONS, CLIMATE_YEAR, causalOrderFeedback, causalPrefixLength, conceptsFromText, dayLengthHours, derivePressureCentres, evidenceValue, explanationLockReasons, locationById, pressureContourLabels, pressureContourLevels, pressureContourSegments, pressureHpa, scoreMission, seasonFor, shuffleCausalIds, solarAngle, windDirectionLabel } from "../app/games/climate-detective/engine.ts";
 import { CORIOLIS_EXAMPLES, GLOBAL_CELLS, GLOBAL_LATITUDE_BANDS, GLOBAL_PRESSURE_BELTS, GLOBAL_SEASON_CONTEXT, GLOBAL_WIND_BELTS, atmosphericCellForLatitude, coriolisDeflection, coriolisMotionLatitudes, equalEarthPoint, isBritainMidLatitude, seasonalLatitude, windBeltForLatitude } from "../app/games/climate-detective/global-circulation.ts";
+import { M01_EVIDENCE, M01_TRACE, approachResult, canUnlockApproaches, scoreExplanation } from "../app/games/architecture-lab/engine.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
   assert.equal(LEARNING_LAYERS.length, 5);
@@ -276,6 +277,36 @@ test("Climate Detective ships a complete, sourced 2018 daily dataset", () => {
     assert.ok(location.daily.every(row => row.evidenceQuality.complete));
   }
   assert.deepEqual(CLIMATE_MISSIONS.map(mission => mission.id), ["depression", "cold-snap", "warm-anomaly"]);
+});
+
+test("Architecture Lab M01 keeps the evidence gate deterministic", () => {
+  assert.equal(M01_EVIDENCE.length, 4);
+  assert.equal(canUnlockApproaches(["E01"]), false);
+  assert.equal(canUnlockApproaches(["E01", "E03"]), false);
+  assert.equal(canUnlockApproaches(["E02", "E03", "E04"]), false);
+  assert.equal(canUnlockApproaches(["E01", "E02", "E03"]), true);
+  assert.equal(canUnlockApproaches(["E01", "E02", "E04"]), true);
+  assert.equal(canUnlockApproaches(["E01", "E03", "E04", "E03"]), true);
+});
+
+test("Architecture Lab M01 prevents unresolved previews from claiming a request", () => {
+  assert.equal(approachResult("A").status, "READY_TO_SERVE");
+  assert.equal(approachResult("A").requestMs, 80);
+  assert.equal(approachResult("B").status, "PREVIEW_BLOCKED_UNRESOLVED_PLACEMENT");
+  assert.equal(approachResult("B").requestMs, null);
+  assert.equal(approachResult("C").status, "PREVIEW_BLOCKED_OVERBUILT_AND_UNRESOLVED");
+  assert.equal(approachResult("C").requestMs, null);
+  assert.equal(approachResult("D").status, "FUNCTIONAL_REQUIREMENT_MISSING");
+  assert.equal(M01_TRACE.length, 6);
+  assert.equal(M01_TRACE.at(-1)?.event, "Response");
+});
+
+test("Architecture Lab M01 scoring rewards fit plus observed failure domain", () => {
+  const strong = scoreExplanation(["E01", "E03", "E04", "risk"], true);
+  const weak = scoreExplanation(["E01"], false);
+  assert.equal(strong.total, 100);
+  assert.ok(strong.total > weak.total);
+  assert.equal(weak.reliability, 0);
 });
 
 test("Climate Detective uses deterministic concepts, seasonal geometry, and evidence units", () => {

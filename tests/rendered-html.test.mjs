@@ -55,6 +55,17 @@ test("server-renders Geography and Climate Detective route shells", async () => 
   assert.match(investigationHtml, /Axiom Atlas · Geography · Climate Detective · Investigation/);
 });
 
+test("server-renders the Architecture Evolution Lab M01 shell", async () => {
+  const response = await render("/computer-science/architecture-lab");
+  const html = await response.text();
+  assert.equal(response.status, 200);
+  assert.match(html, /Architecture Evolution Lab/);
+  assert.match(html, /M01 — OPEN THE SHOP|M01/);
+  assert.match(html, /Read the evidence first/);
+  assert.match(html, /No serving topology yet/);
+  assert.match(html, /Atlas Market is fictional/i);
+});
+
 test("ships finished metadata, PWA manifest, and separated game engines", async () => {
   const [page, layout, manifest, packageJson, core] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),

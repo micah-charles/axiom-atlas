@@ -72,6 +72,20 @@ The issue is now fixed in the working tree with an inspection-aware proof
 predicate and direct regression coverage; a committed-source re-review is
 required before M04 can advance.
 
+## Committed-source re-review — v2
+
+ChatGPT inspected commit `3bd2816b23bcd68b1a8f62338e40750b8eeed407` and
+returned `PASS` for implementation correctness, `PASS` for genuinely
+playable, and `CONDITIONAL PASS` for full verification. M04-F01 is closed:
+the engine now enforces `proof ⊆ inspected` through diagnosis commit,
+completion, and scoring paths, with direct regression coverage. The review
+artifact is tracked at `reviews/M04-implementation-review-v2.md` (SHA-256:
+`a3b8f404f9430efeb883c8326df28b3fb6a72898e11934e590a8c39fad0b58e6`).
+
+The reviewer kept real 390px, keyboard-only, touch, reduced-motion and
+screen-reader evidence explicitly OPEN. M05 storyboard work is unlocked, but
+M04 remains 🟦 IMPLEMENTED / NEEDS QA rather than VERIFIED.
+
 ## Open evidence debt
 
 The following remain open before M04 can become VERIFIED:

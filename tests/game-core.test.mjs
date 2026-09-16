@@ -23,6 +23,7 @@ import { M03_EVIDENCE, M03_EXPLANATION_CONCEPTS, M03_EXPLANATION_LINKS, M03_INIT
 import { M04_CAUSAL_CLAIMS, M04_EVIDENCE, M04_INITIAL_RESOURCE_MAP, M04_PREDICTIONS, M04_RESULT_CHECKS, canCommitM04Predictions, canCommitM04ResourceMap, canUnlockM04Evidence, causalLinksCorrectM04, causalOrderCorrectM04, correctM04ResourceMap, diagnosisProofIsEnough, interventionJustificationCorrectM04, resultChecksCorrectM04, scoreM04 } from "../app/games/architecture-lab/m04-engine.ts";
 import { M05_INITIAL_DEPENDENCY_MAP, M05_PREDICTIONS, M05_REQUIRED_CAUSAL_ORDER, canCommitM05Predictions, canCompleteM05, canUnlockM05Evidence, causalLinksCorrectM05, causalOrderCorrectM05, correctM05DependencyMap, diagnosisProofIsEnoughM05, m05ProofEvidenceEnough, policyJustificationCorrectM05, predictionsCorrectM05, resultChecksCorrectM05, scoreM05 } from "../app/games/architecture-lab/m05-engine.ts";
 import { M06_BASELINE_PREDICTIONS, M06_CHANGED_PREDICTIONS, M06_REQUIRED_CANDIDATES, M06_REQUIRED_CAUSAL_ORDER, M06_REQUIRED_LINKS, M06_RESULT_CHECKS, baselineResultChecksMatchPredictionsM06, canCompleteM06, canUnlockM06Evidence, candidatePredictionsCorrectM06, causalLinksCorrectM06, causalOrderCorrectM06, diagnosisProofIsEnoughM06, m06ProofEvidenceEnough, predictionsCompleteM06, resultChecksCorrectM06, resultChecksMatchPredictionsM06, scoreM06 } from "../app/games/architecture-lab/m06-engine.ts";
+import { M07_REQUIRED_CAUSAL_ORDER, M07_REQUIRED_EVIDENCE, M07_REQUIRED_LINKS, canCompleteM07, canUnlockM07Evidence, causalLinksCorrectM07, causalOrderCorrectM07, m07ProofEvidenceEnough, predictionAccuracyScoreM07, predictionsCompleteM07, resultChecksMatchPredictionsM07, scoreM07 } from "../app/games/architecture-lab/m07-engine.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
   assert.equal(LEARNING_LAYERS.length, 5);
@@ -819,6 +820,41 @@ test("Quadratic state is the single source of graph and equation truth", () => {
   assert.equal(quadraticY(state, 4), 2);
   assert.ok(quadraticMatches(state, { ...state }));
   assert.ok(!quadraticMatches(state, { ...state, h: 2 }));
+});
+
+test("M07 requires cross-family evidence and accepts complete wrong diagnoses", () => {
+  const inspected = [...M07_REQUIRED_EVIDENCE];
+  assert.equal(canUnlockM07Evidence(inspected), true);
+  assert.equal(canUnlockM07Evidence(["E01", "E02", "E03", "E04", "E05"]), false);
+  assert.equal(m07ProofEvidenceEnough("IO_WAIT_PRIMARY", ["E01", "E02", "E06"], inspected), true);
+  assert.equal(m07ProofEvidenceEnough("CPU_SATURATION_PRIMARY", ["E01", "E07"], inspected), false);
+});
+
+test("M07 keeps prediction, missing evidence, reconciliation and clean score deterministic", () => {
+  const inspected = [...M07_REQUIRED_EVIDENCE];
+  const run = "RUN_COMPUTE_WAIT_SAMPLE";
+  const predictions = { CPU: "HIGH", RUNNABLE_QUEUE: "HIGH", IO_WAIT: "LOW", SOCKET_BLOCKED: "LOW" };
+  const checks = { CPU: "CONFIRMED", RUNNABLE_QUEUE: "CONFIRMED", IO_WAIT: "CONFIRMED", SOCKET_BLOCKED: "CONFIRMED" };
+  assert.equal(predictionsCompleteM07(run, predictions), true);
+  assert.equal(resultChecksMatchPredictionsM07(run, predictions, checks), true);
+  assert.equal(predictionAccuracyScoreM07(run, predictions), 15);
+  assert.equal(causalOrderCorrectM07([...M07_REQUIRED_CAUSAL_ORDER]), true);
+  assert.equal(causalLinksCorrectM07(M07_REQUIRED_LINKS), true);
+  const score = scoreM07({ inspected, diagnosis: "CPU_SATURATION_PRIMARY", proof: ["E01", "E02", "E04"], run, predictions, reconciled: true, causalOrder: [...M07_REQUIRED_CAUSAL_ORDER], causalLinks: M07_REQUIRED_LINKS, alternatives: ["IO_WEAKENED"], statement: true, recoveryCycles: 0 });
+  assert.deepEqual(score, { investigation: 15, diagnosis: 15, prediction: 15, runDiscipline: 10, reconciliation: 15, alternatives: 10, causal: 15, efficiency: 5, total: 100 });
+  assert.equal(canCompleteM07({ inspected, diagnosis: "CPU_SATURATION_PRIMARY", proof: ["E01", "E02", "E04"], run, predictions, reconciled: true, causalOrder: [...M07_REQUIRED_CAUSAL_ORDER], causalLinks: M07_REQUIRED_LINKS, alternatives: ["IO_WEAKENED"], statement: true }), true);
+  const gcPredictions = { FULL_GC_DELTA: "HIGH", GC_PAUSE: "HIGH", HEAP_PRE_GC: "HIGH", HEAP_POST_GC: "MEDIUM", RETENTION_TREND: "NOT_OBSERVED" };
+  const gcChecks = { FULL_GC_DELTA: "CONFIRMED", GC_PAUSE: "CONFIRMED", HEAP_PRE_GC: "CONFIRMED", HEAP_POST_GC: "CONFIRMED", RETENTION_TREND: "MISSING_EVIDENCE" };
+  assert.equal(predictionsCompleteM07("RUN_GC_RETENTION_SAMPLE", gcPredictions), true);
+  assert.equal(resultChecksMatchPredictionsM07("RUN_GC_RETENTION_SAMPLE", gcPredictions, gcChecks), true);
+});
+
+test("M07 wrong complete prediction reaches reveal but cannot be reconciled as all confirmed", () => {
+  const wrongPredictions = { CPU: "LOW", RUNNABLE_QUEUE: "LOW", IO_WAIT: "HIGH", SOCKET_BLOCKED: "HIGH" };
+  const allConfirmed = { CPU: "CONFIRMED", RUNNABLE_QUEUE: "CONFIRMED", IO_WAIT: "CONFIRMED", SOCKET_BLOCKED: "CONFIRMED" };
+  assert.equal(predictionsCompleteM07("RUN_COMPUTE_WAIT_SAMPLE", wrongPredictions), true);
+  assert.equal(resultChecksMatchPredictionsM07("RUN_COMPUTE_WAIT_SAMPLE", wrongPredictions, allConfirmed), false);
+  assert.ok(predictionAccuracyScoreM07("RUN_COMPUTE_WAIT_SAMPLE", wrongPredictions) < 15);
 });
 
 for (const level of QUADRATIC_LEVELS) {

@@ -123,6 +123,18 @@ test("server-renders the Architecture Evolution Lab M06 shell without answer lea
   assert.doesNotMatch(html, /CONNECTION_ADMISSION_MISMATCH|FIT_POOL|admission mismatch|more connections can make the system worse|More connections can move the bottleneck/i);
 });
 
+test("server-renders the Architecture Evolution Lab M07 shell without answer leakage", async () => {
+  const response = await render("/computer-science/architecture-lab/m07");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /M07 — FIVE-SECOND TOMCAT|M07/);
+  assert.match(html, /Campaign warm-up has started/);
+  assert.match(html, /~50 ms|~5 s/);
+  assert.match(html, /DIAGNOSIS LOCKED|RESOURCE EVIDENCE REQUIRED/);
+  assert.match(html, /Atlas Market is fictional/i);
+  assert.doesNotMatch(html, /CPU_SATURATION_PRIMARY|RUN_COMPUTE_WAIT_SAMPLE|CPU is the bottleneck|Full GC is secondary|canonical diagnosis|M08/i);
+});
+
 test("ships finished metadata, PWA manifest, and separated game engines", async () => {
   const [page, layout, manifest, packageJson, core] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),

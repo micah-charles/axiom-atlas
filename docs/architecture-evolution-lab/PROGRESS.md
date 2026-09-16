@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-16
-Current milestone: M07 implementation planning — storyboard accepted; M06 implementation accepted, full verification pending
-Current blocker: No M07 storyboard blocker. M06 runtime evidence debt remains for 390px completion, standalone keyboard-only completion, touch, reduced-motion and screen-reader evidence.
-Next action: Implement the accepted M07 contract as an isolated pure engine and route; do not start M08.
+Current milestone: M07 implementation complete — desktop gameplay QA passed; committed-source review pending
+Current blocker: M06 and M07 runtime evidence debt remains for 390px completion, standalone keyboard-only completion, touch, reduced-motion and screen-reader evidence.
+Next action: Run the final local regression suite, commit/push M07 on the feature branch, then request ChatGPT's committed-source implementation review; do not start M08.
 
 ## Mission status
 
@@ -12,7 +12,7 @@ Legend: ⬜ NOT STARTED · 🟨 IN PROGRESS · 🟦 IMPLEMENTED / NEEDS QA · �
 - Gate 0 — Bible import, repository fit, orchestration protocol: ✅ VERIFIED
 - Gate A — Vertical Slice A (M01–M06): 🟨 IN PROGRESS (M01–M06 implemented/needs QA; runtime evidence open)
 - M06 — Fifty Connections or Five Hundred?: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (v3 committed-source review PASS; five runtime/accessibility evidence items remain open)
-- M07 — The 5-Second Tomcat: 🟨 IN PROGRESS (storyboard accepted; implementation not started)
+- M07 — The 5-Second Tomcat: 🟦 IMPLEMENTED / NEEDS QA (storyboard accepted; desktop loop passed; runtime/accessibility evidence and committed-source review pending)
 - Gate B — Vertical Slice B (M14–M16): ⬜ NOT STARTED
 - Gate C — Deployment evolution (M46–M53): ⬜ NOT STARTED
 - Gate D — Control-loop scaling (M62–M65): ⬜ NOT STARTED
@@ -284,6 +284,21 @@ runtime mobile/accessibility evidence remains open.
   storyboard is accepted for M07 implementation planning. The browser download
   endpoint was blocked, so the local artifact is explicitly labelled a review
   capture rather than a raw downloaded file.
+- Implemented M07 as an isolated `/computer-science/architecture-lab/m07`
+  route and pure deterministic engine: six-card cross-family evidence gate,
+  diagnosis with proof, wrong-path recovery, prediction-before-reveal,
+  deterministic compute/GC/I/O diagnostic runs, explicit reconciliation
+  states, causal-chain builder, bounded alternatives, 100-point scoring and
+  replay reset.
+- Added M07 engine, rendered-route and SSR leakage regressions. The local
+  suite now covers wrong diagnosis, complete wrong prediction, all-confirmed
+  reconciliation rejection, deterministic reveal, clean 100/100 scoring and
+  replay invariants.
+- Completed the desktop fresh-player M07 browser QA: wrong-path completion
+  scored `74/100`, canonical completion scored `100/100`, the result remained
+  hidden before the diagnostic run, and replay reset to `0/6 REQUIRED`.
+  Evidence is recorded in `evidence/M07-playtest-qa.md`; mobile and
+  accessibility evidence remain open.
 
 ## Tests
 
@@ -322,6 +337,9 @@ fixes:
   contiguous acceptance IDs and an exactly equal machine-readable registry;
   ChatGPT's delivered audit also reported neutral fresh copy and a neutral
   next hook
+- M07 implementation checkpoint — PASS locally: lint, 183 core tests, build,
+  11 rendered-route tests, desktop wrong-path recovery, reveal-gating,
+  reconciliation rejection, clean 100/100 path and replay reset
 - M04 implementation verification so far — PASS: lint, 173 core tests, build,
   full `npm test` (173 core + build + 8 rendered-route tests), rendered M04
   route, clean desktop 100/100 path, wrong-path 99/100 recovery, replay reset
@@ -342,6 +360,10 @@ fixes:
 - 390px M05 responsive captures — PASS for initial, gate-open and dependency-map recovery states; full mobile completion remains open
 - M05 keyboard trace — PASS for the core investigation path; standalone full keyboard-only completion remains open
 - M05 touch, reduced-motion and screen-reader runtime captures remain pending
+
+M07 desktop gameplay evidence is recorded, but M07 remains
+IMPLEMENTED / NEEDS QA until the runtime/accessibility capture set and
+committed-source review are complete.
 
 Required before M01 verification:
 
@@ -438,6 +460,8 @@ implementation review is accepted.
   `evidence/M06-playtest-qa.md`
 - M06 implementation review v1:
   `reviews/M06-implementation-review-v1.md`
+- M07 gameplay QA:
+  `evidence/M07-playtest-qa.md`
 - M06 implementation review v2:
   `reviews/M06-implementation-review-v2.md`
 - M06 implementation review v3:

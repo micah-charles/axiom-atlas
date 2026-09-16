@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-16
-Current milestone: Gate A — M05 storyboard contract ACCEPTED; M04 implementation correctness PASS; full verification conditional
-Current blocker: M01/M02/M03/M04 still need real 390px mobile viewport evidence, with reduced-motion, screen-reader and explicit keyboard/touch evidence also open. M04 implementation review v2 closed the bounded proof-state gap but did not close runtime evidence debt.
-Next action: Implement M05 from the accepted v1.2 storyboard while keeping the inherited QA debt visible.
+Current milestone: Gate A — M05 implemented / needs QA; desktop gameplay PASS; M04 implementation correctness PASS; full verification conditional
+Current blocker: M01/M02/M03/M04/M05 still need real 390px mobile viewport evidence, with reduced-motion, screen-reader and explicit keyboard/touch evidence also open. M05 still needs independent committed-source review.
+Next action: Request ChatGPT's independent M05 implementation review, then close mobile/accessibility evidence without marking M05 VERIFIED prematurely.
 
 ## Mission status
 
@@ -36,8 +36,10 @@ duplicate `M04-T026` registry entry; v1.1 is now accepted after the bounded
 registry correction and full contract review. M05 storyboard v1 was held for
 a duplicate evidence-capture item and consistency audit; v1.1 closed those
 issues, then v1.2 closed a four-versus-five prediction-scoring contradiction.
-M05 v1.2 is now accepted for implementation planning; no M05 code has been
-written yet.
+M05 v1.2 is now accepted for implementation planning. M05 is implemented as
+an isolated route and pure engine; desktop gameplay reaches a clean 100/100
+and replay resets state. Mobile/accessibility and independent review remain
+open.
 
 ## Completed since last checkpoint
 
@@ -296,6 +298,12 @@ implementation review is accepted.
   `e56ab13a9d93313f2cff5be5d484957664c5a2fe990f1e996cc073993184fe02`
 - M05 storyboard review:
   `reviews/M05-storyboard-review-v1.2.md`
+- M05 implementation:
+  `app/games/architecture-lab/m05-engine.ts`,
+  `app/games/architecture-lab/M05NetworkGame.tsx`,
+  `app/computer-science/architecture-lab/m05/page.tsx`
+- M05 gameplay QA:
+  `evidence/M05-playtest-qa.md`
 
 ## Known problems
 
@@ -332,8 +340,9 @@ implementation review is accepted.
   still open; it must not be called verified until those runtime captures and
   the remaining deterministic evidence are complete.
 - M05 v1 and v1.1 are retained as storyboard revision history; v1.2 is the
-  accepted implementation contract. M05 remains 🟨 IN PROGRESS because no
-  application code has been implemented yet.
+  accepted implementation contract. M05 is now 🟦 IMPLEMENTED / NEEDS QA:
+  desktop clean path and replay passed, while mobile/accessibility and
+  independent committed-source review remain open.
 
 ## Decisions needed
 
@@ -343,9 +352,7 @@ implementation review is accepted.
 
 ## Next three actions
 
-1. Implement the M05 pure engine and isolated route from the accepted v1.2
-   storyboard.
-2. Run unit/build/rendered-route checks and the deterministic M05 clean and
-   recovery paths.
-3. Capture M05 desktop, 390px, keyboard, touch, reduced-motion and
-   screen-reader evidence; keep M01–M04 QA debt visible.
+1. Request ChatGPT's independent committed-source review of M05.
+2. Capture M05 390px, keyboard, touch, reduced-motion and screen-reader
+   evidence; keep M01–M04 QA debt visible.
+3. Reassess M05 as a game before requesting M06 storyboard work.

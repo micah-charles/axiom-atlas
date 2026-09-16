@@ -21,6 +21,7 @@ import { M01_EVIDENCE, M01_TRACE, approachResult, canUnlockApproaches, scoreExpl
 import { M02_EVIDENCE, M02_EXPERIMENTS, M02_EXPLANATION_OPTIONS, M02_STAGE_ORDER, M02_TIMINGS, canCommitM02Diagnosis, canSubmitM02FinalDiagnosis, canUnlockM02Evidence, explanationIsComplete, explanationMatchesM02Diagnosis, experimentResult, m02RouteFeedback, predictionIsCorrect, scoreM02, timingTotal, validateM02Route } from "../app/games/architecture-lab/m02-engine.ts";
 import { M03_EVIDENCE, M03_EXPLANATION_CONCEPTS, M03_EXPLANATION_LINKS, M03_INITIAL_MAP, M03_PREDICTIONS, M03_RESULTS, canCommitM03Map, canCommitM03Predictions, canCompleteM03, canMutateM03Classification, canUnlockM03Evidence, correctM03Map, correctM03ResultMatches, explanationLinksCorrect, explanationOrderCorrect, scoreM03, predictionIsCorrectM03 } from "../app/games/architecture-lab/m03-engine.ts";
 import { M04_CAUSAL_CLAIMS, M04_EVIDENCE, M04_INITIAL_RESOURCE_MAP, M04_PREDICTIONS, M04_RESULT_CHECKS, canCommitM04Predictions, canCommitM04ResourceMap, canUnlockM04Evidence, causalLinksCorrectM04, causalOrderCorrectM04, correctM04ResourceMap, diagnosisProofIsEnough, interventionJustificationCorrectM04, resultChecksCorrectM04, scoreM04 } from "../app/games/architecture-lab/m04-engine.ts";
+import { M05_INITIAL_DEPENDENCY_MAP, M05_PREDICTIONS, M05_REQUIRED_CAUSAL_ORDER, canUnlockM05Evidence, causalLinksCorrectM05, causalOrderCorrectM05, correctM05DependencyMap, diagnosisProofIsEnoughM05, m05ProofEvidenceEnough, policyJustificationCorrectM05, predictionsCorrectM05, resultChecksCorrectM05, scoreM05 } from "../app/games/architecture-lab/m05-engine.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
   assert.equal(LEARNING_LAYERS.length, 5);
@@ -228,6 +229,36 @@ test("shared scene and resource systems are deterministic and reusable", () => {
   const reservoir = addResource(createReservoir(10, 2), 12);
   assert.deepEqual(reservoir, { capacity: 10, current: 10 });
   assert.equal(reservoirFilled(reservoir), true);
+});
+
+test("M05 enforces the inspected evidence gate and dependency diagnosis", () => {
+  assert.equal(canUnlockM05Evidence(["E01", "E02", "E03", "E04", "E05", "E06"]), true);
+  assert.equal(canUnlockM05Evidence(["E01", "E02", "E03", "E04", "E05"]), false);
+  assert.equal(m05ProofEvidenceEnough(["E01", "E02", "E03"], ["E01", "E02", "E03"]), true);
+  assert.equal(m05ProofEvidenceEnough(["E01", "E02", "E04"], ["E01", "E02"]), false);
+  assert.equal(diagnosisProofIsEnoughM05("NETWORK_DEPENDENCY_WAITING", ["E01", "E02", "E03"], ["E01", "E02", "E03"]), true);
+  assert.equal(diagnosisProofIsEnoughM05("M04_DISK_CONTENTION", ["E01", "E02", "E03"], ["E01", "E02", "E03"]), false);
+});
+
+test("M05 classifies the dependency map, causal chain, predictions and policy deterministically", () => {
+  const map = { ...M05_INITIAL_DEPENDENCY_MAP, JDBC_DB_CALL: "CROSSES_DB_NETWORK_DEPENDENCY", AFFECTED_SHOP_REQUEST: "CROSSES_DB_NETWORK_DEPENDENCY", COMPARATOR_LOCAL_ACTION: "DOES_NOT_USE_DB_DEPENDENCY_IN_THIS_LAB_STEP", DISK_FULL_HYPOTHESIS: "UNSUPPORTED_CAUSE", CPU_EXHAUSTION_HYPOTHESIS: "UNSUPPORTED_CAUSE" };
+  assert.equal(correctM05DependencyMap(map), true);
+  assert.equal(causalOrderCorrectM05([...M05_REQUIRED_CAUSAL_ORDER]), true);
+  assert.equal(causalLinksCorrectM05({ E01: "DB_CALL_CROSSES_NETWORK_DEPENDENCY", E02: "DB_DEPENDENT_REQUEST_WAITS", E03: "BOUNDED_CALL_POLICY_CAN_RETURN_CONTROL_WITH_ERROR", E04: "WAITING_WORK_REMAINS_OCCUPIED" }), true);
+  const predictions = Object.fromEntries(M05_PREDICTIONS.map(item => [item.id, item.correct]));
+  assert.equal(predictionsCorrectM05(predictions), true);
+  assert.equal(predictionsCorrectM05({ ...predictions, B_ERROR_SURFACED: "NO" }), false);
+  assert.equal(policyJustificationCorrectM05("BOUNDED_TIMEOUT_ONE_RETRY", ["REMOTE_CALL_CAN_WAIT", "WAIT_MUST_HAVE_A_BOUND", "TIMEOUT_SURFACES_CONTROLLED_ERROR", "RETRY_IS_ANOTHER_BOUNDED_ATTEMPT", "FIXED_SLOT_COUNT_WAS_NOT_TUNED"]), true);
+});
+
+test("M05 result checks and scoring preserve the exact 100-point clean path", () => {
+  const map = { ...M05_INITIAL_DEPENDENCY_MAP, JDBC_DB_CALL: "CROSSES_DB_NETWORK_DEPENDENCY", AFFECTED_SHOP_REQUEST: "CROSSES_DB_NETWORK_DEPENDENCY", COMPARATOR_LOCAL_ACTION: "DOES_NOT_USE_DB_DEPENDENCY_IN_THIS_LAB_STEP", DISK_FULL_HYPOTHESIS: "UNSUPPORTED_CAUSE", CPU_EXHAUSTION_HYPOTHESIS: "UNSUPPORTED_CAUSE" };
+  const predictions = Object.fromEntries(M05_PREDICTIONS.map(item => [item.id, item.correct]));
+  const checks = { A_WAITING_AT_END: "CONFIRMED", A_NO_ERROR: "CONFIRMED", A_NO_RECOVERY: "CONFIRMED", B_ERROR_SURFACED: "CONFIRMED", B_RETRY_FAILED: "CONFIRMED", FIXED_SLOTS: "CONFIRMED" };
+  const justifications = ["REMOTE_CALL_CAN_WAIT", "WAIT_MUST_HAVE_A_BOUND", "TIMEOUT_SURFACES_CONTROLLED_ERROR", "RETRY_IS_ANOTHER_BOUNDED_ATTEMPT", "FIXED_SLOT_COUNT_WAS_NOT_TUNED"];
+  assert.equal(resultChecksCorrectM05(checks), true);
+  const score = scoreM05({ inspected: ["E01", "E02", "E03", "E04", "E05", "E06"], map, diagnosis: "NETWORK_DEPENDENCY_WAITING", proof: ["E01", "E02", "E03"], causalOrder: [...M05_REQUIRED_CAUSAL_ORDER], causalLinks: { E01: "DB_CALL_CROSSES_NETWORK_DEPENDENCY", E02: "DB_DEPENDENT_REQUEST_WAITS", E03: "BOUNDED_CALL_POLICY_CAN_RETURN_CONTROL_WITH_ERROR", E04: "WAITING_WORK_REMAINS_OCCUPIED" }, predictions, checks, policy: "BOUNDED_TIMEOUT_ONE_RETRY", justifications, recoveryCycles: 0 });
+  assert.deepEqual(score, { investigation: 15, diagnosis: 15, classification: 10, causal: 15, prediction: 10, experiment: 15, policy: 10, boundary: 5, efficiency: 5, total: 100 });
 });
 
 test("Water Valley turns hidden river functions into visible accumulation blocks", () => {

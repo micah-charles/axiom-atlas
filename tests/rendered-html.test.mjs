@@ -100,6 +100,17 @@ test("server-renders the Architecture Evolution Lab M04 shell without answer lea
   assert.doesNotMatch(html, /SHARED_DISK_CAPACITY|MySQL filled the disk|Isolate Web and DB/);
 });
 
+test("server-renders the Architecture Evolution Lab M05 shell without answer leakage", async () => {
+  const response = await render("/computer-science/architecture-lab/m05");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /M05 — THE NETWORK IS NOW PART OF THE SYSTEM|M05/);
+  assert.match(html, /A remote call stopped making progress/);
+  assert.match(html, /DIAGNOSIS LOCKED/);
+  assert.match(html, /Atlas Market is fictional/i);
+  assert.doesNotMatch(html, /NETWORK_DEPENDENCY_WAITING|BOUNDED_TIMEOUT_ONE_RETRY|2-second teaching-simulation DB outage/i);
+});
+
 test("ships finished metadata, PWA manifest, and separated game engines", async () => {
   const [page, layout, manifest, packageJson, core] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),

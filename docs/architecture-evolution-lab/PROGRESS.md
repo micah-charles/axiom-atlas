@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-16
-Current milestone: Gate A — M05 implementation correctness PASS; gameplay PASS; full verification conditional; M06 storyboard unlocked
+Current milestone: Gate A — M06 storyboard accepted for implementation planning; M05 implementation correctness PASS; full verification conditional
 Current blocker: M01/M02/M03/M04/M05 still have runtime evidence debt. M05 remains IMPLEMENTED / NEEDS QA until full 390px completion, standalone keyboard-only completion, touch, reduced-motion and screen-reader evidence are recorded.
-Next action: Request and review the M06 storyboard while keeping M05 evidence closure tracked in parallel.
+Next action: Plan and implement M06 in an isolated route/engine, then request committed-source review while keeping M05 evidence closure tracked in parallel.
 
 ## Mission status
 
@@ -11,6 +11,7 @@ Legend: ⬜ NOT STARTED · 🟨 IN PROGRESS · 🟦 IMPLEMENTED / NEEDS QA · �
 
 - Gate 0 — Bible import, repository fit, orchestration protocol: ✅ VERIFIED
 - Gate A — Vertical Slice A (M01–M06): 🟨 IN PROGRESS (M01 🟦 IMPLEMENTED / NEEDS QA; M02–M06 not started)
+- M06 — Fifty Connections or Five Hundred?: 🟨 IN PROGRESS (storyboard v1.1 accepted; implementation not started)
 - Gate B — Vertical Slice B (M14–M16): ⬜ NOT STARTED
 - Gate C — Deployment evolution (M46–M53): ⬜ NOT STARTED
 - Gate D — Control-loop scaling (M62–M65): ⬜ NOT STARTED
@@ -49,7 +50,11 @@ implementation correctness PASS and genuinely playable PASS; full verification
 is CONDITIONAL PASS solely because the runtime mobile/accessibility evidence is
 still open. The v3 review of pushed commit `44fc4f5` confirms no new
 implementation finding, preserves the five evidence debts, and explicitly
-unlocks the M06 storyboard loop without marking M05 VERIFIED.
+unlocks the M06 storyboard loop without marking M05 VERIFIED. M06 storyboard v1
+was held because its internal audit regex matched empty strings and did not
+prove matrix/registry equality. The bounded v1.1 revision corrected the
+anchored parsers, reported 50 unique contiguous IDs with exact equality,
+preserved M06-T050, and is now accepted for implementation planning.
 
 ## Completed since last checkpoint
 
@@ -219,6 +224,15 @@ unlocks the M06 storyboard loop without marking M05 VERIFIED.
   PASS, and M06 storyboard work unlocked. Chrome blocked the raw artifact
   download endpoint, so the visible artifact preview was reconstructed at
   `reviews/M05-implementation-review-v3.md` without claiming a raw download.
+- Requested M06 — Fifty Connections or Five Hundred? as a storyboard-only
+  artifact. The v1 gameplay/provenance contract was strong, but its internal
+  registry audit used a malformed empty-alternative regex, so v1 was held.
+- Requested a bounded v1.1 revision. The visible ChatGPT validation now proves
+  50 unique contiguous matrix IDs, 50 unique contiguous registry IDs, exact
+  equality, and preservation of M06-T050. The local preview capture and
+  independent acceptance review are recorded at:
+  `artifacts/chatgpt/M06-fifty-connections-or-five-hundred-storyboard-v1.1.md`
+  and `reviews/M06-storyboard-review-v1.1.md`.
 
 ## Tests
 
@@ -238,6 +252,9 @@ fixes:
 - M04 storyboard contract validation — PASS: 35 detailed acceptance IDs and 35
   registry IDs, each unique and set-equal; scoring categories sum to 100; source
   blob and scope boundary match the source register
+- M06 storyboard audit validation — PASS: 50 detailed acceptance IDs and 50
+  registry IDs, each unique and contiguous; exact equality and M06-T050
+  presence reported by the corrected artifact audit
 - M04 implementation verification so far — PASS: lint, 173 core tests, build,
   full `npm test` (173 core + build + 8 rendered-route tests), rendered M04
   route, clean desktop 100/100 path, wrong-path 99/100 recovery, replay reset

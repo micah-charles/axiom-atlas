@@ -2,6 +2,7 @@ export type M02EvidenceId = "E01" | "E02" | "E03" | "E04" | "E05";
 export type M02StageId = "DNS_RESOLUTION" | "HTTP_CONNECTION" | "TOMCAT_PROCESSING" | "JDBC_MYSQL_QUERY" | "RESPONSE";
 export type M02ProfileId = "healthy" | "incident_baseline" | "dns_delay_control" | "server_delay_control";
 export type M02ExperimentId = "X01_DNS_DELAY_CONTROL" | "X02_SERVER_DELAY_CONTROL";
+export type M02FinalEvidenceId = "BASELINE_MEASUREMENT" | "CONTROLLED_COMPARISON" | "DNS_BEFORE_HTTP";
 
 export const M02_STAGE_ORDER: readonly M02StageId[] = [
   "DNS_RESOLUTION",
@@ -116,6 +117,12 @@ export const M02_EXPLANATION_OPTIONS = [
   { id: "DIAGNOSE_BEFORE_ARCHITECTURE_CHANGE", label: "Diagnose the layer before changing architecture." },
 ] as const;
 
+export const M02_FINAL_EVIDENCE = [
+  { id: "BASELINE_MEASUREMENT" as const, label: "Baseline measurement" },
+  { id: "CONTROLLED_COMPARISON" as const, label: "Controlled comparison" },
+  { id: "DNS_BEFORE_HTTP" as const, label: "DNS occurs before HTTP" },
+] as const;
+
 export function uniqueM02Evidence(inspected: M02EvidenceId[]) {
   return [...new Set(inspected)];
 }
@@ -127,6 +134,29 @@ export function canUnlockM02Evidence(inspected: M02EvidenceId[]) {
 
 export function validateM02Route(route: M02StageId[]) {
   return route.length === M02_STAGE_ORDER.length && route.every((stage, index) => stage === M02_STAGE_ORDER[index]);
+}
+
+export function m02RouteFeedback(route: M02StageId[]) {
+  const positions = new Map(route.map((stage, index) => [stage, index]));
+  if (positions.get("HTTP_CONNECTION")! < positions.get("DNS_RESOLUTION")!) {
+    return { id: "HTTP_BEFORE_DNS", message: "The browser cannot send HTTP until it knows where the domain resolves." };
+  }
+  if (positions.get("JDBC_MYSQL_QUERY")! < positions.get("TOMCAT_PROCESSING")!) {
+    return { id: "JDBC_BEFORE_TOMCAT", message: "JDBC is used by application logic after HTTP reaches Tomcat; the browser does not query MySQL directly." };
+  }
+  if (positions.get("RESPONSE")! < positions.get("JDBC_MYSQL_QUERY")!) {
+    return { id: "RESPONSE_BEFORE_DATA", message: "The response cannot leave before the product-data query has completed." };
+  }
+  return { id: "ROUTE_ORDER_UNCLEAR", message: "That journey cannot run yet. Recheck which layer must happen before the next one." };
+}
+
+export function canCommitM02Diagnosis(inspected: M02EvidenceId[], baselineComplete: boolean, diagnosis: M02StageId | "TOTAL_BLAMES_SERVER" | null) {
+  return Boolean(diagnosis) && baselineComplete && new Set(inspected).has("E04");
+}
+
+export function canSubmitM02FinalDiagnosis(finalDiagnosis: M02StageId | "TOTAL_BLAMES_SERVER" | null, finalEvidence: M02FinalEvidenceId[], experimentsRun: number) {
+  const evidence = new Set(finalEvidence);
+  return finalDiagnosis === "DNS_RESOLUTION" && experimentsRun >= 1 && evidence.has("BASELINE_MEASUREMENT") && evidence.has("CONTROLLED_COMPARISON");
 }
 
 export function timingTotal(profile: M02ProfileId) {
@@ -153,6 +183,10 @@ export function explanationIsComplete(selected: string[]) {
   return M02_EXPLANATION_OPTIONS.every(option => chosen.has(option.id));
 }
 
+export function explanationMatchesM02Diagnosis(finalDiagnosis: M02StageId | "TOTAL_BLAMES_SERVER" | null, selected: string[]) {
+  return finalDiagnosis === "DNS_RESOLUTION" && selected.includes("INCIDENT_DNS_DIAGNOSIS");
+}
+
 export function scoreM02({
   inspected,
   routeRepairs,
@@ -173,7 +207,7 @@ export function scoreM02({
   const unique = uniqueM02Evidence(inspected);
   const investigation = unique.length === 3 && unique.includes("E04") ? 15 : unique.length >= 4 ? 12 : unique.length >= 3 ? 10 : 0;
   const ordering = routeRepairs === 0 ? 20 : routeRepairs === 1 ? 16 : routeRepairs === 2 ? 12 : routeRepairs >= 3 ? 8 : 0;
-  const diagnosis = firstDiagnosis === "DNS_RESOLUTION" ? 20 : finalDiagnosis === "DNS_RESOLUTION" ? 12 : 0;
+  const diagnosis = finalDiagnosis !== "DNS_RESOLUTION" ? 0 : firstDiagnosis === "DNS_RESOLUTION" ? 20 : 12;
   const prediction = predictionMistakes === 0 ? 15 : predictionMistakes === 1 ? 10 : 6;
   const comparison = experimentsRun >= 2 ? 15 : experimentsRun === 1 ? 12 : 0;
   const explanationScore = explanationIsComplete(explanation) ? 15 : new Set(explanation).size * 2;

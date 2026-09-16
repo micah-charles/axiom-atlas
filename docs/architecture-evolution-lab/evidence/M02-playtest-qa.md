@@ -8,7 +8,8 @@ Branch: `feature/architecture-evolution-lab`
 
 **Desktop gameplay: PASS**  
 **Keyboard activation smoke: PASS**  
-**M02 verification: CONDITIONAL — mobile and reduced-motion evidence remain open.**
+**M02 bounded-fix regression: PASS**
+**M02 verification: CONDITIONAL — mobile, reduced-motion and screen-reader evidence remain open.**
 
 ## Fresh-player observations
 
@@ -38,6 +39,21 @@ Branch: `feature/architecture-evolution-lab`
    completed the mission at 83/100 after the deliberate mistakes.
 10. Replayed the mission and completed a clean two-control path at 100/100.
 11. Replayed again and confirmed evidence reset to `0/5 INSPECTED`.
+
+## Post-review bounded-fix regression
+
+After ChatGPT's independent implementation review identified M02-F01 through
+M02-F03, the following paths were rerun:
+
+- E01 + E02 + E03 opened the route but could not commit a diagnosis until E04
+  was inspected; the in-context diagnosis evidence gate appeared.
+- HTTP-before-DNS produced local feedback explaining that the browser cannot
+  send HTTP until the domain resolves.
+- A wrong final Tomcat diagnosis with baseline/control evidence stayed on the
+  final screen and showed recoverable feedback; it could not enter the causal
+  explanation.
+- A corrected DNS final diagnosis completed successfully.
+- A clean two-control path completed at `100/100` after the bounded fixes.
 
 ## Keyboard smoke
 

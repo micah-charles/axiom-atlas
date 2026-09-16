@@ -6,17 +6,23 @@ import {
   M02_EVIDENCE,
   M02_EXPERIMENTS,
   M02_EXPLANATION_OPTIONS,
+  M02_FINAL_EVIDENCE,
   M02_STAGE_ORDER,
   M02_TIMINGS,
   canUnlockM02Evidence,
+  canCommitM02Diagnosis,
+  canSubmitM02FinalDiagnosis,
   explanationIsComplete,
+  explanationMatchesM02Diagnosis,
   experimentResult,
   predictionIsCorrect,
   scoreM02,
   timingTotal,
+  m02RouteFeedback,
   validateM02Route,
   type M02EvidenceId,
   type M02ExperimentId,
+  type M02FinalEvidenceId,
   type M02StageId,
 } from "./m02-engine";
 
@@ -88,6 +94,7 @@ export default function M02FollowOneRequestGame() {
   const [traceIndex, setTraceIndex] = useState(-1);
   const [diagnosisChoice, setDiagnosisChoice] = useState<M02StageId | "TOTAL_BLAMES_SERVER" | null>(null);
   const [firstDiagnosis, setFirstDiagnosis] = useState<M02StageId | "TOTAL_BLAMES_SERVER" | null>(null);
+  const [diagnosisFeedback, setDiagnosisFeedback] = useState("");
   const [experimentChoice, setExperimentChoice] = useState<M02ExperimentId | null>(null);
   const [predictionChoice, setPredictionChoice] = useState("");
   const [predictionMistakes, setPredictionMistakes] = useState(0);
@@ -95,7 +102,8 @@ export default function M02FollowOneRequestGame() {
   const [committedExperiment, setCommittedExperiment] = useState<M02ExperimentId | null>(null);
   const [experimentsRun, setExperimentsRun] = useState<M02ExperimentId[]>([]);
   const [finalDiagnosis, setFinalDiagnosis] = useState<M02StageId | "TOTAL_BLAMES_SERVER" | null>(null);
-  const [finalEvidence, setFinalEvidence] = useState<string[]>([]);
+  const [finalEvidence, setFinalEvidence] = useState<M02FinalEvidenceId[]>([]);
+  const [finalFeedback, setFinalFeedback] = useState("");
   const [explanation, setExplanation] = useState<string[]>([]);
   const [reflection, setReflection] = useState("");
 
@@ -122,7 +130,7 @@ export default function M02FollowOneRequestGame() {
   function submitRoute() {
     if (!validateM02Route(route)) {
       setRouteRepairs(current => current + 1);
-      setRouteError("That journey cannot run yet. Recheck which layer must happen before the next one; no result has been revealed.");
+      setRouteError(m02RouteFeedback(route).message + " No result has been revealed.");
       return;
     }
     setRouteError("");
@@ -137,6 +145,11 @@ export default function M02FollowOneRequestGame() {
 
   function commitDiagnosis() {
     if (!diagnosisChoice) return;
+    if (!canCommitM02Diagnosis(inspected, traceIndex >= M02_STAGE_ORDER.length - 1, diagnosisChoice)) {
+      setDiagnosisFeedback("Before committing a cause, inspect the measured baseline probe (E04). The route is ready, but the segment evidence is not yet complete.");
+      return;
+    }
+    setDiagnosisFeedback("");
     if (!firstDiagnosis) setFirstDiagnosis(diagnosisChoice);
     if (!experimentChoice) setExperimentChoice("X01_DNS_DELAY_CONTROL");
     setPhase("predict");
@@ -170,8 +183,19 @@ export default function M02FollowOneRequestGame() {
   }
 
   function submitFinalDiagnosis() {
-    if (!finalDiagnosis || finalEvidence.length < 2) return;
+    if (!canSubmitM02FinalDiagnosis(finalDiagnosis, finalEvidence, experimentsRun.length)) {
+      setFinalFeedback(finalDiagnosis !== "DNS_RESOLUTION"
+        ? "That layer can make a site slow, but the incident evidence points to DNS. Compare the baseline with a controlled run before finalising the diagnosis."
+        : "Select both the baseline measurement and the controlled comparison before building the explanation.");
+      return;
+    }
+    setFinalFeedback("");
     setPhase("explain");
+  }
+
+  function submitExplanation() {
+    if (!explanationIsComplete(explanation) || !explanationMatchesM02Diagnosis(finalDiagnosis, explanation)) return;
+    setPhase("complete");
   }
 
   function toggleExplanation(id: string) {
@@ -181,8 +205,8 @@ export default function M02FollowOneRequestGame() {
   function replay() {
     setPhase("observe");
     setInspected([]); setRoute([]); setRouteRepairs(0); setRouteError(""); setTraceIndex(-1);
-    setDiagnosisChoice(null); setFirstDiagnosis(null); setExperimentChoice(null); setPredictionChoice(""); setPredictionMistakes(0); setPredictionFeedback("");
-    setCommittedExperiment(null); setExperimentsRun([]); setFinalDiagnosis(null); setFinalEvidence([]); setExplanation([]); setReflection("");
+    setDiagnosisChoice(null); setFirstDiagnosis(null); setDiagnosisFeedback(""); setExperimentChoice(null); setPredictionChoice(""); setPredictionMistakes(0); setPredictionFeedback("");
+    setCommittedExperiment(null); setExperimentsRun([]); setFinalDiagnosis(null); setFinalEvidence([]); setFinalFeedback(""); setExplanation([]); setReflection("");
   }
 
   const missionStatus = phase === "complete" ? "MISSION COMPLETE" : phase === "observe" ? "OBSERVE · CUSTOMER REPORT" : phase === "investigate" ? `INVESTIGATE · ${inspected.length}/5 EVIDENCE` : phase === "route" ? "INVESTIGATE · ORDER THE JOURNEY" : phase === "baseline" ? "RUN · MEASURE BASELINE" : phase === "diagnose" ? "EXPLAIN · COMMIT DIAGNOSIS" : phase === "predict" ? "PREDICT · CHOOSE A CONTROL" : phase === "run" ? "RUN · CONTROLLED EXPERIMENT" : phase === "result" || phase === "final" ? "REVEAL · COMPARE EVIDENCE" : "EXPLAIN · BUILD THE CAUSAL CHAIN";
@@ -204,7 +228,7 @@ export default function M02FollowOneRequestGame() {
 
         {phase === "baseline" && <section className="arch-panel arch-m02-baseline-panel"><div className="arch-panel-head"><div><span className="arch-overline">03 · RUN</span><h3>Measure the baseline.</h3></div><b>STEP {Math.max(traceIndex + 1, 0)}/5</b></div><p className="arch-panel-copy">Advance one stage at a time. The measurements are fixed lab values, not historical or production telemetry.</p><div className="arch-m02-trace-strip">{M02_STAGE_ORDER.map((stage, index) => <div className={`arch-m02-trace-node ${index < traceIndex ? "done" : ""} ${index === traceIndex ? "active" : ""}`} key={stage}><span>{index < traceIndex ? "✓" : String(index + 1).padStart(2, "0")}</span><b>{STAGE_SHORT[stage]}</b><small>{index <= traceIndex ? `${M02_TIMINGS.incident_baseline[stage]} ms` : "hidden"}</small></div>)}</div><TimingTable profile="incident_baseline" reveal={traceIndex >= M02_STAGE_ORDER.length - 1} /><button className="arch-primary-button" onClick={advanceBaseline}>{traceIndex < M02_STAGE_ORDER.length - 1 ? "Measure next stage" : "Commit a diagnosis →"}</button></section>}
 
-        {phase === "diagnose" && <section className="arch-panel arch-m02-decision-panel"><div className="arch-panel-head"><div><span className="arch-overline">04 · EXPLAIN</span><h3>Which segment is the strongest suspect?</h3></div><b>CAUSE UNKNOWN</b></div><p className="arch-panel-copy">Commit before any controlled result is shown. A wrong hypothesis is recoverable, but diagnosis quality matters.</p><TimingTable profile="incident_baseline" /><div className="arch-m02-choice-grid">{[...M02_STAGE_ORDER, "TOTAL_BLAMES_SERVER" as const].map(choice => <button className={diagnosisChoice === choice ? "selected" : ""} key={choice} onClick={() => setDiagnosisChoice(choice)}>{choice === "TOTAL_BLAMES_SERVER" ? "Total alone proves the server is at fault" : STAGE_LABELS[choice]}</button>)}</div>{firstDiagnosis && <div className="arch-m02-feedback neutral" role="status"><b>Diagnosis recorded.</b><span>Now design a comparison that could support or challenge it.</span></div>}<button className="arch-primary-button" onClick={commitDiagnosis} disabled={!diagnosisChoice}>Commit diagnosis <span>→</span></button></section>}
+        {phase === "diagnose" && <section className="arch-panel arch-m02-decision-panel"><div className="arch-panel-head"><div><span className="arch-overline">04 · EXPLAIN</span><h3>Which segment is the strongest suspect?</h3></div><b>CAUSE UNKNOWN</b></div><p className="arch-panel-copy">Commit before any controlled result is shown. A wrong hypothesis is recoverable, but diagnosis quality matters.</p><TimingTable profile="incident_baseline" />{!inspected.includes("E04") && <div className="arch-m02-diagnosis-evidence"><span className="arch-overline">DIAGNOSIS EVIDENCE GATE</span><p>Inspect the measured baseline probe before committing a cause.</p><EvidenceCard item={M02_EVIDENCE[3]} inspected={false} onInspect={() => inspectEvidence("E04")} /></div>}<div className="arch-m02-choice-grid">{[...M02_STAGE_ORDER, "TOTAL_BLAMES_SERVER" as const].map(choice => <button className={diagnosisChoice === choice ? "selected" : ""} key={choice} onClick={() => { setDiagnosisChoice(choice); setDiagnosisFeedback(""); }}>{choice === "TOTAL_BLAMES_SERVER" ? "Total alone proves the server is at fault" : STAGE_LABELS[choice]}</button>)}</div>{diagnosisFeedback && <div className="arch-m02-feedback error" role="alert"><b>Diagnosis is still locked.</b><span>{diagnosisFeedback}</span></div>}{firstDiagnosis && <div className="arch-m02-feedback neutral" role="status"><b>Diagnosis recorded.</b><span>Now design a comparison that could support or challenge it.</span></div>}<button className="arch-primary-button" onClick={commitDiagnosis} disabled={!diagnosisChoice}>Commit diagnosis <span>→</span></button></section>}
 
         {phase === "predict" && experimentChoice && <section className="arch-panel arch-m02-predict-panel"><div className="arch-panel-head"><div><span className="arch-overline">05 · PREDICT</span><h3>Choose a controlled experiment.</h3></div><b>RESULT HIDDEN</b></div><p className="arch-panel-copy">Pick a control, then predict which segment changes. The measured result remains locked until your prediction is committed.</p><div className="arch-m02-experiment-tabs">{(Object.keys(M02_EXPERIMENTS) as M02ExperimentId[]).map(id => <button className={experimentChoice === id ? "selected" : ""} key={id} onClick={() => { setExperimentChoice(id); setPredictionChoice(""); setPredictionFeedback(""); }}>{M02_EXPERIMENTS[id].label}</button>)}</div><div className="arch-m02-prediction-list">{M02_EXPERIMENTS[experimentChoice].predictionOptions.map(option => <button className={predictionChoice === option.id ? "selected" : ""} key={option.id} onClick={() => setPredictionChoice(option.id)}>{option.label}</button>)}</div>{predictionFeedback && <div className="arch-m02-feedback error" role="alert"><b>Keep the result hidden.</b><span>{predictionFeedback}</span></div>}<button className="arch-primary-button" onClick={commitPrediction} disabled={!predictionChoice}>Commit prediction <span>→</span></button></section>}
 
@@ -212,9 +236,9 @@ export default function M02FollowOneRequestGame() {
 
         {phase === "result" && currentExperiment && <section className="arch-panel arch-m02-result-panel"><div className="arch-panel-head"><div><span className="arch-overline">07 · REVEAL</span><h3>Compare the evidence.</h3></div><b>{experimentsRun.length}/2 CONTROLS RUN</b></div><p className="arch-panel-copy">The same visible slowness can come from different layers. Look at the segment profile, not only the total.</p><TimingTable profile={currentExperiment.profile} compareProfile={currentExperiment.comparison} /><div className="arch-m02-result-callout"><b>{committedExperiment === "X01_DNS_DELAY_CONTROL" ? "DNS changed before the server." : "Tomcat changed while DNS stayed healthy."}</b><span>{committedExperiment === "X01_DNS_DELAY_CONTROL" ? "Tomcat and JDBC remain fixed even though total latency rises." : "A server delay can reproduce the same 650 ms total while DNS remains healthy."}</span></div><div className="arch-m02-result-actions">{nextExperiment && <button className="arch-secondary-button" onClick={chooseAnotherExperiment}>Run the other control</button>}<button className="arch-primary-button" onClick={() => setPhase("final")}>Identify the incident segment <span>→</span></button></div></section>}
 
-        {phase === "final" && <section className="arch-panel arch-m02-final-panel"><div className="arch-panel-head"><div><span className="arch-overline">08 · REVEAL</span><h3>Revisit the actual incident.</h3></div><b>EVIDENCE REQUIRED</b></div><p className="arch-panel-copy">Which segment explains the extra delay in the incident baseline? Select the segment and the evidence you used.</p><div className="arch-m02-choice-grid">{M02_STAGE_ORDER.map(choice => <button className={finalDiagnosis === choice ? "selected" : ""} key={choice} onClick={() => setFinalDiagnosis(choice)}>{STAGE_LABELS[choice]}</button>)}</div><div className="arch-m02-evidence-picks"><span>USE AT LEAST TWO PIECES OF EVIDENCE</span>{["baseline measurement", "controlled comparison", "DNS occurs before HTTP"].map((label, index) => <button className={finalEvidence.includes(String(index)) ? "selected" : ""} key={label} onClick={() => setFinalEvidence(current => current.includes(String(index)) ? current.filter(item => item !== String(index)) : [...current, String(index)])} aria-pressed={finalEvidence.includes(String(index))}>{label}</button>)}</div>{finalDiagnosis && finalEvidence.length >= 2 && <div className="arch-m02-feedback neutral" role="status"><b>Evidence assembled.</b><span>Now explain why a slow total is not enough to name the responsible layer.</span></div>}<button className="arch-primary-button" onClick={submitFinalDiagnosis} disabled={!finalDiagnosis || finalEvidence.length < 2}>Build causal explanation <span>→</span></button></section>}
+        {phase === "final" && <section className="arch-panel arch-m02-final-panel"><div className="arch-panel-head"><div><span className="arch-overline">08 · REVEAL</span><h3>Revisit the actual incident.</h3></div><b>EVIDENCE REQUIRED</b></div><p className="arch-panel-copy">Which segment explains the extra delay in the incident baseline? Select the segment and the evidence you used.</p><div className="arch-m02-choice-grid">{M02_STAGE_ORDER.map(choice => <button className={finalDiagnosis === choice ? "selected" : ""} key={choice} onClick={() => { setFinalDiagnosis(choice); setFinalFeedback(""); }}>{STAGE_LABELS[choice]}</button>)}</div><div className="arch-m02-evidence-picks"><span>USE THE MEASURED EVIDENCE</span>{M02_FINAL_EVIDENCE.map(item => <button className={finalEvidence.includes(item.id) ? "selected" : ""} key={item.id} onClick={() => { setFinalFeedback(""); setFinalEvidence(current => current.includes(item.id) ? current.filter(entry => entry !== item.id) : [...current, item.id]); }} aria-pressed={finalEvidence.includes(item.id)}>{item.label}</button>)}</div>{finalFeedback && <div className="arch-m02-feedback error" role="alert"><b>Final diagnosis needs stronger evidence.</b><span>{finalFeedback}</span></div>}{finalDiagnosis === "DNS_RESOLUTION" && finalEvidence.length >= 2 && <div className="arch-m02-feedback neutral" role="status"><b>Evidence assembled.</b><span>Now explain why a slow total is not enough to name the responsible layer.</span></div>}<button className="arch-primary-button" onClick={submitFinalDiagnosis} disabled={!finalDiagnosis || finalEvidence.length < 2}>Build causal explanation <span>→</span></button></section>}
 
-        {phase === "explain" && <section className="arch-panel arch-m02-explain-panel"><div className="arch-panel-head"><div><span className="arch-overline">09 · EXPLAIN</span><h3>Build the causal chain.</h3></div><b>{explanation.length}/6 LINKS</b></div><p className="arch-panel-copy">Select the claims that connect the symptom, timing evidence, experiment, diagnosis and design lesson. No exact sentence is required.</p><div className="arch-m02-explanation-list">{M02_EXPLANATION_OPTIONS.map(option => <button className={explanation.includes(option.id) ? "selected" : ""} key={option.id} onClick={() => toggleExplanation(option.id)} aria-pressed={explanation.includes(option.id)}><span>{explanation.includes(option.id) ? "✓" : "○"}</span><b>{option.label}</b></button>)}</div><button className="arch-primary-button" onClick={() => setPhase("complete")} disabled={!explanationIsComplete(explanation)}>Submit explanation <span>→</span></button></section>}
+        {phase === "explain" && <section className="arch-panel arch-m02-explain-panel"><div className="arch-panel-head"><div><span className="arch-overline">09 · EXPLAIN</span><h3>Build the causal chain.</h3></div><b>{explanation.length}/6 LINKS</b></div><p className="arch-panel-copy">Select the claims that connect the symptom, timing evidence, experiment, diagnosis and design lesson. No exact sentence is required.</p><div className="arch-m02-explanation-list">{M02_EXPLANATION_OPTIONS.map(option => <button className={explanation.includes(option.id) ? "selected" : ""} key={option.id} onClick={() => toggleExplanation(option.id)} aria-pressed={explanation.includes(option.id)}><span>{explanation.includes(option.id) ? "✓" : "○"}</span><b>{option.label}</b></button>)}</div><button className="arch-primary-button" onClick={submitExplanation} disabled={!explanationIsComplete(explanation) || !explanationMatchesM02Diagnosis(finalDiagnosis, explanation)}>Submit explanation <span>→</span></button></section>}
 
         {phase === "complete" && <section className="arch-panel arch-m02-complete-panel"><span className="arch-overline">M02 · COMPLETE</span><h3>You found the delay before redesigning the system.</h3><p>The incident has a 650 ms total, but total time did not identify the culprit by itself. The baseline and controlled evidence showed that DNS consumed 420 ms before the request reached Tomcat.</p><div className="arch-m02-architecture-reveal"><span>DIAGNOSIS</span><b>DNS resolution is the incident slow segment.</b><small>Tomcat and JDBC were not made slow by the DNS-delay control. The correct next move was measurement, not premature architecture change.</small></div><div className="arch-score-grid arch-m02-score-grid"><div className="arch-metric"><small>INVESTIGATION</small><strong>{score.investigation}/15</strong><span>evidence use</span></div><div className="arch-metric"><small>ORDERING</small><strong>{score.ordering}/20</strong><span>request journey</span></div><div className="arch-metric"><small>DIAGNOSIS</small><strong>{score.diagnosis}/20</strong><span>slow segment</span></div><div className="arch-metric"><small>PREDICTION</small><strong>{score.prediction}/15</strong><span>before reveal</span></div><div className="arch-metric"><small>COMPARISON</small><strong>{score.comparison}/15</strong><span>controlled evidence</span></div><div className="arch-metric"><small>EXPLANATION</small><strong>{score.explanation}/15</strong><span>causal chain</span></div></div><div className="arch-total-score"><span>LAB SCORE</span><strong>{score.total}/100</strong><small>Simulation-only assessment</small></div><label className="arch-m02-reflection"><span>REFLECT · OPTIONAL</span><textarea value={reflection} onChange={event => setReflection(event.target.value)} placeholder="Which evidence changed your mind?" /></label><div className="arch-complete-actions"><button className="arch-primary-button" onClick={replay}>Replay M02 <span>↻</span></button><Link className="arch-secondary-button" href="/computer-science/architecture-lab">Return to M01 <span>↗</span></Link></div></section>}
       </section>

@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-16
-Current milestone: Gate A — M02 implementation complete; gameplay/accessibility QA pending
-Current blocker: M01 and M02 still need real 390px mobile viewport evidence; M01 also needs keyboard/reduced-motion evidence, while M02 needs reduced-motion and screen-reader evidence.
-Next action: Capture M02 mobile/reduced-motion/accessibility evidence, request ChatGPT's independent M02 implementation review, then address any bounded findings.
+Current milestone: Gate A — M02 bounded fixes committed; final source re-review pending
+Current blocker: ChatGPT's v2 review could only see pre-fix committed blobs because the bounded fixes were uncommitted at review time. M01 and M02 still need real 390px mobile viewport evidence; M01 also needs keyboard/reduced-motion evidence, while M02 needs reduced-motion and screen-reader evidence.
+Next action: Commit/push the bounded M02 fixes, then request the narrow final source re-review; request M03 storyboard only after an implementation PASS.
 
 ## Mission status
 
@@ -113,6 +113,21 @@ to begin while those M01 evidence items remain open.
 - Recorded M02 desktop and keyboard smoke results in
   `evidence/M02-playtest-qa.md`; mobile, reduced-motion and screen-reader
   evidence remain open.
+- Downloaded ChatGPT's independent M02 implementation review; it correctly
+  returned `REVISION REQUIRED` for M02-F01 (missing E04 diagnosis gate),
+  M02-F02 (wrong final diagnosis could complete), and M02-F03 (generic wrong
+  route feedback). M03 was explicitly held.
+- Added the bounded M02 fixes: machine-readable diagnosis/final-diagnosis
+  gates, explanation/score consistency, and stable misconception-specific
+  route feedback.
+- Added regressions for all three findings plus contradictory-score handling;
+  the post-fix browser run confirmed E04 locking, wrong-final recovery and a
+  clean two-control `100/100` completion.
+- Downloaded ChatGPT's post-fix M02 review v2. It returned `CONDITIONAL PASS`:
+  the described fixes and reported regressions are coherent, but the reviewer
+  could only fetch the old committed branch blob because the fixes were not yet
+  committed at review time. The only blocker it established is reviewability;
+  M03 remains held until the committed fix is inspected.
 
 ## Tests
 
@@ -120,13 +135,15 @@ Architecture Evolution Lab implementation changes were rerun after the review
 fixes:
 
 - `npm run lint` — PASS
-- `npm run test:core` — PASS, 164 tests including M02 engine coverage
+- `npm run test:core` — PASS, 167 tests including M02 bounded-fix coverage
 - `npm run build` — PASS; route emitted at `/computer-science/architecture-lab`
-- `npm test` — PASS after M02 route addition: 164 core tests + build + 6 rendered-route tests
+- `npm test` — PASS after M02 bounded fixes: 167 core tests + build + 6 rendered-route tests
 - fresh-player browser playtest — corrected desktop flow PASS; mobile pending
 - desktop and mobile evidence capture — desktop visual inspection PASS; mobile
   pending
 - M02 keyboard activation smoke — PASS, clean path reached 100/100
+- M02 post-review regression — PASS: E04 diagnosis gate, HTTP-before-DNS local
+  feedback, wrong-final diagnosis recovery, and clean two-control 100/100 path
 - keyboard-only and reduced-motion runs — M01 and reduced-motion/screen-reader evidence pending
 
 Required before M01 verification:
@@ -161,6 +178,10 @@ implementation review is accepted.
 - M02 accepted storyboard v1.1: `artifacts/chatgpt/M02-follow-one-request-storyboard-v1.1.md`
 - M02 accepted storyboard v1.1 SHA-256: `bd7c39068186d19474afde3488dd965d8bdfe3eff56d5ca29a4e6dfa4f521c23`
 - M02 storyboard review: `reviews/M02-storyboard-review-v1.1.md`
+- M02 implementation review v1: `reviews/M02-implementation-review-v1.md`
+- M02 implementation review v1 external artifact SHA-256: `9949cbe93844c02610c91a4c514723313cb38a495e9fefe4ae87cf2112b0a2e0`
+- M02 implementation review v2: `reviews/M02-implementation-review-v2.md`
+- M02 implementation review v2 external artifact SHA-256: `f6bb04583c40511b9fdc8287adbbc22bc59008956e33a0d7e87215904a3b03e9`
 - M02 gameplay QA: `evidence/M02-playtest-qa.md`
 
 ## Known problems
@@ -177,7 +198,10 @@ implementation review is accepted.
   M01 still needs mobile/accessibility evidence before verification.
 - M02 v1 is retained as a rejected storyboard revision. M02 v1.1 is the
   accepted implementation contract; M02 application code exists and is
-  implemented/needs QA, but it is not yet VERIFIED.
+  implemented/needs QA. ChatGPT's first implementation review is retained as
+  a revision-required checkpoint; bounded fixes are now present, but the
+  re-review gate is not yet closed. v2 is retained as a conditional review
+  because the fixes were not committed when ChatGPT inspected the branch.
 - A real 390px browser viewport is not currently available through the local
   headless helper; the CUA desktop browser remains available for interaction
   and visual inspection.
@@ -192,9 +216,10 @@ implementation review is accepted.
 
 ## Next three actions
 
-1. Capture M02's real 390px mobile, reduced-motion and screen-reader evidence;
+1. Commit and push the bounded M02 fixes on `feature/architecture-evolution-lab`.
+2. Send the committed M02 implementation packet to the selected ChatGPT
+   conversation and download the final source re-review artifact.
+3. Capture M02's real 390px mobile, reduced-motion and screen-reader evidence;
    keep M01's outstanding QA task visible.
-2. Send the M02 implementation packet to the selected ChatGPT conversation for
-   independent review and download the review artifact.
-3. Apply any bounded M02 review corrections, then request M03 storyboard only
-   after M02's implementation gate is acceptable.
+4. Request M03 storyboard only after M02's implementation review is PASS;
+   retain remaining accessibility items as explicit verification debt.

@@ -1,16 +1,16 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-16
-Current milestone: Gate 0 — design and provenance lock
-Current blocker: None for source verification; M01 storyboard prompt still needs approval before sending.
-Next action: Show the exact Mission 1 storyboard prompt and confirm the target ChatGPT conversation.
+Current milestone: Gate A — M01 storyboard accepted; implementation pending
+Current blocker: None for the storyboard contract; implementation has not started.
+Next action: Implement the smallest M01 slice and run its fresh-player gate.
 
 ## Mission status
 
 Legend: ⬜ NOT STARTED · 🟨 IN PROGRESS · 🟦 IMPLEMENTED / NEEDS QA · ✅ VERIFIED · ⛔ BLOCKED
 
 - Gate 0 — Bible import, repository fit, orchestration protocol: ✅ VERIFIED
-- Gate A — Vertical Slice A (M01–M06): ⬜ NOT STARTED
+- Gate A — Vertical Slice A (M01–M06): 🟨 IN PROGRESS (M01 storyboard accepted; implementation pending)
 - Gate B — Vertical Slice B (M14–M16): ⬜ NOT STARTED
 - Gate C — Deployment evolution (M46–M53): ⬜ NOT STARTED
 - Gate D — Control-loop scaling (M62–M65): ⬜ NOT STARTED
@@ -19,9 +19,12 @@ Legend: ⬜ NOT STARTED · 🟨 IN PROGRESS · 🟦 IMPLEMENTED / NEEDS QA · �
 ## Current work
 
 The design Bible has been imported as a versioned planning artifact. The
-repository has been compared with its proposed Axiom Atlas integration. The
-orchestration loop is deliberately stopped before sending a new ChatGPT
-message so the first prompt and target conversation can be reviewed.
+repository has been compared with its proposed Axiom Atlas integration. M01
+has now completed the bounded storyboard revision loop: v1 was conditionally
+passed, v1.1 was challenged for consistency, v1.2 still contained the legacy
+evidence field in the downloaded artifact, and v1.3 was reissued and accepted.
+Implementation remains intentionally limited to M01 until the fresh-player
+gate passes.
 
 ## Completed since last checkpoint
 
@@ -39,6 +42,25 @@ message so the first prompt and target conversation can be reviewed.
   recorded their GitHub blob SHAs and adaptation boundaries.
 - Passed the M01–M06 source-provenance review; storyboard generation remains a
   separate gate.
+- Prepared the bounded M01 storyboard prompt at
+  `prompts/M01-open-the-shop-storyboard-v1.md`.
+- Sent the prompt only to the user-selected ChatGPT conversation; no code
+  implementation was requested.
+- Downloaded the ChatGPT artifact to
+  `artifacts/chatgpt/M01-open-the-shop-storyboard-v1.md` without overwriting
+  the prompt or source documents.
+- Recorded the artifact SHA-256 and completed the v1 storyboard review in
+  `reviews/M01-storyboard-review-v1.md`.
+- Identified two blocking contract issues: unresolved topology branches are
+  marked as serving, and the M01-T020 boundary test is underspecified.
+- Downloaded and reviewed M01 v1.1, then challenged the remaining stale
+  implementation-handoff evidence gate.
+- Downloaded M01 v1.2 and rejected it because the artifact still contained
+  `mandatory_any`, despite the response summary claiming it had been removed.
+- Downloaded M01 v1.3 and accepted it after checking the actual file: the
+  canonical evidence gate is present, `mandatory_any` is absent, and
+  `M01-T010-MANAGED-PLATFORM-PREVIEW` is stable.
+- Recorded the accepted review in `reviews/M01-storyboard-review-v1.3.md`.
 
 ## Tests
 
@@ -68,18 +90,21 @@ Required before the first implementation checkpoint:
 - No `/computer-science/architecture-lab` route or architecture simulation
   engine exists yet.
 - The Bible's 79 mission summaries are not yet full mission contracts.
-- ChatGPT output has not yet been requested, downloaded, challenged, or
-  accepted for any mission.
+- M01 v1 and v1.1 are retained as revision history; v1.2 is retained as a
+  rejected artifact because its downloaded content failed the gate. M01 v1.3
+  is accepted for implementation; no mission is implemented yet.
+- The downloaded Markdown is a Pandoc-normalised artifact (65,424 bytes);
+  the original prompt and source remain separately versioned.
 
 ## Decisions needed
 
-- Confirm the first ChatGPT prompt and the user-selected target conversation
-  before sending it.
-- Confirm whether the first checkpoint should be committed directly to `main`
-  or to a feature branch; current repository is on `main`.
+- None for M01 storyboard acceptance. Implementation must preserve the v1.3
+  contract and stop for reassessment if the playable slice feels like a
+  dashboard rather than an investigation game.
 
 ## Next three actions
 
-1. Show the exact Mission 1 ChatGPT storyboard prompt for confirmation.
-2. Capture and review the first Mission 1 storyboard artifact.
-3. Challenge or accept M01, then checkpoint the accepted artifact before M02.
+1. Checkpoint the accepted M01 storyboard and review on the feature branch.
+2. Implement the M01 mission data/state contract and smallest playable flow.
+3. Run tests, build, visual inspection, and the fresh-player gate before any
+   M02+ storyboard request.

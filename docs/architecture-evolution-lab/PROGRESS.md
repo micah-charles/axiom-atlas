@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-16
-Current milestone: Gate A — M01 implementation PASS; M02 storyboard review in progress
+Current milestone: Gate A — M02 storyboard accepted; M02 implementation in progress
 Current blocker: M01 full verification still awaits a real 390px mobile viewport run/capture, keyboard-only pass, and reduced-motion pass.
-Next action: Finish the M02 storyboard loop while keeping M01 accessibility QA open; do not mark M01 VERIFIED.
+Next action: Implement the accepted M02 latency-diagnosis contract while keeping M01 accessibility QA open; do not mark M01 or M02 VERIFIED prematurely.
 
 ## Mission status
 
@@ -91,6 +91,16 @@ to begin while those M01 evidence items remain open.
   request the M02 storyboard.
 - Kept the M01 accessibility evidence gate open rather than treating the
   implementation PASS as M01 VERIFIED.
+- Requested M02 — Follow One Request as a storyboard-only artifact. The first
+  download was rejected because timing was optional and M03 local-boundary
+  content had been pulled forward.
+- Challenged ChatGPT with the locked M02 contract from the vertical-slice
+  plan: slow-site symptom, measured request stages, diagnosis before answer,
+  DNS-delay versus server-delay experiment, and actual slow-segment diagnosis.
+- Downloaded M02 v1.1 and accepted it after checking the actual artifact:
+  fixed teaching-simulation timings, deterministic experiments, evidence-backed
+  diagnosis, M03 deferral, 30 acceptance tests, and accessibility requirements
+  are present.
 
 ## Tests
 
@@ -128,6 +138,11 @@ items; M01 must not be marked VERIFIED until those checks are recorded.
 - ChatGPT review SHA-256: `d843eef8504cfeee7a40eca7b200ccfdc83e6afdde13cd71d693ff05b8c5e6d1`
 - ChatGPT post-fix implementation review: `reviews/M01-implementation-review-v2.md`
 - ChatGPT post-fix review SHA-256: `07772ce7b82797e26a75e7ffb84893e900c2668ea212d054b174392aeb3d50f9`
+- M02 storyboard v1: `artifacts/chatgpt/M02-follow-one-request-storyboard-v1.md`
+- M02 storyboard v1 SHA-256: `c5fe7bce6e020260317ec4bbce35395b7d9f7cea993654ceaa1b9c8532a60074`
+- M02 accepted storyboard v1.1: `artifacts/chatgpt/M02-follow-one-request-storyboard-v1.1.md`
+- M02 accepted storyboard v1.1 SHA-256: `bd7c39068186d19474afde3488dd965d8bdfe3eff56d5ca29a4e6dfa4f521c23`
+- M02 storyboard review: `reviews/M02-storyboard-review-v1.1.md`
 
 ## Known problems
 
@@ -141,6 +156,8 @@ items; M01 must not be marked VERIFIED until those checks are recorded.
   rejected artifact because its downloaded content failed the gate. M01 v1.3
   is accepted and M01 is implemented; v2 confirms the implementation PASS but
   M01 still needs mobile/accessibility evidence before verification.
+- M02 v1 is retained as a rejected storyboard revision. M02 v1.1 is the
+  accepted implementation contract; no M02 application code exists yet.
 - A real 390px browser viewport is not currently available through the local
   headless helper; the CUA desktop browser remains available for interaction
   and visual inspection.
@@ -155,9 +172,9 @@ items; M01 must not be marked VERIFIED until those checks are recorded.
 
 ## Next three actions
 
-1. Request and review only M02's storyboard from the selected ChatGPT
-   conversation.
-2. Keep M01 mobile, keyboard and reduced-motion evidence as an explicit open
-   QA task.
-3. After M02's storyboard is accepted, implement and QA M02 before requesting
-   M03.
+1. Implement M02's accepted latency-diagnosis storyboard and its deterministic
+   state/scoring engine.
+2. Run M02 tests, build, fresh-player QA, mobile, keyboard and reduced-motion
+   evidence while keeping M01's open QA task visible.
+3. Request ChatGPT's independent M02 implementation review; request M03 only
+   after the M02 implementation gate is acceptable.

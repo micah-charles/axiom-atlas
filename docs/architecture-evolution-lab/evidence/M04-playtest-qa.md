@@ -59,6 +59,19 @@ progress, hidden result and no score.
 - npm test — PASS after the final feedback/resource-map/trade-off correction;
   173 core tests + production build + 8 rendered-route tests
 
+## Committed-source review — v1
+
+ChatGPT reviewed commit `71c87b7a7fb898a792647b65198a4e74ad438328` against the
+accepted M04 storyboard and returned `REVISION REQUIRED` for one bounded issue:
+the engine proof predicate did not independently enforce `proof ⊆ inspected`.
+The review artifact is tracked at
+`reviews/M04-implementation-review-v1.md` (SHA-256:
+`7b212a6b9fdc91e05aacee49ebd9a84428718476836b08d5ced7ca4dc790a09e`).
+
+The issue is now fixed in the working tree with an inspection-aware proof
+predicate and direct regression coverage; a committed-source re-review is
+required before M04 can advance.
+
 ## Open evidence debt
 
 The following remain open before M04 can become VERIFIED:

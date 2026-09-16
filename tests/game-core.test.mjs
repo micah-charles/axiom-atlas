@@ -452,9 +452,10 @@ test("Architecture Lab M04 keeps the evidence gate and resource proof determinis
   assert.equal(canCommitM04ResourceMap(correctMap), true);
   assert.equal(correctM04ResourceMap(correctMap), true);
   assert.equal(correctM04ResourceMap({ ...correctMap, SELLER_IMAGE_WRITE: "NOT_SHOWN_TO_CONSUME_THIS_DISK" }), false);
-  assert.equal(diagnosisProofIsEnough("SHARED_DISK_CAPACITY", ["E02", "E03", "E04"]), true);
-  assert.equal(diagnosisProofIsEnough("SHARED_DISK_CAPACITY", ["E02", "E03"]), false);
-  assert.equal(diagnosisProofIsEnough("CPU_CAPACITY", ["E02", "E03", "E04"]), false);
+  assert.equal(diagnosisProofIsEnough("SHARED_DISK_CAPACITY", ["E02", "E03", "E04"], ["E01", "E02", "E03", "E04", "E06"]), true);
+  assert.equal(diagnosisProofIsEnough("SHARED_DISK_CAPACITY", ["E02", "E03"], ["E01", "E02", "E03", "E06"]), false);
+  assert.equal(diagnosisProofIsEnough("SHARED_DISK_CAPACITY", ["E02", "E03", "E04"], ["E01", "E02", "E03", "E06"]), false);
+  assert.equal(diagnosisProofIsEnough("CPU_CAPACITY", ["E02", "E03", "E04"], ["E01", "E02", "E03", "E04", "E06"]), false);
 });
 
 test("Architecture Lab M04 requires prediction before reveal and reconciles measured results", () => {

@@ -164,7 +164,7 @@ export default function M04DiskFullGame() {
       setFeedback("Choose one diagnosis before committing.");
       return;
     }
-    if (!m04ProofEvidenceEnough(proof)) {
+    if (!m04ProofEvidenceEnough(proof, inspected)) {
       setRecoveryCycles(current => current + 1);
       setFeedback("Your diagnosis needs E02 and at least two of E03, E04 and E05 as proof. Revisit the inspected observations.");
       return;

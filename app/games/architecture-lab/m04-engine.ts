@@ -80,14 +80,16 @@ export function correctM04ResourceMap(map: Record<M04ResourceToken, M04ResourceZ
     && map.REQUEST_PATH_COMPARATOR === "NOT_SHOWN_TO_CONSUME_THIS_DISK";
 }
 
-export function diagnosisProofIsEnough(diagnosis: M04Diagnosis | null, proof: M04EvidenceId[]) {
-  return diagnosis === "SHARED_DISK_CAPACITY" && m04ProofEvidenceEnough(proof);
+export function diagnosisProofIsEnough(diagnosis: M04Diagnosis | null, proof: M04EvidenceId[], inspected: M04EvidenceId[]) {
+  return diagnosis === "SHARED_DISK_CAPACITY" && m04ProofEvidenceEnough(proof, inspected);
 }
 
-export function m04ProofEvidenceEnough(proof: M04EvidenceId[]) {
-  const unique = new Set(proof);
-  return unique.has("E02")
-    && ["E03", "E04", "E05"].filter(id => unique.has(id)).length >= 2;
+export function m04ProofEvidenceEnough(proof: M04EvidenceId[], inspected: M04EvidenceId[]) {
+  const proofSet = new Set(proof);
+  const inspectedSet = new Set(inspected);
+  return [...proofSet].every(id => inspectedSet.has(id))
+    && proofSet.has("E02")
+    && ["E03", "E04", "E05"].filter(id => proofSet.has(id)).length >= 2;
 }
 
 export function canCommitM04Predictions(predictions: Partial<Record<M04PredictionId, M04PredictionChoice>>) {
@@ -139,7 +141,7 @@ export function canCompleteM04({
 }) {
   return canUnlockM04Evidence(inspected)
     && correctM04ResourceMap(map)
-    && diagnosisProofIsEnough(diagnosis, proof)
+    && diagnosisProofIsEnough(diagnosis, proof, inspected)
     && predictionsCorrectM04(predictions)
     && resultChecksCorrectM04(checks)
     && causalOrderCorrectM04(causalOrder)
@@ -165,7 +167,7 @@ export function scoreM04({
   recoveryCycles: number;
 }) {
   const investigation = canUnlockM04Evidence(inspected) ? 15 : 0;
-  const diagnosisScore = diagnosis === "SHARED_DISK_CAPACITY" ? 10 + (diagnosisProofIsEnough(diagnosis, proof) ? 5 : 0) : 0;
+  const diagnosisScore = diagnosis === "SHARED_DISK_CAPACITY" ? 10 + (diagnosisProofIsEnough(diagnosis, proof, inspected) ? 5 : 0) : 0;
   const resourceMap = M04_REQUIRED_TOKENS.filter(id => (
     (id === "MYSQL_PERSISTENT_DATA" || id === "TOMCAT_LOG_WRITE" || id === "SELLER_IMAGE_WRITE")
       ? map[id] === "SHARED_LOCAL_DISK"

@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-16
-Current milestone: Gate A — M04 implementation checkpoint ready; committed-source review pending
-Current blocker: M01/M02/M03 still need real 390px mobile viewport evidence, with reduced-motion, screen-reader and explicit keyboard/touch evidence also open. M03 implementation correctness and gameplay review are closed.
-Next action: Commit/push M04, request committed-source review, and close mobile/accessibility evidence debt before verification.
+Current milestone: Gate A — M04 bounded review fix ready; committed-source re-review pending
+Current blocker: M01/M02/M03 still need real 390px mobile viewport evidence, with reduced-motion, screen-reader and explicit keyboard/touch evidence also open. M04 committed-source review v1 found one bounded proof-state invariant gap; the fix is implemented locally but not yet re-reviewed.
+Next action: Commit/push the M04 proof-state fix, request committed-source re-review, and close mobile/accessibility evidence debt before verification.
 
 ## Mission status
 
@@ -207,6 +207,10 @@ fixes:
 - M04 implementation verification so far — PASS: lint, 173 core tests, build,
   full `npm test` (173 core + build + 8 rendered-route tests), rendered M04
   route, clean desktop 100/100 path, wrong-path 99/100 recovery, replay reset
+- ChatGPT's committed-source M04 review v1 returned `REVISION REQUIRED` for
+  M04-F01: the proof predicate did not independently enforce that every proof
+  ID had been inspected. The bounded fix is now implemented and regression-
+  tested locally; re-review is pending.
 - keyboard-only and reduced-motion runs — M01 and reduced-motion/screen-reader evidence pending
 
 Required before M01 verification:
@@ -268,6 +272,10 @@ implementation review is accepted.
   `reviews/M04-storyboard-review-v1.1.md`
 - M04 desktop gameplay QA:
   `evidence/M04-playtest-qa.md`
+- M04 implementation review v1:
+  `reviews/M04-implementation-review-v1.md`
+- M04 implementation review v1 SHA-256:
+  `7b212a6b9fdc91e05aacee49ebd9a84428718476836b08d5ced7ca4dc790a09e`
 
 ## Known problems
 
@@ -298,9 +306,11 @@ implementation review is accepted.
   accepted implementation contract.
 - M03 implementation correctness is PASS after committed-source review v2;
   M03 remains 🟦 NEEDS QA until the accessibility/mobile evidence is closed.
-- M04 storyboard is accepted and M04 implementation is now 🟦 IMPLEMENTED /
-  NEEDS QA; it must not be called verified until its deterministic runtime,
-  evidence captures, tests, and committed-source review are complete.
+- M04 storyboard is accepted and M04 implementation is 🟦 IMPLEMENTED / NEEDS
+  QA. Review v1 found M04-F01 (proof IDs were not state-level constrained to
+  inspected evidence); the fix is implemented locally and must be committed
+  and re-reviewed. M04 must not be called verified until its deterministic
+  runtime, evidence captures, tests, and committed-source review are complete.
 
 ## Decisions needed
 
@@ -310,8 +320,8 @@ implementation review is accepted.
 
 ## Next three actions
 
-1. Commit and push the M04 implementation checkpoint on the feature branch.
-2. Request ChatGPT's committed-source M04 implementation review; fix only
-   bounded review findings before considering M04 for verification.
+1. Commit and push the bounded M04 proof-state review fix on the feature branch.
+2. Request ChatGPT's committed-source M04 re-review; fix only bounded findings
+   before considering M04 for verification.
 3. Capture M04 390px, reduced-motion, screen-reader and explicit keyboard/touch
    evidence; keep M01–M03 QA debt visible.

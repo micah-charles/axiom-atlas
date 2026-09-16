@@ -11,7 +11,7 @@ Legend: ⬜ NOT STARTED · 🟨 IN PROGRESS · 🟦 IMPLEMENTED / NEEDS QA · �
 | ID | Mission | Source | Slice | Status |
 |---|---|---|---|---|
 | M01 | Open the Shop | 1.1 | A | 🟦 |
-| M02 | Follow One Request | 1.1 | A | ⬜ |
+| M02 | Follow One Request | 1.1 | A | 🟨 |
 | M03 | Find the Three Local Assumptions | 1.1 | A | ⬜ |
 | M04 | Disk Full at 02:00 | 1.2 | A | ⬜ |
 | M05 | The Network Is Now Part of the System | 1.2 | A | ⬜ |

@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-16
-Current milestone: Gate A — M01 implementation review fixes complete; mobile/accessibility QA pending
-Current blocker: A real 390px mobile viewport run/capture, keyboard-only pass, and reduced-motion pass are still needed before M01 can be VERIFIED.
-Next action: Re-run the fresh-player flow after the review fixes, capture mobile/accessibility evidence, then request M02 only after M01 passes the gate.
+Current milestone: Gate A — M01 implementation PASS; M02 storyboard review in progress
+Current blocker: M01 full verification still awaits a real 390px mobile viewport run/capture, keyboard-only pass, and reduced-motion pass.
+Next action: Finish the M02 storyboard loop while keeping M01 accessibility QA open; do not mark M01 VERIFIED.
 
 ## Mission status
 
@@ -25,7 +25,10 @@ passed, v1.1 was challenged for consistency, v1.2 still contained the legacy
 evidence field in the downloaded artifact, and v1.3 was reissued and accepted.
 ChatGPT's independent implementation review found five bounded M01 fixes;
 those fixes are now implemented. M01 remains intentionally in NEEDS QA until
-the fresh-player, mobile, keyboard and reduced-motion gates pass.
+the fresh-player, mobile, keyboard and reduced-motion gates pass. ChatGPT's
+post-fix implementation review now rates the implementation PASS and the full
+verification CONDITIONAL PASS; it explicitly allows the M02 storyboard loop
+to begin while those M01 evidence items remain open.
 
 ## Completed since last checkpoint
 
@@ -82,6 +85,12 @@ the fresh-player, mobile, keyboard and reduced-motion gates pass.
   completion hook that acknowledges the experiment already run.
 - Added regression coverage for the nine-step product-plus-order trace and the
   causal-builder scoring loophole.
+- Downloaded ChatGPT's post-fix implementation review to
+  `reviews/M01-implementation-review-v2.md`; the actual artifact records
+  implementation PASS, full verification CONDITIONAL PASS, and permission to
+  request the M02 storyboard.
+- Kept the M01 accessibility evidence gate open rather than treating the
+  implementation PASS as M01 VERIFIED.
 
 ## Tests
 
@@ -105,6 +114,9 @@ Required before M01 verification:
 - reduced-motion completion
 - final regression suite and rendered-route checks
 
+M02 may proceed to storyboard review in parallel with the open M01 evidence
+items; M01 must not be marked VERIFIED until those checks are recorded.
+
 ## Evidence
 
 - Bible source: `/Volumes/ExtremePro/AIWorkspace/docs/axiom-atlas-architecture-evolution-lab-game-design-bible-v1.0.md`
@@ -114,6 +126,8 @@ Required before M01 verification:
 - Current base commit before this checkpoint: `f81fa0a` (`release: prepare v0.3.0 geography`)
 - ChatGPT implementation review: `reviews/M01-implementation-review-v1.md`
 - ChatGPT review SHA-256: `d843eef8504cfeee7a40eca7b200ccfdc83e6afdde13cd71d693ff05b8c5e6d1`
+- ChatGPT post-fix implementation review: `reviews/M01-implementation-review-v2.md`
+- ChatGPT post-fix review SHA-256: `07772ce7b82797e26a75e7ffb84893e900c2668ea212d054b174392aeb3d50f9`
 
 ## Known problems
 
@@ -123,11 +137,10 @@ Required before M01 verification:
 - M01 route and isolated architecture simulation engine now exist; M02–M06 are
   deliberately not implemented.
 - The Bible's 79 mission summaries are not yet full mission contracts.
-- M01 v1 and v1.1 are retained as revision history; v1.2 is retained as a
+- M01 v1, v1.1 and v2 are retained as revision history; v1.2 is retained as a
   rejected artifact because its downloaded content failed the gate. M01 v1.3
-  is accepted and M01 is implemented; the implementation review is retained
-  as a revision record and M01 still needs mobile/accessibility evidence before
-  verification.
+  is accepted and M01 is implemented; v2 confirms the implementation PASS but
+  M01 still needs mobile/accessibility evidence before verification.
 - A real 390px browser viewport is not currently available through the local
   headless helper; the CUA desktop browser remains available for interaction
   and visual inspection.
@@ -142,8 +155,9 @@ Required before M01 verification:
 
 ## Next three actions
 
-1. Re-run the corrected M01 fresh-player flow, including order write and fit
-   claim.
-2. Capture M01 mobile, keyboard and reduced-motion evidence.
-3. If the gate passes, request only M02's storyboard from the selected ChatGPT
+1. Request and review only M02's storyboard from the selected ChatGPT
    conversation.
+2. Keep M01 mobile, keyboard and reduced-motion evidence as an explicit open
+   QA task.
+3. After M02's storyboard is accepted, implement and QA M02 before requesting
+   M03.

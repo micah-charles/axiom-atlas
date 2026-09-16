@@ -15,7 +15,7 @@ Legend: ⬜ NOT STARTED · 🟨 IN PROGRESS · 🟦 IMPLEMENTED / NEEDS QA · �
 | M03 | Find the Three Local Assumptions | 1.1 | A | 🟦 |
 | M04 | Disk Full at 02:00 | 1.2 | A | 🟦 |
 | M05 | The Network Is Now Part of the System | 1.2 | A | 🟦 |
-| M06 | Fifty Connections or Five Hundred? | 1.2 | A | ⬜ |
+| M06 | Fifty Connections or Five Hundred? | 1.2 | A | 🟦 |
 | M07 | The 5-Second Tomcat | 1.3 | Later | 🟨 |
 | M08 | CPU Bottleneck | 1.3 | Later | ⬜ |
 | M09 | Memory and Full GC | 1.3 | Later | ⬜ |

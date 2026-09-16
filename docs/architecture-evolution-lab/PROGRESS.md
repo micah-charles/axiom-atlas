@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-16
-Current milestone: M07 storyboard loop — source lock and ChatGPT artifact requested; M06 implementation accepted, full verification pending
-Current blocker: No remaining M06 source-level blocker. M07 storyboard artifact and independent contract review are in progress. M06 runtime evidence debt remains for 390px completion, standalone keyboard-only completion, touch, reduced-motion and screen-reader evidence.
-Next action: Receive and independently review `M07-five-second-tomcat-storyboard-v1.md`; do not implement until its source, gameplay and acceptance contract passes.
+Current milestone: M07 implementation planning — storyboard accepted; M06 implementation accepted, full verification pending
+Current blocker: No M07 storyboard blocker. M06 runtime evidence debt remains for 390px completion, standalone keyboard-only completion, touch, reduced-motion and screen-reader evidence.
+Next action: Implement the accepted M07 contract as an isolated pure engine and route; do not start M08.
 
 ## Mission status
 
@@ -12,7 +12,7 @@ Legend: ⬜ NOT STARTED · 🟨 IN PROGRESS · 🟦 IMPLEMENTED / NEEDS QA · �
 - Gate 0 — Bible import, repository fit, orchestration protocol: ✅ VERIFIED
 - Gate A — Vertical Slice A (M01–M06): 🟨 IN PROGRESS (M01–M06 implemented/needs QA; runtime evidence open)
 - M06 — Fifty Connections or Five Hundred?: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (v3 committed-source review PASS; five runtime/accessibility evidence items remain open)
-- M07 — The 5-Second Tomcat: 🟨 IN PROGRESS (source reviewed; storyboard requested)
+- M07 — The 5-Second Tomcat: 🟨 IN PROGRESS (storyboard accepted; implementation not started)
 - Gate B — Vertical Slice B (M14–M16): ⬜ NOT STARTED
 - Gate C — Deployment evolution (M46–M53): ⬜ NOT STARTED
 - Gate D — Control-loop scaling (M62–M65): ⬜ NOT STARTED
@@ -277,6 +277,13 @@ runtime mobile/accessibility evidence remains open.
 - Prepared and sent the storyboard-only request
   `prompts/M07-five-second-tomcat-storyboard-v1.md` to the selected ChatGPT
   conversation. No M07 code has been implemented.
+- Received ChatGPT's M07 storyboard artifact and independently reviewed its
+  source trace, neutral opening, evidence-first CPU/memory-GC/I/O loop,
+  wrong-path recovery, deterministic run/reconciliation rules, causal builder,
+  replay/accessibility contract, M08–M12 boundary and 45-ID registry. The
+  storyboard is accepted for M07 implementation planning. The browser download
+  endpoint was blocked, so the local artifact is explicitly labelled a review
+  capture rather than a raw downloaded file.
 
 ## Tests
 
@@ -311,6 +318,10 @@ fixes:
 - M06 committed-source review v3 — PASS for implementation correctness and
   playable loop; full verification remains conditional because 390px,
   keyboard-only, touch, reduced-motion and screen-reader evidence are open
+- M07 storyboard contract audit — PASS: local review capture contains 45 unique
+  contiguous acceptance IDs and an exactly equal machine-readable registry;
+  ChatGPT's delivered audit also reported neutral fresh copy and a neutral
+  next hook
 - M04 implementation verification so far — PASS: lint, 173 core tests, build,
   full `npm test` (173 core + build + 8 rendered-route tests), rendered M04
   route, clean desktop 100/100 path, wrong-path 99/100 recovery, replay reset
@@ -435,6 +446,10 @@ implementation review is accepted.
   `reviews/source-review-m07.md`
 - M07 storyboard prompt:
   `prompts/M07-five-second-tomcat-storyboard-v1.md`
+- M07 accepted storyboard review:
+  `reviews/M07-storyboard-review-v1.md`
+- M07 storyboard review capture:
+  `artifacts/chatgpt/M07-five-second-tomcat-storyboard-v1.md`
 
 ## Known problems
 
@@ -479,22 +494,22 @@ implementation review is accepted.
   accepted the pushed correction and closed all source-level findings. M06 is
   now 🟦 IMPLEMENTED / FULL VERIFICATION PENDING until the five runtime
   evidence debts are closed.
-- M07 is source-locked but not accepted: the ChatGPT storyboard is an
-  untrusted draft until its source trace, neutral opening, deterministic
-  evidence/diagnosis loop, M08–M12 boundary, stable-ID registry and acceptance
-  tests pass independent review.
+- M07 storyboard is accepted for implementation planning, but M07 has no code,
+  runtime evidence or committed implementation review yet. The review capture
+  is not a byte-identical download because Chrome blocked the signed artifact
+  endpoint; keep this provenance limitation visible.
 
 ## Decisions needed
 
-- M06 implementation progression is unlocked by v3. M07 storyboard work has
-  begun, while M06 must not be marked VERIFIED until its five runtime evidence
-  items are recorded. Implementation must stop if the slice feels like a
-  dashboard rather than an investigation game.
+- M06 implementation progression is unlocked by v3. M07 implementation is now
+  unlocked by the accepted storyboard, while M06 must not be marked VERIFIED
+  until its five runtime evidence items are recorded. Implementation must stop
+  if the slice feels like a dashboard rather than an investigation game.
 
 ## Next three actions
 
-1. Receive and review the requested M07 storyboard artifact against
-   `reviews/source-review-m07.md` and the review protocol.
-2. Close M06 390px, keyboard-only, touch, reduced-motion and screen-reader
-   evidence; keep M01–M05 QA debt visible.
-3. Keep M06 out of VERIFIED until every required runtime capture is committed.
+1. Implement the accepted M07 pure engine and isolated route.
+2. Add M07 engine/rendered-route regressions for the 45 acceptance IDs and
+   wrong-but-recoverable path.
+3. Run desktop first, then capture M07 mobile/accessibility evidence; keep M06
+   out of VERIFIED until its five required runtime captures are committed.

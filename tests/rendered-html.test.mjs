@@ -135,6 +135,17 @@ test("server-renders the Architecture Evolution Lab M07 shell without answer lea
   assert.doesNotMatch(html, /CPU_SATURATION_PRIMARY|RUN_COMPUTE_WAIT_SAMPLE|CPU is the bottleneck|Full GC is secondary|canonical diagnosis|M08/i);
 });
 
+test("server-renders the Architecture Evolution Lab M08 shell without answer leakage", async () => {
+  const response = await render("/computer-science/architecture-lab/m08");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /M08 — CPU BOTTLENECK|M08/);
+  assert.match(html, /busy campaign|slower/i);
+  assert.match(html, /DIAGNOSIS LOCKED|E01–E07 REQUIRED/);
+  assert.match(html, /Atlas Market is fictional/i);
+  assert.doesNotMatch(html, /CPU_SATURATION_PRIMARY|SIMPLIFY_COMPUTE|CPU saturation is primary|finalDiagnosis|M09/i);
+});
+
 test("ships finished metadata, PWA manifest, and separated game engines", async () => {
   const [page, layout, manifest, packageJson, core] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),

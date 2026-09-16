@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-17
-Current milestone: M08 storyboard v2 accepted — implementation unlocked on feature branch
+Current milestone: M08 implementation checkpoint complete — committed-source review next
 Current blocker: M06 and M07 runtime evidence debt remains for 390px completion, standalone keyboard-only completion, touch, reduced-motion and screen-reader evidence.
-Next action: Implement M08 from the accepted v2 contract, then run tests and a bounded desktop playtest before requesting committed-source review.
+Next action: Commit and push the M08 implementation checkpoint, then request a committed-source review from the selected ChatGPT conversation.
 
 ## Mission status
 
@@ -13,7 +13,7 @@ Legend: ⬜ NOT STARTED · 🟨 IN PROGRESS · 🟦 IMPLEMENTED / NEEDS QA · �
 - Gate A — Vertical Slice A (M01–M06): 🟨 IN PROGRESS (M01–M06 implemented/needs QA; runtime evidence open)
 - M06 — Fifty Connections or Five Hundred?: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (v3 committed-source review PASS; five runtime/accessibility evidence items remain open)
 - M07 — The 5-Second Tomcat: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (v2 committed-source review PASS; five runtime/accessibility evidence items remain open)
-- M08 — CPU Bottleneck: 🟨 IN PROGRESS (v2 storyboard accepted for implementation planning; no implementation yet)
+- M08 — CPU Bottleneck: 🟦 IMPLEMENTED / NEEDS QA (pure engine, isolated route, deterministic tests and desktop playtest pass; accessibility evidence remains open)
 - Gate B — Vertical Slice B (M14–M16): ⬜ NOT STARTED
 - Gate C — Deployment evolution (M46–M53): ⬜ NOT STARTED
 - Gate D — Control-loop scaling (M62–M65): ⬜ NOT STARTED
@@ -514,6 +514,12 @@ implementation review is accepted.
   `artifacts/chatgpt/M08-cpu-bottleneck-storyboard-v2-visible-contract.md`
 - M08 accepted v2 storyboard review:
   `reviews/M08-storyboard-review-v2.md`
+- M08 implementation:
+  `app/games/architecture-lab/m08-engine.ts`,
+  `app/games/architecture-lab/M08CpuGame.tsx`,
+  `app/computer-science/architecture-lab/m08/page.tsx`
+- M08 desktop gameplay QA:
+  `evidence/M08-playtest-qa.md`
 
 ## Known problems
 
@@ -590,6 +596,19 @@ implementation review is accepted.
   `artifacts/chatgpt/M08-cpu-bottleneck-storyboard-v2-visible-contract.md` and
   `reviews/M08-storyboard-review-v2.md`. Raw attachment bytes remain blocked;
   no M08 code or runtime verification is being claimed.
+- Implemented M08 as an isolated `/computer-science/architecture-lab/m08`
+  route with a pure deterministic engine: all-seven evidence gate, explicit
+  CPU/memory/GC/I/O/insufficient proof predicates, frozen initial diagnosis,
+  post-reveal final diagnosis/revision, prediction-before-reveal, deterministic
+  controlled changes, reconciliation, causal chain, scoring and replay/rerun
+  reset.
+- Added M08 engine and rendered-route regressions. `npm test` passes with 187
+  core tests, build and 12 rendered-route tests; lint and `git diff --check`
+  pass.
+- Completed a browser desktop clean path at `100/100` and a wrong initial
+  diagnosis recovery path at `90/100`. Recorded the result in
+  `evidence/M08-playtest-qa.md`. Mobile, keyboard-only, touch, reduced-motion
+  and screen-reader runtime evidence remain open.
 
 ## Decisions needed
 
@@ -600,9 +619,12 @@ implementation review is accepted.
 - M08 v2 is accepted for implementation planning. Preserve the feature-branch
   boundary and request a committed-source review after the first implementation
   checkpoint; do not merge or alter main.
+- M08 implementation is intentionally 🟦 rather than VERIFIED. The source-level
+  contract and desktop gameplay pass, but the five runtime/accessibility gates
+  still need evidence.
 
 ## Next three actions
 
-1. Implement the M08 pure engine and isolated route from the accepted v2 contract.
-2. Add M08 engine/rendered-route regressions for E01–E07 gating, finalDiagnosis consistency, wrong-path recovery, scoring and replay/rerun reset.
-3. Run build/tests and a bounded desktop playtest, then push a checkpoint for committed-source review; keep main untouched.
+1. Commit and push the M08 implementation checkpoint on the feature branch.
+2. Ask the selected ChatGPT conversation for a committed-source M08 implementation review and challenge any bounded findings.
+3. Capture the five remaining M08 runtime/accessibility evidence items; keep main untouched and M08 out of VERIFIED.

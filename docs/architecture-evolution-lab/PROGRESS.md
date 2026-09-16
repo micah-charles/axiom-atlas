@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-17
-Current milestone: M08 storyboard v1 rejected — bounded consistency revision required
+Current milestone: M08 storyboard v2 accepted — implementation unlocked on feature branch
 Current blocker: M06 and M07 runtime evidence debt remains for 390px completion, standalone keyboard-only completion, touch, reduced-motion and screen-reader evidence.
-Next action: Challenge ChatGPT on M08-F01 evidence-gate consistency and M08-F02 final-diagnosis consistency; do not implement M08 until v2 passes.
+Next action: Implement M08 from the accepted v2 contract, then run tests and a bounded desktop playtest before requesting committed-source review.
 
 ## Mission status
 
@@ -13,7 +13,7 @@ Legend: ⬜ NOT STARTED · 🟨 IN PROGRESS · 🟦 IMPLEMENTED / NEEDS QA · �
 - Gate A — Vertical Slice A (M01–M06): 🟨 IN PROGRESS (M01–M06 implemented/needs QA; runtime evidence open)
 - M06 — Fifty Connections or Five Hundred?: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (v3 committed-source review PASS; five runtime/accessibility evidence items remain open)
 - M07 — The 5-Second Tomcat: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (v2 committed-source review PASS; five runtime/accessibility evidence items remain open)
-- M08 — CPU Bottleneck: 🟨 IN PROGRESS (primary source locked; storyboard artifact requested; no implementation)
+- M08 — CPU Bottleneck: 🟨 IN PROGRESS (v2 storyboard accepted for implementation planning; no implementation yet)
 - Gate B — Vertical Slice B (M14–M16): ⬜ NOT STARTED
 - Gate C — Deployment evolution (M46–M53): ⬜ NOT STARTED
 - Gate D — Control-loop scaling (M62–M65): ⬜ NOT STARTED
@@ -504,6 +504,16 @@ implementation review is accepted.
   `reviews/M07-implementation-review-v1.md`
 - M07 committed-source implementation review v2:
   `reviews/M07-implementation-review-v2.md`
+- M08 source review:
+  `reviews/source-review-m08.md`
+- M08 storyboard prompt:
+  `prompts/M08-cpu-bottleneck-storyboard-v1.md`
+- M08 rejected storyboard review:
+  `reviews/M08-storyboard-review-v1.md`
+- M08 accepted v2 visible-contract capture:
+  `artifacts/chatgpt/M08-cpu-bottleneck-storyboard-v2-visible-contract.md`
+- M08 accepted v2 storyboard review:
+  `reviews/M08-storyboard-review-v2.md`
 
 ## Known problems
 
@@ -570,6 +580,16 @@ implementation review is accepted.
   frozen diagnosis to complete beside the canonical CPU causal chain because
   no final-diagnosis/revision state is defined. The review is recorded in
   `reviews/M08-storyboard-review-v1.md`; no M08 code has been implemented.
+- Challenged ChatGPT with the bounded M08 v2 correction request. Independently
+  inspected the rendered final artifact preview and confirmed the actual
+  artifact contains all-seven evidence gating, four explicit proof
+  predicates, frozen initial diagnosis plus post-reveal `finalDiagnosis`,
+  wrong-path regression cases, replay/rerun reset, and the full 45-item matrix
+  and registry. Both M08-F01 and M08-F02 are closed for storyboard purposes.
+- Recorded the v2 visible-contract capture and acceptance review in
+  `artifacts/chatgpt/M08-cpu-bottleneck-storyboard-v2-visible-contract.md` and
+  `reviews/M08-storyboard-review-v2.md`. Raw attachment bytes remain blocked;
+  no M08 code or runtime verification is being claimed.
 
 ## Decisions needed
 
@@ -577,13 +597,12 @@ implementation review is accepted.
   correctness is accepted by v2, but M06 and M07 must not be marked VERIFIED
   until their five runtime evidence items are recorded. Implementation must
   stop if the slice feels like a dashboard rather than an investigation game.
+- M08 v2 is accepted for implementation planning. Preserve the feature-branch
+  boundary and request a committed-source review after the first implementation
+  checkpoint; do not merge or alter main.
 
 ## Next three actions
 
-1. Capture M07/M06 mobile and accessibility evidence; keep both missions out
-   of VERIFIED until their five required runtime captures are committed.
-2. Receive and independently review the M08 storyboard for source fidelity,
-   neutral opening, deterministic experiment, wrong-path recovery and registry
-   consistency. (Completed: v1 rejected for M08-F01/F02.)
-3. Request and review M08 v2; keep all M08 code on this feature branch and
-   leave main untouched until both blockers close.
+1. Implement the M08 pure engine and isolated route from the accepted v2 contract.
+2. Add M08 engine/rendered-route regressions for E01–E07 gating, finalDiagnosis consistency, wrong-path recovery, scoring and replay/rerun reset.
+3. Run build/tests and a bounded desktop playtest, then push a checkpoint for committed-source review; keep main untouched.

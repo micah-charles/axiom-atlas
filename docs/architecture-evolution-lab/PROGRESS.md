@@ -1,7 +1,7 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-17
-Current milestone: M08 committed-source implementation review PASS — M02 storyboard loop already unlocked
+Current milestone: M08 committed-source implementation review PASS — M02–M06 sequence already completed
 Current blocker: M06, M07 and M08 runtime evidence debt remains for 390px completion, standalone keyboard-only completion, touch, reduced-motion and screen-reader evidence.
 Next action: Close the shared runtime/accessibility evidence debt; do not regenerate M02–M06 storyboards that already passed their source and implementation gates.
 
@@ -13,7 +13,7 @@ Legend: ⬜ NOT STARTED · 🟨 IN PROGRESS · 🟦 IMPLEMENTED / NEEDS QA · �
 - Gate A — Vertical Slice A (M01–M06): 🟨 IN PROGRESS (M01–M06 implemented/needs QA; runtime evidence open)
 - M06 — Fifty Connections or Five Hundred?: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (v3 committed-source review PASS; five runtime/accessibility evidence items remain open)
 - M07 — The 5-Second Tomcat: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (v2 committed-source review PASS; five runtime/accessibility evidence items remain open)
-- M08 — CPU Bottleneck: 🟦 IMPLEMENTED / NEEDS QA (pure engine, isolated route, deterministic tests and desktop playtest pass; accessibility evidence remains open)
+- M08 — CPU Bottleneck: 🟦 IMPLEMENTED / NEEDS QA (pure engine, isolated route, deterministic tests, desktop playtest and committed-source review pass; accessibility evidence remains open)
 - Gate B — Vertical Slice B (M14–M16): ⬜ NOT STARTED
 - Gate C — Deployment evolution (M46–M53): ⬜ NOT STARTED
 - Gate D — Control-loop scaling (M62–M65): ⬜ NOT STARTED

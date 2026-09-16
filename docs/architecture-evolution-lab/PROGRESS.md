@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-17
-Current milestone: M08 implementation checkpoint complete — committed-source review next
-Current blocker: M06 and M07 runtime evidence debt remains for 390px completion, standalone keyboard-only completion, touch, reduced-motion and screen-reader evidence.
-Next action: Commit and push the M08 implementation checkpoint, then request a committed-source review from the selected ChatGPT conversation.
+Current milestone: M08 committed-source implementation review PASS — M02 storyboard loop already unlocked
+Current blocker: M06, M07 and M08 runtime evidence debt remains for 390px completion, standalone keyboard-only completion, touch, reduced-motion and screen-reader evidence.
+Next action: Close the shared runtime/accessibility evidence debt; do not regenerate M02–M06 storyboards that already passed their source and implementation gates.
 
 ## Mission status
 
@@ -59,6 +59,15 @@ anchored parsers, reported 50 unique contiguous IDs with exact equality,
 preserved M06-T050, and is now accepted for implementation planning. M06 is
 implemented as an isolated route and pure engine; desktop gameplay passes, but
 runtime mobile/accessibility evidence remains open.
+
+M08's committed-source review v1 is now recorded after inspection of commit
+`b7aae8f`. ChatGPT rated implementation correctness PASS and genuinely playable
+PASS, and closed M08-F01 through M08-F06. Full verification is CONDITIONAL
+PASS because M08-V01 through M08-V05 still require runtime evidence. The review
+confirms that the next storyboard loop is unlocked, but the repository has
+already completed the M02–M06 storyboard and implementation sequence; those
+missions remain IMPLEMENTED / NEEDS QA rather than VERIFIED until their shared
+runtime/accessibility evidence debt is closed.
 
 ## Completed since last checkpoint
 
@@ -520,6 +529,8 @@ implementation review is accepted.
   `app/computer-science/architecture-lab/m08/page.tsx`
 - M08 desktop gameplay QA:
   `evidence/M08-playtest-qa.md`
+- M08 committed-source implementation review:
+  `reviews/M08-implementation-review-v1.md`
 
 ## Known problems
 
@@ -620,11 +631,15 @@ implementation review is accepted.
   boundary and request a committed-source review after the first implementation
   checkpoint; do not merge or alter main.
 - M08 implementation is intentionally 🟦 rather than VERIFIED. The source-level
-  contract and desktop gameplay pass, but the five runtime/accessibility gates
-  still need evidence.
+  contract, desktop gameplay and committed-source review pass, but the five
+  runtime/accessibility gates still need evidence.
 
 ## Next three actions
 
-1. Commit and push the M08 implementation checkpoint on the feature branch.
-2. Ask the selected ChatGPT conversation for a committed-source M08 implementation review and challenge any bounded findings.
-3. Capture the five remaining M08 runtime/accessibility evidence items; keep main untouched and M08 out of VERIFIED.
+1. Capture the shared 390px completion, standalone keyboard-only, touch,
+   reduced-motion and screen-reader evidence for M06–M08; keep main untouched.
+2. Re-run the corresponding mission acceptance checks and update each mission's
+   evidence record before changing any status to VERIFIED.
+3. After the evidence gate is closed, request the next storyboard-only mission
+   from the selected ChatGPT conversation; keep implementation and storyboard
+   reviews as separate checkpoints.

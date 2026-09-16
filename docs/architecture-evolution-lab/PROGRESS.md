@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-16
-Current milestone: Gate A — M05 implemented / needs QA; desktop gameplay PASS; M04 implementation correctness PASS; full verification conditional
-Current blocker: M01/M02/M03/M04/M05 still need real 390px mobile viewport evidence, with reduced-motion, screen-reader and explicit keyboard/touch evidence also open. M05 still needs independent committed-source review.
-Next action: Request ChatGPT's independent M05 implementation review, then close mobile/accessibility evidence without marking M05 VERIFIED prematurely.
+Current milestone: Gate A — M05 bounded review corrections implemented; awaiting committed-source re-review; full verification conditional
+Current blocker: M01/M02/M03/M04/M05 still need real 390px mobile viewport evidence, with reduced-motion, screen-reader and explicit keyboard/touch evidence also open. M05 still needs the post-fix committed-source review.
+Next action: Commit/push the bounded M05 corrections, request ChatGPT's re-review of that commit, then close mobile/accessibility evidence without marking M05 VERIFIED prematurely.
 
 ## Mission status
 
@@ -38,8 +38,13 @@ a duplicate evidence-capture item and consistency audit; v1.1 closed those
 issues, then v1.2 closed a four-versus-five prediction-scoring contradiction.
 M05 v1.2 is now accepted for implementation planning. M05 is implemented as
 an isolated route and pure engine; desktop gameplay reaches a clean 100/100
-and replay resets state. Mobile/accessibility and independent review remain
-open.
+and replay resets state. ChatGPT's first committed-source review returned
+REVISION REQUIRED for initial natural-language intervention leakage and claimed
+that M05 regressions were absent. The latter claim was checked against the
+actual `2e48a25` tree: M05 regressions were already present, and an additional
+completion/prediction/efficiency invariant test plus a stronger rendered-route
+leakage assertion have now been added. The fresh-player copy has been
+neutralised. Mobile/accessibility and post-fix independent review remain open.
 
 ## Completed since last checkpoint
 
@@ -191,6 +196,15 @@ open.
 - Recorded M04 desktop gameplay evidence in
   `evidence/M04-playtest-qa.md`; mobile, reduced-motion, screen-reader and
   explicit keyboard/touch captures remain open before verification.
+- Downloaded ChatGPT's M05 committed-source review to
+  `reviews/M05-implementation-review-v1.md`. It confirmed the full gameplay
+  loop PASS and full verification CONDITIONAL PASS, but raised two bounded
+  findings. Local inspection showed the claimed missing M05 tests were already
+  present in commit `2e48a25`; the correction pass adds stronger completion,
+  prediction and efficiency invariants rather than redesigning the engine.
+- Neutralised the M05 fresh-player intervention wording and added a rendered
+  initial-route assertion rejecting natural-language timeout/retry leakage.
+  Added the post-review M05 invariant regression. `npm test` remains green.
 
 ## Tests
 
@@ -219,6 +233,10 @@ fixes:
   tested locally. Committed-source review v2 returned implementation
   correctness PASS and closed M04-F01; full verification remains conditional
   on mobile/accessibility evidence.
+- M05 post-review correction pass — PASS locally: initial rendered-route
+  leakage assertion, M05 prediction/completion/efficiency invariants, lint,
+  177 core tests, build, and 9 rendered-route tests. Awaiting ChatGPT's
+  committed-source re-review of the new commit.
 - keyboard-only and reduced-motion runs — M01 and reduced-motion/screen-reader evidence pending
 
 Required before M01 verification:
@@ -248,6 +266,8 @@ implementation review is accepted.
 - ChatGPT review SHA-256: `d843eef8504cfeee7a40eca7b200ccfdc83e6afdde13cd71d693ff05b8c5e6d1`
 - ChatGPT post-fix implementation review: `reviews/M01-implementation-review-v2.md`
 - ChatGPT post-fix review SHA-256: `07772ce7b82797e26a75e7ffb84893e900c2668ea212d054b174392aeb3d50f9`
+- ChatGPT M05 implementation review: `reviews/M05-implementation-review-v1.md`
+- ChatGPT M05 review SHA-256: `cbaf3053bbe9c4479dc5c27407ed1e8546009afba640d11afeb1cb5a3330735f`
 - M02 storyboard v1: `artifacts/chatgpt/M02-follow-one-request-storyboard-v1.md`
 - M02 storyboard v1 SHA-256: `c5fe7bce6e020260317ec4bbce35395b7d9f7cea993654ceaa1b9c8532a60074`
 - M02 accepted storyboard v1.1: `artifacts/chatgpt/M02-follow-one-request-storyboard-v1.1.md`

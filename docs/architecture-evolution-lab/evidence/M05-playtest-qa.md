@@ -55,6 +55,24 @@ From the completed state, `REPLAY M05` returned to the initial route with:
 - Reduced motion: route has a scoped `prefers-reduced-motion` rule and no
   required result depends on animation.
 
+## Post-review correction pass
+
+ChatGPT's first committed-source review is recorded in
+`../reviews/M05-implementation-review-v1.md`. The bounded correction pass:
+
+- neutralises the fresh-player phrases `bound the waiting` and `explain why a
+  bound changes the outcome` into neutral call-behaviour comparison language;
+- strengthens the initial rendered-route regression to reject natural-language
+  timeout/retry recommendations;
+- adds committed engine regressions for prediction commitment, contradictory
+  completion proof, and efficiency tiers. The original M05 gate/map/causal/
+  prediction/result/policy/100-point tests were already present in
+  `2e48a25`, contrary to the review's F02 summary.
+
+Local verification after the correction: `npm test` PASS, including 177 core
+tests and 9 rendered-route tests. A post-fix committed-source review is still
+required before implementation correctness can be called PASS.
+
 ## Evidence still open
 
 The following are not marked VERIFIED yet:
@@ -69,8 +87,9 @@ The following are not marked VERIFIED yet:
 ## Related automated checks
 
 - `npm run lint` — PASS
-- `npm run test:core` — PASS, 176 tests
+- `npm run test:core` — PASS, 177 tests
 - `npm run build` — PASS; route `/computer-science/architecture-lab/m05` present
 - `node --test tests/rendered-html.test.mjs` — PASS, 9 rendered-route tests
 - initial rendered route answer-leak test — PASS; correct diagnosis/policy/result
-  identifiers are absent from the initial HTML shell
+  identifiers and natural-language timeout/retry recommendations are absent
+  from the initial HTML shell

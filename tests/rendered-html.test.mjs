@@ -108,6 +108,7 @@ test("server-renders the Architecture Evolution Lab M05 shell without answer lea
   assert.match(html, /A remote call stopped making progress/);
   assert.match(html, /DIAGNOSIS LOCKED/);
   assert.match(html, /Atlas Market is fictional/i);
+  assert.doesNotMatch(html, /bound the waiting|bound the wait|use a timeout|retry once|bounded timeout/i);
   assert.doesNotMatch(html, /NETWORK_DEPENDENCY_WAITING|BOUNDED_TIMEOUT_ONE_RETRY|2-second teaching-simulation DB outage/i);
 });
 

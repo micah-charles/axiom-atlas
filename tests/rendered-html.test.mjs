@@ -112,6 +112,17 @@ test("server-renders the Architecture Evolution Lab M05 shell without answer lea
   assert.doesNotMatch(html, /NETWORK_DEPENDENCY_WAITING|BOUNDED_TIMEOUT_ONE_RETRY|2-second teaching-simulation DB outage/i);
 });
 
+test("server-renders the Architecture Evolution Lab M06 shell without answer leakage", async () => {
+  const response = await render("/computer-science/architecture-lab/m06");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /M06 — FIFTY CONNECTIONS OR FIVE HUNDRED|M06/);
+  assert.match(html, /Fifty is not five hundred|The biggest limit is not always the useful limit/i);
+  assert.match(html, /RESULTS LOCKED|E01–E07 REQUIRED/);
+  assert.match(html, /Atlas Market is fictional/i);
+  assert.doesNotMatch(html, /CONNECTION_ADMISSION_MISMATCH|FIT_POOL|More connections can move the bottleneck/i);
+});
+
 test("ships finished metadata, PWA manifest, and separated game engines", async () => {
   const [page, layout, manifest, packageJson, core] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),

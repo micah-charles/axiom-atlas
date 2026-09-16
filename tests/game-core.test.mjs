@@ -22,6 +22,7 @@ import { M02_EVIDENCE, M02_EXPERIMENTS, M02_EXPLANATION_OPTIONS, M02_STAGE_ORDER
 import { M03_EVIDENCE, M03_EXPLANATION_CONCEPTS, M03_EXPLANATION_LINKS, M03_INITIAL_MAP, M03_PREDICTIONS, M03_RESULTS, canCommitM03Map, canCommitM03Predictions, canCompleteM03, canMutateM03Classification, canUnlockM03Evidence, correctM03Map, correctM03ResultMatches, explanationLinksCorrect, explanationOrderCorrect, scoreM03, predictionIsCorrectM03 } from "../app/games/architecture-lab/m03-engine.ts";
 import { M04_CAUSAL_CLAIMS, M04_EVIDENCE, M04_INITIAL_RESOURCE_MAP, M04_PREDICTIONS, M04_RESULT_CHECKS, canCommitM04Predictions, canCommitM04ResourceMap, canUnlockM04Evidence, causalLinksCorrectM04, causalOrderCorrectM04, correctM04ResourceMap, diagnosisProofIsEnough, interventionJustificationCorrectM04, resultChecksCorrectM04, scoreM04 } from "../app/games/architecture-lab/m04-engine.ts";
 import { M05_INITIAL_DEPENDENCY_MAP, M05_PREDICTIONS, M05_REQUIRED_CAUSAL_ORDER, canCommitM05Predictions, canCompleteM05, canUnlockM05Evidence, causalLinksCorrectM05, causalOrderCorrectM05, correctM05DependencyMap, diagnosisProofIsEnoughM05, m05ProofEvidenceEnough, policyJustificationCorrectM05, predictionsCorrectM05, resultChecksCorrectM05, scoreM05 } from "../app/games/architecture-lab/m05-engine.ts";
+import { M06_BASELINE_PREDICTIONS, M06_CHANGED_PREDICTIONS, M06_REQUIRED_CANDIDATES, M06_REQUIRED_CAUSAL_ORDER, M06_REQUIRED_LINKS, M06_RESULT_CHECKS, canCompleteM06, canUnlockM06Evidence, candidatePredictionsCorrectM06, causalLinksCorrectM06, causalOrderCorrectM06, diagnosisProofIsEnoughM06, m06ProofEvidenceEnough, resultChecksCorrectM06, scoreM06 } from "../app/games/architecture-lab/m06-engine.ts";
 
 test("campaign is generated deterministically across five learning layers", () => {
   assert.equal(LEARNING_LAYERS.length, 5);
@@ -275,6 +276,31 @@ test("M05 locks prediction, completion, recovery, and efficiency invariants", ()
   assert.equal(canCompleteM05({ inspected, map, diagnosis: "NETWORK_DEPENDENCY_WAITING", proof: ["E01", "E02", "E07"], causalOrder: [...M05_REQUIRED_CAUSAL_ORDER], causalLinks: links, predictions, checks, unboundedRun: true, boundedRun: true, policy: "BOUNDED_TIMEOUT_ONE_RETRY", justifications }), false);
   assert.equal(scoreM05({ inspected, map, diagnosis: "NETWORK_DEPENDENCY_WAITING", proof, causalOrder: [...M05_REQUIRED_CAUSAL_ORDER], causalLinks: links, predictions, checks, policy: "BOUNDED_TIMEOUT_ONE_RETRY", justifications, recoveryCycles: 1 }).efficiency, 4);
   assert.equal(scoreM05({ inspected, map, diagnosis: "NETWORK_DEPENDENCY_WAITING", proof, causalOrder: [...M05_REQUIRED_CAUSAL_ORDER], causalLinks: links, predictions, checks, policy: "BOUNDED_TIMEOUT_ONE_RETRY", justifications, recoveryCycles: 3 }).efficiency, 2);
+});
+
+test("M06 requires all unique evidence and rejects unseen proof", () => {
+  const inspected = ["E01", "E02", "E03", "E04", "E05", "E06", "E07"];
+  assert.equal(canUnlockM06Evidence(inspected), true);
+  assert.equal(canUnlockM06Evidence(["E01", "E02", "E03", "E04", "E05", "E06"]), false);
+  assert.equal(m06ProofEvidenceEnough(["E01", "E02", "E03", "E05"], inspected), true);
+  assert.equal(m06ProofEvidenceEnough(["E01", "E02", "E03", "E05"], ["E01", "E02", "E03"]), false);
+  assert.equal(diagnosisProofIsEnoughM06("CONNECTION_ADMISSION_MISMATCH", ["E01", "E02", "E03", "E05"], inspected), true);
+  assert.equal(diagnosisProofIsEnoughM06("M05_NETWORK_WAITING", ["E01", "E02", "E03", "E05"], inspected), false);
+});
+
+test("M06 keeps predictions, experiments, causal links and score deterministic", () => {
+  const inspected = ["E01", "E02", "E03", "E04", "E05", "E06", "E07"];
+  const baselinePredictions = Object.fromEntries(M06_BASELINE_PREDICTIONS.map(item => [item.id, item.correct]));
+  const candidatePredictions = Object.fromEntries(M06_REQUIRED_CANDIDATES.map(candidate => [candidate, Object.fromEntries(M06_CHANGED_PREDICTIONS.map(item => [item.id, item.correctByCandidate[candidate]]))]));
+  const checks = Object.fromEntries(M06_RESULT_CHECKS.map(item => [item.id, "CONFIRMED"]));
+  const reconciled = Object.fromEntries(M06_REQUIRED_CANDIDATES.map(candidate => [candidate, true]));
+  assert.equal(candidatePredictionsCorrectM06("FIT_POOL", candidatePredictions.FIT_POOL), true);
+  assert.equal(candidatePredictionsCorrectM06("LARGE_POOL", { ...candidatePredictions.LARGE_POOL, DB_CPU: "LOW" }), false);
+  assert.equal(resultChecksCorrectM06(checks), true);
+  assert.equal(causalOrderCorrectM06([...M06_REQUIRED_CAUSAL_ORDER]), true);
+  assert.equal(causalLinksCorrectM06(M06_REQUIRED_LINKS), true);
+  assert.equal(canCompleteM06({ inspected, diagnosis: "CONNECTION_ADMISSION_MISMATCH", proof: ["E01", "E02", "E03", "E05"], baselinePredictions, candidatePredictions, runs: [...M06_REQUIRED_CANDIDATES], reconciled, causalOrder: [...M06_REQUIRED_CAUSAL_ORDER], causalLinks: M06_REQUIRED_LINKS, tradeoff: "FIT_IS_MODEL_BOUND" }), true);
+  assert.deepEqual(scoreM06({ inspected, diagnosis: "CONNECTION_ADMISSION_MISMATCH", proof: ["E01", "E02", "E03", "E05"], baselinePredictions, candidatePredictions, runs: [...M06_REQUIRED_CANDIDATES], reconciled, causalOrder: [...M06_REQUIRED_CAUSAL_ORDER], causalLinks: M06_REQUIRED_LINKS, tradeoff: "FIT_IS_MODEL_BOUND", recoveryCycles: 0 }), { investigation: 15, diagnosis: 15, baseline: 10, controlledChange: 10, changedPrediction: 10, reconciliation: 15, causal: 15, boundary: 5, efficiency: 5, total: 100 });
 });
 
 test("Water Valley turns hidden river functions into visible accumulation blocks", () => {

@@ -1,17 +1,17 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-16
-Current milestone: Gate A — M06 storyboard accepted for implementation planning; M05 implementation correctness PASS; full verification conditional
-Current blocker: M01/M02/M03/M04/M05 still have runtime evidence debt. M05 remains IMPLEMENTED / NEEDS QA until full 390px completion, standalone keyboard-only completion, touch, reduced-motion and screen-reader evidence are recorded.
-Next action: Plan and implement M06 in an isolated route/engine, then request committed-source review while keeping M05 evidence closure tracked in parallel.
+Current milestone: Gate A — M06 implementation correctness and desktop gameplay PASS; full verification conditional
+Current blocker: M01/M02/M03/M04/M05/M06 still have runtime evidence debt. M06 remains IMPLEMENTED / NEEDS QA until 390px completion, standalone keyboard-only completion, touch, reduced-motion and screen-reader evidence are recorded.
+Next action: Commit the M06 implementation checkpoint, request committed-source review, and keep the mobile/accessibility evidence closure tracked in parallel.
 
 ## Mission status
 
 Legend: ⬜ NOT STARTED · 🟨 IN PROGRESS · 🟦 IMPLEMENTED / NEEDS QA · ✅ VERIFIED · ⛔ BLOCKED
 
 - Gate 0 — Bible import, repository fit, orchestration protocol: ✅ VERIFIED
-- Gate A — Vertical Slice A (M01–M06): 🟨 IN PROGRESS (M01 🟦 IMPLEMENTED / NEEDS QA; M02–M06 not started)
-- M06 — Fifty Connections or Five Hundred?: 🟨 IN PROGRESS (storyboard v1.1 accepted; implementation not started)
+- Gate A — Vertical Slice A (M01–M06): 🟨 IN PROGRESS (M01–M06 implemented/needs QA; runtime evidence open)
+- M06 — Fifty Connections or Five Hundred?: 🟦 IMPLEMENTED / NEEDS QA (desktop gameplay PASS; runtime evidence open)
 - Gate B — Vertical Slice B (M14–M16): ⬜ NOT STARTED
 - Gate C — Deployment evolution (M46–M53): ⬜ NOT STARTED
 - Gate D — Control-loop scaling (M62–M65): ⬜ NOT STARTED
@@ -54,7 +54,9 @@ unlocks the M06 storyboard loop without marking M05 VERIFIED. M06 storyboard v1
 was held because its internal audit regex matched empty strings and did not
 prove matrix/registry equality. The bounded v1.1 revision corrected the
 anchored parsers, reported 50 unique contiguous IDs with exact equality,
-preserved M06-T050, and is now accepted for implementation planning.
+preserved M06-T050, and is now accepted for implementation planning. M06 is
+implemented as an isolated route and pure engine; desktop gameplay passes, but
+runtime mobile/accessibility evidence remains open.
 
 ## Completed since last checkpoint
 
@@ -233,6 +235,14 @@ preserved M06-T050, and is now accepted for implementation planning.
   independent acceptance review are recorded at:
   `artifacts/chatgpt/M06-fifty-connections-or-five-hundred-storyboard-v1.1.md`
   and `reviews/M06-storyboard-review-v1.1.md`.
+- Implemented M06 as an isolated `/computer-science/architecture-lab/m06`
+  route and pure engine: seven-card evidence gate, admission-mismatch
+  diagnosis, prediction-before-reveal baseline, three deterministic pool
+  candidates, per-candidate reconciliation, causal chain, model-bound trade-off,
+  100-point scoring, recovery, replay and neutral M06-T050 boundary.
+- Completed the desktop fresh-player M06 flow and recorded it in
+  `evidence/M06-playtest-qa.md`; mobile, keyboard, touch, reduced-motion and
+  screen-reader evidence remain open.
 
 ## Tests
 
@@ -255,6 +265,9 @@ fixes:
 - M06 storyboard audit validation — PASS: 50 detailed acceptance IDs and 50
   registry IDs, each unique and contiguous; exact equality and M06-T050
   presence reported by the corrected artifact audit
+- M06 implementation — PASS: lint, 179 core tests, build, rendered route
+  leakage test, desktop fresh-player three-candidate flow, wrong-path recovery,
+  prediction-before-reveal and replay reset
 - M04 implementation verification so far — PASS: lint, 173 core tests, build,
   full `npm test` (173 core + build + 8 rendered-route tests), rendered M04
   route, clean desktop 100/100 path, wrong-path 99/100 recovery, replay reset
@@ -373,8 +386,9 @@ implementation review is accepted.
 - The Bible names a primary source path but does not include the source text in
   this repository; the first slice is verified against the live public source,
   while later missions still need section-by-section verification.
-- M01–M05 routes and isolated architecture simulation engines now exist;
-  M01–M05 are implemented/needs QA; M06 remains deliberately not implemented.
+- M01–M06 routes and isolated architecture simulation engines now exist;
+  M01–M06 are implemented/needs QA; runtime evidence remains the verification
+  gate.
 - The Bible's 79 mission summaries are not yet full mission contracts.
 - M01 v1, v1.1 and v2 are retained as revision history; v1.2 is retained as a
   rejected artifact because its downloaded content failed the gate. M01 v1.3
@@ -415,7 +429,8 @@ implementation review is accepted.
 
 ## Next three actions
 
-1. Close M05 standalone keyboard-only, touch, reduced-motion, screen-reader
-   and full-mobile-completion evidence; keep M01–M04 QA debt visible.
-2. Reassess M05 as a game before requesting M06 storyboard work.
-3. Keep M05 🟦 until every required runtime capture is committed.
+1. Request ChatGPT's committed-source M06 implementation review on the pushed
+   implementation checkpoint.
+2. Close M06 390px, keyboard-only, touch, reduced-motion and screen-reader
+   evidence; keep M01–M05 QA debt visible.
+3. Keep M06 🟦 until every required runtime capture is committed.

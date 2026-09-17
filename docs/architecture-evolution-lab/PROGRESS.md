@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-17
-Current milestone: M04 visual/gameplay loop presentation PASS; M05 is unlocked while runtime verification remains open
+Current milestone: M05 visual/gameplay loop presentation PASS; M06 is unlocked while runtime verification remains open
 Current blocker: Mission-specific runtime evidence remains open for 390px completion, standalone keyboard-only completion where applicable, touch, reduced-motion and screen-reader evidence across the sequence.
-Next action: Begin the M05 baseline capture and ChatGPT visual/gameplay review without marking M04 VERIFIED.
+Next action: Begin the M06 baseline capture and ChatGPT visual/gameplay review without marking M05 VERIFIED.
 
 ## Mission status
 
@@ -14,7 +14,7 @@ Legend: ⬜ NOT STARTED · 🟨 IN PROGRESS · 🟦 IMPLEMENTED / NEEDS QA · �
 - M02 — Follow One Request: 🟨 IN PROGRESS (ChatGPT visual review corrected to M02; request-trace board implemented; runtime evidence pending)
 - M03 — Find the Three Local Assumptions: 🟦 IMPLEMENTED / NEEDS QA (host-boundary dependency board and continuity fix presentation PASS; runtime evidence pending)
 - M04 — Disk Full at 02:00: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (Resource Pressure Board implementation, local 100/100 playability and ChatGPT presentation review PASS; 390px, keyboard, touch, reduced-motion and screen-reader evidence remains open)
-- M05 — The Cache That Lied: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (implementation, playability and committed-source review PASS; mission-specific runtime evidence remains open)
+- M05 — The Network Is Now Part of the System: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (Request Flight + Slot Pressure Board, local 100/100 flow and ChatGPT presentation review PASS; mission-specific runtime evidence remains open)
 - M06 — Fifty Connections or Five Hundred?: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (v3 committed-source review PASS; five runtime/accessibility evidence items remain open)
 - M07 — The 5-Second Tomcat: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (v2 committed-source review PASS; five runtime/accessibility evidence items remain open)
 - M08 — CPU Bottleneck: 🟦 IMPLEMENTED / NEEDS QA (pure engine, isolated route, deterministic tests, desktop playtest and committed-source review pass; accessibility evidence remains open)
@@ -144,6 +144,36 @@ the visible `WEB → DB` trade-off. ChatGPT's post-fix review is recorded in
 `reviews/M04-ui-review-chatgpt-v2.md` and rates the presentation PASS. M04 is
 not VERIFIED: its responsive, keyboard, touch, reduced-motion and
 screen-reader runtime gates remain open. M05 is now unlocked.
+
+The M05 visual loop is now presentation-complete. ChatGPT's baseline review
+accepted the persistent Request Flight + Slot Pressure Board and identified the
+fresh-state dependency leak. Commit `fae5017` implemented the board and the
+two-condition prediction matrix without changing the deterministic M05 engine.
+The first post-fix review found one bounded-state presentation contradiction:
+the result banner returned control with an error while the board still showed
+the evidence-derived waiting state. Commit `fde87ce` gives bounded run/reveal
+and final decision states precedence, so the board now shows `TIMEOUT / RETRY`,
+`4 fixed slots · caller returned` and `ERROR AFTER BOUNDED ATTEMPTS` consistently.
+The local desktop flow was replayed to `MISSION COMPLETE · 100/100`, and
+ChatGPT's final M05 presentation review is recorded in
+`reviews/M05-ui-review-chatgpt-v3.md` with verdict PASS. M05 remains
+`IMPLEMENTED / FULL VERIFICATION PENDING`; M06 is unlocked.
+
+## M05 visual loop checkpoint
+
+- [x] Capture and inspect the fresh M05 baseline.
+- [x] Send the M05-only baseline review and record the Request Flight + Slot Pressure Board direction.
+- [x] Implement the persistent request/slot board without changing engine truth.
+- [x] Replace repetitive prediction cards with the two-condition matrix while preserving prediction IDs.
+- [x] Replay the full desktop flow through bounded reveal and policy choice.
+- [x] Detect the bounded-state contradiction through ChatGPT review.
+- [x] Fix bounded visual-state precedence in `fde87ce`.
+- [x] Verify bounded reveal visually and through the accessibility tree.
+- [x] Reach `MISSION COMPLETE · 100/100` after the fix.
+- [x] Record ChatGPT's final M05 presentation PASS.
+- [ ] Capture M05 390px completion evidence.
+- [ ] Capture M05 standalone keyboard-only, touch, reduced-motion and screen-reader evidence.
+- [ ] Promote M05 from NEEDS QA to VERIFIED only after all runtime gates pass.
 
 ## M02 visual loop checkpoint
 

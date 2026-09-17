@@ -124,6 +124,8 @@ runtime/accessibility evidence is captured.
 - Clarified the preview-only branch after fresh-player testing: tested B/C/D
   candidates now explain that they are comparison results and point the player
   to A before the live request trace.
+- Clarified the mission sequence in the UI and engine: B is explicitly a future
+  Mission 17 scale-out preview; M02 remains request tracing and diagnosis.
 
 - Sent the committed M02–M06 sequence and new M06 browser evidence to the
   selected ChatGPT conversation for strict review.

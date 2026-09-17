@@ -58,6 +58,9 @@ board. Functional UI remains code-native SVG/CSS rather than raster art.
 - Clarified the candidate-test state: a tested B/C/D candidate now says
   `Tested hypothesis · preview only`, and the result explains that it is a
   comparison rather than a runnable M01 request path.
+- Clarified the story order: redundant web tier is a future scale-out preview
+  for Mission 17, not M02. M02 remains the request-tracing and latency-
+  diagnosis mission.
 - Added reduced-motion CSS fallbacks for packet and failure animation.
 
 ## Browser evidence

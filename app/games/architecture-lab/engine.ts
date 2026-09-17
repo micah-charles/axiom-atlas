@@ -101,7 +101,7 @@ export function approachResult(approach: ApproachId) {
       complexityPoints: 7,
       setupSteps: 8,
       requestMs: null,
-      copy: "Preview only: request distribution, Session, images and authoritative data placement are unresolved.",
+      copy: "Future scale-out preview: the redundant web tier belongs to Mission 17. M01 has not yet established request distribution, Session, images or authoritative data placement.",
     };
   }
   if (approach === "C") {
@@ -113,7 +113,7 @@ export function approachResult(approach: ApproachId) {
       complexityPoints: 12,
       setupSteps: 14,
       requestMs: null,
-      copy: "Preview only: the present evidence does not require this extra machinery, and placement is unresolved.",
+      copy: "Future scale-out preview: the present M01 evidence does not justify a managed multi-node platform, and placement is unresolved.",
     };
   }
   return {

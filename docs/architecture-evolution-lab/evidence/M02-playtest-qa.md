@@ -9,7 +9,7 @@ Branch: `feature/architecture-evolution-lab`
 **Desktop gameplay: PASS**  
 **Keyboard activation smoke: PASS**  
 **M02 bounded-fix regression: PASS**
-**M02 verification: CONDITIONAL — mobile, reduced-motion and screen-reader evidence remain open.**
+**M02 verification: CONDITIONAL — 390px, touch, reduced-motion and screen-reader evidence remain open.**
 
 ## Fresh-player observations
 
@@ -77,6 +77,7 @@ Desktop CUA inspection confirmed:
 
 - A real 390 CSS-pixel viewport run with captures for each major state is still
   required.
+- A touch-path completion and recovery capture is still required.
 - A real `prefers-reduced-motion: reduce` completion run is still required.
 - Screen-reader announcement testing is not yet recorded.
 

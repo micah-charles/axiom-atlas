@@ -95,4 +95,7 @@ The following remain open before M04 can become VERIFIED:
 - touch-path completion capture;
 - reduced-motion completion capture;
 - screen-reader announcement transcript;
-- independent committed-source implementation review.
+
+The independent committed-source implementation review is closed by
+`reviews/M04-implementation-review-v2.md`; the five runtime/accessibility
+items above remain open.

@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-17
-Current milestone: M08 committed-source implementation review PASS — M02–M06 sequence already completed
-Current blocker: M06, M07 and M08 runtime evidence debt remains for 390px completion, standalone keyboard-only completion, touch, reduced-motion and screen-reader evidence.
-Next action: Close the shared runtime/accessibility evidence debt; do not regenerate M02–M06 storyboards that already passed their source and implementation gates.
+Current milestone: M02–M06 sequence review PASS — storyboard and implementation loop complete; full-verification evidence remains open
+Current blocker: Mission-specific runtime evidence remains open for 390px completion, standalone keyboard-only completion where applicable, touch, reduced-motion and screen-reader evidence across the sequence.
+Next action: Close runtime/accessibility evidence debt; do not regenerate M02–M06 storyboards that already passed their source and implementation gates.
 
 ## Mission status
 
@@ -11,6 +11,10 @@ Legend: ⬜ NOT STARTED · 🟨 IN PROGRESS · 🟦 IMPLEMENTED / NEEDS QA · �
 
 - Gate 0 — Bible import, repository fit, orchestration protocol: ✅ VERIFIED
 - Gate A — Vertical Slice A (M01–M06): 🟨 IN PROGRESS (M01–M06 implemented/needs QA; runtime evidence open)
+- M02 — Follow One Request: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (implementation, playability and committed-source review PASS; mission-specific runtime evidence remains open)
+- M03 — Find the Three Local Assumptions: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (implementation, playability and committed-source review PASS; mission-specific runtime evidence remains open)
+- M04 — Disk Full at 02:00: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (implementation, playability and committed-source review PASS; mission-specific runtime evidence remains open)
+- M05 — The Cache That Lied: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (implementation, playability and committed-source review PASS; mission-specific runtime evidence remains open)
 - M06 — Fifty Connections or Five Hundred?: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (v3 committed-source review PASS; five runtime/accessibility evidence items remain open)
 - M07 — The 5-Second Tomcat: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (v2 committed-source review PASS; five runtime/accessibility evidence items remain open)
 - M08 — CPU Bottleneck: 🟦 IMPLEMENTED / NEEDS QA (pure engine, isolated route, deterministic tests, desktop playtest and committed-source review pass; accessibility evidence remains open)
@@ -69,7 +73,25 @@ already completed the M02–M06 storyboard and implementation sequence; those
 missions remain IMPLEMENTED / NEEDS QA rather than VERIFIED until their shared
 runtime/accessibility evidence debt is closed.
 
+The strict M02–M06 sequence review is now recorded in
+`reviews/M02-M06-sequence-review-v1.md`. It confirms PASS for storyboard,
+implementation and playability for every mission, identifies two stale
+documentation items (M02 touch tracking and the obsolete M04 review-debt
+bullet), and keeps full verification conditional. The next storyboard is
+procedurally unlocked, but no mission is promoted to VERIFIED until its own
+runtime/accessibility evidence is captured.
+
 ## Completed since last checkpoint
+
+- Sent the committed M02–M06 sequence and new M06 browser evidence to the
+  selected ChatGPT conversation for strict review.
+- Recorded ChatGPT's M02–M06 sequence decision: storyboard, implementation
+  and playability PASS for M02–M06; full verification CONDITIONAL PASS and
+  NOT VERIFIED for all five missions.
+- Corrected the two documentation findings from that review: explicit M02
+  touch evidence debt and the obsolete M04 independent-review bullet.
+- Preserved the rule that main remains untouched and that no M02–M06
+  storyboard is regenerated.
 
 - Read the full 1,395-line Game Design Bible.
 - Confirmed the Bible defines 8 Acts, 17 Chapters, 79 core missions, optional
@@ -150,8 +172,8 @@ runtime/accessibility evidence debt is closed.
 - Browser QA found and fixed perfect-path scoring so two first-try controlled
   predictions still earn full prediction credit.
 - Recorded M02 desktop and keyboard smoke results in
-  `evidence/M02-playtest-qa.md`; mobile, reduced-motion and screen-reader
-  evidence remain open.
+  `evidence/M02-playtest-qa.md`; 390px, touch, reduced-motion and
+  screen-reader evidence remain open.
 - Downloaded ChatGPT's independent M02 implementation review; it correctly
   returned `REVISION REQUIRED` for M02-F01 (missing E04 diagnosis gate),
   M02-F02 (wrong final diagnosis could complete), and M02-F03 (generic wrong
@@ -412,9 +434,9 @@ M02 implementation and review may proceed in parallel with the open M01
 evidence items; neither mission must be marked VERIFIED until its checks are
 recorded.
 
-M02 implementation remains 🟦 IMPLEMENTED / NEEDS QA until its mobile,
-reduced-motion and screen-reader evidence is recorded and its independent
-implementation review is accepted.
+M02 remains 🟦 IMPLEMENTED / FULL VERIFICATION PENDING until its 390px, touch,
+reduced-motion and screen-reader evidence is recorded. Its independent
+implementation review is already accepted.
 
 ## Evidence
 
@@ -501,6 +523,8 @@ implementation review is accepted.
   `reviews/M06-implementation-review-v2.md`
 - M06 implementation review v3:
   `reviews/M06-implementation-review-v3.md`
+- M02–M06 sequence review v1:
+  `reviews/M02-M06-sequence-review-v1.md`
 - M07 source review:
   `reviews/source-review-m07.md`
 - M07 storyboard prompt:

@@ -66,6 +66,70 @@ function EvidenceCard({ item, inspected, onInspect }: { item: typeof M07_EVIDENC
   </button>;
 }
 
+type M07BoardPhase = "observe" | "investigate" | "diagnose" | "predict" | "run" | "reveal" | "reconcile" | "explain" | "complete";
+
+const M07_PROBE_SCOPES: readonly { id: M07RunId; label: string; fields: string; lane: string }[] = [
+  { id: "RUN_COMPUTE_WAIT_SAMPLE", label: "Compute + wait probe", fields: "CPU · runnable · I/O · socket", lane: "COMPUTE / WAIT" },
+  { id: "RUN_GC_RETENTION_SAMPLE", label: "GC + retention probe", fields: "GC · heap pre/post · retention", lane: "MEMORY / GC" },
+  { id: "RUN_THREAD_WAIT_SAMPLE", label: "Thread-state probe", fields: "runnable · socket · file I/O · CPU", lane: "WAIT / I/O" },
+];
+
+function M07BoardGlyph({ kind }: { kind: "request" | "compute" | "memory" | "wait" | "database" }) {
+  return <svg className="arch-m07-board-glyph" viewBox="0 0 48 48" aria-hidden="true">
+    {kind === "request" && <><rect x="8" y="13" width="32" height="22" rx="4" /><path d="M14 20h20M14 27h12" /><path d="m28 31 5-5 5 5" /></>}
+    {kind === "compute" && <><rect x="9" y="11" width="30" height="26" rx="3" /><path d="M16 18h16M16 24h10M16 30h7" /><path d="M4 17h5M4 24h5M4 31h5M39 17h5M39 24h5M39 31h5" /></>}
+    {kind === "memory" && <><path d="M12 14h24v20H12z" /><path d="M17 19h14M17 25h10M17 31h6" /><path d="M8 18h4M8 24h4M8 30h4M36 18h4M36 24h4M36 30h4" /></>}
+    {kind === "wait" && <><circle cx="24" cy="24" r="13" /><path d="M24 16v9l6 4" /><path d="M10 11 6 15M38 11l4 4" /></>}
+    {kind === "database" && <><ellipse cx="24" cy="14" rx="13" ry="5" /><path d="M11 14v19c0 3 6 5 13 5s13-2 13-5V14" /><path d="M11 23c0 3 6 5 13 5s13-2 13-5" /></>}
+  </svg>;
+}
+
+function M07PressureLane({ kind, title, subtitle, active, metrics, note }: { kind: "compute" | "memory" | "wait"; title: string; subtitle: string; active: boolean; metrics: string[]; note?: string }) {
+  return <article className={`arch-m07-pressure-lane ${active ? "active" : ""}`} aria-label={`${title} evidence lane`}>
+    <div className="arch-m07-lane-head"><span className="arch-m07-lane-icon"><M07BoardGlyph kind={kind} /></span><span><b>{title}</b><small>{subtitle}</small></span><em>{active ? "SIGNALS ACTIVE" : "UNRESOLVED"}</em></div>
+    <div className="arch-m07-lane-metrics">{metrics.length ? metrics.map(metric => <span key={metric}>{metric}</span>) : <span className="arch-m07-board-lock">measurement hidden · inspect evidence</span>}</div>
+    {note && <small className="arch-m07-lane-note">{note}</small>}
+  </article>;
+}
+
+function M07PressureBoard({ phase, inspected, selectedRun, predictions, resultChecks, completedRuns }: { phase: M07BoardPhase; inspected: M07EvidenceId[]; selectedRun: M07RunId | null; predictions: Partial<Record<M07RunFieldId, M07PredictionChoice>>; resultChecks: Partial<Record<M07RunFieldId, M07Reconciliation>>; completedRuns: M07RunId[] }) {
+  const has = (id: M07EvidenceId) => inspected.includes(id);
+  const afterReveal = phase === "reveal" || phase === "reconcile" || phase === "explain" || phase === "complete";
+  const result = selectedRun && afterReveal ? M07_RUN_RESULTS[selectedRun] : null;
+  const observed = (field: M07RunFieldId) => result?.[field];
+  const computeMetrics = [
+    ...(has("E02") ? ["CPU · 100%"] : []),
+    ...(has("E04") ? ["RUNNABLE · 3 → 24", "SAMPLE · 96–100%"] : []),
+    ...(observed("CPU") ? [`RUN · CPU ${observed("CPU")!.value}`] : []),
+  ];
+  const memoryMetrics = [
+    ...(has("E03") ? ["FULL GC · freeze overlap"] : []),
+    ...(has("E05") ? ["HEAP · 68% → 82% → 69%"] : []),
+    ...(has("E07") ? ["RETENTION HISTORY · NOT CAPTURED"] : []),
+    ...(observed("FULL_GC_DELTA") ? [`RUN · GC ${observed("FULL_GC_DELTA")!.value}`] : []),
+  ];
+  const waitMetrics = [
+    ...(has("E06") ? ["I/O WAIT · 3%", "SOCKET · 2 / 200"] : []),
+    ...(observed("IO_WAIT") ? [`RUN · I/O ${observed("IO_WAIT")!.value}`] : []),
+    ...(observed("FILE_IO_BLOCKED") ? [`RUN · FILE ${observed("FILE_IO_BLOCKED")!.value}`] : []),
+  ];
+  const resultLabel = phase === "reveal" || phase === "reconcile" ? "RESULT AVAILABLE" : afterReveal ? "RESULT RECORDED" : phase === "predict" || phase === "run" ? "RESULT HIDDEN" : canUnlockM07Evidence(inspected) ? "EVIDENCE MODEL READY" : inspected.length ? "EVIDENCE IN BOARD" : "MEASUREMENTS LOCKED";
+  return <section className="arch-panel arch-m07-pressure-board" aria-label="Five-second request host pressure board">
+    <div className="arch-m07-board-head"><div><span className="arch-overline">REQUEST AUTOPSY · HOST PRESSURE BOARD</span><h3>Where does the five-second request spend its time?</h3></div><b>{resultLabel}</b></div>
+    <div className="arch-m07-board-path">
+      <div className={`arch-m07-request-node ${has("E01") ? "observed" : ""}`}><M07BoardGlyph kind="request" /><span><b>REQUEST</b><small>{has("E01") ? "~50 ms → ~5 s" : "timing sample locked"}</small></span></div>
+      <span className="arch-m07-flow-arrow" aria-hidden="true">→</span>
+      <div className="arch-m07-host-node"><div className="arch-m07-host-heading"><span><b>APPLICATION HOST</b><small>three resource families compete for support</small></span><span className="arch-m07-host-chip">DB HOST · SEPARATE CONTEXT</span></div><div className="arch-m07-lane-grid">
+        <M07PressureLane kind="compute" title="Compute" subtitle="CPU · runnable work" active={has("E02") || has("E04") || Boolean(observed("CPU"))} metrics={computeMetrics} />
+        <M07PressureLane kind="memory" title="Memory / GC" subtitle="heap · pauses · retention" active={has("E03") || has("E05") || has("E07") || Boolean(observed("FULL_GC_DELTA"))} metrics={memoryMetrics} note={has("E07") ? "UNKNOWN ≠ ZERO" : undefined} />
+        <M07PressureLane kind="wait" title="Wait / I/O" subtitle="socket · file · external wait" active={has("E06") || Boolean(observed("IO_WAIT")) || Boolean(observed("FILE_IO_BLOCKED"))} metrics={waitMetrics} />
+      </div></div>
+    </div>
+    <div className="arch-m07-probe-rail"><div className="arch-m07-probe-rail-head"><span className="arch-overline">DIAGNOSTIC PROBES</span><small>{selectedRun ? "Forecast scope is selected; results stay frozen until reveal." : "Choose a probe to measure a family, not to assume its result."}</small></div><div className="arch-m07-probe-grid">{M07_PROBE_SCOPES.map(probe => <div className={`arch-m07-probe-card ${selectedRun === probe.id ? "selected" : ""} ${completedRuns.includes(probe.id) ? "complete" : ""}`} key={probe.id}><span className="arch-m07-probe-mark">{selectedRun === probe.id ? "●" : completedRuns.includes(probe.id) ? "✓" : "○"}</span><span><b>{probe.label}</b><small>{probe.lane} · {probe.fields}</small></span><em>{completedRuns.includes(probe.id) ? "RECORDED" : selectedRun === probe.id ? "SELECTED" : "SCOPE ONLY"}</em></div>)}</div></div>
+    {selectedRun && <div className="arch-m07-forecast-strip"><span className="arch-overline">FORECAST BOARD · {afterReveal ? "FORECAST FROZEN · RESULT RECORDED" : "RESULT HIDDEN UNTIL RUN"}</span>{M07_RUNS.find(item => item.id === selectedRun)!.fields.map(field => { const value = predictions[field]; const record = observed(field); const check = resultChecks[field]; return <div className="arch-m07-forecast-cell" key={field}><b>{FIELD_LABELS[field]}</b><span>{value ? `PREDICT · ${value === "NOT_OBSERVED" ? "NOT OBSERVED" : value}` : "PREDICT · —"}</span>{record && <small>{record.quality === "NOT_CAPTURED" ? "OBSERVED · NOT CAPTURED" : `OBSERVED · ${record.value} → ${record.direction}`}{check ? ` · ${check === "MISSING_EVIDENCE" ? "MISSING" : check === "CONFIRMED" ? "MATCH" : "REVISE"}` : ""}</small>}</div>; })}</div>}
+  </section>;
+}
+
 function ResultTable({ run }: { run: M07RunId }) {
   const definition = M07_RUNS.find(item => item.id === run)!;
   return <div className="arch-m07-result-table" aria-label={`${definition.label} result`}>
@@ -76,7 +140,7 @@ function ResultTable({ run }: { run: M07RunId }) {
 
 function PredictionFields({ run, predictions, onChange }: { run: M07RunId; predictions: Partial<Record<M07RunFieldId, M07PredictionChoice>>; onChange: (field: M07RunFieldId, value: M07PredictionChoice) => void }) {
   const definition = M07_RUNS.find(item => item.id === run)!;
-  return <div className="arch-m05-prediction-grid">{definition.fields.map(field => <fieldset className="arch-m05-prediction-card" key={field}><legend><b>{FIELD_LABELS[field]}</b><span>Predict the qualitative direction before the result appears.</span></legend>{QUALITATIVE_OPTIONS.map(option => <label className={predictions[field] === option ? "selected" : ""} key={option}><input type="radio" value={option} name={`m07-prediction-${field}`} checked={predictions[field] === option} onChange={() => onChange(field, option)} />{option === "NOT_OBSERVED" ? "NOT OBSERVED" : option}</label>)}</fieldset>)}</div>;
+  return <div className="arch-m07-prediction-grid">{definition.fields.map(field => <fieldset className="arch-m07-prediction-card" key={field}><legend><b>{FIELD_LABELS[field]}</b><span>Place one forecast marker before the probe runs.</span></legend><div className="arch-m07-prediction-options">{QUALITATIVE_OPTIONS.map(option => <button type="button" className={predictions[field] === option ? "selected" : ""} key={option} aria-pressed={predictions[field] === option} onClick={() => onChange(field, option)}>{option === "NOT_OBSERVED" ? "NOT OBSERVED" : option}</button>)}</div></fieldset>)}</div>;
 }
 
 function ReconciliationFields({ run, checks, onChange }: { run: M07RunId; checks: Partial<Record<M07RunFieldId, M07Reconciliation>>; onChange: (field: M07RunFieldId, value: M07Reconciliation) => void }) {
@@ -210,16 +274,17 @@ export default function M07TomcatGame() {
   }
 
   return <main className="arch-lab-shell arch-m07-shell">
-    <header className="arch-lab-header"><Link className="arch-lab-brand" href="/"><AtlasMark /><span><b>Axiom Atlas</b><small>COMPUTER SCIENCE · ARCHITECTURE EVOLUTION LAB</small></span></Link><div className="arch-lab-title"><small>ACT I · ONE MACHINE, FIRST LIMITS</small><strong>M07 — FIVE-SECOND TOMCAT</strong></div><Link className="arch-lab-exit" href="/computer-science/architecture-lab/m06">M06 <span>↗</span></Link></header>
+    <header className="arch-lab-header"><Link className="arch-lab-brand" href="/"><AtlasMark /><span><b>Axiom Atlas</b><small>COMPUTER SCIENCE · ARCHITECTURE EVOLUTION LAB</small></span></Link><div className="arch-lab-title"><small>ACT I · ONE MACHINE, FIRST LIMITS</small><strong>M07 — FIVE-SECOND REQUEST</strong></div><Link className="arch-lab-exit" href="/computer-science/architecture-lab/m06">M06 <span>↗</span></Link></header>
     <ProgressRail phase={phase} />
     <div className="arch-lab-layout">
       <aside className="arch-lab-brief"><span className="arch-overline">MISSION {phase === "complete" ? "COMPLETE" : "07"}</span><h1>{phase === "complete" ? "Slow is a symptom." : "Five seconds is a clue."}</h1><p>Campaign warm-up has started. Customers report that pages which were normally fast are now taking seconds.</p><div className="arch-objective"><span>OBJECTIVE</span><b>Inspect the host, distinguish competing evidence, and explain what the record supports.</b></div><div className="arch-brief-facts"><span><i>01</i> ~50 ms → ~5 s</span><span><i>02</i> DB remains on a separate host</span><span><i>03</i> evidence before diagnosis</span></div><div className="arch-fiction-note"><b>ATLAS MARKET IS FICTIONAL</b><span>The incident shape is source-backed. Exact counters, run results and scores are labelled deterministic teaching simulation.</span></div></aside>
       <section className="arch-lab-main" aria-live="polite">
         <div className="arch-mission-bar"><div><span className="arch-overline">{missionStatus}</span><h2>{phase === "complete" ? "The record supports a bounded explanation." : phase === "diagnose" ? "Which explanation currently best fits?" : phase === "explain" ? "Build the causal explanation." : "A slow symptom has arrived."}</h2></div><span className="arch-date-chip">M07 · SOURCE 1.3</span></div>
+        <M07PressureBoard phase={phase} inspected={inspected} selectedRun={selectedRun} predictions={predictions} resultChecks={resultChecks} completedRuns={completedRuns} />
 
         {(phase === "observe" || phase === "investigate") && <>
           <section className="arch-m05-observe-grid"><div className="arch-panel arch-m05-incident"><span className="arch-overline">NEW INCIDENT · SOURCE-BACKED SHAPE</span><h3>Campaign warm-up has changed the request path.</h3><div className="arch-m06-source-pair"><div><span>BEFORE</span><b>~50 ms</b><small>normally fast request</small></div><div><span>DURING WARM-UP</span><b>~5 s</b><small>customers feel the slowdown</small></div></div><p>Three evidence families can produce the shared symptom “slow”. Inspect the host before you commit a diagnosis.</p><button type="button" className="arch-primary-button" onClick={() => setPhase("investigate")}>Inspect host evidence <span>→</span></button></div><div className="arch-panel arch-m05-case"><span className="arch-overline">M06 CONTINUITY</span><h3>One application path. A new performance question.</h3><p>The database remains on its separate host. This incident begins on the application side of that boundary; do not assume the cause.</p><div className="arch-m04-gate-note">DIAGNOSIS LOCKED · RESOURCE EVIDENCE REQUIRED</div></div></section>
-          <section className="arch-panel arch-m04-evidence-panel"><div className="arch-panel-head"><div><span className="arch-overline">01 · INVESTIGATE</span><h3>Inspect the host evidence.</h3></div><b className={evidenceOpen ? "gate-open" : ""}>{inspected.length}/6 REQUIRED</b></div><p className="arch-m04-panel-copy">Inspect CPU, memory/GC and wait/I/O signals. The diagnosis and run results stay hidden until the cross-family evidence gate opens.</p><div className="arch-m04-evidence-grid">{M07_EVIDENCE.map(item => <EvidenceCard key={item.id} item={item} inspected={inspected.includes(item.id)} onInspect={() => inspectEvidence(item.id)} />)}</div>{!evidenceOpen && <div className="arch-m04-lock-note" role="status">Evidence gate locked · inspect E01–E06 across the signal families.</div>}{evidenceOpen && <button type="button" className="arch-primary-button" onClick={commitEvidence}>Form a diagnosis <span>→</span></button>}{feedback && <Feedback title="Investigation feedback">{feedback}</Feedback>}</section>
+          <section className="arch-panel arch-m04-evidence-panel"><div className="arch-panel-head"><div><span className="arch-overline">01 · INVESTIGATE</span><h3>Inspect the host evidence.</h3></div><b className={evidenceOpen ? "gate-open" : ""}>{evidenceOpen ? `${inspected.length}/7 INSPECTED · GATE OPEN` : `${inspected.length}/6 REQUIRED`}</b></div><p className="arch-m04-panel-copy">Inspect CPU, memory/GC and wait/I/O signals. The diagnosis and run results stay hidden until the cross-family evidence gate opens.</p><div className="arch-m04-evidence-grid">{M07_EVIDENCE.map(item => <EvidenceCard key={item.id} item={item} inspected={inspected.includes(item.id)} onInspect={() => inspectEvidence(item.id)} />)}</div>{!evidenceOpen && <div className="arch-m04-lock-note" role="status">Evidence gate locked · inspect E01–E06 across the signal families.</div>}{evidenceOpen && <button type="button" className="arch-primary-button" onClick={commitEvidence}>Form a diagnosis <span>→</span></button>}{feedback && <Feedback title="Investigation feedback">{feedback}</Feedback>}</section>
         </>}
 
         {phase === "diagnose" && <section className="arch-panel arch-m06-stage"><div className="arch-panel-head"><div><span className="arch-overline">02 · FORM A DIAGNOSIS</span><h3>Which explanation currently best fits?</h3></div><b>PROOF REQUIRED</b></div><p className="arch-m04-panel-copy">Choose one complete hypothesis and attach inspected proof. The result is not revealed yet, and a wrong hypothesis remains playable.</p><div className="arch-m04-diagnosis-grid">{M07_DIAGNOSES.map(item => <button type="button" key={item.id} className={`arch-m04-diagnosis ${diagnosis === item.id ? "selected" : ""}`} onClick={() => { setDiagnosis(item.id); setFeedback(""); }} aria-pressed={diagnosis === item.id}><b>{item.label}</b><span>{item.detail}</span></button>)}</div><div className="arch-m04-proof"><span className="arch-overline">CITE INSPECTED PROOF</span>{M07_EVIDENCE.slice(0, 6).map(item => <button type="button" key={item.id} className={proof.includes(item.id) ? "selected" : ""} onClick={() => toggleProof(item.id)} aria-pressed={proof.includes(item.id)}>{item.id} · {item.label}{!inspected.includes(item.id) ? " · inspect first" : ""}</button>)}</div>{feedback && <Feedback title="Hypothesis needs revision">{feedback}</Feedback>}<button type="button" className="arch-primary-button" onClick={commitDiagnosis}>Commit hypothesis <span>→</span></button></section>}

@@ -1182,8 +1182,74 @@ button.arch-m04-pressure-object,button.arch-m04-pressure-resource { cursor:point
 .arch-m07-final-diagnosis .arch-m04-diagnosis-grid { margin-bottom:0; }
 .arch-m07-explain-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
 .arch-m07-explain-actions .arch-secondary-button { display:inline-flex; align-items:center; justify-content:center; }
+
+/* M07 visual loop: one request autopsy board carries the investigation. */
+.arch-m07-pressure-board { margin:0 0 18px; padding:18px; border:1px solid rgba(126,219,212,.24); background:linear-gradient(135deg,rgba(118,227,239,.08),rgba(199,167,255,.045)); }
+.arch-m07-board-head { display:flex; align-items:flex-start; justify-content:space-between; gap:14px; padding-bottom:14px; border-bottom:1px solid rgba(126,219,212,.14); }
+.arch-m07-board-head h3 { margin:8px 0 0; color:#edf8f4; font:600 clamp(1.05rem,2vw,1.55rem)/1.12 var(--serif); }
+.arch-m07-board-head>b { flex:none; padding:8px 9px; border:1px solid rgba(255,211,107,.35); color:#fff0bd; font:800 .48rem var(--mono); letter-spacing:.08em; }
+.arch-m07-board-path { display:grid; grid-template-columns:minmax(140px,.28fr) 34px minmax(0,1fr); gap:10px; align-items:center; margin-top:15px; }
+.arch-m07-request-node { display:flex; align-items:center; gap:9px; min-height:98px; padding:14px; border:1px solid rgba(255,211,107,.2); background:rgba(3,17,21,.72); }
+.arch-m07-request-node.observed { border-color:rgba(255,211,107,.55); box-shadow:inset 3px 0 0 rgba(255,211,107,.75); }
+.arch-m07-request-node span,.arch-m07-host-heading span:first-child { display:grid; gap:5px; }
+.arch-m07-request-node b,.arch-m07-host-heading b { color:#fff0bd; font:800 .52rem var(--mono); letter-spacing:.08em; }
+.arch-m07-request-node small,.arch-m07-host-heading small { color:#91abad; font:600 .51rem/1.4 var(--mono); }
+.arch-m07-board-glyph { width:31px; height:31px; flex:none; fill:none; stroke:#7edbd4; stroke-linecap:round; stroke-linejoin:round; stroke-width:1.6; }
+.arch-m07-request-node .arch-m07-board-glyph { stroke:#ffd36b; }
+.arch-m07-flow-arrow { color:#ffd36b; font:800 1.7rem var(--mono); text-align:center; }
+.arch-m07-host-node { min-width:0; padding:12px; border:1px solid rgba(126,219,212,.24); background:rgba(3,17,21,.72); }
+.arch-m07-host-heading { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; padding-bottom:10px; border-bottom:1px solid rgba(126,219,212,.14); }
+.arch-m07-host-chip { flex:none; padding:6px 7px; border:1px solid rgba(199,167,255,.27); color:#c7a7ff; font:800 .42rem var(--mono); letter-spacing:.06em; }
+.arch-m07-lane-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:7px; margin-top:9px; }
+.arch-m07-pressure-lane { min-width:0; padding:10px; border:1px solid rgba(255,255,255,.1); background:rgba(0,0,0,.14); }
+.arch-m07-pressure-lane.active { border-color:rgba(126,219,212,.38); background:rgba(126,219,212,.045); }
+.arch-m07-lane-head { display:grid; grid-template-columns:auto 1fr; grid-template-areas:"icon title" "icon status"; gap:5px 7px; align-items:center; }
+.arch-m07-lane-icon { grid-area:icon; display:grid; place-items:center; width:28px; height:28px; border:1px solid rgba(126,219,212,.24); }
+.arch-m07-lane-icon .arch-m07-board-glyph { width:20px; height:20px; }
+.arch-m07-lane-head>span:nth-child(2) { grid-area:title; display:grid; gap:3px; min-width:0; }
+.arch-m07-lane-head b { color:#eaf8f3; font:800 .48rem var(--mono); letter-spacing:.06em; }
+.arch-m07-lane-head small { color:#91abad; font:600 .45rem/1.25 var(--mono); }
+.arch-m07-lane-head em { grid-area:status; color:#8fa9aa; font:800 .4rem var(--mono); font-style:normal; letter-spacing:.05em; }
+.arch-m07-pressure-lane.active .arch-m07-lane-head em { color:#7edbd4; }
+.arch-m07-lane-metrics { display:grid; gap:4px; margin-top:11px; min-height:31px; }
+.arch-m07-lane-metrics span { color:#fff0bd; font:800 .45rem/1.35 var(--mono); }
+.arch-m07-lane-metrics .arch-m07-board-lock { color:#718b8b; font-weight:600; }
+.arch-m07-lane-note { display:block; margin-top:6px; color:#ffcf78; font:800 .43rem var(--mono); letter-spacing:.04em; }
+.arch-m07-probe-rail { margin-top:12px; padding-top:12px; border-top:1px solid rgba(126,219,212,.16); }
+.arch-m07-probe-rail-head { display:flex; align-items:baseline; justify-content:space-between; gap:12px; }
+.arch-m07-probe-rail-head small { color:#91abad; font-size:.54rem; }
+.arch-m07-probe-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:7px; margin-top:9px; }
+.arch-m07-probe-card { display:grid; grid-template-columns:auto 1fr; grid-template-areas:"mark copy" "mark state"; gap:4px 7px; min-width:0; padding:9px; border:1px solid rgba(255,255,255,.1); background:rgba(0,0,0,.13); }
+.arch-m07-probe-card.selected { border-color:rgba(255,211,107,.55); background:rgba(255,211,107,.07); }
+.arch-m07-probe-card.complete { border-color:rgba(131,231,172,.35); }
+.arch-m07-probe-mark { grid-area:mark; color:#8fa9aa; font:800 .95rem var(--mono); }
+.arch-m07-probe-card.selected .arch-m07-probe-mark { color:#ffd36b; }
+.arch-m07-probe-card.complete .arch-m07-probe-mark { color:#83e7ac; }
+.arch-m07-probe-card>span:nth-child(2) { grid-area:copy; display:grid; gap:4px; min-width:0; }
+.arch-m07-probe-card b { color:#eaf8f3; font:800 .46rem var(--mono); letter-spacing:.04em; }
+.arch-m07-probe-card small { color:#91abad; font:600 .45rem/1.35 var(--mono); }
+.arch-m07-probe-card em { grid-area:state; color:#8fa9aa; font:800 .4rem var(--mono); font-style:normal; letter-spacing:.05em; }
+.arch-m07-probe-card.selected em { color:#ffd36b; }
+.arch-m07-probe-card.complete em { color:#83e7ac; }
+.arch-m07-forecast-strip { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:7px; margin-top:12px; padding-top:12px; border-top:1px solid rgba(255,211,107,.18); }
+.arch-m07-forecast-strip>.arch-overline { grid-column:1/-1; }
+.arch-m07-forecast-cell { display:grid; gap:5px; min-width:0; padding:9px; border:1px solid rgba(255,255,255,.1); background:rgba(0,0,0,.13); }
+.arch-m07-forecast-cell b { color:#eaf8f3; font:800 .45rem var(--mono); }
+.arch-m07-forecast-cell span,.arch-m07-forecast-cell small { color:#fff0bd; font:800 .42rem/1.35 var(--mono); }
+.arch-m07-forecast-cell small { color:#83e7ac; }
+.arch-m07-prediction-grid { display:grid; gap:8px; margin:16px 0; }
+.arch-m07-prediction-card { min-width:0; margin:0; padding:11px; border:1px solid rgba(126,219,212,.16); background:rgba(0,0,0,.13); }
+.arch-m07-prediction-card legend { display:grid; gap:4px; padding:0 4px; }
+.arch-m07-prediction-card legend b { color:#eaf8f3; font:800 .5rem var(--mono); }
+.arch-m07-prediction-card legend span { color:#91abad; font-size:.54rem; }
+.arch-m07-prediction-options { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:5px; margin-top:9px; }
+.arch-m07-prediction-options button { min-height:34px; padding:7px 4px; border:1px solid rgba(255,255,255,.1); background:rgba(126,219,212,.04); color:#a8c0bd; font:800 .43rem var(--mono); cursor:pointer; }
+.arch-m07-prediction-options button:hover,.arch-m07-prediction-options button.selected { border-color:var(--arch-gold); background:rgba(255,211,107,.1); color:#fff0bd; }
 @media(max-width:760px) { .arch-m07-result-heading { display:none; }.arch-m07-result-row { grid-template-columns:1fr 1fr; gap:5px; }.arch-m07-result-row b { grid-column:1/-1; }.arch-m07-result-row em { text-align:right; }.arch-m07-explain-actions { display:grid; }.arch-m07-explain-actions > * { width:100%; } }
 @media(prefers-reduced-motion:reduce) { .arch-m07-shell * { scroll-behavior:auto !important; transition:none !important; animation:none !important; }.arch-m07-shell .arch-primary-button:hover:not(:disabled) { transform:none; } }
+
+@media(max-width:760px) { .arch-m07-board-path { grid-template-columns:1fr; }.arch-m07-flow-arrow { transform:rotate(90deg); }.arch-m07-lane-grid,.arch-m07-probe-grid { grid-template-columns:1fr; }.arch-m07-forecast-strip { grid-template-columns:repeat(2,minmax(0,1fr)); }.arch-m07-forecast-strip>.arch-overline { grid-column:1/-1; } }
+@media(max-width:460px) { .arch-m07-pressure-board { padding:12px; }.arch-m07-board-head { display:block; }.arch-m07-board-head>b { display:inline-block; margin-top:10px; }.arch-m07-host-heading { display:grid; }.arch-m07-host-chip { justify-self:start; }.arch-m07-forecast-strip,.arch-m07-prediction-options { grid-template-columns:1fr 1fr; } }
 
 /* M01 review pass: readable at 150% and evidence-led rather than worksheet-led. */
 .arch-m01-shell .arch-panel-copy,

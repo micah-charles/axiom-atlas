@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-17
-Current milestone: M08 visual/gameplay loop implementation complete; local 100/100 replay passed; ChatGPT post-fix presentation review pending
+Current milestone: M08 visual/gameplay loop presentation PASS; M02–M08 visual loop sequence complete; runtime verification remains open
 Current blocker: Mission-specific runtime evidence remains open for 390px completion, standalone keyboard-only completion where applicable, touch, reduced-motion and screen-reader evidence across the sequence.
-Next action: Send the bounded M08 post-fix presentation review to the selected ChatGPT conversation, then record its verdict before any further mission expansion.
+Next action: Capture shared 390px, keyboard-only, touch, reduced-motion and screen-reader evidence for M02–M08; keep missions out of VERIFIED until those gates pass.
 
 ## Mission status
 
@@ -17,7 +17,7 @@ Legend: ⬜ NOT STARTED · 🟨 IN PROGRESS · 🟦 IMPLEMENTED / NEEDS QA · �
 - M05 — The Network Is Now Part of the System: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (Request Flight + Slot Pressure Board, local 100/100 flow and ChatGPT presentation review PASS; mission-specific runtime evidence remains open)
 - M06 — Fifty Connections or Five Hundred?: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (Admission Flow / Queue Pressure Board, local 100/100 flow and ChatGPT presentation review PASS; five runtime/accessibility evidence items remain open)
 - M07 — The 5-Second Tomcat: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (Five-Second Request / Host Pressure Board, local 100/100 flow and ChatGPT presentation review PASS; five runtime/accessibility evidence items remain open)
-- M08 — Campaign Under Load: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (Campaign Work / Queue Pressure Board, local 100/100 flow and deterministic test/build pass; ChatGPT post-fix presentation review and five runtime/accessibility evidence items remain open)
+- M08 — Campaign Under Load: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (Campaign Work / Queue Pressure Board, local 100/100 flow, deterministic test/build pass and ChatGPT post-fix presentation PASS; five runtime/accessibility evidence items remain open)
 - Gate B — Vertical Slice B (M14–M16): ⬜ NOT STARTED
 - Gate C — Deployment evolution (M46–M53): ⬜ NOT STARTED
 - Gate D — Control-loop scaling (M62–M65): ⬜ NOT STARTED
@@ -194,9 +194,9 @@ modules attached to their target resource, and a segmented forecast board that
 keeps the result hidden until the controlled run. The local desktop flow was
 replayed from a fresh route through evidence, CPU diagnosis, `SIMPLIFY_COMPUTE`,
 four-metric forecast, reveal, reconciliation and causal explanation to
-`MISSION COMPLETE · LAB SCORE 100/100`. The post-fix ChatGPT presentation
-review is the next required checkpoint; M08 remains out of VERIFIED until that
-review and the shared runtime/accessibility evidence gate are complete.
+`MISSION COMPLETE · LAB SCORE 100/100`. ChatGPT's post-fix presentation review
+is recorded in `reviews/M08-ui-review-chatgpt-v2.md` and rates PASS. M08 remains
+out of VERIFIED until the shared runtime/accessibility evidence gate is complete.
 
 ## M08 visual loop checkpoint
 
@@ -208,7 +208,7 @@ review and the shared runtime/accessibility evidence gate are complete.
 - [x] Attach each intervention to its bounded target and keep exact outcomes hidden until the controlled run.
 - [x] Add the segmented four-metric forecast and prediction-to-observed comparison.
 - [x] Replay the complete local desktop flow to `MISSION COMPLETE · LAB SCORE 100/100`.
-- [ ] Send and record ChatGPT's post-implementation M08 presentation verdict.
+- [x] Send and record ChatGPT's post-implementation M08 presentation verdict: PASS.
 - [ ] Capture M08 390px completion evidence.
 - [ ] Capture M08 standalone keyboard-only, touch, reduced-motion and screen-reader evidence.
 - [ ] Promote M08 from NEEDS QA to VERIFIED only after all runtime gates pass.
@@ -911,17 +911,17 @@ implementation review is already accepted.
   correctness is accepted by v2, but M06 and M07 must not be marked VERIFIED
   until their five runtime evidence items are recorded. Implementation must
   stop if the slice feels like a dashboard rather than an investigation game.
-- M08 v2 is accepted for implementation planning. Preserve the feature-branch
-  boundary and request a committed-source review after the first implementation
-  checkpoint; do not merge or alter main.
+- M08 v2 is accepted for implementation planning. The post-implementation
+  presentation review is now PASS; preserve the feature-branch boundary and do
+  not merge or alter main.
 - M08 implementation is intentionally 🟦 rather than VERIFIED. The source-level
-  contract, desktop gameplay and committed-source review pass, but the five
+  contract, desktop gameplay and presentation review pass, but the five
   runtime/accessibility gates still need evidence.
 
 ## Next three actions
 
 1. Capture the shared 390px completion, standalone keyboard-only, touch,
-   reduced-motion and screen-reader evidence for M06–M08; keep main untouched.
+   reduced-motion and screen-reader evidence for M02–M08; keep main untouched.
 2. Re-run the corresponding mission acceptance checks and update each mission's
    evidence record before changing any status to VERIFIED.
 3. After the evidence gate is closed, request the next storyboard-only mission

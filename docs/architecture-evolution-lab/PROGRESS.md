@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-17
-Current milestone: M01 UI review v2 captured — gameplay presentation revision needs independent re-review; full-verification evidence remains open
+Current milestone: M01 UI review v2 recorded — visual baseline accepted with two bounded gameplay refinements; full-verification evidence remains open
 Current blocker: Mission-specific runtime evidence remains open for 390px completion, standalone keyboard-only completion where applicable, touch, reduced-motion and screen-reader evidence across the sequence.
-Next action: Close runtime/accessibility evidence debt; do not regenerate M02–M06 storyboards that already passed their source and implementation gates.
+Next action: Decide whether to implement the two bounded M01 refinements (neutral candidate testing and validated causal-chain construction), then close runtime/accessibility evidence debt; do not regenerate M02–M06 storyboards that already passed their source and implementation gates.
 
 ## Mission status
 
@@ -79,8 +79,10 @@ locks future request steps, adds prediction before the shared failure reveal,
 turns the explanation into a visible claim chain with distractors, and collapses
 the completion score details. The v2 flow was replayed in Chrome at the 150%
 readability target and captured in `evidence/ui-review/m01-v2/`. It reaches the
-clean `100/100` path. The revision is not treated as accepted until the same
-ChatGPT conversation reviews the pushed commit and the new screenshots.
+clean `100/100` path. ChatGPT's v2 review is now recorded in
+`reviews/M01-ui-review-chatgpt-v2.md`: visual baseline accepted, but candidate
+testing and causal-chain validation remain bounded gameplay refinements. The
+390px, touch, keyboard, reduced-motion and screen-reader gates remain open.
 
 The strict M02–M06 sequence review is now recorded in
 `reviews/M02-M06-sequence-review-v1.md`. It confirms PASS for storyboard,
@@ -108,6 +110,15 @@ runtime/accessibility evidence is captured.
   `evidence/ui-review/m01-v2/`, including prediction, reveal, causal chain and
   completion states.
 - Confirmed the clean revised path reaches `100/100` in the local browser.
+- Sent the pushed M01 v2 commit and screenshot packet to the selected ChatGPT
+  conversation for a second UI/gameplay review.
+- Recorded ChatGPT's v2 review: visual clarity 8/10, gameplay 7.5/10,
+  readability 7/10, presentation 8.5/10; evidence hiding, locked future steps,
+  prediction/reveal and completion hierarchy are closed; candidate testing and
+  causal-chain construction remain partial.
+- Preserved the visual baseline decision: keep the near-black/cyan/gold/red
+  Architecture Lab identity, while keeping full runtime/accessibility evidence
+  conditional and unverified.
 
 - Read the full 1,395-line Game Design Bible.
 - Confirmed the Bible defines 8 Acts, 17 Chapters, 79 core missions, optional

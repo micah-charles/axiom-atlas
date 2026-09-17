@@ -3,9 +3,12 @@
 Route: `http://localhost:3001/computer-science/architecture-lab/m03`  
 Branch: `feature/architecture-evolution-lab`
 
-`m03-current-before.png` is the fresh-player desktop baseline before the next
-visual loop. It shows the healthy-shop observation, HOST 01 → HOST 02 boundary,
-the evidence case, and the locked five-card inspection gate.
+| Capture | State | What it verifies |
+| --- | --- | --- |
+| `m03-current-before.png` | fresh observe baseline | previous text/card-heavy flow; HOST 01 still listed with APP · DB · files · Session |
+| `m03-after-observe.png` | fresh observe after revision | persistent host-boundary board; application is visible but dependency placements are unresolved |
+| `m03-after-inspection.png` | all five evidence inspected | DNS and app package become visible system objects; classification remains locked until the explicit board action |
+| `m03-after-classify.png` | correct dependency map | DB, Images and Session appear as HOST 01 objects; E04 is shown in the outside/not-proven-local shelf |
 
 The M03 gameplay contract remains:
 

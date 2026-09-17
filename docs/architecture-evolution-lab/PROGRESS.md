@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-17
-Current milestone: M02 visual/gameplay loop in progress; request-trace board implemented, local verification pending
+Current milestone: M03 visual/gameplay loop in progress; host-boundary dependency board implemented, local verification pending
 Current blocker: Mission-specific runtime evidence remains open for 390px completion, standalone keyboard-only completion where applicable, touch, reduced-motion and screen-reader evidence across the sequence.
-Next action: Run M02 desktop and mobile fresh-player flows, capture the new request-trace board, then review and implement M03 sequentially.
+Next action: Send the M03 implementation packet for post-fix review, then complete the M03 fresh-player flow before starting M04.
 
 ## Mission status
 
@@ -12,7 +12,7 @@ Legend: ⬜ NOT STARTED · 🟨 IN PROGRESS · 🟦 IMPLEMENTED / NEEDS QA · �
 - Gate 0 — Bible import, repository fit, orchestration protocol: ✅ VERIFIED
 - Gate A — Vertical Slice A (M01–M06): 🟨 IN PROGRESS (M01–M06 implemented/needs QA; runtime evidence open)
 - M02 — Follow One Request: 🟨 IN PROGRESS (ChatGPT visual review corrected to M02; request-trace board implemented; runtime evidence pending)
-- M03 — Find the Three Local Assumptions: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (implementation, playability and committed-source review PASS; mission-specific runtime evidence remains open)
+- M03 — Find the Three Local Assumptions: 🟨 IN PROGRESS (host-boundary dependency board implemented; post-implementation review and full runtime evidence pending)
 - M04 — Disk Full at 02:00: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (implementation, playability and committed-source review PASS; mission-specific runtime evidence remains open)
 - M05 — The Cache That Lied: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (implementation, playability and committed-source review PASS; mission-specific runtime evidence remains open)
 - M06 — Fifty Connections or Five Hundred?: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (v3 committed-source review PASS; five runtime/accessibility evidence items remain open)
@@ -115,6 +115,15 @@ engine. The post-implementation review is recorded in
 `reviews/M02-ui-review-chatgpt-v2.md`; it found one bounded comparison-label
 correction and confirmed that no broad redesign is needed before M03.
 
+The M03 visual loop is now active. ChatGPT's M03-only review rejected the
+worksheet framing as the main playable object and identified a fresh-state
+leak: the old host diagram displayed `APP · DB · files · Session` on HOST 01
+before the player had inspected or classified any dependency. The accepted
+bounded direction is a persistent Host-Boundary Dependency Board. The first
+implementation is recorded in `reviews/M03-ui-review-chatgpt-v1.md`; it keeps
+M03's deterministic engine unchanged and replaces the placement leak with
+unknown/inspectable resource objects.
+
 ## M02 visual loop checkpoint
 
 - [x] Capture and commit M02 baseline at the 150% desktop target.
@@ -124,10 +133,20 @@ correction and confirmed that no broad redesign is needed before M03.
 - [x] Implement the request-trace visual board without changing engine truth.
 - [x] Send the post-implementation capture packet for ChatGPT review.
 - [x] Record the bounded baseline/control-label correction.
-- [ ] Implement and test the bounded comparison-label correction.
+- [x] Implement and test the bounded comparison-label correction.
 - [ ] Run M02 fresh-player desktop flow and capture after-state evidence.
 - [ ] Capture M02 390px, keyboard, touch and reduced-motion evidence.
 - [ ] Review the implementation result before starting M03.
+
+## M03 visual loop checkpoint
+
+- [x] Capture and commit the fresh M03 baseline.
+- [x] Send the M03-only baseline review request and record the accepted board direction.
+- [x] Implement the host-boundary dependency board without changing engine truth.
+- [x] Capture observe, all-evidence-inspected and classified-map states.
+- [ ] Send the implementation capture packet for post-fix ChatGPT review.
+- [ ] Run the complete fresh-player M03 flow and capture reveal/explanation states.
+- [ ] Capture M03 390px, keyboard, touch, reduced-motion and screen-reader evidence.
 
 ## Completed since last checkpoint
 

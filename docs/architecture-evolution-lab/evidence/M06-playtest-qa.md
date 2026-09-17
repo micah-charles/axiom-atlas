@@ -1,6 +1,6 @@
 # M06 Playtest QA
 
-Date: 2026-09-16
+Date: 2026-09-17 (updated)
 Route: `/computer-science/architecture-lab/m06`
 Environment: local Vinext dev server at `http://localhost:3001`
 
@@ -41,6 +41,23 @@ Result: **PASS for the revised desktop gameplay loop; full verification remains 
   canonical path remains tested at `100/100`.
 - Replay reset the mission to `0/7 INSPECTED` with no stale candidate, result,
   score, or completion state.
+
+## 2026-09-17 browser re-run
+
+- A fresh Chrome run completed the canonical desktop path at `100/100`: all
+  seven evidence cards, diagnosis proof, baseline prediction/reconciliation,
+  all three controlled candidates, six result reconciliations, causal ordering,
+  evidence links and the model-bound trade-off.
+- A fresh keyboard trace used Tab, Space, Enter/Return and first-letter
+  selection for the opening, all seven evidence cards, diagnosis/proof,
+  baseline predictions, baseline reconciliation, candidate selection and the
+  SMALL candidate prediction/run. The trace demonstrated that the controls
+  are keyboard operable, but it did not yet complete the full keyboard-only
+  path through all three candidates and the explanation screen; that gate
+  remains open.
+- The headless browse daemon could not start because it reported no available
+  port. The same local route was therefore tested in the user's Chrome
+  session; this is an automation-environment limitation, not an app failure.
 
 ## Revision checks after ChatGPT committed-source review
 

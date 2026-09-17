@@ -12,7 +12,7 @@ Legend: ⬜ NOT STARTED · 🟨 IN PROGRESS · 🟦 IMPLEMENTED / NEEDS QA · �
 - Gate 0 — Bible import, repository fit, orchestration protocol: ✅ VERIFIED
 - Gate A — Vertical Slice A (M01–M06): 🟨 IN PROGRESS (M01–M06 implemented/needs QA; runtime evidence open)
 - M02 — Follow One Request: 🟨 IN PROGRESS (ChatGPT visual review corrected to M02; request-trace board implemented; runtime evidence pending)
-- M03 — Find the Three Local Assumptions: 🟨 IN PROGRESS (host-boundary dependency board implemented; post-implementation review and full runtime evidence pending)
+- M03 — Find the Three Local Assumptions: 🟦 IMPLEMENTED / NEEDS QA (host-boundary dependency board and continuity fix presentation PASS; runtime evidence pending)
 - M04 — Disk Full at 02:00: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (implementation, playability and committed-source review PASS; mission-specific runtime evidence remains open)
 - M05 — The Cache That Lied: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (implementation, playability and committed-source review PASS; mission-specific runtime evidence remains open)
 - M06 — Fifty Connections or Five Hundred?: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (v3 committed-source review PASS; five runtime/accessibility evidence items remain open)
@@ -129,8 +129,9 @@ states. That bug is now fixed by keeping those concrete objects in an
 `INSPECTED / UNPLACED` staging shelf. The local flow has been replayed through
 prediction, run and reveal; the live reveal board visibly moves only the
 application to HOST 02 while DB, Images and Session remain on HOST 01. M03 is
-still not VERIFIED because the post-fix review and the mobile/accessibility
-evidence gates are open.
+still not VERIFIED because the mobile/accessibility evidence gates are open.
+ChatGPT's post-fix M03 review is recorded in
+`reviews/M03-ui-review-chatgpt-v2.md` and rates the presentation PASS.
 
 ## M02 visual loop checkpoint
 
@@ -154,7 +155,8 @@ evidence gates are open.
 - [x] Capture observe, all-evidence-inspected and classified-map states.
 - [x] Fix the inspected-but-unclassified dependency continuity bug.
 - [x] Run the local prediction, experiment and reveal states.
-- [ ] Send the implementation capture packet for post-fix ChatGPT review.
+- [x] Send the implementation capture packet for post-fix ChatGPT review.
+- [x] Record ChatGPT's post-fix M03 presentation PASS.
 - [ ] Run the complete fresh-player M03 flow through explanation and record the result.
 - [ ] Capture M03 390px, keyboard, touch, reduced-motion and screen-reader evidence.
 

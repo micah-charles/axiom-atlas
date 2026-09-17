@@ -111,7 +111,9 @@ review is recorded in `reviews/M02-ui-review-chatgpt-v1.md`. ChatGPT could not
 accept the committed PNG as a direct image input in this browser surface, so no
 generated M02 mockup is treated as evidence. The first bounded implementation
 adds a code-native request trace board while preserving the deterministic M02
-engine.
+engine. The post-implementation review is recorded in
+`reviews/M02-ui-review-chatgpt-v2.md`; it found one bounded comparison-label
+correction and confirmed that no broad redesign is needed before M03.
 
 ## M02 visual loop checkpoint
 
@@ -120,6 +122,9 @@ engine.
 - [x] Reject the initial M01-drifted response and request an M02-only correction.
 - [x] Record the corrected M02 design decisions.
 - [x] Implement the request-trace visual board without changing engine truth.
+- [x] Send the post-implementation capture packet for ChatGPT review.
+- [x] Record the bounded baseline/control-label correction.
+- [ ] Implement and test the bounded comparison-label correction.
 - [ ] Run M02 fresh-player desktop flow and capture after-state evidence.
 - [ ] Capture M02 390px, keyboard, touch and reduced-motion evidence.
 - [ ] Review the implementation result before starting M03.

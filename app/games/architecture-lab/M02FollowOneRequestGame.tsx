@@ -118,10 +118,13 @@ function M02RequestBoard({ phase, traceIndex, profile, compareProfile }: { phase
       {M02_STAGE_ORDER.map((stage, index) => {
         const value = profile && index <= stageIndex ? M02_TIMINGS[profile][stage] : 0;
         const compare = compareProfile && index <= stageIndex ? M02_TIMINGS[compareProfile][stage] : null;
-        return <div className={`arch-m02-latency-segment ${index === stageIndex ? "active" : ""}`} key={stage}>
+        const comparisonVisible = Boolean(compareProfile && ["result", "final", "explain", "complete"].includes(phase));
+        const isChanged = comparisonVisible && compare !== null && value !== compare;
+        const isUnchanged = comparisonVisible && compare !== null && value === compare;
+        return <div className={`arch-m02-latency-segment ${index === stageIndex ? "active" : ""} ${isChanged ? "controlled" : ""} ${isUnchanged ? "verified" : ""}`} key={stage}>
           <div className="arch-m02-latency-label"><span>{STAGE_SHORT[stage]}</span><b>{value ? `${value} ms` : "—"}</b></div>
           <div className="arch-m02-latency-track"><i style={{ width: `${value ? Math.max(6, Math.min(100, value / 8.2)) : 0}%` }} /><em style={{ width: `${compare ? Math.max(6, Math.min(100, compare / 8.2)) : 0}%` }} /></div>
-          {compare !== null && <small>{compare === value ? "unchanged" : `control ${compare} ms`}</small>}
+          {compare !== null && <small>{compare === value ? `baseline ${compare} ms · unchanged` : `baseline ${compare} ms · +${value - compare} ms`}</small>}
         </div>;
       })}
     </div>

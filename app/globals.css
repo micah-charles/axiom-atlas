@@ -776,7 +776,9 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 .arch-m02-request-lane { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:8px; min-width:0; margin:17px 0 12px; }
 .arch-m02-request-stage { position:relative; min-width:0; padding:10px 9px 9px; border:1px solid rgba(126,219,212,.15); background:rgba(0,0,0,.18); transition:border-color .2s ease,background .2s ease,transform .2s ease; }
 .arch-m02-request-stage.active { border-color:var(--arch-gold); background:rgba(255,211,107,.08); transform:translateY(-2px); }
-.arch-m02-request-stage.complete,.arch-m02-request-stage.measured { border-color:rgba(131,231,172,.4); }
+.arch-m02-request-stage.complete,.arch-m02-request-stage.measured { border-color:rgba(126,219,212,.4); }
+.arch-m02-request-stage.verified { border-color:rgba(131,231,172,.7); background:rgba(131,231,172,.06); }
+.arch-m02-request-stage.controlled { border-color:rgba(255,211,107,.7); background:rgba(255,211,107,.06); }
 .arch-m02-stage-object { display:grid; place-items:center; width:37px; height:32px; margin-bottom:7px; border:1px solid rgba(118,227,239,.35); background:rgba(118,227,239,.045); color:var(--arch-cyan); }
 .arch-m02-request-stage.active .arch-m02-stage-object { color:var(--arch-gold); border-color:rgba(255,211,107,.75); box-shadow:0 0 18px rgba(255,211,107,.13); }
 .arch-m02-stage-object svg { width:27px; height:23px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
@@ -793,6 +795,8 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 .arch-m02-latency-track em { top:3px; height:0; border-top:2px dashed var(--arch-gold); background:none; }
 .arch-m02-latency-segment.active .arch-m02-latency-track i { background:var(--arch-gold); }
 .arch-m02-latency-segment>small { display:block; min-height:11px; margin-top:4px; color:#b9a86e; font:800 .39rem var(--mono); letter-spacing:.03em; }
+.arch-m02-latency-segment.controlled>small { color:#fff0bd; }
+.arch-m02-latency-segment.verified>small { color:#9fe0bd; }
 .arch-m02-board-hint { margin:12px 0 0; color:#87a7a8; font-size:.58rem; line-height:1.35; }
 .arch-m02-observe-grid { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(250px,.65fr); gap:14px; margin-bottom:14px; }
 .arch-m02-incident h3,.arch-m02-boundary h3 { margin:12px 0 10px; color:#f2faf7; font:500 clamp(1.5rem,2.8vw,2.35rem)/.98 var(--serif); letter-spacing:-.04em; }

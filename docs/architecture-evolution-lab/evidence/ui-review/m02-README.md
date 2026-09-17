@@ -14,6 +14,7 @@ DNS controlled comparison.
 | `m02-after-observe.png` | fresh observe state | request board is visible; stage values remain hidden; total is marked cause-unknown |
 | `m02-after-baseline.png` | measured baseline | five stage objects show 420/30/90/70/40 ms and the 650 ms total |
 | `m02-after-dns-control.png` | first control reveal | DNS changes while HTTP, Tomcat, JDBC and Response remain unchanged |
+| `m02-after-dns-control-v2.png` | corrected control reveal | comparison copy names the incident baseline explicitly (`baseline 420 ms · +400 ms`) |
 
 Runtime notes:
 
@@ -23,6 +24,8 @@ Runtime notes:
   trace.
 - This is desktop evidence only; 390px, keyboard-only, touch, reduced-motion
   and screen-reader gates remain open.
+- The v2 capture records the bounded baseline/control-label correction from
+  `../../reviews/M02-ui-review-chatgpt-v2.md`.
 - The selected ChatGPT surface could not accept the committed PNG as a direct
   image input, so the corrected text review is the design authority for this
   checkpoint. See `../../reviews/M02-ui-review-chatgpt-v1.md`.

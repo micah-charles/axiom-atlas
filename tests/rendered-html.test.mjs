@@ -79,6 +79,7 @@ test("server-renders the Architecture Evolution Lab M02 shell", async () => {
   assert.match(html, /arch-m02-request-board/);
   assert.match(html, /Where did this request spend its time/);
   assert.match(html, /not yet measured/);
+  assert.doesNotMatch(html, /control 420 ms/);
   assert.doesNotMatch(html, /DNS resolution, 420 milliseconds/);
 });
 

@@ -110,9 +110,11 @@ test("server-renders the Architecture Evolution Lab M05 shell without answer lea
   assert.equal(response.status, 200);
   const html = await response.text();
   assert.match(html, /M05 — THE NETWORK IS NOW PART OF THE SYSTEM|M05/);
-  assert.match(html, /A remote call stopped making progress/);
+  assert.match(html, /A DB-dependent request stopped making progress/);
+  assert.match(html, /REQUEST FLIGHT.*SLOT PRESSURE BOARD|DEPENDENCY LINK/i);
   assert.match(html, /DIAGNOSIS LOCKED/);
   assert.match(html, /Atlas Market is fictional/i);
+  assert.doesNotMatch(html, /INTERNAL TCP|The DB is no longer a local call/);
   assert.doesNotMatch(html, /bound the waiting|bound the wait|use a timeout|retry once|bounded timeout/i);
   assert.doesNotMatch(html, /NETWORK_DEPENDENCY_WAITING|BOUNDED_TIMEOUT_ONE_RETRY|2-second teaching-simulation DB outage/i);
 });

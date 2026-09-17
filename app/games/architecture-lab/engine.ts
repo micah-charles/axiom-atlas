@@ -1,5 +1,6 @@
 export type EvidenceId = "E01" | "E02" | "E03" | "E04";
 export type ApproachId = "A" | "B" | "C" | "D";
+export type FailurePredictionId = "all_down" | "browser_only" | "data_only";
 
 export const M01_EVIDENCE = [
   {
@@ -50,6 +51,28 @@ export const TARGET_NODES = [
   { id: "mysql", label: "MySQL", kind: "database", detail: "Local product and order data" },
   { id: "images", label: "Local images", kind: "storage", detail: "Product files on local disk" },
 ] as const;
+
+export const M01_FAILURE_PREDICTIONS = [
+  {
+    id: "all_down" as const,
+    label: "The shop goes dark",
+    detail: "HTTP, product data, images and active Sessions all depend on HOST 01.",
+  },
+  {
+    id: "browser_only" as const,
+    label: "The browser keeps serving the shop",
+    detail: "The customer can still browse because the browser is outside the host.",
+  },
+  {
+    id: "data_only" as const,
+    label: "The database survives alone",
+    detail: "MySQL remains available even though the application host disappears.",
+  },
+] as const;
+
+export function failurePredictionIsCorrect(prediction: FailurePredictionId | null) {
+  return prediction === "all_down";
+}
 
 export function canUnlockApproaches(inspected: EvidenceId[]) {
   const unique = new Set(inspected);

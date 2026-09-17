@@ -17,7 +17,7 @@ import { addResource, advectParticles, createReservoir, entityById, moveEntity, 
 import { buildActualRevealBlocks, buildValleyRectangles, buildValleyTimeBlocks, estimateTargetCrossing, estimateValleyVolume, findActualTargetCrossing, resolveValleyOutcome, valleyActualVolume, valleyFlowRate, valleyRiverModel } from "../app/games/water-valley-engine.ts";
 import { CLIMATE_DATA, CLIMATE_MISSIONS, CLIMATE_YEAR, causalOrderFeedback, causalPrefixLength, conceptsFromText, dayLengthHours, derivePressureCentres, evidenceValue, explanationLockReasons, locationById, pressureContourLabels, pressureContourLevels, pressureContourSegments, pressureHpa, scoreMission, seasonFor, shuffleCausalIds, solarAngle, windDirectionLabel } from "../app/games/climate-detective/engine.ts";
 import { CORIOLIS_EXAMPLES, GLOBAL_CELLS, GLOBAL_LATITUDE_BANDS, GLOBAL_PRESSURE_BELTS, GLOBAL_SEASON_CONTEXT, GLOBAL_WIND_BELTS, atmosphericCellForLatitude, coriolisDeflection, coriolisMotionLatitudes, equalEarthPoint, isBritainMidLatitude, seasonalLatitude, windBeltForLatitude } from "../app/games/climate-detective/global-circulation.ts";
-import { M01_EVIDENCE, M01_TRACE, approachResult, canUnlockApproaches, scoreExplanation } from "../app/games/architecture-lab/engine.ts";
+import { M01_EVIDENCE, M01_FAILURE_PREDICTIONS, M01_TRACE, approachResult, canUnlockApproaches, failurePredictionIsCorrect, scoreExplanation } from "../app/games/architecture-lab/engine.ts";
 import { M02_EVIDENCE, M02_EXPERIMENTS, M02_EXPLANATION_OPTIONS, M02_STAGE_ORDER, M02_TIMINGS, canCommitM02Diagnosis, canSubmitM02FinalDiagnosis, canUnlockM02Evidence, explanationIsComplete, explanationMatchesM02Diagnosis, experimentResult, m02RouteFeedback, predictionIsCorrect, scoreM02, timingTotal, validateM02Route } from "../app/games/architecture-lab/m02-engine.ts";
 import { M03_EVIDENCE, M03_EXPLANATION_CONCEPTS, M03_EXPLANATION_LINKS, M03_INITIAL_MAP, M03_PREDICTIONS, M03_RESULTS, canCommitM03Map, canCommitM03Predictions, canCompleteM03, canMutateM03Classification, canUnlockM03Evidence, correctM03Map, correctM03ResultMatches, explanationLinksCorrect, explanationOrderCorrect, scoreM03, predictionIsCorrectM03 } from "../app/games/architecture-lab/m03-engine.ts";
 import { M04_CAUSAL_CLAIMS, M04_EVIDENCE, M04_INITIAL_RESOURCE_MAP, M04_PREDICTIONS, M04_RESULT_CHECKS, canCommitM04Predictions, canCommitM04ResourceMap, canUnlockM04Evidence, causalLinksCorrectM04, causalOrderCorrectM04, correctM04ResourceMap, diagnosisProofIsEnough, interventionJustificationCorrectM04, resultChecksCorrectM04, scoreM04 } from "../app/games/architecture-lab/m04-engine.ts";
@@ -407,6 +407,14 @@ test("Architecture Lab M01 scoring rewards fit plus observed failure domain", ()
   assert.ok(missingFit.total < 100);
   assert.ok(strong.total > weak.total);
   assert.equal(weak.reliability, 0);
+});
+
+test("Architecture Lab M01 requires a prediction before the shared failure reveal", () => {
+  assert.equal(M01_FAILURE_PREDICTIONS.length, 3);
+  assert.equal(failurePredictionIsCorrect("all_down"), true);
+  assert.equal(failurePredictionIsCorrect("browser_only"), false);
+  assert.equal(failurePredictionIsCorrect("data_only"), false);
+  assert.equal(failurePredictionIsCorrect(null), false);
 });
 
 test("Architecture Lab M02 keeps the slow-site evidence gate deterministic", () => {

@@ -1,7 +1,7 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-17
-Current milestone: M02–M06 sequence review PASS — storyboard and implementation loop complete; full-verification evidence remains open
+Current milestone: M01 UI review v2 captured — gameplay presentation revision needs independent re-review; full-verification evidence remains open
 Current blocker: Mission-specific runtime evidence remains open for 390px completion, standalone keyboard-only completion where applicable, touch, reduced-motion and screen-reader evidence across the sequence.
 Next action: Close runtime/accessibility evidence debt; do not regenerate M02–M06 storyboards that already passed their source and implementation gates.
 
@@ -73,6 +73,15 @@ already completed the M02–M06 storyboard and implementation sequence; those
 missions remain IMPLEMENTED / NEEDS QA rather than VERIFIED until their shared
 runtime/accessibility evidence debt is closed.
 
+The first M01 UI review is now followed by a bounded presentation revision. The
+revision hides uninspected observations, neutralises candidate-topology styling,
+locks future request steps, adds prediction before the shared failure reveal,
+turns the explanation into a visible claim chain with distractors, and collapses
+the completion score details. The v2 flow was replayed in Chrome at the 150%
+readability target and captured in `evidence/ui-review/m01-v2/`. It reaches the
+clean `100/100` path. The revision is not treated as accepted until the same
+ChatGPT conversation reviews the pushed commit and the new screenshots.
+
 The strict M02–M06 sequence review is now recorded in
 `reviews/M02-M06-sequence-review-v1.md`. It confirms PASS for storyboard,
 implementation and playability for every mission, identifies two stale
@@ -92,6 +101,13 @@ runtime/accessibility evidence is captured.
   touch evidence debt and the obsolete M04 independent-review bullet.
 - Preserved the rule that main remains untouched and that no M02–M06
   storyboard is regenerated.
+
+- Implemented the bounded M01 UI revision from `reviews/M01-ui-review-chatgpt-v1.md`.
+- Added a deterministic M01 failure-prediction engine contract and regression.
+- Captured the revised M01 flow at the 150% readability target in
+  `evidence/ui-review/m01-v2/`, including prediction, reveal, causal chain and
+  completion states.
+- Confirmed the clean revised path reaches `100/100` in the local browser.
 
 - Read the full 1,395-line Game Design Bible.
 - Confirmed the Bible defines 8 Acts, 17 Chapters, 79 core missions, optional

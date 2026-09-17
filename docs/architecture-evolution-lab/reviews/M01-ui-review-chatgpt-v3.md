@@ -55,6 +55,9 @@ board. Functional UI remains code-native SVG/CSS rather than raster art.
   player must assemble the explanation rather than read the answer.
 - Added a polite live status announcement for the host-failure reveal and
   removed redundant SVG accessibility text where equivalent HTML labels exist.
+- Clarified the candidate-test state: a tested B/C/D candidate now says
+  `Tested hypothesis · preview only`, and the result explains that it is a
+  comparison rather than a runnable M01 request path.
 - Added reduced-motion CSS fallbacks for packet and failure animation.
 
 ## Browser evidence
@@ -84,4 +87,3 @@ This review does not promote M01 to VERIFIED. The shared verification gate
 still needs dedicated 390px/mobile, touch, keyboard-only, reduced-motion and
 screen-reader evidence. The desktop gameplay and rendered regression suite are
 passing.
-

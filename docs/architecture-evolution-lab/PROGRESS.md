@@ -121,6 +121,9 @@ runtime/accessibility evidence is captured.
   confirmed `100/100`.
 - Added reduced-motion CSS fallbacks and a live status announcement for the
   host-failure state.
+- Clarified the preview-only branch after fresh-player testing: tested B/C/D
+  candidates now explain that they are comparison results and point the player
+  to A before the live request trace.
 
 - Sent the committed M02–M06 sequence and new M06 browser evidence to the
   selected ChatGPT conversation for strict review.

@@ -85,6 +85,50 @@ function StageCard({ stage, onClick, disabled }: { stage: M02StageId; onClick: (
   return <button className="arch-m02-stage-card" onClick={onClick} disabled={disabled} aria-label={`Add ${STAGE_LABELS[stage]} to route`}><span>{STAGE_SHORT[stage]}</span><b>{STAGE_LABELS[stage]}</b><small>{disabled ? "PLACED" : "ADD TO ROUTE"}</small></button>;
 }
 
+function M02StageGlyph({ stage }: { stage: M02StageId }) {
+  if (stage === "DNS_RESOLUTION") return <svg viewBox="0 0 48 36" aria-hidden="true"><rect x="7" y="5" width="34" height="26" rx="2" /><path d="M12 12h24M12 18h13M12 24h19" /><circle cx="33" cy="18" r="3" /></svg>;
+  if (stage === "HTTP_CONNECTION") return <svg viewBox="0 0 48 36" aria-hidden="true"><path d="M7 18h34M32 10l9 8-9 8" /><circle cx="12" cy="18" r="4" /><circle cx="36" cy="18" r="4" /></svg>;
+  if (stage === "TOMCAT_PROCESSING") return <svg viewBox="0 0 48 36" aria-hidden="true"><rect x="7" y="5" width="34" height="26" rx="3" /><path d="M13 12h22M13 18h8M13 24h17" /><path d="M30 16v8M26 20h8" /></svg>;
+  if (stage === "JDBC_MYSQL_QUERY") return <svg viewBox="0 0 48 36" aria-hidden="true"><ellipse cx="24" cy="9" rx="13" ry="4" /><path d="M11 9v16c0 3 6 5 13 5s13-2 13-5V9M11 17c0 3 6 5 13 5s13-2 13-5" /><path d="M17 13h14" /></svg>;
+  return <svg viewBox="0 0 48 36" aria-hidden="true"><rect x="7" y="7" width="34" height="22" rx="2" /><path d="M13 13h16M13 19h21M13 25h12" /><path d="M34 22l5 4-5 4" /></svg>;
+}
+
+function M02RequestBoard({ phase, traceIndex, profile, compareProfile }: { phase: Phase; traceIndex: number; profile?: keyof typeof M02_TIMINGS; compareProfile?: keyof typeof M02_TIMINGS }) {
+  const stageIndex = phase === "baseline" ? traceIndex : profile ? M02_STAGE_ORDER.length - 1 : -1;
+  const hasValues = Boolean(profile);
+  const total = profile ? timingTotal(profile) : null;
+  const compareTotal = compareProfile ? timingTotal(compareProfile) : null;
+  const boardStatus = phase === "observe" || phase === "investigate" ? "READY TO TRACE" : phase === "route" ? "ROUTE THE REQUEST" : phase === "baseline" ? "MEASURE ONE STAGE" : phase === "result" || phase === "final" ? "COMPARE THE CONTROLS" : "FOLLOW THE EVIDENCE";
+
+  return <section className="arch-m02-request-board" aria-label="Interactive request trace board">
+    <div className="arch-m02-board-head">
+      <div><span className="arch-overline">REQUEST TRACE · PLAYABLE BOARD</span><h3>Where did this request spend its time?</h3></div>
+      <div className="arch-m02-board-total"><span>{boardStatus}</span><b>{total === null ? "650 ms" : `${total} ms`}</b>{compareTotal !== null && <small>vs {compareTotal} ms</small>}</div>
+    </div>
+    <div className="arch-m02-request-lane" role="list" aria-label="Request stages">
+      {M02_STAGE_ORDER.map((stage, index) => <div className={`arch-m02-request-stage ${index === stageIndex ? "active" : ""} ${index < stageIndex ? "complete" : ""} ${hasValues && index <= stageIndex ? "measured" : ""}`} key={stage} role="listitem" aria-label={`${STAGE_LABELS[stage]}${hasValues && profile ? `, ${M02_TIMINGS[profile][stage]} milliseconds` : ", not yet measured"}`}>
+        <div className="arch-m02-stage-object"><M02StageGlyph stage={stage} /></div>
+        <span className="arch-m02-stage-number">{String(index + 1).padStart(2, "0")}</span>
+        <b>{stage === "JDBC_MYSQL_QUERY" ? "JDBC / MySQL" : stage === "TOMCAT_PROCESSING" ? "Tomcat / app" : STAGE_SHORT[stage]}</b>
+        <small>{hasValues && profile && index <= stageIndex ? `${M02_TIMINGS[profile][stage]} ms` : index <= stageIndex ? "measured" : "locked"}</small>
+        {index < M02_STAGE_ORDER.length - 1 && <i className="arch-m02-stage-arrow" aria-hidden="true">→</i>}
+      </div>)}
+    </div>
+    <div className="arch-m02-latency-strip" aria-label="Latency by request stage">
+      {M02_STAGE_ORDER.map((stage, index) => {
+        const value = profile && index <= stageIndex ? M02_TIMINGS[profile][stage] : 0;
+        const compare = compareProfile && index <= stageIndex ? M02_TIMINGS[compareProfile][stage] : null;
+        return <div className={`arch-m02-latency-segment ${index === stageIndex ? "active" : ""}`} key={stage}>
+          <div className="arch-m02-latency-label"><span>{STAGE_SHORT[stage]}</span><b>{value ? `${value} ms` : "—"}</b></div>
+          <div className="arch-m02-latency-track"><i style={{ width: `${value ? Math.max(6, Math.min(100, value / 8.2)) : 0}%` }} /><em style={{ width: `${compare ? Math.max(6, Math.min(100, compare / 8.2)) : 0}%` }} /></div>
+          {compare !== null && <small>{compare === value ? "unchanged" : `control ${compare} ms`}</small>}
+        </div>;
+      })}
+    </div>
+    <p className="arch-m02-board-hint">{hasValues ? "The bar shows segment time, not a verdict. Compare the profile before naming the cause." : "The packet will reveal one stage at a time. Do not diagnose from the total alone."}</p>
+  </section>;
+}
+
 export default function M02FollowOneRequestGame() {
   const [phase, setPhase] = useState<Phase>("observe");
   const [inspected, setInspected] = useState<M02EvidenceId[]>([]);
@@ -111,6 +155,9 @@ export default function M02FollowOneRequestGame() {
   const score = useMemo(() => scoreM02({ inspected, routeRepairs, firstDiagnosis, finalDiagnosis, predictionMistakes, experimentsRun: experimentsRun.length, explanation }), [inspected, routeRepairs, firstDiagnosis, finalDiagnosis, predictionMistakes, experimentsRun.length, explanation]);
   const currentExperiment = committedExperiment ? experimentResult(committedExperiment) : null;
   const nextExperiment = (Object.keys(M02_EXPERIMENTS) as M02ExperimentId[]).find(id => !experimentsRun.includes(id));
+  const boardHasExperiment = Boolean(currentExperiment && ["result", "final", "explain", "complete"].includes(phase));
+  const boardProfile = boardHasExperiment ? currentExperiment?.profile : phase === "baseline" ? (traceIndex >= 0 ? "incident_baseline" : undefined) : ["diagnose", "predict", "run"].includes(phase) ? "incident_baseline" : undefined;
+  const boardCompareProfile = boardHasExperiment ? currentExperiment?.comparison : undefined;
 
   function inspectEvidence(id: M02EvidenceId) {
     setInspected(current => current.includes(id) ? current : [...current, id]);
@@ -219,6 +266,8 @@ export default function M02FollowOneRequestGame() {
 
       <section className="arch-lab-main" aria-live="polite">
         <div className="arch-mission-bar"><div><span className="arch-overline">{missionStatus}</span><h2>{phase === "complete" ? "You found the delay." : phase === "observe" || phase === "investigate" ? "The page feels slow. Why?" : phase === "route" ? "Put the request in order." : phase === "baseline" ? "Measure before you guess." : phase === "diagnose" ? "Commit to a suspect." : phase === "predict" ? "What should this control change?" : phase === "run" ? "Run the experiment." : phase === "result" || phase === "final" ? "Let the evidence speak." : "Explain the causal chain."}</h2></div><span className="arch-date-chip">M02 · SOURCE 1.1</span></div>
+
+        <M02RequestBoard phase={phase} traceIndex={traceIndex} profile={boardProfile} compareProfile={boardCompareProfile} />
 
         {(phase === "observe" || phase === "investigate") && <section className="arch-m02-observe-grid"><div className="arch-panel arch-m02-incident"><span className="arch-overline">OBSERVATION · CUSTOMER REPORT</span><h3>“The product page eventually loads, but today it feels slow.”</h3><div className="arch-m02-incident-total"><span>REQUEST TOTAL</span><b>650 ms</b><small>LAB TIMING · CAUSE UNKNOWN</small></div><p>Do not blame the server from the total alone. Inspect the evidence, then follow the request journey.</p><button className="arch-primary-button" onClick={() => setPhase("investigate")}>Inspect request evidence <span>→</span></button></div><div className="arch-panel arch-m02-boundary"><div className="arch-panel-head"><div><span className="arch-overline">PROVENANCE</span><h3>What kind of fact is this?</h3></div><b>VISIBLE</b></div><div className="arch-m02-legend"><span><i className="source" />source-backed causal stage</span><span><i className="fiction" />fictional Atlas Market incident</span><span><i className="simulation" />teaching-simulation timing</span></div><p>No answer is selected at the start. Your evidence and experiments determine the diagnosis.</p></div></section>}
 

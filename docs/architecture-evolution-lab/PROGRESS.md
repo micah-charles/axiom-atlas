@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-17
-Current milestone: M01 UI/gameplay review v3 implemented and desktop E2E passed; full-verification evidence remains open
+Current milestone: M02 visual/gameplay loop in progress; request-trace board implemented, local verification pending
 Current blocker: Mission-specific runtime evidence remains open for 390px completion, standalone keyboard-only completion where applicable, touch, reduced-motion and screen-reader evidence across the sequence.
-Next action: Capture the remaining mobile/accessibility evidence for M01, then keep the accepted v3 visual language as the baseline for later missions; do not regenerate M02–M06 storyboards that already passed their source and implementation gates.
+Next action: Run M02 desktop and mobile fresh-player flows, capture the new request-trace board, then review and implement M03 sequentially.
 
 ## Mission status
 
@@ -11,7 +11,7 @@ Legend: ⬜ NOT STARTED · 🟨 IN PROGRESS · 🟦 IMPLEMENTED / NEEDS QA · �
 
 - Gate 0 — Bible import, repository fit, orchestration protocol: ✅ VERIFIED
 - Gate A — Vertical Slice A (M01–M06): 🟨 IN PROGRESS (M01–M06 implemented/needs QA; runtime evidence open)
-- M02 — Follow One Request: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (implementation, playability and committed-source review PASS; mission-specific runtime evidence remains open)
+- M02 — Follow One Request: 🟨 IN PROGRESS (ChatGPT visual review corrected to M02; request-trace board implemented; runtime evidence pending)
 - M03 — Find the Three Local Assumptions: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (implementation, playability and committed-source review PASS; mission-specific runtime evidence remains open)
 - M04 — Disk Full at 02:00: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (implementation, playability and committed-source review PASS; mission-specific runtime evidence remains open)
 - M05 — The Cache That Lied: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (implementation, playability and committed-source review PASS; mission-specific runtime evidence remains open)
@@ -102,6 +102,27 @@ documentation items (M02 touch tracking and the obsolete M04 review-debt
 bullet), and keeps full verification conditional. The next storyboard is
 procedurally unlocked, but no mission is promoted to VERIFIED until its own
 runtime/accessibility evidence is captured.
+
+The M02 visual loop has now started. The first ChatGPT response was rejected
+because it described M01 rather than M02. A correction was requested in the
+same conversation; the corrected review identifies M02 as a latency
+troubleshooting console with the request trace as the main game board. The
+review is recorded in `reviews/M02-ui-review-chatgpt-v1.md`. ChatGPT could not
+accept the committed PNG as a direct image input in this browser surface, so no
+generated M02 mockup is treated as evidence. The first bounded implementation
+adds a code-native request trace board while preserving the deterministic M02
+engine.
+
+## M02 visual loop checkpoint
+
+- [x] Capture and commit M02 baseline at the 150% desktop target.
+- [x] Send M02 baseline description and branch evidence path to ChatGPT.
+- [x] Reject the initial M01-drifted response and request an M02-only correction.
+- [x] Record the corrected M02 design decisions.
+- [x] Implement the request-trace visual board without changing engine truth.
+- [ ] Run M02 fresh-player desktop flow and capture after-state evidence.
+- [ ] Capture M02 390px, keyboard, touch and reduced-motion evidence.
+- [ ] Review the implementation result before starting M03.
 
 ## Completed since last checkpoint
 

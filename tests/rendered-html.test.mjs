@@ -76,6 +76,10 @@ test("server-renders the Architecture Evolution Lab M02 shell", async () => {
   assert.match(html, /LAB TIMING/);
   assert.match(html, /Atlas Market is fictional/i);
   assert.match(html, /request resolves a domain/i);
+  assert.match(html, /arch-m02-request-board/);
+  assert.match(html, /Where did this request spend its time/);
+  assert.match(html, /not yet measured/);
+  assert.doesNotMatch(html, /DNS resolution, 420 milliseconds/);
 });
 
 test("server-renders the Architecture Evolution Lab M03 shell", async () => {

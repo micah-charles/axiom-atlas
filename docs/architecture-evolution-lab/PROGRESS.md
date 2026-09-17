@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-17
-Current milestone: M01 UI review v2 recorded — visual baseline accepted with two bounded gameplay refinements; full-verification evidence remains open
+Current milestone: M01 UI/gameplay review v3 implemented and desktop E2E passed; full-verification evidence remains open
 Current blocker: Mission-specific runtime evidence remains open for 390px completion, standalone keyboard-only completion where applicable, touch, reduced-motion and screen-reader evidence across the sequence.
-Next action: Decide whether to implement the two bounded M01 refinements (neutral candidate testing and validated causal-chain construction), then close runtime/accessibility evidence debt; do not regenerate M02–M06 storyboards that already passed their source and implementation gates.
+Next action: Capture the remaining mobile/accessibility evidence for M01, then keep the accepted v3 visual language as the baseline for later missions; do not regenerate M02–M06 storyboards that already passed their source and implementation gates.
 
 ## Mission status
 
@@ -73,6 +73,17 @@ already completed the M02–M06 storyboard and implementation sequence; those
 missions remain IMPLEMENTED / NEEDS QA rather than VERIFIED until their shared
 runtime/accessibility evidence debt is closed.
 
+The first M01 UI review is now followed by two bounded presentation revisions.
+The v3 pass turns the topology into a visual game board: Browser, DNS, HOST 01
+and its local services are recognisable objects; request packets move through
+the path; candidate testing is an explicit action; and the shared-host failure
+is shown as a state change rather than only described in prose. The v3 design
+direction and ChatGPT review record are in
+`reviews/M01-ui-review-chatgpt-v3.md`. The v3 desktop flow was replayed in
+Chrome and reaches the clean `100/100` path. It remains intentionally
+IMPLEMENTED / NEEDS QA until the shared runtime/accessibility evidence gate is
+closed.
+
 The first M01 UI review is now followed by a bounded presentation revision. The
 revision hides uninspected observations, neutralises candidate-topology styling,
 locks future request steps, adds prediction before the shared failure reveal,
@@ -93,6 +104,23 @@ procedurally unlocked, but no mission is promoted to VERIFIED until its own
 runtime/accessibility evidence is captured.
 
 ## Completed since last checkpoint
+
+- Recorded ChatGPT's visual/gameplay direction for M01 v3: topology as the game
+  board, code-native server/service objects, moving request packet, explicit
+  candidate test, and visible HOST 01 failure incident.
+- Added inline SVG system objects for Browser, DNS, HOST 01, Tomcat, MySQL,
+  Images and Session, plus packet/edge motion and a semantic visual legend.
+- Added the explicit `TEST CANDIDATE` gate so candidate results are not exposed
+  merely by selecting a topology.
+- Added outcome-only failure predictions and a visible failure reveal showing
+  which services survive outside HOST 01.
+- Captured the v3 local Chrome path in
+  `evidence/ui-review/m01-v3-simulate-step-1.png`,
+  `m01-v3-predict-failure.png` and `m01-v3-host-failure.png`.
+- Completed the v3 desktop E2E path through causal explanation submission and
+  confirmed `100/100`.
+- Added reduced-motion CSS fallbacks and a live status announcement for the
+  host-failure state.
 
 - Sent the committed M02–M06 sequence and new M06 browser evidence to the
   selected ChatGPT conversation for strict review.

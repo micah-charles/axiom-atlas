@@ -55,18 +55,18 @@ export const TARGET_NODES = [
 export const M01_FAILURE_PREDICTIONS = [
   {
     id: "all_down" as const,
-    label: "The shop goes dark",
-    detail: "HTTP, product data, images and active Sessions all depend on HOST 01.",
+    label: "All shop services stop",
+    detail: "The shop becomes unavailable.",
   },
   {
     id: "browser_only" as const,
-    label: "The browser keeps serving the shop",
-    detail: "The customer can still browse because the browser is outside the host.",
+    label: "The shop remains available",
+    detail: "The customer can still browse.",
   },
   {
     id: "data_only" as const,
-    label: "The database survives alone",
-    detail: "MySQL remains available even though the application host disappears.",
+    label: "Only stored data remains available",
+    detail: "The database is the only surviving service.",
   },
 ] as const;
 

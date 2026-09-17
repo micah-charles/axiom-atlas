@@ -1035,3 +1035,97 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 @media(prefers-reduced-motion:reduce) {
   .arch-m01-shell .arch-trace-rail i { box-shadow:none; }
 }
+
+/* M01 v3 visual workbench: the topology is the game board. */
+.arch-m01-shell .arch-topology { display:block; margin:19px 0 14px; }
+.arch-m01-shell .arch-network-canvas { position:relative; min-height:360px; overflow:hidden; border:1px solid rgba(126,219,212,.2); background-color:#071920; background-image:linear-gradient(rgba(118,227,239,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(118,227,239,.055) 1px,transparent 1px),radial-gradient(circle at 54% 50%,rgba(56,193,195,.13),transparent 28%); background-size:24px 24px,24px 24px,100% 100%; }
+.arch-network-edges { position:absolute; inset:0; width:100%; height:100%; overflow:visible; color:var(--arch-cyan); }
+.arch-edge { fill:none; stroke:currentColor; stroke-width:2.5; stroke-linecap:round; opacity:.78; transition:stroke .25s ease,opacity .25s ease,stroke-dasharray .25s ease; }
+.arch-edge-browser,.arch-edge-dns { stroke-dasharray:7 7; animation:arch-edge-flow 1.8s linear infinite; }
+.arch-topology.target-dns .arch-edge-dns,.arch-topology.target-tomcat .arch-edge-host,.arch-topology.target-mysql .arch-edge-host,.arch-topology.target-images .arch-edge-host,.arch-topology.target-session .arch-edge-host,.arch-topology.target-browser .arch-edge-browser { color:var(--arch-gold); stroke-width:4; opacity:1; filter:drop-shadow(0 0 6px rgba(255,211,107,.55)); }
+.arch-edge-down { display:none; color:var(--arch-red); stroke-width:4; stroke-dasharray:9 9; }
+.arch-topology.down .arch-edge-browser,.arch-topology.down .arch-edge-dns { color:var(--arch-cyan); opacity:.75; }
+.arch-topology.down .arch-edge-host { color:var(--arch-red); opacity:.9; stroke-dasharray:8 8; }
+.arch-topology.down .arch-edge-down { display:block; }
+.arch-network-node,.arch-host-frame { position:absolute; z-index:2; border:1px solid rgba(126,219,212,.35); background:rgba(3,17,22,.9); box-shadow:0 12px 25px rgba(0,0,0,.22); }
+.arch-network-node { display:grid; justify-items:center; gap:4px; width:18%; min-width:104px; padding:10px 8px; text-align:center; transition:border-color .25s ease,background .25s ease,box-shadow .25s ease,transform .25s ease; }
+.arch-network-node svg { width:50px; height:42px; color:var(--arch-cyan); }
+.arch-network-node b,.arch-network-node small { display:block; }
+.arch-network-node b { color:#effbf7; font:600 .84rem var(--serif); }
+.arch-network-node small { color:#7fa2a3; font:800 .5rem var(--mono); letter-spacing:.04em; text-transform:uppercase; }
+.arch-network-node.active { border-color:var(--arch-gold); background:rgba(255,211,107,.1); box-shadow:0 0 24px rgba(255,211,107,.16); transform:translateY(-2px); }
+.arch-network-node.active svg { color:var(--arch-gold); }
+.arch-node-browser { left:4%; top:33%; }
+.arch-node-resolver { left:28%; top:33%; }
+.arch-host-frame { left:60%; top:8%; width:35%; min-width:280px; padding:12px; border-color:rgba(126,219,212,.5); }
+.arch-host-head { display:flex; align-items:center; gap:8px; padding:0 0 9px; border-bottom:1px solid rgba(126,219,212,.18); }
+.arch-host-icon { display:grid; place-items:center; width:42px; height:42px; color:var(--arch-cyan); }
+.arch-host-icon svg { width:36px; height:34px; }
+.arch-host-head div { flex:1; }
+.arch-host-head b,.arch-host-head small,.arch-host-head strong { display:block; }
+.arch-host-head b { color:#ecfaf5; font:600 .9rem var(--serif); }
+.arch-host-head small { margin-top:3px; color:#7d9b9e; font:800 .48rem var(--mono); letter-spacing:.08em; text-transform:uppercase; }
+.arch-host-head strong { color:var(--arch-green); font:900 .52rem var(--mono); letter-spacing:.1em; }
+.arch-service-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-top:9px; }
+.arch-m01-shell .arch-service-node { display:flex; align-items:center; gap:7px; min-height:62px; padding:8px; border:1px solid rgba(126,219,212,.22); background:rgba(126,219,212,.035); transition:border-color .25s ease,background .25s ease,opacity .25s ease,transform .25s ease; }
+.arch-m01-shell .arch-service-node svg { flex:0 0 35px; width:35px; height:31px; color:var(--arch-cyan); }
+.arch-m01-shell .arch-service-node div { min-width:0; }
+.arch-m01-shell .arch-service-node b,.arch-m01-shell .arch-service-node small { display:block; }
+.arch-m01-shell .arch-service-node b { margin:0; color:#e5f2ee; font:600 .73rem var(--serif); }
+.arch-m01-shell .arch-service-node small { margin-top:4px; color:#7b999b; font:800 .46rem var(--mono); line-height:1.25; letter-spacing:.03em; text-transform:uppercase; }
+.arch-m01-shell .arch-service-node.active { border-color:var(--arch-gold); background:rgba(255,211,107,.12); box-shadow:0 0 18px rgba(255,211,107,.14); transform:translateY(-2px); }
+.arch-m01-shell .arch-service-node.active svg { color:var(--arch-gold); }
+.arch-m01-shell .arch-host-frame.offline { border-color:rgba(255,135,129,.8); background:rgba(68,18,24,.6); }
+.arch-m01-shell .arch-host-frame.offline .arch-host-icon,.arch-m01-shell .arch-host-frame.offline .arch-host-head strong { color:var(--arch-red); }
+.arch-m01-shell .arch-service-node.unavailable { border-color:rgba(255,135,129,.35); background:rgba(255,135,129,.06); opacity:.72; }
+.arch-m01-shell .arch-service-node.unavailable svg,.arch-m01-shell .arch-service-node.unavailable small { color:var(--arch-red); }
+.arch-host-incident { margin-top:9px; padding:8px 9px; border:1px dashed rgba(255,135,129,.6); background:rgba(255,135,129,.08); }
+.arch-host-incident span,.arch-host-incident b { display:block; }
+.arch-host-incident span { color:var(--arch-red); font:900 .45rem var(--mono); letter-spacing:.08em; }
+.arch-host-incident b { margin-top:4px; color:#ffd4cf; font:600 .75rem var(--serif); }
+.arch-request-packet { position:absolute; z-index:4; left:9%; top:48%; display:flex; align-items:center; gap:4px; min-width:42px; padding:5px 7px; border:1px solid var(--arch-gold); background:#2f2a15; color:#fff0bd; box-shadow:0 0 18px rgba(255,211,107,.45); font:900 .48rem var(--mono); letter-spacing:.08em; transform:translate(-50%,-50%); transition:left .45s cubic-bezier(.2,.8,.2,1),top .45s cubic-bezier(.2,.8,.2,1),opacity .2s ease; }
+.arch-request-packet i { width:7px; height:7px; border-top:2px solid currentColor; border-right:2px solid currentColor; transform:rotate(45deg); }
+.arch-request-packet.target-dns { left:37%; top:48%; }
+.arch-request-packet.target-tomcat { left:69%; top:24%; }
+.arch-request-packet.target-mysql { left:88%; top:43%; }
+.arch-request-packet.target-images { left:88%; top:65%; }
+.arch-request-packet.target-session { left:88%; top:82%; }
+.arch-request-packet.target-browser { left:9%; top:48%; }
+.arch-dropped-packet { position:absolute; z-index:5; left:54%; top:49%; display:grid; place-items:center; width:26px; height:26px; border:2px solid var(--arch-red); border-radius:50%; background:#421c22; color:#ffd4cf; font:900 1rem var(--mono); box-shadow:0 0 20px rgba(255,135,129,.4); animation:arch-packet-drop .9s ease-out both; }
+.arch-network-caption { position:absolute; right:12px; bottom:10px; z-index:3; display:flex; align-items:center; gap:5px; color:#7e9b9d; font:800 .47rem var(--mono); letter-spacing:.05em; text-transform:uppercase; }
+.arch-status-dot { display:inline-block; width:7px; height:7px; margin-left:8px; border-radius:50%; }
+.arch-status-dot.cyan { background:var(--arch-cyan); box-shadow:0 0 8px rgba(118,227,239,.6); }.arch-status-dot.gold { background:var(--arch-gold); box-shadow:0 0 8px rgba(255,211,107,.5); }.arch-status-dot.red { background:var(--arch-red); box-shadow:0 0 8px rgba(255,135,129,.5); }
+.arch-topology.incident .arch-host-frame { animation:arch-host-fail 1.05s ease-out both; }
+.arch-m01-shell .arch-approach.selected { border-color:var(--arch-gold); background:rgba(255,211,107,.08); box-shadow:0 0 16px rgba(255,211,107,.08); }
+.arch-m01-shell .arch-approach.selected>span { border-color:var(--arch-gold); background:rgba(255,211,107,.1); }
+.arch-m01-shell .arch-test-candidate { background:rgba(118,227,239,.14); border-color:rgba(118,227,239,.4); color:#dff8ee; box-shadow:0 10px 24px rgba(118,227,239,.08); }
+.arch-m01-shell .arch-test-candidate:hover:not(:disabled) { background:rgba(118,227,239,.24); }
+.arch-m01-shell .arch-explanation-checks>span { color:var(--arch-cyan); }
+.arch-m01-shell .arch-explanation-checks button { border-style:solid; border-color:rgba(126,219,212,.2); background:rgba(126,219,212,.04); color:#a8c0bd; }
+.arch-m01-shell .arch-explanation-checks button.selected { border-color:var(--arch-gold); background:rgba(255,211,107,.1); color:#fff0bd; }
+@keyframes arch-edge-flow { to { stroke-dashoffset:-28; } }
+@keyframes arch-host-fail { 0%,100% { filter:none; } 12% { filter:brightness(1.8) saturate(1.4); } 24% { filter:none; } }
+@keyframes arch-packet-drop { 0% { opacity:1; transform:translate(-50%,-50%) scale(1); } 100% { opacity:.8; transform:translate(-50%,22px) scale(.72); } }
+@media(max-width:760px) {
+  .arch-m01-shell .arch-network-canvas { min-height:440px; }
+  .arch-m01-shell .arch-network-node { min-width:88px; width:25%; padding:7px 5px; }
+  .arch-m01-shell .arch-network-node svg { width:39px; height:34px; }
+  .arch-m01-shell .arch-network-node b { font-size:.72rem; }
+  .arch-m01-shell .arch-network-node small { font-size:.43rem; }
+  .arch-m01-shell .arch-node-browser { left:4%; top:22%; }
+  .arch-m01-shell .arch-node-resolver { left:37%; top:22%; }
+  .arch-m01-shell .arch-host-frame { left:8%; top:46%; width:84%; min-width:0; }
+  .arch-m01-shell .arch-request-packet.target-dns { left:43%; top:38%; }
+  .arch-m01-shell .arch-request-packet.target-tomcat { left:68%; top:58%; }
+  .arch-m01-shell .arch-request-packet.target-mysql { left:82%; top:69%; }
+  .arch-m01-shell .arch-request-packet.target-images { left:82%; top:79%; }
+  .arch-m01-shell .arch-request-packet.target-session { left:82%; top:89%; }
+  .arch-m01-shell .arch-request-packet.target-browser { left:15%; top:38%; }
+  .arch-m01-shell .arch-network-caption { right:7px; bottom:7px; font-size:.39rem; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .arch-m01-shell .arch-edge,
+  .arch-m01-shell .arch-request-packet,
+  .arch-m01-shell .arch-host-frame,
+  .arch-m01-shell .arch-dropped-packet { animation:none !important; transition:none !important; }
+}

@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-17
-Current milestone: M03 visual/gameplay loop in progress; dependency-board continuity fixed and reveal reached locally
+Current milestone: M04 visual/gameplay loop presentation PASS; M05 is unlocked while runtime verification remains open
 Current blocker: Mission-specific runtime evidence remains open for 390px completion, standalone keyboard-only completion where applicable, touch, reduced-motion and screen-reader evidence across the sequence.
-Next action: Send the M03 post-fix implementation packet for review, then complete the M03 fresh-player explanation flow before starting M04.
+Next action: Begin the M05 baseline capture and ChatGPT visual/gameplay review without marking M04 VERIFIED.
 
 ## Mission status
 
@@ -13,7 +13,7 @@ Legend: ⬜ NOT STARTED · 🟨 IN PROGRESS · 🟦 IMPLEMENTED / NEEDS QA · �
 - Gate A — Vertical Slice A (M01–M06): 🟨 IN PROGRESS (M01–M06 implemented/needs QA; runtime evidence open)
 - M02 — Follow One Request: 🟨 IN PROGRESS (ChatGPT visual review corrected to M02; request-trace board implemented; runtime evidence pending)
 - M03 — Find the Three Local Assumptions: 🟦 IMPLEMENTED / NEEDS QA (host-boundary dependency board and continuity fix presentation PASS; runtime evidence pending)
-- M04 — Disk Full at 02:00: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (implementation, playability and committed-source review PASS; mission-specific runtime evidence remains open)
+- M04 — Disk Full at 02:00: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (Resource Pressure Board implementation, local 100/100 playability and ChatGPT presentation review PASS; 390px, keyboard, touch, reduced-motion and screen-reader evidence remains open)
 - M05 — The Cache That Lied: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (implementation, playability and committed-source review PASS; mission-specific runtime evidence remains open)
 - M06 — Fifty Connections or Five Hundred?: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (v3 committed-source review PASS; five runtime/accessibility evidence items remain open)
 - M07 — The 5-Second Tomcat: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (v2 committed-source review PASS; five runtime/accessibility evidence items remain open)
@@ -133,6 +133,18 @@ still not VERIFIED because the mobile/accessibility evidence gates are open.
 ChatGPT's post-fix M03 review is recorded in
 `reviews/M03-ui-review-chatgpt-v2.md` and rates the presentation PASS.
 
+The M04 visual loop is now presentation-complete. ChatGPT's baseline review
+identified two fresh-state diagnosis leaks (`DISK FULL AT 02:00` and `One
+shared local disk boundary`) and accepted a persistent Resource Pressure Board
+as the bounded fix. Commit `f1a065e` implements the code-native board without
+changing the deterministic M04 engine. The local desktop flow reaches
+`MISSION COMPLETE · 100/100`, including evidence inspection, resource mapping,
+diagnosis, causal chain, prediction, controlled run/reveal, intervention and
+the visible `WEB → DB` trade-off. ChatGPT's post-fix review is recorded in
+`reviews/M04-ui-review-chatgpt-v2.md` and rates the presentation PASS. M04 is
+not VERIFIED: its responsive, keyboard, touch, reduced-motion and
+screen-reader runtime gates remain open. M05 is now unlocked.
+
 ## M02 visual loop checkpoint
 
 - [x] Capture and commit M02 baseline at the 150% desktop target.
@@ -159,6 +171,21 @@ ChatGPT's post-fix M03 review is recorded in
 - [x] Record ChatGPT's post-fix M03 presentation PASS.
 - [ ] Run the complete fresh-player M03 flow through explanation and record the result.
 - [ ] Capture M03 390px, keyboard, touch, reduced-motion and screen-reader evidence.
+
+## M04 visual loop checkpoint
+
+- [x] Capture and inspect the fresh M04 baseline at the 150% desktop target.
+- [x] Send the M04-only baseline review and record the Resource Pressure Board direction.
+- [x] Remove the fresh-state `DISK FULL` and shared-disk answer leaks.
+- [x] Implement the persistent code-native Resource Pressure Board.
+- [x] Replay the local evidence, map, diagnosis, causal-chain and prediction flow.
+- [x] Replay the controlled run/reveal and final intervention trade-off locally.
+- [x] Reach `MISSION COMPLETE · 100/100` in the local desktop flow.
+- [x] Send the post-fix implementation packet to ChatGPT.
+- [x] Record ChatGPT's M04 presentation PASS.
+- [ ] Capture M04 390px completion evidence.
+- [ ] Capture M04 standalone keyboard-only, touch, reduced-motion and screen-reader evidence.
+- [ ] Promote M04 from NEEDS QA to VERIFIED only after all runtime gates pass.
 
 ## Completed since last checkpoint
 

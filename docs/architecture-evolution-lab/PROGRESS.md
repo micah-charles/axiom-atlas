@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-17
-Current milestone: M06 visual/gameplay loop presentation PASS; M07 is unlocked while runtime verification remains open
+Current milestone: M07 visual/gameplay loop presentation PASS; M08 is unlocked while runtime verification remains open
 Current blocker: Mission-specific runtime evidence remains open for 390px completion, standalone keyboard-only completion where applicable, touch, reduced-motion and screen-reader evidence across the sequence.
-Next action: Begin the M07 baseline capture and ChatGPT visual/gameplay review without marking M06 VERIFIED.
+Next action: Begin the M08 baseline capture and ChatGPT visual/gameplay review without marking M07 VERIFIED.
 
 ## Mission status
 
@@ -16,7 +16,7 @@ Legend: ⬜ NOT STARTED · 🟨 IN PROGRESS · 🟦 IMPLEMENTED / NEEDS QA · �
 - M04 — Disk Full at 02:00: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (Resource Pressure Board implementation, local 100/100 playability and ChatGPT presentation review PASS; 390px, keyboard, touch, reduced-motion and screen-reader evidence remains open)
 - M05 — The Network Is Now Part of the System: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (Request Flight + Slot Pressure Board, local 100/100 flow and ChatGPT presentation review PASS; mission-specific runtime evidence remains open)
 - M06 — Fifty Connections or Five Hundred?: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (Admission Flow / Queue Pressure Board, local 100/100 flow and ChatGPT presentation review PASS; five runtime/accessibility evidence items remain open)
-- M07 — The 5-Second Tomcat: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (v2 committed-source review PASS; five runtime/accessibility evidence items remain open)
+- M07 — The 5-Second Tomcat: 🟦 IMPLEMENTED / FULL VERIFICATION PENDING (Five-Second Request / Host Pressure Board, local 100/100 flow and ChatGPT presentation review PASS; five runtime/accessibility evidence items remain open)
 - M08 — CPU Bottleneck: 🟦 IMPLEMENTED / NEEDS QA (pure engine, isolated route, deterministic tests, desktop playtest and committed-source review pass; accessibility evidence remains open)
 - Gate B — Vertical Slice B (M14–M16): ⬜ NOT STARTED
 - Gate C — Deployment evolution (M46–M53): ⬜ NOT STARTED
@@ -170,6 +170,34 @@ desktop flow was replayed through all three candidates, causal explanation and
 `MISSION COMPLETE · 100/100`. ChatGPT's post-implementation review is
 recorded in `reviews/M06-ui-review-chatgpt-v2.md` and rates presentation PASS.
 M06 remains `IMPLEMENTED / FULL VERIFICATION PENDING`; M07 is unlocked.
+
+The M07 visual loop is now presentation-complete. ChatGPT's baseline review
+accepted the persistent Five-Second Request / Host Pressure Board: one request
+symptom enters an application-host object with Compute, Memory / GC and Wait /
+I/O lanes, while diagnostic probes expose scope before measurement. Commit
+`70b4c63` implements the board, progressive E01–E07 state, explicit
+`NOT CAPTURED / UNKNOWN ≠ ZERO`, segmented forecast markers and
+prediction-to-observed comparison without changing `m07-engine.ts`. The local
+desktop flow was replayed through diagnosis, deterministic run, reconciliation
+and causal explanation to `MISSION COMPLETE · 100/100`. ChatGPT's post-fix
+review is recorded in `reviews/M07-ui-review-chatgpt-v2.md` and rates
+presentation PASS. M07 remains `IMPLEMENTED / FULL VERIFICATION PENDING`; M08
+is unlocked.
+
+## M07 visual loop checkpoint
+
+- [x] Capture and inspect the fresh M07 baseline.
+- [x] Send the M07-only baseline review and record the Five-Second Request / Host Pressure Board direction.
+- [x] Implement the persistent request autopsy board without changing engine truth.
+- [x] Progress E01–E07 across symptom, Compute, Memory / GC, Wait / I/O and missing-evidence states.
+- [x] Represent the three diagnostic runs as scope-only probes before reveal.
+- [x] Add segmented forecast markers and prediction-to-observed board comparison.
+- [x] Neutralise the player-facing title and correct the optional E07 evidence count.
+- [x] Replay the complete local desktop flow to `MISSION COMPLETE · 100/100`.
+- [x] Record ChatGPT's post-implementation M07 presentation PASS.
+- [ ] Capture M07 390px completion evidence.
+- [ ] Capture M07 standalone keyboard-only, touch, reduced-motion and screen-reader evidence.
+- [ ] Promote M07 from NEEDS QA to VERIFIED only after all runtime gates pass.
 
 ## M06 visual loop checkpoint
 

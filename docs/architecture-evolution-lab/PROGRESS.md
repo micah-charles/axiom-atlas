@@ -1,9 +1,9 @@
 # Architecture Evolution Lab Progress
 
 Last updated: 2026-09-17
-Current milestone: M03 visual/gameplay loop in progress; host-boundary dependency board implemented, local verification pending
+Current milestone: M03 visual/gameplay loop in progress; dependency-board continuity fixed and reveal reached locally
 Current blocker: Mission-specific runtime evidence remains open for 390px completion, standalone keyboard-only completion where applicable, touch, reduced-motion and screen-reader evidence across the sequence.
-Next action: Send the M03 implementation packet for post-fix review, then complete the M03 fresh-player flow before starting M04.
+Next action: Send the M03 post-fix implementation packet for review, then complete the M03 fresh-player explanation flow before starting M04.
 
 ## Mission status
 
@@ -123,6 +123,14 @@ bounded direction is a persistent Host-Boundary Dependency Board. The first
 implementation is recorded in `reviews/M03-ui-review-chatgpt-v1.md`; it keeps
 M03's deterministic engine unchanged and replaces the placement leak with
 unknown/inspectable resource objects.
+The post-implementation review then found one state-continuity bug: inspected
+but not-yet-classified resources disappeared between the evidence and map
+states. That bug is now fixed by keeping those concrete objects in an
+`INSPECTED / UNPLACED` staging shelf. The local flow has been replayed through
+prediction, run and reveal; the live reveal board visibly moves only the
+application to HOST 02 while DB, Images and Session remain on HOST 01. M03 is
+still not VERIFIED because the post-fix review and the mobile/accessibility
+evidence gates are open.
 
 ## M02 visual loop checkpoint
 
@@ -144,8 +152,10 @@ unknown/inspectable resource objects.
 - [x] Send the M03-only baseline review request and record the accepted board direction.
 - [x] Implement the host-boundary dependency board without changing engine truth.
 - [x] Capture observe, all-evidence-inspected and classified-map states.
+- [x] Fix the inspected-but-unclassified dependency continuity bug.
+- [x] Run the local prediction, experiment and reveal states.
 - [ ] Send the implementation capture packet for post-fix ChatGPT review.
-- [ ] Run the complete fresh-player M03 flow and capture reveal/explanation states.
+- [ ] Run the complete fresh-player M03 flow through explanation and record the result.
 - [ ] Capture M03 390px, keyboard, touch, reduced-motion and screen-reader evidence.
 
 ## Completed since last checkpoint

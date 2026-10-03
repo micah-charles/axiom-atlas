@@ -119,6 +119,38 @@ export function coriolisDeflection(hemisphere: Hemisphere): "right" | "left" {
   return hemisphere === "north" ? "right" : "left";
 }
 
+/** SVG y increases southward: left of south is east; right of north is east. */
+export function coriolisPathGeometry(exampleId: CoriolisExampleId, start: { x: number; y: number }, straightEnd: { x: number; y: number }, bend: number) {
+  const example = CORIOLIS_EXAMPLES.find(item => item.id === exampleId) ?? CORIOLIS_EXAMPLES[0];
+  const movingDown = straightEnd.y > start.y;
+  const screenRight = movingDown ? example.deflection === "left" : example.deflection === "right";
+  const offset = (screenRight ? 1 : -1) * Math.abs(bend);
+  // Keep the control point inside the zonal interval: overshooting the endpoint
+  // reverses the terminal tangent (and therefore the SVG arrowhead direction).
+  const curvedEnd = { x: straightEnd.x + offset, y: straightEnd.y };
+  const control = { x: start.x + (curvedEnd.x - start.x) * .35, y: (start.y + straightEnd.y) / 2 };
+  return {
+    start, straightEnd, control, curvedEnd,
+    straightPath: `M${start.x},${start.y} L${straightEnd.x},${straightEnd.y}`,
+    curvedPath: `M${start.x},${start.y} Q${control.x},${control.y} ${curvedEnd.x},${curvedEnd.y}`,
+  };
+}
+
+/** Both renderers consume these complete routes, including latitude-to-screen y. */
+export function coriolisExampleGeometry(exampleId: CoriolisExampleId, season: GlobalSeason = "baseline", width = 1200, height = 520, padding = 28) {
+  const route = coriolisMotionLatitudes(exampleId);
+  const startLatitude = seasonalLatitude(route.startLatitude, season);
+  const endLatitude = seasonalLatitude(route.endLatitude, season);
+  const start = { x: width / 2 + 10, y: equalEarthPoint(0, startLatitude, width, height, padding).y };
+  const end = { x: start.x, y: equalEarthPoint(0, endLatitude, width, height, padding).y };
+  const movingDown = endLatitude < startLatitude;
+  return {
+    startLatitude, endLatitude,
+    map: coriolisPathGeometry(exampleId, start, end, 70),
+    demo: coriolisPathGeometry(exampleId, { x: 140, y: movingDown ? 20 : 85 }, { x: 140, y: movingDown ? 85 : 20 }, 58),
+  };
+}
+
 export function windBeltForLatitude(latitude: number): WindBelt | null {
   if (!Number.isFinite(latitude) || Math.abs(latitude) > 90) return null;
   if (Math.abs(latitude) < 1) return null;

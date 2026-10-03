@@ -1,9 +1,123 @@
 # Climate Detective Progress
 
-Last updated: 2026-09-13
-Current milestone: M28 Global Atmospheric Circulation Interactive Reference — VERIFIED
-Current blocker: none; Mission 01 and M27 remain protected baselines
-Next action: keep Mission 02 expansion frozen and reassess the next curriculum milestone separately
+Last updated: 2026-10-03
+Current milestone: student-experience recovery A–F locally accepted by supervisor
+Acceptance: A–F recovery PASS; not a production/full-year or arbitrary-language certification. Earlier VERIFIED records below are historical only.
+Next action: user review of local recovery; no deployment/push/release authorised in this scope.
+
+Parent final evidence: SUPERVISION.md records actual desktop/mobile Mission01,
+wrong-inference and field-note recovery, Jan16 continuation, all4 rendered map/demo
+Coriolis directions and winter/summer replay. Parent reran npm test, build,12 route
+tests, dedicated12 recovery tests, scoped ESLint and diff check successfully.
+Known limitations: bounded written-language rules, viewport/pointer not physical
+touch testing, no student learning study or full-year production replay this round.
+
+## F terminal tangent correction — 2026-10-03
+
+Parent retest found endpoint component signs were correct but arrowhead direction still reversed: the control point overshot the endpoint. For NH poleward, the old terminal derivative was `2*(648.5 - 680) = -63`, pointing west despite an eastward endpoint displacement. Parent now reports mobile pressure symbols/readouts PASS: H shows Jan 15 1018 hPa plus wrong-centre feedback; L shows Jan 15 963 hPa and clue 1/3. Parent instructed that accepted A–E must remain unchanged.
+
+Changed only shared geometry, regression tests and worker documentation this correction:
+
+- `global-circulation.ts`: endpoint uses the full zonal offset; control x is 35% of the start-to-end displacement and control y remains the midpoint.
+- For the quadratic Bézier, `dx/dt = Δx*(0.7 + 0.6*t)` and `dy/dt = Δy`. Thus both components retain their required signs throughout `[0,1]`; neither the initial nor terminal tangent can reverse.
+- `tests/climate-recovery.test.mjs`: tests initial and terminal tangent components explicitly; samples analytic derivative and position changes at 101 t values for all four routes × three seasons × both map/demo displays (24 geometries). Each derivative and sampled displacement must match `resultingComponent` and north/south motion.
+- Mathematical inspection of actual helper output: map NH poleward is `M610,155.787 Q634.5,112.255 680,68.723`; initial dx/dt +49, terminal dx/dt +91 (east), dy/dt −87.064 (north). NH equatorward and SH equatorward have initial −49 / terminal −91 (west); SH poleward +49 / +91 (east), with the proper north/south y in each case.
+
+Checks PASS: recovery suite 12/12; `npm test` 200 core/recovery tests + build + 12 rendered-route tests; climate-scoped ESLint; `git diff --check`. Build retains the previously documented chunk warning. No browser calls or publishing. A–E, the accepted cyan OFF arrow and pressure feedback implementation were not edited.
+
+Next three actions: parent retests all four rendered tangents and seasons; worker fixes only returned F findings; parent records final independent acceptance. No VERIFIED claim.
+
+## F scientific geometry correction — 2026-10-03
+
+Parent browser reports A good/bad notes, E navigation/focused layers/all five scores, Jan 16 continuation and false-ANOMALY correction PASS. F independently failed: SH poleward trajectory was drawn west while its interpretation required east. The mapping was inverted in both map and demo renderers. Source-contract assertions had not tested component signs.
+
+Implemented:
+
+- `global-circulation.ts` provides pure complete map/demo geometry: latitude-to-screen y, straight route, curve control point and curved endpoint. Both SVGs consume these paths directly. In SVG coordinates, southward/LEFT and northward/RIGHT bend toward screen east; the other two bend west.
+- Numeric assertions cover all four examples × three seasonal contexts × map/demo scales (24 geometries): both x signs match `resultingComponent`, and y signs match north/south motion. OFF paths have zero zonal displacement and retain the same north/south direction.
+- Map rotation-OFF route now has a cyan arrowhead and solid high-contrast stroke, distinct from purple dashed conceptual cell loops. Prediction gate and genuine projected geography remain intact.
+- Mobile L/H symbols are enlarged within their circles; centre-value labels are moved out of the small SVG into date-bound inspection feedback. Both low and high centre clicks show exact values (including 963/1018 hPa on the investigation date). A centre inspected before reveal cannot leak its old value into the next day.
+
+Checks: dedicated recovery suite 12/12 PASS (included in `npm test`); full `npm test` PASS, 200 core/recovery tests, build and 12 rendered-route tests. Scoped ESLint and `git diff --check` PASS. Repository-wide unrelated lint/type failures remain as previously documented.
+
+Changed this milestone: `app/games/climate-detective/global-circulation.ts`, `GlobalWindSystems.tsx`, `ClimateDetectiveGame.tsx`, `recovery.css`, `tests/climate-recovery.test.mjs`, this PROGRESS file and `STUDENT_RECOVERY_CHECKLIST.md`. No browser, dataset mutation or publishing.
+
+Next three actions: parent checks four rendered ON/OFF routes and mobile L/H readouts; worker repairs any returned findings; parent completes remaining B–F/continuation acceptance. F remains pending independent acceptance, with no VERIFIED claim.
+
+## Independent-acceptance corrections — 2026-10-03
+
+Parent reproduced A FAIL: warm source air falsely rejected, unrelated negation bypassed affirmative high-pressure ascent. E FAIL: navigation scrolled away, fifth score clipped, weather labels/layers collided, global route offscreen without pan cue, tabs/stages clipped. Continuation rewound to Jan 15; pressure differences spuriously matched ANOMALY. Parent C comparison/date acceptance passed; F rotation gate and aligned single projected labels passed. These are parent-reported results, not worker browser claims.
+
+Implemented corrections:
+
+- A evaluates individual pressure/motion, rising-air temperature and causal-condensation propositions. Negation is read from the relevant predicate or directly denying wrapper; source adjective `warm` is not a warming verb. Tests include explicit denials, affirmative clauses with unrelated negation, inverse pressure phrases, warm Atlantic source air, rising/cooling paraphrases and the original exploit. Text evaluator remains deliberately bounded.
+- E gives mobile Climate Detective its own 100dvh vertical scroll container, so sticky navigation shares the actual scroll surface. Scores use two columns and a full-width Efficiency item. Explain/Reveal offers one earned layer at a time; nonselected location labels are hidden and selected observation is presented beneath the SVG. Global map remains genuine geography, centres on the selected route, has a swipe cue and West/Centre/East controls; tabs/stages wrap instead of clipping.
+- Removed duplicated investigation instruction paragraph. Fixed NH-equatorward mini-game explicitly says it is a separate challenge from the selected experiment.
+- Continuation advances to `continuationDate(date, revealDate)` before clearing mission state. ANOMALY requires explicit anomaly/unusual wording or a comparison to normal/baseline, not generic pressure differences.
+- Additional B issue found during source inspection: rainfall readout's `building/easing` used tomorrow's observation. Replaced with current/prior measured change; regression prohibits `next.precipitation` in the runtime surface.
+
+Correction paths: `engine.ts`, `ClimateDetectiveGame.tsx`, `GlobalWindSystems.tsx`, `recovery.css`, `tests/climate-recovery.test.mjs`, `PROGRESS.md`, `STUDENT_RECOVERY_CHECKLIST.md`. `SUPERVISION.md` remains parent-owned. No browser calls, dataset edits, publishing or math changes.
+
+Final checks after corrections: dedicated recovery suite 10/10 PASS; `npm test` 198 core/recovery tests + build + 12 rendered-route tests PASS; `npx eslint app/games/climate-detective tests/climate-recovery.test.mjs tests/game-core.test.mjs` PASS; `git diff --check` PASS. Scoped ESLint initially caught a noninteractive scroll-region tabIndex; removed it because adjacent pan buttons provide keyboard access, then reran checks. Earlier out-of-scope repo-wide lint/type failures remain documented below.
+
+Next three actions: parent A/E/continuation browser retest; worker repairs returned findings without dropping B–F; parent completes the remaining acceptance queue and records results. No VERIFIED claim.
+
+## Final implementation checkpoint — 2026-10-03
+
+Status: IMPLEMENTED / BROWSER ACCEPTANCE PENDING. No new VERIFIED claim.
+
+Commands/results:
+
+- `npm test`: PASS, 195 core/recovery tests, production build and 12 rendered-route tests. Build has the existing >500kB chunk warning.
+- `node --experimental-strip-types --test tests/climate-recovery.test.mjs`: PASS, 7/7 recovery tests (also included in default core suite).
+- `npx eslint app/games/climate-detective tests/climate-recovery.test.mjs tests/game-core.test.mjs`: PASS.
+- `git diff --check`: PASS.
+- `npm run lint`: FAIL outside scope, unused `PredictionCard` in `app/games/architecture-lab/M05NetworkGame.tsx:144`.
+- `npx tsc --noEmit`: FAIL outside scope, six errors in architecture-lab m02/m04/M06/m07. No climate diagnostics remain. Removed only the generated `tsconfig.tsbuildinfo` from this diagnostic run; it is reproducible.
+
+Final refinements: field-note feedback shows science repairs before keyword acknowledgements; Mission 01 starts at London and observation selection is held through Explain/Predict/Reveal so result data cannot drift after commitment. Coriolis demonstration endpoint mirrors the curve direction in both hemispheres. Mobile essential map labels are enlarged in SVG coordinate units and pressure marker hit area expanded; nonselected wind/rain text is reduced to avoid clutter while geographic observation names remain visible.
+
+Worker-changed paths (all under `/Volumes/ExtremePro/AIWorkspace/mathslogic/`):
+
+1. `app/games/climate-detective/engine.ts`
+2. `app/games/climate-detective/ClimateDetectiveGame.tsx`
+3. `app/games/climate-detective/GlobalWindSystems.tsx`
+4. `app/games/climate-detective/recovery.css`
+5. `tests/climate-recovery.test.mjs`
+6. `tests/game-core.test.mjs` (climate regression import only)
+7. `docs/climate-detective/PROGRESS.md`
+8. `docs/climate-detective/STUDENT_RECOVERY_CHECKLIST.md`
+
+`SUPERVISION.md` is parent-owned and was only read. Authoritative datasets, mathematics, shared CSS and architecture were not edited. No push, release or deployment performed.
+
+Continuation / next three actions:
+
+1. Parent runs fresh Mission 01 desktop + 390×844 browser acceptance, including wrong notes/inferences, forecast secrecy, comparisons and global experiment.
+2. Resume this worker with concrete browser findings; repair failed items without dropping A–F checklist, then rerun affected regressions/build/lint.
+3. Parent checks continuation to the existing next mission and records independent acceptance in `SUPERVISION.md`.
+
+Remaining risks: bounded text patterns are not a general semantic evaluator; SVG label overlap, scroll/anchor usability, actual touch hit geometry and experiment interactions need independent browser evidence. Source-contract tests guard wiring but do not certify rendered interactions.
+
+## Recovery checkpoint D–F
+
+- D: selecting London Wind/Rain opens interpretation choices; only a correct, evidence-supported decision pins the clue. Wrong inference retains inspection and offers retry feedback. Hint progression resets per task while total hint count controls efficiency.
+- E: added climate-only `recovery.css`: essential prose/field notes 16px, labels 12px, controls 44px; mobile sticky Mission/Map/Evidence links; map overlays become ordered content below the SVG; causal context button spans a separate row.
+- F: removed the evenly spaced HTML coordinate column; SVG latitude text and line share projected y, and graticule endpoints use the same projection as geography. Cell loops are purple with distinct explanatory legend; numbered stage navigation no longer has completion ticks. Rotation starts OFF; a prediction must be committed before ON is enabled, with comparison/retry feedback across four routes. Seasonal controls and model/weather distinction retained.
+- Additional paths: `GlobalWindSystems.tsx`, `recovery.css`, `tests/game-core.test.mjs` (imports climate recovery regressions so default core checks include them).
+- Tests so far: dedicated recovery suite 7/7 PASS; A–C build PASS (chunk-size warning only).
+- Type check: `npx tsc --noEmit` found architecture-lab errors outside this scope plus an existing climate undefined narrowing; climate narrowing repaired. Full type check will be rechecked and unrelated failures reported, not edited.
+- Risks: mobile/map readability and experiment behavior require parent browser evidence; deterministic language checks do not evaluate arbitrary prose.
+- Next three actions: finish automated tests/build/lint; inspect scoped diff/data preservation; hand off acceptance queue and address supervisor feedback.
+
+## Recovery checkpoint A–C
+
+- Changed: `app/games/climate-detective/engine.ts`, `ClimateDetectiveGame.tsx`, `tests/climate-recovery.test.mjs`, this file and `STUDENT_RECOVERY_CHECKLIST.md`.
+- A: clause-local deterministic misconception checks reject high-pressure ascent, low-pressure sinking, warming-condensation, and negated cooling; denial of misconceptions passes.
+- B: pressure trend and low track share a commitment-gated row helper; locked story cards have anonymous labels rather than enumerating the answer.
+- C: all four comparisons use the same thresholds as scoring; reveal includes dated wind; three useful clues earn three evidence points. Forecast match count and point conversion are explicit.
+- Tests: `node --experimental-strip-types --test tests/climate-recovery.test.mjs` 4/4 PASS; `npm run test:core` 188/188 PASS. Build/lint follow at final implementation checkpoint.
+- Risks: deterministic text rules are bounded, not general natural-language science understanding; visual/interactive acceptance remains untested by worker.
+- Next three actions: D interpretation/retry + per-task hints; E scoped typography and mobile layout; F projected coordinates and prediction before rotation.
 
 ## Mission status
 

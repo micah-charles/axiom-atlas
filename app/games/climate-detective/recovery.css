@@ -1,0 +1,98 @@
+/* Student recovery overrides are deliberately scoped to the geography surface. */
+.climate-detective { font-size:16px; }
+.climate-detective :is(p,textarea,.climate-task-feedback,.climate-evidence-card>span,.climate-chain-options button,.climate-interpretation button) { font-size:16px; line-height:1.5; }
+.climate-detective :is(small,.climate-overline,.climate-score-grid span,.climate-map-legend,.climate-forecast-row>span,.climate-notebook-entry>span,.climate-explanation-lock>span,.global-lesson-eyebrow,.global-stage-strip small,.global-map-caption span,.global-map-caption b,.global-map-reading-guide>span,.climate-story-heading>span,.climate-story-step small,.climate-guided-brief>span,.climate-map-badge span) { font-size:12px; line-height:1.4; letter-spacing:.04em; }
+.climate-detective button { min-height:44px; font-size:14px; }
+.climate-detective :is(span,li,em) { font-size:12px; }
+.climate-detective :is(.climate-explanation-lock li,.climate-chain-warning p,.global-demo-track b,.climate-notebook-entry b,.climate-guided-brief b,.climate-map-readout b) { font-size:16px; line-height:1.5; }
+.climate-detective :is(.climate-story-card-heading span,.climate-pressure-trend-labels b,.climate-process-inset>b,.climate-process-inset>span) { font-size:12px; line-height:1.4; }
+.climate-detective button:focus-visible,.climate-detective a:focus-visible { outline:3px solid #ffd36b; outline-offset:3px; }
+.climate-detective .climate-workspace { grid-template-columns:minmax(0,1fr) minmax(355px,420px); }
+.climate-detective .climate-chain-step.filled { display:grid; grid-template-columns:minmax(0,1fr) 44px; gap:8px; }
+.climate-detective .climate-chain-focus { min-width:0; }
+.climate-detective .climate-chain-focus b { font-size:16px; line-height:1.4; }
+.climate-detective .climate-context-link { grid-column:1/-1; width:100%; font-size:12px; }
+.climate-detective .climate-chain-remove { width:44px; }
+.climate-detective .climate-interpretation { display:grid; gap:8px; margin:12px 0; }
+.climate-detective .climate-interpretation button { padding:12px; border:1px solid #7edbd4; color:#e9fff9; background:#0c2930; text-align:left; }
+.climate-detective .climate-forecast-comparison article { margin:12px 0; padding:12px; border:1px solid #527b7c; }
+.climate-detective .climate-forecast-comparison p { margin:6px 0; }
+.climate-detective .climate-reveal>div { display:grid; grid-template-columns:1fr; gap:5px; }
+.climate-detective .climate-mobile-navigation { display:none; }
+.climate-detective :is(.climate-mobile-layer-controls,.climate-mobile-observation,.global-pan-controls,.global-pan-cue) { display:none; }
+.climate-detective .global-map-viewport { width:100%; }
+.climate-detective .global-map-reading-guide { display:block; }
+.climate-detective .global-map-reading-guide p { margin:8px 0; }
+.climate-detective .global-circulation-map { height:auto; min-height:0; aspect-ratio:1200/520; }
+.climate-detective .global-latitude-lines text { font-size:18px; paint-order:stroke; stroke:#06141b; stroke-width:4px; }
+.climate-detective .global-cell path { stroke:#b694f6; }
+.climate-detective .global-cell text { fill:#d8c4ff; }
+.climate-detective .global-coriolis-map .global-coriolis-straight { stroke:#7ef9f0; stroke-width:3; stroke-dasharray:none; opacity:1; }
+.climate-detective .global-demo-track .demo-straight { stroke:#7ef9f0; stroke-width:3; stroke-dasharray:none; opacity:1; }
+.climate-detective .climate-centre-readout { margin-top:8px; padding:12px; border:1px solid #7edbd4; color:#ebfff9; background:#0c2930; }
+.climate-detective .climate-centre-readout b { font-size:16px; }
+.climate-detective .global-rotation-prediction { display:grid; gap:8px; margin:12px 0; }
+.climate-detective .global-rotation-prediction button { padding:10px; color:#f3fff9; border:1px solid #7edbd4; background:#0c2930; }
+@media (max-width:1200px) {
+  .climate-detective .climate-body { grid-template-columns:190px minmax(0,1fr); }
+  .climate-detective .climate-workspace { grid-template-columns:minmax(0,1fr); }
+}
+@media (max-width:860px) {
+  .climate-detective { height:100dvh; min-height:0; overflow-y:auto; overflow-x:hidden; }
+  .climate-detective .climate-body { display:block; height:auto; min-height:0; }
+  .climate-detective .climate-sidebar-top { display:none; }
+  .climate-detective .climate-mission-rail { display:flex; overflow:auto; margin:0; }
+  .climate-detective .climate-rail-step { min-width:210px; }
+  .climate-detective .climate-rail-step b { font-size:14px; }
+  .climate-detective .climate-sidebar { padding:10px; }
+  .climate-detective .climate-mobile-navigation { display:flex; position:sticky; top:0; z-index:8; background:#071b23; border-bottom:1px solid #527b7c; }
+  .climate-detective .climate-mobile-navigation a { flex:1; padding:13px 8px; color:#e2fff9; text-align:center; font-size:14px; text-decoration:underline; }
+  .climate-detective :is(#climate-mission,#climate-map,#climate-evidence) { scroll-margin-top:55px; }
+  .climate-detective .climate-map-heading { display:block; }
+  .climate-detective .climate-map-heading-actions { margin-top:12px; display:flex; flex-direction:row; align-items:center; justify-content:space-between; }
+  .climate-detective .climate-map-frame { height:auto; min-height:0; display:flex; flex-direction:column; overflow:visible; }
+  .climate-detective .climate-map-frame>svg { width:100%; height:auto; min-height:0; aspect-ratio:1000/610; order:1; }
+  .climate-detective .climate-map-frame :is(.climate-location-marker text,.climate-wind-vector text,.climate-rain-signal text,.climate-pressure-label) { font-size:36px; paint-order:stroke; stroke:#06141b; stroke-width:4px; }
+  .climate-detective .climate-map-frame .climate-pressure-centre>text:not(.climate-pressure-label) { font-size:48px; }
+  .climate-detective .climate-map-frame .climate-pressure-centre circle { r:32px; }
+  .climate-detective .climate-map-frame .climate-pressure-label { display:none; }
+  .climate-detective .climate-map-frame .climate-isobar-label text { font-size:36px; paint-order:stroke; stroke:#06141b; stroke-width:4px; }
+  .climate-detective .climate-map-frame :is(.climate-wind-vector,.climate-rain-signal):not(.selected) text { display:none; }
+  .climate-detective .climate-map-frame :is(.climate-pressure-tutorial,.climate-pressure-trend,.climate-map-story-tag,.climate-process-inset,.climate-map-badge,.climate-global-return,.climate-map-legend) { position:static; inset:auto; width:auto; max-width:none; margin:8px 0 0; order:2; pointer-events:auto; }
+  .climate-detective .climate-map-frame .climate-map-badge { order:0; margin:0 0 8px; }
+  .climate-detective .climate-map-frame .climate-pressure-tutorial { order:0; margin:0 0 8px; }
+  .climate-detective .climate-map-legend { display:flex; flex-wrap:wrap; padding:10px; gap:10px; }
+  .climate-detective .climate-map-readout { grid-template-columns:1fr 1fr; }
+  .climate-detective .climate-workspace { display:flex; }
+  .climate-detective .climate-score-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+  .climate-detective .climate-score-grid div { min-width:0; padding:12px 8px; }
+  .climate-detective .climate-score-grid div:last-child { grid-column:1/-1; }
+  .climate-detective .climate-score-grid b { font-size:16px; }
+  .climate-detective .climate-mobile-layer-controls { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; }
+  .climate-detective .climate-mobile-layer-controls>span { flex-basis:100%; }
+  .climate-detective .climate-mobile-layer-controls button { flex:1; padding:8px; color:#defcf4; background:#0c2930; border:1px solid #527b7c; }
+  .climate-detective .climate-mobile-layer-controls button[aria-pressed="true"] { border-color:#ffd36b; color:#ffd36b; }
+  .climate-detective .climate-mobile-observation { display:block; padding:12px; border-top:1px solid #527b7c; }
+  .climate-detective .climate-map-frame .climate-location-marker:not(.selected) text { display:none; }
+  .climate-detective .climate-map-panel[data-mobile-layer="pressure"] :is(.climate-wind-vector,.climate-rain-signal,.climate-airflow-path) { display:none; }
+  .climate-detective .climate-map-panel[data-mobile-layer="wind"] :is(.climate-isobar,.climate-isobar-label,.climate-pressure-centre,.climate-low-track,.climate-rain-signal,.climate-airflow-path) { display:none; }
+  .climate-detective .climate-map-panel[data-mobile-layer="rain"] :is(.climate-isobar,.climate-isobar-label,.climate-pressure-centre,.climate-low-track,.climate-wind-vector,.climate-airflow-path) { display:none; }
+  .climate-detective .climate-map-panel[data-mobile-layer="air"] :is(.climate-isobar,.climate-isobar-label,.climate-pressure-centre,.climate-low-track,.climate-wind-vector,.climate-rain-signal) { display:none; }
+  .climate-detective .climate-map-panel:not([data-mobile-layer="pressure"]) :is(.climate-location-marker text,.climate-story-observation-label) { display:none; }
+  .climate-detective .global-panel-body { display:flex; flex-direction:column; }
+  .climate-detective .global-map-shell { overflow:hidden; }
+  .climate-detective .global-map-viewport { overflow-x:auto; touch-action:pan-x pan-y; scrollbar-width:auto; }
+  .climate-detective .global-pan-cue { display:block; padding:10px 12px; color:#e0fff6; }
+  .climate-detective .global-pan-controls { display:flex; gap:6px; padding:8px; }
+  .climate-detective .global-pan-controls button { flex:1; min-width:0; white-space:normal; padding:8px 4px; color:#e0fff6; background:#0c2930; border:1px solid #527b7c; }
+  .climate-detective .global-mode-tabs { display:grid; grid-template-columns:1fr; overflow:visible; padding:10px 14px; margin:0; }
+  .climate-detective .global-mode-tabs button { white-space:normal; }
+  .climate-detective .global-stage-strip { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); overflow:visible; }
+  .climate-detective .global-stage-strip button { min-width:0; padding:10px 6px; }
+  .climate-detective .global-stage-strip small { overflow-wrap:anywhere; }
+  .climate-detective .global-circulation-map { width:760px; max-width:none; min-height:0; height:auto; }
+  .climate-detective .global-latitude-lines text { font-size:20px; }
+  .climate-detective .global-panel-header p { font-size:16px; }
+  .climate-detective .global-map-caption { position:sticky; left:0; width:100%; }
+  .climate-detective .global-close-button { width:44px; height:44px; flex-shrink:0; }
+}
